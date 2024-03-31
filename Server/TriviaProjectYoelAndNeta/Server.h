@@ -14,10 +14,6 @@ public:
 	Server();
 	~Server();
 	void serve(int port);
-	void acceptClient();
-	void handleRequests(const SOCKET& userSocket);
-	std::string handleLogIn(const SOCKET& userSocket, const std::string& message);
-	int handleUpdateServer(const SOCKET& userSocket, const std::string& name, const std::string& message);
 	void run();
 	void clear();
 
