@@ -1,10 +1,7 @@
 #include "Server.h"
-#include <exception>
-#include <iostream>
-#include <string>
-#include <thread>
-#include <fstream>
+#include "pch.h"
 #include "Helper.h"
+#include "Communicator.h"
 
 #define LENGTH 1024
 #define CODE_LENGTH 3
@@ -23,10 +20,12 @@ Server::Server()
 {
 	// Create a TCP server socket
 	_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-
 	// Check for socket creation failure
 	if (_serverSocket == INVALID_SOCKET)
+	{
+		std::cout << "Error: " << WSAGetLastError() << std::endl;
 		throw std::exception(__FUNCTION__ " - socket");
+	}
 }
 
 /**
@@ -235,12 +234,9 @@ void Server::run()
 {
 	try
 	{
-		WSAInitializer wsaInit;
-		Server myServer;
-
-		myServer.serve(PORT);
-
-		std::thread t_connector(&Server::acceptClient, &myServer);
+		this->serve(PORT);
+		Communicator myCommunicator(this->_serverSocket);
+		std::thread t_connector(&Communicator::startHandleRequests, &myCommunicator);
 
 		t_connector.detach();
 		
@@ -250,8 +246,8 @@ void Server::run()
 			std::cout << "Enter something" << std::endl;
 			std::cin >> input;
 		}
-		myServer.clear();
 		this->clear();
+		exit(1);
 	}
 	catch (std::exception& e)
 	{
@@ -262,5 +258,5 @@ void Server::run()
 
 void Server::clear()
 {
-	int a = 0;
+	closesocket(this->_serverSocket);
 }

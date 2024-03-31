@@ -5,6 +5,7 @@
 #include <iostream>
 #include <exception>
 #include <thread>
+#include "pch.h"
 
 #define PORT 8826
 
@@ -13,6 +14,7 @@ int main()
 {
 	try
 	{
+		WSAInitializer wsaInit;
 		Server myServer;
 
 		std::thread connecterThread(&Server::run, &myServer);
@@ -21,7 +23,7 @@ int main()
 	}
 	catch (std::exception& e)
 	{
-		std::cout << "Error occured: " << e.what() << std::endl;
+		std::cout << "Error occurred: " << e.what() << std::endl;
 	}
 	system("PAUSE");
 	return 0;

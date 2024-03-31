@@ -1,6 +1,11 @@
 #include "Communicator.h"
 #define LENGTH_OF_HELLO 5
 
+Communicator::Communicator(const SOCKET& socket) :
+	m_serverSocket(socket)
+{
+}
+
 void Communicator::startHandleRequests()
 {
 	while (true)
@@ -13,7 +18,9 @@ void Communicator::startHandleRequests()
 			// Accept a new client connection
 			SOCKET client_socket = accept(this->m_serverSocket, NULL, NULL);
 			if (client_socket == INVALID_SOCKET)
+			{
 				throw std::exception(__FUNCTION__);
+			}
 
 			// Output message indicating client acceptance
 			std::cout << "Client accepted. Server and client can speak" << std::endl;

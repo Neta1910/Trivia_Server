@@ -1,20 +1,9 @@
 #pragma once
-#pragma comment (lib, "ws2_32.lib")
-
-
-#include <WinSock2.h>
-#include <Windows.h>
-#include <map>
-#include <deque>
-#include <string>
+#include "pch.h"
 #include <mutex>
 #include <condition_variable>
-
 #include "WSAInitializer.h"
 #include "Server.h"
-#include <iostream>
-#include <exception>
-#include <thread>
 
 #define PORT 8826
 

@@ -7,6 +7,7 @@
 class Communicator
 {
 public:
+	Communicator(const SOCKET& socket);
 	void startHandleRequests();
 private:
 	SOCKET m_serverSocket;
