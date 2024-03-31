@@ -111,16 +111,14 @@ void Server::handleRequests(const SOCKET& userSocket)
 	std::string name;
 	try
 	{
-		std::string beginingMessege = 
+		std::string beginningMessage = "hello";
+		Helper::sendData(userSocket, beginningMessage);
+
+		std::string clientMessage = Helper::getStringPartFromSocket(userSocket, NAME_INDEX);
+		std::cout << "Message from client: " << clientMessage << std::endl;
 	}
 	catch (const std::exception& e)
 	{
-		// If an exception occurs, log out the user and close the socket
-		if (name != "")
-		{
-			this->_users.erase(name);
-			std::cout << name << " Logged out " << std::endl;
-		}
 		std::cout << e.what() << std::endl;
 		closesocket(userSocket);
 	}
