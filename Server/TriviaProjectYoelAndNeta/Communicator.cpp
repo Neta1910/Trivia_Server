@@ -49,7 +49,7 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 		this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
 		this->m_usersMu.unlock();
 
-		std::string beginningMessage = "hello";
+		std::string beginningMessage = "Hello";
 		Helper::sendData(userSocket, beginningMessage);
 
 		std::string clientMessage = Helper::getStringPartFromSocket(userSocket, LENGTH_OF_HELLO);

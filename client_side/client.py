@@ -26,6 +26,7 @@ def main():
             print("[ERROR] Server sent wrong message!")
         else:  # Send message to server
             sock.sendall(MESSAGE_TO_SERVER.encode())
+            print("Client connected successfully :)")
 
     except socket.error as exception:
         print("[SOCKET ERROR] " + str(exception))
