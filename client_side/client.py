@@ -1,9 +1,6 @@
 import socket
 
-# ---- Port range ----
-PORT_MIN = 1024
-PORT_MAX = 65535
-SERVER_PORT = ('', 64446)
+SERVER_DATA = ('127.0.0.1', 8826)
 
 MESSAGE_TO_SERVER = "Hello"
 NUM_OF_BYTES = 1024
@@ -23,16 +20,15 @@ def main():
     # Connect to server
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        sock.connect(SERVER_PORT)
+        sock.connect(SERVER_DATA)
         # Get message from server
         if not get_server_message(sock):
             print("[ERROR] Server sent wrong message!")
-        # Send message to server
-        sock.sendall(MESSAGE_TO_SERVER.encode())
+        else:  # Send message to server
+            sock.sendall(MESSAGE_TO_SERVER.encode())
 
     except socket.error as exception:
         print("[SOCKET ERROR] " + str(exception))
-
 
     sock.close()  # End connection with server
 
