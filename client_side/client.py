@@ -11,9 +11,9 @@ def get_server_message(sock):
     server_msg = server_msg.decode()
     # Check if server sent the right message
     if server_msg != MESSAGE_TO_SERVER:
-        return True
-    else:
         return False
+    else:  # Return true only is the message from server matches the one sent by client
+        return True
 
 
 def main():
@@ -31,6 +31,7 @@ def main():
         print("[SOCKET ERROR] " + str(exception))
 
     sock.close()  # End connection with server
+
 
 if __name__ == "__main__":
     main()
