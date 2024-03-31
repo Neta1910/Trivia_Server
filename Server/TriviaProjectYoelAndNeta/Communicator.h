@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "IRequestHandler.h"
 #include "Helper.h"
+#include "LoginRequestHandler.h"
 
 class Communicator
 {
@@ -11,5 +12,5 @@ private:
 	SOCKET m_serverSocket;
 	std::map <SOCKET, IRequestHandler*> m_clients;
 	void handleNewClient(const SOCKET& userSocket);
-	std::mutex _usersMu;
+	std::mutex m_usersMu;
 };

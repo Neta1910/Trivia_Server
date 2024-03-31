@@ -1,4 +1,5 @@
 #include "Communicator.h"
+#define LENGTH_OF_HELLO 5
 
 void Communicator::startHandleRequests()
 {
@@ -34,11 +35,17 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 	std::string name;
 	try
 	{
-		
+
+		// inserting user into the map
+		LoginRequestHandler* newHandler = new LoginRequestHandler();
+		this->m_usersMu.lock();
+		this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
+		this->m_usersMu.unlock();
+
 		std::string beginningMessage = "hello";
 		Helper::sendData(userSocket, beginningMessage);
 
-		std::string clientMessage = Helper::getStringPartFromSocket(userSocket, NAME_INDEX);
+		std::string clientMessage = Helper::getStringPartFromSocket(userSocket, LENGTH_OF_HELLO);
 		std::cout << "Message from client: " << clientMessage << std::endl;
 	}
 	catch (const std::exception& e)
