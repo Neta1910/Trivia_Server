@@ -13,6 +13,7 @@
 #define LENGTH_OF_LENGTH_OF_MESSEGE 5
 #define NAME_INDEX 5
 #define REG_UPDATE "Just update"
+#define EXIT "EXIT"
 
 /**
  * Constructor for Server class.
@@ -228,4 +229,38 @@ int Server::handleUpdateServer(const SOCKET& userSocket, const std::string& user
 		// Send the update to the client
 		Helper::send_update_message_to_client(userSocket, content, otherUser, Helper::getAllNames(this->_users));
 	}
+}
+
+void Server::run()
+{
+	try
+	{
+		WSAInitializer wsaInit;
+		Server myServer;
+
+		myServer.serve(PORT);
+
+		std::thread t_connector(&Server::acceptClient, &myServer);
+
+		t_connector.detach();
+		
+		std::string input = "";
+		while (input != EXIT)
+		{
+			std::cout << "Enter something" << std::endl;
+			std::cin >> input;
+		}
+		myServer.clear();
+		this->clear();
+	}
+	catch (std::exception& e)
+	{
+		std::cout << "Error occured: " << e.what() << std::endl;
+	}
+	system("PAUSE");
+}
+
+void Server::clear()
+{
+	int a = 0;
 }

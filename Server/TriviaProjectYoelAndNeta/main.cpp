@@ -13,12 +13,9 @@ int main()
 {
 	try
 	{
-		WSAInitializer wsaInit;
 		Server myServer;
 
-		myServer.serve(PORT);
-
-		std::thread connecterThread(&Server::acceptClient, &myServer);
+		std::thread connecterThread(&Server::run, &myServer);
 
 		connecterThread.join();
 	}

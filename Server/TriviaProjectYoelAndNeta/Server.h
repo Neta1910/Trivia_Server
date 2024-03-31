@@ -1,4 +1,6 @@
 #pragma once
+#pragma comment (lib, "ws2_32.lib")
+
 
 #include <WinSock2.h>
 #include <Windows.h>
@@ -7,6 +9,14 @@
 #include <string>
 #include <mutex>
 #include <condition_variable>
+
+#include "WSAInitializer.h"
+#include "Server.h"
+#include <iostream>
+#include <exception>
+#include <thread>
+
+#define PORT 8826
 
 
 class Server
@@ -19,6 +29,8 @@ public:
 	void handleRequests(const SOCKET& userSocket);
 	std::string handleLogIn(const SOCKET& userSocket, const std::string& message);
 	int handleUpdateServer(const SOCKET& userSocket, const std::string& name, const std::string& message);
+	void run();
+	void clear();
 
 private:
 	std::map<std::string, SOCKET> _users;
