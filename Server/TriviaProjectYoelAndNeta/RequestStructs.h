@@ -18,7 +18,7 @@ struct SignUpRequest
 
 struct RequestResult
 {
-	std::vector<BYTE> response;
+	std::vector<unsigned char> response;
 	IRequestHandler* newHandler;
 } typedef RequestResult;
 
