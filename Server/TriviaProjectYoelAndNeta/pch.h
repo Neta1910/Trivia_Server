@@ -8,3 +8,9 @@
 #include <mutex>
 #include <fstream>
 #include <deque>
+
+
+
+#define CODE_LOGIN_RESP 200
+#define CODE_SIGN_UP_RESP 201
+#define CODE_ERROR_RESPONSE 202
