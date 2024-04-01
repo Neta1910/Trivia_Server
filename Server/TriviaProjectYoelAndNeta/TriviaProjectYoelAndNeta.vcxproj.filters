@@ -62,5 +62,11 @@
     <ClInclude Include="RequestStructs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JsonResponsePacketSerializer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
