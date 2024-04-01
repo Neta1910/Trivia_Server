@@ -59,5 +59,8 @@
     <ClInclude Include="ResponseStructs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RequestStructs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
