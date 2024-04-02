@@ -22,3 +22,4 @@
 // ---- Message constants ----
 #define USERNAME "username"
 #define PASSWORD "password"
+#define EMAIL "email"
