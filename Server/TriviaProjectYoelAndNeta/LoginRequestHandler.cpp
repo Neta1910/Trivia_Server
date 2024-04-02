@@ -12,14 +12,17 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo& reqInfo)
 
 RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 {
-	//RequestResult req_result;
-	//if (reqInfo.RequestId == CODE_LOGIN_REQ)
-	//{
-	//	req_result.newHandler = LoginRequest;
-	//}
-	//else if (reqInfo.RequestId = CODE_SIGN_UP_REQ)
-	//{
-	//	req_result.newHandler = SignUpRequest;
-	//}
-	//req_result.response = reqInfo;
+	RequestResult req_result;
+	if (reqInfo.RequestId == CODE_LOGIN_REQ)
+	{
+		LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(reqInfo.buffer);		
+		LoginResponse res = { CODE_LOGIN_RESP };
+		return { JsonResponsePacketSerialize::serializeLoginResponse(res), ////////////////////};
+	}
+	else if (reqInfo.RequestId = CODE_SIGN_UP_REQ)
+	{
+		SignUpRequest req = JsonRequestPacketDeserializer::deserializeSignUpRequest(reqInfo.buffer);
+		SignupResponse res = { CODE_SIGN_UP_RESP };
+		return { JsonResponsePacketSerialize::serializeSignUpResponse(res), ////////////////////};
+	}
 }
