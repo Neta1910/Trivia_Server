@@ -37,16 +37,18 @@ std::vector<unsigned char> JsonResponsePacketSerialize::parseDataIntoMessage(con
     std::vector<unsigned char> res;
 
     // putting the code inside
-    std::vector<unsigned char> code = JsonResponsePacketSerialize::turnIntToBinary(respCode);
+    std::vector<unsigned char> code = JsonResponsePacketSerialize::turnIntToBytes(respCode);
+    for (int i = 0; i < code.size() + 1; i++)
+    {
+        code.pop_back();
+    }
     res.insert(res.end(), code.begin(), code.end());
     
 
     // getting message size 
-    res.insert(res.end(), data.begin(), data.end());
-    while (res.size() < MESSEGE_SIZE_TO_SIZE)
-    {
-        res.push_back(0);
-    }
+    std::vector<unsigned char> sizeOfMessage = JsonResponsePacketSerialize::turnIntToBytes(data.size());
+    res.insert(res.end(), sizeOfMessage.begin(), sizeOfMessage.end());
+    
 
     // putting in the messege data
     res.insert(res.end(), data.begin(), data.end());
@@ -54,23 +56,20 @@ std::vector<unsigned char> JsonResponsePacketSerialize::parseDataIntoMessage(con
     return res;
 }
 
-std::vector<unsigned char>  JsonResponsePacketSerialize::turnIntToBinary(const int& num,const  int size)
+std::vector<unsigned char> JsonResponsePacketSerialize::turnIntToBytes(const int& num)
 {
-    std::vector<unsigned char> binary;
-    int temp = num;
-    while (temp > 0) {
-        int remainder = num % 2;
-        binary.push_back(remainder);
-        temp /= 2;
+    std::vector<unsigned char> bytes(sizeof(int));
+
+    for (size_t i = 0; i < sizeof(int); ++i) {
+        bytes[i] = static_cast<unsigned char>((num >> (i * 8)) & 0xFF);
     }
-    // Reverse the binary vector to get the correct binary representation
-    std::reverse(binary.begin(), binary.end());
-    return binary;
+
+    return bytes;
 }
 
-void JsonResponsePacketSerialize::padWithZeros(std::vector<unsigned char>* data, const int& amountOfZeroz)
+void JsonResponsePacketSerialize::padWithZeros(std::vector<unsigned char>* data, const int& amountOfZero)
 {
-    while (data->size() <= amountOfZeroz)
+    while (data->size() <= amountOfZero)
     {
         data->insert(data->begin(), 0);
     }
