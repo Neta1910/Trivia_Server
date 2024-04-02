@@ -1,7 +1,12 @@
 #pragma once
 #include "IRequestHandler.h"
+#include "JsonRequestPacketDeserializer.h"
+#include "JsonResponsePacketSerializer.h"
+
 class LoginRequestHandler : public IRequestHandler
 {
 public:
 	LoginRequestHandler();
+	bool isRequestRelevant(RequestInfo& reqInfo) override;
+	RequestResult handleRequest(RequestInfo& reqInfo) override;
 };
