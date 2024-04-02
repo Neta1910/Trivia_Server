@@ -4,4 +4,6 @@ class LoginRequestHandler : public IRequestHandler
 {
 public:
 	LoginRequestHandler();
+	bool isRequestRelevant(RequestInfo& reqInfo) override;
+	RequestResult handleRequest(RequestInfo& reqInfo) override;
 };

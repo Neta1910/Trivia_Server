@@ -11,6 +11,10 @@
 
 
 
+// ---- Messages Codes ----
 #define CODE_LOGIN_RESP 200
 #define CODE_SIGN_UP_RESP 201
 #define CODE_ERROR_RESPONSE 202
+
+#define CODE_LOGIN_REQ 100
+#define CODE_SIGN_UP_REQ 101
