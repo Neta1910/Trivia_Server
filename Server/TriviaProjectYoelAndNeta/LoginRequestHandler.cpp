@@ -17,12 +17,12 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 	{
 		LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(reqInfo.buffer);		
 		LoginResponse res = { CODE_LOGIN_RESP };
-		return { JsonResponsePacketSerialize::serializeLoginResponse(res), ////////////////////};
+		return { JsonResponsePacketSerialize::serializeLoginResponse(res), nullptr };
 	}
 	else if (reqInfo.RequestId = CODE_SIGN_UP_REQ)
 	{
 		SignUpRequest req = JsonRequestPacketDeserializer::deserializeSignUpRequest(reqInfo.buffer);
 		SignupResponse res = { CODE_SIGN_UP_RESP };
-		return { JsonResponsePacketSerialize::serializeSignUpResponse(res), ////////////////////};
+		return { JsonResponsePacketSerialize::serializeSignUpResponse(res), nullptr};
 	}
 }

@@ -1,6 +1,6 @@
 #include "JsonRequestPacketDeserializer.h"
 
-LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(const std::vector<BYTE> buffer)
+LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(const std::vector<unsigned char> buffer)
 {
 	// Convert buffer to string
 	std::string data(buffer.begin(), buffer.end());
@@ -10,7 +10,7 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(const std::v
 	return LoginRequest({ json_data[USERNAME], json_data[PASSWORD]});
 }
 
-SignUpRequest JsonRequestPacketDeserializer::deserializeSignUpRequest(const std::vector<BYTE> buffer)
+SignUpRequest JsonRequestPacketDeserializer::deserializeSignUpRequest(const std::vector<unsigned char> buffer)
 {
 	// Convert buffer to string
 	std::string data(buffer.begin(), buffer.end());
