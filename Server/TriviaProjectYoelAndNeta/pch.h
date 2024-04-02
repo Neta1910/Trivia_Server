@@ -18,3 +18,7 @@
 
 #define CODE_LOGIN_REQ 100
 #define CODE_SIGN_UP_REQ 101
+
+// ---- Message constants ----
+#define USERNAME "username"
+#define PASSWORD "password"
