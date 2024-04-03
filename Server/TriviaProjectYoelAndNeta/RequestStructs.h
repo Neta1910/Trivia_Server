@@ -1,6 +1,8 @@
 #pragma once
 #include "pch.h"
-#include "IRequestHandler.h"
+
+class IRequestHandler; // Forward declaration
+
 
 struct LoginRequest
 {
@@ -26,5 +28,5 @@ struct RequestInfo
 {
 	int RequestId;
 	std::time_t receivalTime;
-	std::vector<BYTE> buffer;
-} typedef RequestInfo;
+	std::vector<unsigned char> buffer;
+} typedef RequestInfo ;
