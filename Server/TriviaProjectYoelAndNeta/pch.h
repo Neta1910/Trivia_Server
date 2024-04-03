@@ -8,3 +8,4 @@
 #include <mutex>
 #include <fstream>
 #include <deque>
+#include "sqlite3.h"
