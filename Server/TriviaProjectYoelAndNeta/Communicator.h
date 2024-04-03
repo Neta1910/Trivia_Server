@@ -13,5 +13,7 @@ private:
 	SOCKET m_serverSocket;
 	std::map <SOCKET, IRequestHandler*> m_clients;
 	void handleNewClient(const SOCKET& userSocket);
+	std::vector<BYTE> stringToBuffer(std::string str);
+	time_t getCurrentTime();
 	std::mutex m_usersMu;
 };

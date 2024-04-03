@@ -40,24 +40,55 @@ void Communicator::startHandleRequests()
 void Communicator::handleNewClient(const SOCKET& userSocket)
 {
 	std::string name;
-	try
+	while (true)
 	{
+		try
+		{
 
-		// inserting user into the map
-		LoginRequestHandler* newHandler = new LoginRequestHandler();
-		this->m_usersMu.lock();
-		this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
-		this->m_usersMu.unlock();
+			// Inserting user into the map
+			LoginRequestHandler* newHandler = new LoginRequestHandler();
+			this->m_usersMu.lock();
+			this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
+			this->m_usersMu.unlock();
 
-		std::string beginningMessage = "Hello";
-		Helper::sendData(userSocket, beginningMessage);
+			//std::string beginningMessage = "Hello";
+			//Helper::sendData(userSocket, beginningMessage);
 
-		std::string clientMessage = Helper::getStringPartFromSocket(userSocket, LENGTH_OF_HELLO);
-		std::cout << "Message from client: " << clientMessage << std::endl;
+			std::string clientMessage = Helper::getStringPartFromSocket(userSocket, LENGTH_OF_HELLO);
+			std::cout << "Message from client: " << clientMessage << std::endl;
+			RequestInfo reqInfo;
+			// Convert user message from string to buffer form (vector of bytes)
+			reqInfo.buffer = stringToBuffer(clientMessage);
+			reqInfo.receivalTime = getCurrentTime();
+			if (newHandler->isRequestRelevant(reqInfo))
+			{
+
+			}
+			else
+			{
+
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
+			closesocket(userSocket);
+		}
 	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what() << std::endl;
-		closesocket(userSocket);
-	}
+}
+
+std::vector<BYTE> Communicator::stringToBuffer(std::string str)
+{
+	std::vector<BYTE> data(str.begin(), str.end());
+	return data;
+}
+
+time_t Communicator::getCurrentTime()
+{
+	auto start = std::chrono::system_clock::now();
+	auto end = std::chrono::system_clock::now();
+
+	std::chrono::duration<double> elapsed_seconds = end - start;
+	std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+	return end_time;	
 }
