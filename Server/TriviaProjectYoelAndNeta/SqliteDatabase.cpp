@@ -1,6 +1,6 @@
 #include "SqliteDatabase.h"
 
-#define CREATE_USERS_TABLE 
+#define CREATE_USERS_TABLE "CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, EMAIL TEXT);"
 SQLiteDatabase::SQLiteDatabase() :
 	IDatabase()
 {
@@ -13,8 +13,8 @@ bool SQLiteDatabase::open()
 	if (rc) {
 		return false;
 	}
-
-	std::string 
+	this->_db = db;
+	this->runCommand(CREATE_USERS_TABLE);
 }
 
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)

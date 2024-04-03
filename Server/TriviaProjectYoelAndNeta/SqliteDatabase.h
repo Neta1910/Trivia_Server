@@ -1,7 +1,7 @@
 #pragma once
 #include "IDatabase.h"
 #include "sqlite3.h"
-#define DB "	"
+#define DB "Trivia.db"
 
 class SQLiteDatabase : public IDatabase
 {
@@ -15,5 +15,5 @@ public:
 
 private:
 	sqlite3* _db;
-	bool runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam);
+	bool runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**) = nullptr, void* secondParam = nullptr);
 };
