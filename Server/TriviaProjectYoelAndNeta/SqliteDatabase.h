@@ -5,6 +5,7 @@
 #include "User.h"
 
 int loadIntoUsers(void* data, int argc, char** argv, char** azColName);
+int countCallback(void* data, int argc, char** argv, char** azColName);
 
 class SQLiteDatabase : public IDatabase
 {

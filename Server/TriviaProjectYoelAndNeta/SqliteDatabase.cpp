@@ -28,6 +28,15 @@ bool SQLiteDatabase::close()
 	return true;
 }
 
+bool SQLiteDatabase::doesUserExist(const std::string& userName)
+{
+	std::string query = "SELECT COUNT(*) FROM Users WHERE NAME = \"" + userName + "\";";
+	int times = 0;
+	this->runCommand(query, countCallback, &times);
+
+	return times > 0;
+}
+s
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
 {
 	char** errMessage = nullptr;
@@ -58,5 +67,20 @@ int loadIntoUsers(void* data, int argc, char** argv, char** azColName)
 		}
 	}
 	SQLiteDatabase::users.push_back(user);
+	return 0;
+}
+
+/**
+ * countCallback - Callback function to count results.
+ * Params: data - Data pointer, argc - Number of columns, argv - Array of column values,
+ *         azColName - Array of column names
+ * Returns: 0 to indicate success.
+ */
+int countCallback(void* data, int argc, char** argv, char** azColName)
+{
+	int* count = static_cast<int*>(data);
+	if (argv[0]) {
+		*count = std::stoi(argv[0]);
+	}
 	return 0;
 }
