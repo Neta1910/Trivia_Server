@@ -15,6 +15,12 @@ bool SQLiteDatabase::open()
 	}
 	this->_db = db;
 	this->runCommand(CREATE_USERS_TABLE);
+	return true;
+}
+
+bool SQLiteDatabase::close()
+{
+	return true;
 }
 
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
