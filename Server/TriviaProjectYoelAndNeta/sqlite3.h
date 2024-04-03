@@ -5276,3 +5276,4 @@ extern "C" {
     ** was unchanging).  ^Within an [xUpdate] method, any value for which
     ** sqlite3_value_nochange(X) is true will in all other respects appear
     ** to be a NULL value.  If sqlite3_value_nochange(X) is invoked anywhere o
+    * 

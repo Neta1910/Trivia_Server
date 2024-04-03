@@ -4,13 +4,11 @@
 #define DB "Trivia.db"
 #include "User.h"
 #include "pch.h"
-
 #define CREATE_USERS_TABLE "CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, EMAIL TEXT);"
 #define NAME "NAME"
 #define PASSWORD "PASSWORD"
 #define EMAIL "EMAIL"
 #define ID "ID"
-
 int loadIntoUsers(void* data, int argc, char** argv, char** azColName);
 int countCallback(void* data, int argc, char** argv, char** azColName);
 
