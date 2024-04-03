@@ -1,9 +1,4 @@
 #include "SqliteDatabase.h"
-#define CREATE_USERS_TABLE "CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, EMAIL TEXT);"
-#define NAME "NAME"
-#define PASSWORD "PASSWORD"
-#define EMAIL "EMAIL"
-#define ID "ID"
 std::vector<User> SQLiteDatabase::users;
 
 SQLiteDatabase::SQLiteDatabase() :
