@@ -36,7 +36,17 @@ bool SQLiteDatabase::doesUserExist(const std::string& userName)
 
 	return times > 0;
 }
-s
+bool SQLiteDatabase::doesPasswordMatch(const std::string& password1, const std::string& password2)
+{
+	return password1 == password2;
+}
+
+void SQLiteDatabase::addNewUser(const std::string& name, const std::string& password, const std::string& email)
+{
+	std::string query = "INSERT INTO Users (NAME, PASSWORD, EMAIL) VALUES(\"" + name + "\", \"" + password + "\", \"" + email + "\");";
+	this->runCommand(query);
+}
+
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
 {
 	char** errMessage = nullptr;
