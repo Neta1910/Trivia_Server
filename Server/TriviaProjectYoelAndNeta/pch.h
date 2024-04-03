@@ -23,3 +23,6 @@
 #define USERNAME "username"
 #define PASSWORD "password"
 #define EMAIL "email"
+
+// ---- Error Messages ----
+#define INVALID_REQUEST "Invalid Request"

@@ -3,6 +3,8 @@
 #include "IRequestHandler.h"
 #include "Helper.h"
 #include "LoginRequestHandler.h"
+#include "JsonRequestPacketDeserializer.h"
+#include "ResponseStructs.h"
 
 class Communicator
 {

@@ -39,7 +39,6 @@ void Communicator::startHandleRequests()
 
 void Communicator::handleNewClient(const SOCKET& userSocket)
 {
-	std::string name;
 	while (true)
 	{
 		try
@@ -51,22 +50,26 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 			this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
 			this->m_usersMu.unlock();
 
-			//std::string beginningMessage = "Hello";
-			//Helper::sendData(userSocket, beginningMessage);
+			std::string beginningMessage = "Welcome To Trivia By Neta And Yoel";
+			Helper::sendData(userSocket, beginningMessage);
 
 			std::string clientMessage = Helper::getStringPartFromSocket(userSocket, LENGTH_OF_HELLO);
 			std::cout << "Message from client: " << clientMessage << std::endl;
+			// Construct request
 			RequestInfo reqInfo;
-			// Convert user message from string to buffer form (vector of bytes)
 			reqInfo.buffer = stringToBuffer(clientMessage);
 			reqInfo.receivalTime = getCurrentTime();
-			if (newHandler->isRequestRelevant(reqInfo))
-			{
 
+			if (newHandler->isRequestRelevant(reqInfo)) // For a valid request, move user to the next state
+			{
+				newHandler->handleRequest(reqInfo);
 			}
-			else
+			else // Assemble error response
 			{
-
+				ErrorResponse err;
+				err.message = INVALID_REQUEST;
+				std::vector<unsigned char> errorMessage = JsonResponsePacketSerialize::serializeErrorResponse(err);
+				Helper::sendData(userSocket, std::string (errorMessage.begin(), errorMessage.end()));
 			}
 		}
 		catch (const std::exception& e)
@@ -77,11 +80,13 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 	}
 }
 
+// Convert user message from string to buffer form (vector of bytes)
 std::vector<BYTE> Communicator::stringToBuffer(std::string str)
 {
 	std::vector<BYTE> data(str.begin(), str.end());
 	return data;
 }
+
 
 time_t Communicator::getCurrentTime()
 {
@@ -92,3 +97,4 @@ time_t Communicator::getCurrentTime()
 	std::time_t end_time = std::chrono::system_clock::to_time_t(end);
 	return end_time;	
 }
+
