@@ -39,25 +39,62 @@ void Communicator::startHandleRequests()
 
 void Communicator::handleNewClient(const SOCKET& userSocket)
 {
-	std::string name;
-	try
+	while (true)
 	{
+		try
+		{
 
-		// inserting user into the map
-		LoginRequestHandler* newHandler = new LoginRequestHandler();
-		this->m_usersMu.lock();
-		this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
-		this->m_usersMu.unlock();
+			// Inserting user into the map
+			LoginRequestHandler* newHandler = new LoginRequestHandler();
+			this->m_usersMu.lock();
+			this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
+			this->m_usersMu.unlock();
 
-		std::string beginningMessage = "Hello";
-		Helper::sendData(userSocket, beginningMessage);
+			std::string beginningMessage = "Welcome To Trivia By Neta And Yoel";
+			Helper::sendData(userSocket, beginningMessage);
 
-		std::string clientMessage = Helper::getStringPartFromSocket(userSocket, LENGTH_OF_HELLO);
-		std::cout << "Message from client: " << clientMessage << std::endl;
-	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what() << std::endl;
-		closesocket(userSocket);
+			std::string clientMessage = Helper::getStringPartFromSocket(userSocket, LENGTH_OF_HELLO);
+			std::cout << "Message from client: " << clientMessage << std::endl;
+			// Construct request
+			RequestInfo reqInfo;
+			reqInfo.buffer = stringToBuffer(clientMessage);
+			reqInfo.receivalTime = getCurrentTime();
+
+			if (newHandler->isRequestRelevant(reqInfo)) // For a valid request, move user to the next state
+			{
+				newHandler->handleRequest(reqInfo);
+			}
+			else // Assemble error response
+			{
+				ErrorResponse err;
+				err.message = INVALID_REQUEST;
+				std::vector<unsigned char> errorMessage = JsonResponsePacketSerialize::serializeErrorResponse(err);
+				Helper::sendData(userSocket, std::string (errorMessage.begin(), errorMessage.end()));
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
+			closesocket(userSocket);
+		}
 	}
 }
+
+// Convert user message from string to buffer form (vector of bytes)
+std::vector<BYTE> Communicator::stringToBuffer(std::string str)
+{
+	std::vector<BYTE> data(str.begin(), str.end());
+	return data;
+}
+
+
+time_t Communicator::getCurrentTime()
+{
+	auto start = std::chrono::system_clock::now();
+	auto end = std::chrono::system_clock::now();
+
+	std::chrono::duration<double> elapsed_seconds = end - start;
+	std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+	return end_time;	
+}
+
