@@ -2,11 +2,15 @@
 #include "IDatabase.h"
 #include "sqlite3.h"
 #define DB "Trivia.db"
+#include "User.h"
+
+int loadIntoUsers(void* data, int argc, char** argv, char** azColName);
 
 class SQLiteDatabase : public IDatabase
 {
 public:
 	SQLiteDatabase();
+	static std::vector<User> users;
 	virtual bool open() override;
 	virtual bool close() override;
 	virtual bool doesUserExist(const std::string& userName);

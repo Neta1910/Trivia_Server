@@ -1,6 +1,11 @@
 #include "SqliteDatabase.h"
-
 #define CREATE_USERS_TABLE "CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, EMAIL TEXT);"
+#define NAME "NAME"
+#define PASSWORD "PASSWORD"
+#define EMAIL "EMAIL"
+#define ID "ID"
+std::vector<User> SQLiteDatabase::users;
+
 SQLiteDatabase::SQLiteDatabase() :
 	IDatabase()
 {
@@ -32,4 +37,26 @@ bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(
 		std::cout << "error code: " << res;
 		return false;
 	}
+}
+
+int loadIntoUsers(void* data, int argc, char** argv, char** azColName)
+{
+	User user(0, "", "", "");
+
+	for (int i = 0; i < argc; i++) {
+		if (std::string(azColName[i]) == NAME) {
+			user.setName(argv[i]);
+		}
+		else if (std::string(azColName[i]) == ID) {
+			user.setId(std::stoi(argv[i]));
+		}
+		else if (std::string(azColName[i]) == EMAIL) {
+			user.setEmail(argv[i]);
+		}
+		else if (std::string(azColName[i]) == PASSWORD) {
+			user.setPassword(argv[i]);
+		}
+	}
+	SQLiteDatabase::users.push_back(user);
+	return 0;
 }
