@@ -37,6 +37,32 @@ void Communicator::startHandleRequests()
 	}
 }
 
+void Communicator::sendData(const SOCKET sc,  std::vector<unsigned char>& message, const int& flags)
+{
+	unsigned char* messageArr = message.data();
+	if (send(sc, messageArr, message.size(), 0) == INVALID_SOCKET)
+	{
+		throw std::exception("Error while sending message to client");
+	}
+}
+
+std::string Communicator::getDataFromSocket(const SOCKET sc, const int bytesNum, const int& flags)
+{
+
+	char* data = new char[bytesNum + 1];
+	int res = recv(sc, data, bytesNum, flags);
+	if (res == INVALID_SOCKET)
+	{
+		std::string s = "Error while recieving from socket: ";
+		s += std::to_string(sc);
+		throw std::exception(s.c_str());
+	}
+	data[bytesNum] = 0;
+	std::string received(data);
+	delete[] data;
+	return received;
+}
+
 void Communicator::handleNewClient(const SOCKET& userSocket)
 {
 	while (true)
