@@ -1,8 +1,13 @@
 #pragma once
-#include "pch.h"
 #include "IRequestHandler.h"
 #include "Helper.h"
 #include "LoginRequestHandler.h"
+#include <WinSock2.h>
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <vector>
+#include <map>
 
 class Communicator
 {

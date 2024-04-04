@@ -1,10 +1,4 @@
 #include "Helper.h"
-#include <iostream>
-#include <fstream>
-#include <iomanip>
-#include <sstream>
-#include <algorithm>
-#include <map>
 
 using std::string;
 
