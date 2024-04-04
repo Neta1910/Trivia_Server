@@ -16,6 +16,7 @@
 
 int loadIntoUsers(void* data, int argc, char** argv, char** azColName);
 int countCallback(void* data, int argc, char** argv, char** azColName);
+int callbackUserPassword(void* _data, int argc, char** argv, char** azColName);
 
 class SQLiteDatabase : public IDatabase
 {
@@ -24,9 +25,9 @@ public:
 	static std::vector<User> users;
 	virtual bool open() override;
 	virtual bool close() override;
-	virtual bool doesUserExist(const std::string& userName);
-	virtual bool doesPasswordMatch(const std::string& password1, const std::string& password2);
-	virtual void addNewUser(const std::string& name, const std::string& password, const std::string& email);
+	virtual bool doesUserExist(const std::string& username) override;
+	virtual bool doesPasswordMatch(const std::string& username, const std::string& password) override;
+	virtual bool addNewUser(const std::string& name, const std::string& password, const std::string& email) override;
 
 private:
 	sqlite3* _db;
