@@ -37,27 +37,90 @@ void Communicator::startHandleRequests()
 	}
 }
 
-void Communicator::handleNewClient(const SOCKET& userSocket)
+void Communicator::sendData(const SOCKET sc,  std::vector<unsigned char>& message, const int& flags)
 {
-	std::string name;
-	try
+	unsigned char* messageArr = message.data();
+	if (send(sc, messageArr, message.size(), 0) == INVALID_SOCKET)
 	{
-
-		// inserting user into the map
-		LoginRequestHandler* newHandler = new LoginRequestHandler();
-		this->m_usersMu.lock();
-		this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
-		this->m_usersMu.unlock();
-
-		std::string beginningMessage = "Hello";
-		Helper::sendData(userSocket, beginningMessage);
-
-		std::string clientMessage = Helper::getStringPartFromSocket(userSocket, LENGTH_OF_HELLO);
-		std::cout << "Message from client: " << clientMessage << std::endl;
-	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what() << std::endl;
-		closesocket(userSocket);
+		throw std::exception("Error while sending message to client");
 	}
 }
+
+std::string Communicator::getDataFromSocket(const SOCKET sc, const int bytesNum, const int& flags)
+{
+
+	char* data = new char[bytesNum + 1];
+	int res = recv(sc, data, bytesNum, flags);
+	if (res == INVALID_SOCKET)
+	{
+		std::string s = "Error while recieving from socket: ";
+		s += std::to_string(sc);
+		throw std::exception(s.c_str());
+	}
+	data[bytesNum] = 0;
+	std::string received(data);
+	delete[] data;
+	return received;
+}
+
+void Communicator::handleNewClient(const SOCKET& userSocket)
+{
+	while (true)
+	{
+		try
+		{
+
+			// Inserting user into the map
+			LoginRequestHandler* newHandler = new LoginRequestHandler();
+			this->m_usersMu.lock();
+			this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
+			this->m_usersMu.unlock();
+
+			std::string beginningMessage = "Welcome To Trivia By Neta And Yoel";
+			Helper::sendData(userSocket, beginningMessage);
+
+			std::string clientMessage = Helper::getStringPartFromSocket(userSocket, LENGTH_OF_HELLO);
+			std::cout << "Message from client: " << clientMessage << std::endl;
+			// Construct request
+			RequestInfo reqInfo;
+			reqInfo.buffer = stringToBuffer(clientMessage);
+			reqInfo.receivalTime = getCurrentTime();
+
+			if (newHandler->isRequestRelevant(reqInfo)) // For a valid request, move user to the next state
+			{
+				newHandler->handleRequest(reqInfo);
+			}
+			else // Assemble error response
+			{
+				ErrorResponse err;
+				err.message = INVALID_REQUEST;
+				std::vector<unsigned char> errorMessage = JsonResponsePacketSerialize::serializeErrorResponse(err);
+				Helper::sendData(userSocket, std::string (errorMessage.begin(), errorMessage.end()));
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
+			closesocket(userSocket);
+		}
+	}
+}
+
+// Convert user message from string to buffer form (vector of bytes)
+std::vector<BYTE> Communicator::stringToBuffer(std::string str)
+{
+	std::vector<BYTE> data(str.begin(), str.end());
+	return data;
+}
+
+
+time_t Communicator::getCurrentTime()
+{
+	auto start = std::chrono::system_clock::now();
+	auto end = std::chrono::system_clock::now();
+
+	std::chrono::duration<double> elapsed_seconds = end - start;
+	std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+	return end_time;	
+}
+

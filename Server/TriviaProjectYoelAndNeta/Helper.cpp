@@ -48,17 +48,6 @@ std::string Helper::getPartFromSocket(const SOCKET sc, const int bytesNum)
 	return getPartFromSocket(sc, bytesNum, 0);
 }
 
-// send data to socket
-// this is private function
-void Helper::sendData(const SOCKET sc, const std::string message)
-{
-	const char* data = message.c_str();
-
-	if (send(sc, data, message.size(), 0) == INVALID_SOCKET)
-	{
-		throw std::exception("Error while sending message to client");
-	}
-}
 
 std::string Helper::getPartFromSocket(const SOCKET sc, const int bytesNum, const int flags)
 {
