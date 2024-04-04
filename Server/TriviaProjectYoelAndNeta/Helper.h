@@ -24,7 +24,7 @@ class Helper
 {
 public:
 	static std::string getStringPartFromSocket(SOCKET sc, const int bytesNum);
-	static void sendData(const SOCKET sc, const std::string message);
+	static void sendData(const SOCKET sc, const std::vector<unsigned char>& message);
 	static std::string getPaddedNumber(const int num, const int digits);
 	static std::string getAllNames(const std::map<std::string, SOCKET>& names);
 private:

@@ -7,6 +7,8 @@
 #include <thread>
 #include "SqliteDatabase.h"
 
+
+#include "JsonResponsePacketSerializer.h"
 #define PORT 8826
 
 
