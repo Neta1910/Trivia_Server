@@ -11,12 +11,16 @@ NUM_OF_BYTES = 1024
 LOGIN = 100
 SIGN_UP = 101
 
+CODE_LOGIN_RESP = 200
+CODE_SIGN_UP_RESP = 201
+CODE_ERROR_RESPONSE = 202
+
 SIZE_OF_LENGTH = 4
 
 
 def get_server_message(sock):
     server_msg = sock.recv(NUM_OF_BYTES)
-    server_msg = server_msg.decode()
+    server_msg.decode()
     return server_msg
 
 
@@ -48,12 +52,34 @@ def convertIntIntoByte(number, numOfBytes):
 
     return byte_array
 
-def 
-def check_v103(sock : socket):
-    # chekes if user has to be loggdin
-    sock.sendall(getLoginMessege(requests.LoginRequest("userNotExsisr", "0584029549")))
+def signInWithUserDosentExsist():
+    # checks if user can sign up with same name
+    sock.sendall(getLoginMessege(requests.SignUpRequest("userNotExsisr", "0584029549")))
     resp = get_server_message(sock)
-    if ()
+    respMessege = Responses.LoginResponse(resp).status
+    if status == 1:
+        print("Was able to add user that dosent exiset")
+
+def able_to_sign_up_twice():
+    # chekes if user has to be loggdin
+    sock.sendall(getLoginMessege(requests.SignUpRequest("userNotExsisr", "0584029549")))
+    resp = get_server_message(sock)
+
+    # chekes if user has to be loggdin
+    sock.sendall(getLoginMessege(requests.SignUpRequest("userNotExsisr", "0584029549")))
+    resp = get_server_message(sock)
+    respStatus = Responses.SignupResponse(resp).status
+    if respStatus == 1:
+        print("Was able to sign up twice")
+
+
+def check_v103(sock : socket):
+    pass
+
+def get_code(resp):
+    byte = resp[0]
+    return int.from_bytes(byte, byteorder='big')
+
 
 
 def main():
