@@ -9,7 +9,7 @@
 
 
 #define PORT 8826
-
+class RequestHandlerFactory;
 
 class Server
 {
