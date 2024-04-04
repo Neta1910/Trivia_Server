@@ -3,17 +3,19 @@
 #include "IDatabase.h"
 #include "LoggedUser.h"
 #include <vector>
+#include "SQLiteDatabase.h"
 
 class LoginManager : public IDatabase
 {
 public:
+	LoginManager(IDatabase* m_database);
 	void signUp(std::string username, std::string password, std::string email);
 	void login(std::string username, std::string password);
 	void logout(std::string username);
 	
 	// IDatabase methods
 	bool open() override;
-	bool close() ;
+	bool close() override;
 	int doesUserExist(std::string username) override;
 	int DoesPasswordMatch(std::string username, std::string password) override;
 	int addNewUser(std::string username, std::string password, std::string email) override;
