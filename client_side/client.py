@@ -17,11 +17,7 @@ SIZE_OF_LENGTH = 4
 def get_server_message(sock):
     server_msg = sock.recv(NUM_OF_BYTES)
     server_msg = server_msg.decode()
-    # Check if server sent the right message
-    if server_msg != MESSAGE_TO_SERVER:
-        return False
-    else:  # Return true only is the message from server matches the one sent by client
-        return True
+    return server_msg
 
 
 def getLoginMessege(request: requests.LoginRequest):
@@ -59,10 +55,11 @@ def main():
     try:
         sock.connect(SERVER_DATA)
         # Get message from server
-        if not get_server_message(sock):
+        resp = get_server_message(sock)
+        if not resp:
             print("[ERROR] Server sent wrong message!")
         else:  # Send message to server
-
+            print("Server resp: ", resp)
             # sending login messeges
             loginReq = requests.LoginRequest("user1", "1234")
             loginMessege = getLoginMessege(loginReq)

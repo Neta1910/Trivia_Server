@@ -1,16 +1,21 @@
 #pragma once
-#include "pch.h"
 #include "IRequestHandler.h"
 #include "Helper.h"
 #include "LoginRequestHandler.h"
-#include "JsonRequestPacketDeserializer.h"
-#include "ResponseStructs.h"
+#include <WinSock2.h>
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <vector>
+#include <map>
 
 class Communicator
 {
 public:
 	Communicator(const SOCKET& socket);
 	void startHandleRequests();
+	static void sendData(const SOCKET sc, std::vector<unsigned char>& message, const int& flags = 0);
+	static std::string getDataFromSocket(const SOCKET sc, const int bytesNum);
 private:
 	SOCKET m_serverSocket;
 	std::map <SOCKET, IRequestHandler*> m_clients;
