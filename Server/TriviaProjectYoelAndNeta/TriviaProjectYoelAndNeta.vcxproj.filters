@@ -33,10 +33,13 @@
     <ClCompile Include="LoginRequestHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JsonResponsePacketSerializer.cpp">
+    <ClCompile Include="SqliteDatabase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JsonRequestPacketDeserializer.cpp">
+    <ClCompile Include="User.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sqlite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RequestHandlerFactory.cpp">
@@ -74,19 +77,16 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResponseStructs.h">
+    <ClInclude Include="IDatabase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RequestStructs.h">
+    <ClInclude Include="SqliteDatabase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JsonResponsePacketSerializer.h">
+    <ClInclude Include="User.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="json.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JsonRequestPacketDeserializer.h">
+    <ClInclude Include="sqlite3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RequestHandlerFactory.h">
