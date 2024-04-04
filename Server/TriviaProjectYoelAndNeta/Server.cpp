@@ -72,7 +72,7 @@ void Server::run()
 	try
 	{
 		this->serve(PORT);
-		Communicator myCommunicator(this->_serverSocket);
+		Communicator myCommunicator(this->_serverSocket, m_handlerFactory);
 		std::thread t_connector(&Communicator::startHandleRequests, &myCommunicator);
 
 		t_connector.detach();

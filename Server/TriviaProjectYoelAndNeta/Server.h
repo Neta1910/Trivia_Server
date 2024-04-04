@@ -28,5 +28,6 @@ private:
 	std::mutex _messagesMu;
 	std::map<std::string, std::mutex> _filesMutex;
 	std::condition_variable _condForSendingMessage;
+	RequestHandlerFactory m_handlerFactory;
 };
 
