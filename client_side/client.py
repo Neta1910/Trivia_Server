@@ -21,13 +21,13 @@ def get_server_message(sock):
 
 
 def getLoginMessege(request: requests.LoginRequest):
-    dict = {"username: ": request.userName, "password": request.password}
+    dict = {"username": request.userName, "password": request.password}
     # Convert the dictionary to JSON string
     return parseRequestToMessege(dict, LOGIN)
 
 
 def getSignUpMessege(request: requests.SignUpRequest):
-    dict = {"username: ": request.userName, "password": request.password, "email": request.email}
+    dict = {"username": request.userName, "password": request.password, "email": request.email}
     # Convert the dictionary to JSON string
     return parseRequestToMessege(dict, SIGN_UP)
 
@@ -51,16 +51,9 @@ def convertIntIntoByte(number, numOfBytes):
 
 def main():
     # Connect to server
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    try:
-        sock.connect(SERVER_DATA)
-        # Get message from server
-        resp = get_server_message(sock)
-        if not resp:
-            print("[ERROR] Server sent wrong message!")
-        else:  # Send message to server
-            print("Server resp: ", resp)
-            # sending login messeges
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        try:
+            sock.connect(SERVER_DATA)
             loginReq = requests.LoginRequest("user1", "1234")
             loginMessege = getLoginMessege(loginReq)
             sock.sendall(loginMessege)
@@ -68,18 +61,15 @@ def main():
 
             # dending signUp messeges
             signUpReq = requests.SignUpRequest("user1", "1234", "user1@gmail.com")
-            loginMessege = getSignUpMessege(loginReq)
+            loginMessege = getSignUpMessege(signUpReq)
             sock.sendall(loginMessege)
             print("server resp: ", get_server_message(sock))
 
             sock.sendall(MESSAGE_TO_SERVER.encode())
             print("Client connected successfully :)")
 
-    except socket.error as exception:
-        print("[SOCKET ERROR] " + str(exception))
-
-    sock.close()  # End connection with server
-
+        except socket.error as exception:
+            print("[SOCKET ERROR] " + str(exception))
 
 if __name__ == "__main__":
     main()

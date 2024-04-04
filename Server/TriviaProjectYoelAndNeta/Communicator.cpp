@@ -1,6 +1,5 @@
 #include "Communicator.h"
-#define LENGTH_OF_HELLO 5
-
+#define MESSEGE_LENGTH 1024
 Communicator::Communicator(const SOCKET& socket) :
 	m_serverSocket(socket)
 {
@@ -37,16 +36,16 @@ void Communicator::startHandleRequests()
 	}
 }
 
-void Communicator::sendData(const SOCKET sc,  std::vector<unsigned char>& message, const int& flags)
+void Communicator::sendData(const SOCKET sc, std::vector<unsigned char>& message, const int& flags)
 {
-	unsigned char* messageArr = message.data();
-	if (send(sc, messageArr, message.size(), 0) == INVALID_SOCKET)
+	if (send(sc, this->unsignedToChar(message) , message.size() * sizeof(unsigned char), 0) == INVALID_SOCKET)
 	{
 		throw std::exception("Error while sending message to client");
 	}
+
 }
 
-std::string Communicator::getDataFromSocket(const SOCKET sc, const int bytesNum, const int& flags)
+std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, const int bytesNum, const int& flags)
 {
 
 	char* data = new char[bytesNum + 1];
@@ -58,7 +57,7 @@ std::string Communicator::getDataFromSocket(const SOCKET sc, const int bytesNum,
 		throw std::exception(s.c_str());
 	}
 	data[bytesNum] = 0;
-	std::string received(data);
+	std::vector<unsigned char> received = this->charToUnsigned(data, bytesNum);
 	delete[] data;
 	return received;
 }
@@ -76,15 +75,11 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 			this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
 			this->m_usersMu.unlock();
 
-			std::string beginningMessage = "Welcome To Trivia By Neta And Yoel";
-			Helper::sendData(userSocket, beginningMessage);
-
-			std::string clientMessage = Helper::getStringPartFromSocket(userSocket, LENGTH_OF_HELLO);
-			std::cout << "Message from client: " << clientMessage << std::endl;
-			// Construct request
+			std::vector<unsigned char> clientMessage = this->getDataFromSocket(userSocket, MESSEGE_LENGTH);
 			RequestInfo reqInfo;
-			reqInfo.buffer = stringToBuffer(clientMessage);
+			reqInfo.buffer = clientMessage;
 			reqInfo.receivalTime = getCurrentTime();
+			reqInfo.RequestId = clientMessage[0];
 
 			if (newHandler->isRequestRelevant(reqInfo)) // For a valid request, move user to the next state
 			{
@@ -95,7 +90,7 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 				ErrorResponse err;
 				err.message = INVALID_REQUEST;
 				std::vector<unsigned char> errorMessage = JsonResponsePacketSerialize::serializeErrorResponse(err);
-				Helper::sendData(userSocket, std::string (errorMessage.begin(), errorMessage.end()));
+				this->sendData(userSocket, errorMessage);
 			}
 		}
 		catch (const std::exception& e)
@@ -106,11 +101,24 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 	}
 }
 
-// Convert user message from string to buffer form (vector of bytes)
-std::vector<BYTE> Communicator::stringToBuffer(std::string str)
+std::vector<unsigned char> Communicator::charToUnsigned(const char* data, const int& length)
 {
-	std::vector<BYTE> data(str.begin(), str.end());
-	return data;
+	std::vector<unsigned char> res;
+	for (int i = 0; i < length; i++)
+	{
+		res.push_back(data[i]);
+	}
+	return res;
+}
+
+char* Communicator::unsignedToChar(const std::vector<unsigned char>& data)
+{
+	char* res = new char[data.size()];
+	for (int i = 0; i < data.size(); i++)
+	{
+		res[i] = data[i];
+	}
+	return res;
 }
 
 
