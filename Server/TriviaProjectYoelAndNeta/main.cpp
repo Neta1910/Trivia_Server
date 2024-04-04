@@ -6,8 +6,6 @@
 #include <exception>
 #include <thread>
 #include "pch.h"
-
-
 #include "JsonResponsePacketSerializer.h"
 #define PORT 8826
 

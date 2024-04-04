@@ -12,7 +12,7 @@ public:
 	Communicator(const SOCKET& socket);
 	void startHandleRequests();
 	void sendData(const SOCKET sc, std::vector<unsigned char>& message, const int& flags = 0);
-	std::vector<unsigned char> unsigned char getDataFromSocket(const SOCKET sc, const int bytesNum, const int& flags = 0);
+	std::vector<unsigned char> getDataFromSocket(const SOCKET sc, const int bytesNum, const int& flags = 0);
 private:
 	SOCKET m_serverSocket;
 	std::map <SOCKET, IRequestHandler*> m_clients;
