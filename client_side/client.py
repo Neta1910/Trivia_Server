@@ -1,6 +1,6 @@
 import json
 import socket
-
+import Responses
 import requests
 
 SERVER_DATA = ('127.0.0.1', 8826)
@@ -47,6 +47,13 @@ def convertIntIntoByte(number, numOfBytes):
     byte_array = number.to_bytes(numOfBytes, byteorder='big')
 
     return byte_array
+
+def 
+def check_v103(sock : socket):
+    # chekes if user has to be loggdin
+    sock.sendall(getLoginMessege(requests.LoginRequest("userNotExsisr", "0584029549")))
+    resp = get_server_message(sock)
+    if ()
 
 
 def main():
