@@ -51,6 +51,7 @@ bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(
 		std::cout << "error code: " << res;
 		return false;
 	}
+	return true;
 }
 
 int loadIntoUsers(void* data, int argc, char** argv, char** azColName)

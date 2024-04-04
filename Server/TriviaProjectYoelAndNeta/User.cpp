@@ -1,5 +1,5 @@
 #include "User.h"
-
+#include "pch.h"
 User::User(const int& id, const std::string& name, const std::string& password, const std::string& email) :
 	_id(id), _userName(name), _password(password), _email(email)
 {

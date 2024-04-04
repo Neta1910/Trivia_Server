@@ -1,3 +1,4 @@
+#pragma once
 /*
 ** 2001-09-15
 **
@@ -16,6 +17,7 @@
 ** notice, and should not be referenced by programs that use SQLite.
 **
 ** Some of the definitions that are in this file are marked as
+
 ** "experimental".  Experimental interfaces are normally new
 ** features recently added to SQLite.  We do not anticipate changes
 ** to experimental interfaces but reserve the right to make minor changes
@@ -32,6 +34,7 @@
 */
 #ifndef SQLITE3_H
 #define SQLITE3_H
+#endif
 #include <stdarg.h>     /* Needed for the definition of va_list */
 
 /*
@@ -5276,4 +5279,4 @@ extern "C" {
     ** was unchanging).  ^Within an [xUpdate] method, any value for which
     ** sqlite3_value_nochange(X) is true will in all other respects appear
     ** to be a NULL value.  If sqlite3_value_nochange(X) is invoked anywhere o
-    * 
+    ***/

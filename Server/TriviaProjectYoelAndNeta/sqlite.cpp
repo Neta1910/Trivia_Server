@@ -807,6 +807,7 @@ SQLITE_PRIVATE const char** sqlite3CompileOptions(int* pnOpt) {
 */
 #ifndef SQLITEINT_H
 #define SQLITEINT_H
+#endif
 
 /* Special Comments:
 **
@@ -1075,6 +1076,7 @@ SQLITE_PRIVATE const char** sqlite3CompileOptions(int* pnOpt) {
 #ifndef SQLITE3_H
 #define SQLITE3_H
 #include <stdarg.h>     /* Needed for the definition of va_list */
+#endif
 
 /*
 ** Make sure we can call this stuff from C++.
@@ -5741,3 +5743,4 @@ extern "C" {
     ** of the result column.  ^The returned value is one of [SQLITE_INTEGER],
     ** [SQLITE_FLOAT], [SQLITE_TEXT], [SQLITE_BLOB], or [SQLITE_NULL].
     ** The return value of sqlite3_column_type() can be used to decide which
+    ***/
