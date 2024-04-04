@@ -18,7 +18,6 @@ private:
 	std::map <SOCKET, IRequestHandler*> m_clients;
 	void handleNewClient(const SOCKET& userSocket);
 
-	std::vector<unsigned char> stringToBuffer(std::string str);
 	std::vector  <unsigned char> charToUnsigned(const char* data, const int& length );
 	char* unsignedToChar(const std::vector<unsigned char>& data);
 
