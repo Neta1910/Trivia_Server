@@ -1,6 +1,6 @@
 #include "Communicator.h"
 #define LENGTH_OF_HELLO 5
-
+#define MESSEGE_LENGT 1024
 Communicator::Communicator(const SOCKET& socket) :
 	m_serverSocket(socket)
 {
@@ -37,16 +37,16 @@ void Communicator::startHandleRequests()
 	}
 }
 
-void Communicator::sendData(const SOCKET sc,  std::vector<unsigned char>& message, const int& flags)
+void Communicator::sendData(const SOCKET sc, std::vector<unsigned char>& message, const int& flags)
 {
-	unsigned char* messageArr = message.data();
-	if (send(sc, messageArr, message.size(), 0) == INVALID_SOCKET)
+	if (send(sc, this->unsignedToChar(message) , message.size() * sizeof(unsigned char), 0) == INVALID_SOCKET)
 	{
 		throw std::exception("Error while sending message to client");
 	}
+
 }
 
-std::string Communicator::getDataFromSocket(const SOCKET sc, const int bytesNum, const int& flags)
+std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, const int bytesNum, const int& flags)
 {
 
 	char* data = new char[bytesNum + 1];
@@ -58,7 +58,7 @@ std::string Communicator::getDataFromSocket(const SOCKET sc, const int bytesNum,
 		throw std::exception(s.c_str());
 	}
 	data[bytesNum] = 0;
-	std::string received(data);
+	std::vector<unsigned char> recieved = this->charToUnsigned
 	delete[] data;
 	return received;
 }
@@ -76,10 +76,7 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 			this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
 			this->m_usersMu.unlock();
 
-			std::string beginningMessage = "Welcome To Trivia By Neta And Yoel";
-			Helper::sendData(userSocket, beginningMessage);
-
-			std::string clientMessage = Helper::getStringPartFromSocket(userSocket, LENGTH_OF_HELLO);
+			std::string clientMessage = (userSocket, LENGTH);
 			std::cout << "Message from client: " << clientMessage << std::endl;
 			// Construct request
 			RequestInfo reqInfo;
@@ -106,11 +103,24 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 	}
 }
 
-// Convert user message from string to buffer form (vector of bytes)
-std::vector<BYTE> Communicator::stringToBuffer(std::string str)
+std::vector<unsigned char> Communicator::charToUnsigned(const char* data, const int& length)
 {
-	std::vector<BYTE> data(str.begin(), str.end());
-	return data;
+	std::vector<unsigned char> res;
+	for (int i = 0; i < length; i++)
+	{
+		res.push_back(data[i]);
+	}
+	return res;
+}
+
+char* Communicator::unsignedToChar(const std::vector<unsigned char>& data)
+{
+	char* res = new char[data.size()];
+	for (int i = 0; i < data.size(); i++)
+	{
+		res[i] = data[i];
+	}
+	return res;
 }
 
 
