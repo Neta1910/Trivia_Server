@@ -14,22 +14,21 @@
 
 int main()
 {
-	//try
-	//{
-	//	WSAInitializer wsaInit;
-	//	Server myServer;
+	try
+	{
+		WSAInitializer wsaInit;
+		SQLiteDatabase* db = new SQLiteDatabase();
+		Server myServer (db);
 
-	//	std::thread connecterThread(&Server::run, &myServer);
+		std::thread connecterThread(&Server::run, &myServer);
 
-	//	connecterThread.join();
-	//}
-	//catch (std::exception& e)
-	//{
-	//	std::cout << "Error occurred: " << e.what() << std::endl;
-	//}
-	//system("PAUSE");
-	//return 0;
-	SQLiteDatabase* db = new SQLiteDatabase();
-	db->open();
-	db->addNewUser("yoel", "0584029549", "email");
+		connecterThread.join();
+		delete db;
+	}
+	catch (std::exception& e)
+	{
+		std::cout << "Error occurred: " << e.what() << std::endl;
+	}
+	system("PAUSE");
+	return 0;
 }

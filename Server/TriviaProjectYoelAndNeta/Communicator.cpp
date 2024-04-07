@@ -1,7 +1,6 @@
 #include "Communicator.h"
 #define MESSEGE_LENGTH 1024
-Communicator::Communicator(const SOCKET& socket) :
-	m_serverSocket(socket)
+Communicator::Communicator(const SOCKET& socket, RequestHandlerFactory& handleFactory) : m_serverSocket(socket), m_handlerFactory(handleFactory)
 {
 }
 
@@ -70,7 +69,7 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 		{
 
 			// Inserting user into the map
-			LoginRequestHandler* newHandler = new LoginRequestHandler();
+			LoginRequestHandler* newHandler = new LoginRequestHandler(m_handlerFactory);
 			this->m_usersMu.lock();
 			this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
 			this->m_usersMu.unlock();

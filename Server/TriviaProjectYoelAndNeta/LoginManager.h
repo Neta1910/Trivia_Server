@@ -8,7 +8,7 @@
 
 #define ERROR_RETURN_CODE -1
 
-class LoginManager : public IDatabase
+class LoginManager
 {
 public:
 	LoginManager(IDatabase* m_database);

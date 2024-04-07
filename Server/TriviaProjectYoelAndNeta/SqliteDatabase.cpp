@@ -32,15 +32,19 @@ bool SQLiteDatabase::doesUserExist(const std::string& userName)
 
 	return times > 0;
 }
-bool SQLiteDatabase::doesPasswordMatch(const std::string& password1, const std::string& password2)
+bool SQLiteDatabase::doesPasswordMatch(const std::string& username, const std::string& password)
 {
-	return password1 == password2;
+	std::string userPassword; 
+	std::string query = "SELECT PASSWORD FROM USERS WHERE USERNAME = '" + username + "';";
+	runCommand(query, callbackUserPassword, &userPassword);
+	return userPassword == password;
 }
 
-void SQLiteDatabase::addNewUser(const std::string& name, const std::string& password, const std::string& email)
+bool SQLiteDatabase::addNewUser(const std::string& name, const std::string& password, const std::string& email)
 {
 	std::string query = "INSERT INTO Users (NAME, PASSWORD, EMAIL) VALUES(\"" + name + "\", \"" + password + "\", \"" + email + "\");";
 	this->runCommand(query);
+	return true;
 }
 
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
@@ -89,5 +93,15 @@ int countCallback(void* data, int argc, char** argv, char** azColName)
 	if (argv[0]) {
 		*count = std::stoi(argv[0]);
 	}
+	return 0;
+}
+
+int callbackUserPassword(void* _data, int argc, char** argv, char** azColName)
+{
+	auto& password = *static_cast<std::string*>(_data);
+
+	if (std::string(azColName[0]) == PASSWORD)
+		password = argv[0];
+
 	return 0;
 }

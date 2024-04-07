@@ -1,8 +1,7 @@
 #include "LoginRequestHandler.h"
 #include "pch.h"
 
-LoginRequestHandler::LoginRequestHandler() :
-	IRequestHandler()
+LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handleFactory) : m_handleFactory(handleFactory)
 {
 }
 

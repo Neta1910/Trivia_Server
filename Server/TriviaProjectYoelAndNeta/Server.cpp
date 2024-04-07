@@ -16,7 +16,7 @@
  * Constructor for Server class.
  * Initializes a TCP server socket. If socket creation fails, throws an exception.
  */
-Server::Server()
+Server::Server(IDatabase* db) : m_database(db), m_handlerFactory(db)
 {
 	// Create a TCP server socket
 	_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -72,7 +72,7 @@ void Server::run()
 	try
 	{
 		this->serve(PORT);
-		Communicator myCommunicator(this->_serverSocket);
+		Communicator myCommunicator(this->_serverSocket, m_handlerFactory);
 		std::thread t_connector(&Communicator::startHandleRequests, &myCommunicator);
 
 		t_connector.detach();
