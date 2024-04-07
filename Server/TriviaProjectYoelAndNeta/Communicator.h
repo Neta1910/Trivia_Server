@@ -12,7 +12,7 @@
 class Communicator
 {
 public:
-	static Communicator& getInstance(const SOCKET& socket, RequestHandlerFactory handleFactory)
+	static Communicator& getInstance(const SOCKET& socket, RequestHandlerFactory& handleFactory)
 	{
 		static Communicator instance(socket, handleFactory);
 		return instance;

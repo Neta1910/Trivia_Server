@@ -22,7 +22,7 @@ public:
 	~RequestHandlerFactory();
 
 	LoginRequestHandler* createLoginRequestHandler();
-	LoginManager GetLoginManager();
+	LoginManager& GetLoginManager();
 
 private: 
 

@@ -73,7 +73,7 @@ void Server::run()
 	{
 		this->serve(PORT);
 		RequestHandlerFactory& handler = RequestHandlerFactory::getInstance(this->m_database);
-		Communicator myCommunicator(this->_serverSocket, handler);
+		Communicator& myCommunicator = Communicator::getInstance(this->_serverSocket, handler);
 		std::thread t_connector(&Communicator::startHandleRequests, &myCommunicator);
 
 		t_connector.detach();

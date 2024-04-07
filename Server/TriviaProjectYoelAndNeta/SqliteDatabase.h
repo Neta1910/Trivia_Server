@@ -23,6 +23,17 @@ int callbackUserPassword(void* _data, int argc, char** argv, char** azColName);
 class SQLiteDatabase : public IDatabase
 {
 public:
+	static SQLiteDatabase& getInstance()
+	{
+		static SQLiteDatabase instance;
+		return instance;
+	}
+
+	// Delete copy constructor and assignment operator for singleton
+	SQLiteDatabase(SQLiteDatabase const&) = delete;
+	void operator=(SQLiteDatabase const&) = delete;
+
+
 	SQLiteDatabase();
 	static std::vector<User> users;
 	virtual bool open() override;
