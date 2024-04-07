@@ -7,7 +7,7 @@
 class LoginRequestHandler : public IRequestHandler
 {
 public:
-	LoginRequestHandler();
+	LoginRequestHandler(RequestHandlerFactory& handleFactory);
 	bool isRequestRelevant(RequestInfo& reqInfo) override;
 	RequestResult handleRequest(RequestInfo& reqInfo) override;
 private:

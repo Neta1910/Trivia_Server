@@ -6,10 +6,11 @@
 #include "Server.h"
 #include <deque>
 #include <map>
+#include "RequestHandlerFactory.h"
 
 
 #define PORT 8826
-
+class RequestHandlerFactory;
 
 class Server
 {
@@ -28,5 +29,6 @@ private:
 	std::mutex _messagesMu;
 	std::map<std::string, std::mutex> _filesMutex;
 	std::condition_variable _condForSendingMessage;
+	RequestHandlerFactory m_handlerFactory;
 };
 
