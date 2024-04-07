@@ -63,17 +63,15 @@ std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, cons
 
 void Communicator::handleNewClient(const SOCKET& userSocket)
 {
+	// Inserting user into the map
+	LoginRequestHandler* newHandler = new LoginRequestHandler(m_handlerFactory);
+	this->m_usersMu.lock();
+	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
+	this->m_usersMu.unlock();
 	while (true)
 	{
 		try
 		{
-
-			// Inserting user into the map
-			LoginRequestHandler* newHandler = new LoginRequestHandler(m_handlerFactory);
-			this->m_usersMu.lock();
-			this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
-			this->m_usersMu.unlock();
-
 			std::vector<unsigned char> clientMessage = this->getDataFromSocket(userSocket, MESSEGE_LENGTH);
 			RequestInfo reqInfo;
 			reqInfo.buffer = clientMessage;
@@ -82,7 +80,8 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 
 			if (newHandler->isRequestRelevant(reqInfo)) // For a valid request, move user to the next state
 			{
-				newHandler->handleRequest(reqInfo);
+				RequestResult resp = newHandler->handleRequest(reqInfo);
+				this->sendData(userSocket, resp.response);
 			}
 			else // Assemble error response
 			{
