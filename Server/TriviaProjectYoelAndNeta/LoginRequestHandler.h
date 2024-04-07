@@ -14,6 +14,4 @@ public:
 	RequestResult handleRequest(RequestInfo& reqInfo) override;
 private:
 	RequestHandlerFactory& m_handleFactory;
-	RequestResult login(RequestInfo& reqInfo);
-	RequestResult signUp(RequestInfo& reqInfo);
 };
