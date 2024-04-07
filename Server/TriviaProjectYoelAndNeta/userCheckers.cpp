@@ -40,7 +40,20 @@ bool UserCheckers::checkAddress(const std::string& address)
     return std::regex_match(address, pattern);
 }
 
-bool UserCheckers::checkPhone(const int& phoneNumber)
+bool UserCheckers::checkPhone(const std::string& phoneNumber)
 {
-    return false;
+    // Regular expression pattern for the phone number format
+    std::regex pattern("0[0-9]{2,3}-[0-9]+");
+
+    return std::regex_match(phoneNumber, pattern);
+}
+
+bool UserCheckers::checkBirth(const std::string& birth)
+{
+    // Regular expression pattern for the birth date format
+    std::regex pattern("(0[1-9]|[12][0-9]|3[01])[\\/\\.]"
+        "(0[1-9]|1[012])[\\/\\.]"
+        "\\d{4}");
+
+    return std::regex_match(birth, pattern);
 }
