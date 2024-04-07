@@ -17,6 +17,9 @@ CODE_ERROR_RESPONSE = 202
 
 SIZE_OF_LENGTH = 4
 
+FAILED_STATUS = 0
+WORK_STATUS = 1
+
 def get_server_message(sock):
     server_msg = sock.recv(NUM_OF_BYTES)
     server_msg.decode()  # This line does nothing, you need to assign the result to a variable
@@ -57,7 +60,7 @@ def signInWithUserDoesntExist(sock: socket):
     sock.sendall(getLoginMessege(requests.LoginRequest("userNotExists", "0584029549")))
     resp = get_server_message(sock)
     respMessage = Responses.LoginResponse(resp).status  # Assuming Responses module has LoginResponse class
-    if respMessage == 1:  # status might be undefined, assuming it's respMessage
+    if respMessage == FAILED_STATUS:  # status might be undefined, assuming it's respMessage
         print("Was able to add user that doesn't exist")
 
 
@@ -70,7 +73,7 @@ def able_to_sign_up_twice(sock: socket):
     sock.sendall(getSignUpMessage(requests.SignUpRequest("userNotExists", "0584029549")))
     resp = get_server_message(sock)
     respStatus = Responses.SignupResponse(resp).status  # Assuming Responses module has SignupResponse class
-    if respStatus == 1:
+    if respStatus == FAILED_STATUS:
         print("Was able to sign up twice")
 
 
@@ -83,7 +86,7 @@ def ableToSignUpIfConnected(sock: socket):
     sock.sendall(getLoginMessage(requests.SignUpRequest("userNotExists", "0584029549")))
     resp = get_server_message(sock)
     respStatus = Responses.SignupResponse(resp).status  # Assuming Responses module has SignupResponse class
-    if respStatus == 1:
+    if respStatus == FAILED_STATUS:
         print("Was able to sign if connected ")
 
 
