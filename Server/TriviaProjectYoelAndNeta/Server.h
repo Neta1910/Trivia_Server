@@ -20,6 +20,11 @@ public:
 		static Server instance(db);
 		return instance;
 	}
+
+	// Delete copy constructor and assignment operator for singleton
+	Server(Server const&) = delete;
+	void operator=(Server const&) = delete;
+
 	Server(IDatabase* db);
 	~Server();
 	void serve(int port);

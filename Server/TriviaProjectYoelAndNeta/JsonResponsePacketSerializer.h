@@ -15,10 +15,16 @@ public:
 		return instance;
 	}
 
+	// Delete copy constructor and assignment operator for singleton
+	JsonResponsePacketSerialize(JsonResponsePacketSerialize const&) = delete;
+	void operator=(JsonResponsePacketSerialize const&) = delete;
+
 	static std::vector<unsigned char> serializeLoginResponse(const LoginResponse& response);
 	static std::vector<unsigned char> serializeSignUpResponse(const SignupResponse& response);
 	static std::vector<unsigned char> serializeErrorResponse(const  ErrorResponse& response);
 	static std::vector<unsigned char> parseDataIntoMessage(const std::vector<unsigned char>& data, const int& respCode );
 	static std::vector<unsigned char> turnIntToBytes(const int& num);
 	static void padWithZeros(std::vector<unsigned char>* data, const int& amountOfZeroz);
+private:
+	JsonResponsePacketSerialize() {};
 };

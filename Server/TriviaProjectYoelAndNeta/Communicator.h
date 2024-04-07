@@ -17,6 +17,11 @@ public:
 		static Communicator instance(socket, handleFactory);
 		return instance;
 	}
+
+	// Delete copy constructor and assignment operator for singleton
+	Communicator(Communicator const&) = delete;
+	void operator=(Communicator const&) = delete;
+
 	Communicator(const SOCKET& socket, RequestHandlerFactory& handleFactory);
 	void startHandleRequests();
 	void sendData(const SOCKET sc, std::vector<unsigned char>& message, const int& flags = 0);
