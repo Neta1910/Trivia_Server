@@ -1,5 +1,6 @@
 import json
 import socket
+
 import Responses  # Assuming this is a custom module containing response classes
 import requests  # Assuming this is a custom module containing request classes
 
@@ -20,9 +21,9 @@ SIZE_OF_LENGTH = 4
 FAILED_STATUS = 0
 WORK_STATUS = 1
 
+
 def get_server_message(sock):
     server_msg = sock.recv(NUM_OF_BYTES)
-    server_msg.decode()  # This line does nothing, you need to assign the result to a variable
     return server_msg
 
 
@@ -35,7 +36,7 @@ def getLoginMessege(request: requests.LoginRequest):
 def getSignUpMessege(request: requests.SignUpRequest):
     dict = {"username": request.userName, "password": request.password, "email": request.email}
     # Convert the dictionary to JSON string
-    return parseRequestToMessage(dict_data, SIGN_UP)
+    return parseRequestToMessage(dict, SIGN_UP)
 
 
 def parseRequestToMessage(data, code):
@@ -57,37 +58,44 @@ def convertIntIntoByte(number, num_of_bytes):
 
 def signInWithUserDoesntExist(sock: socket):
     # checks if user can sign up with the same name
-    sock.sendall(getLoginMessege(requests.LoginRequest("userNotExists", "0584029549")))
+    sock.sendall(getLoginMessege(requests.LoginRequest("user", "0584029549")))
     resp = get_server_message(sock)
     respMessage = Responses.LoginResponse(resp).status  # Assuming Responses module has LoginResponse class
-    if respMessage == FAILED_STATUS:  # status might be undefined, assuming it's respMessage
+    if respMessage != FAILED_STATUS:  # status might be undefined, assuming it's respMessage
         print("Was able to add user that doesn't exist")
+        return False
+    return True
 
 
-def able_to_sign_up_twice(sock: socket):
+def able_to_sign_up_twice(sock: socket) -> bool:
     # checks if user has to be logged in
-    sock.sendall(getSignUpMessage(requests.SignUpRequest("userNotExists", "0584029549")))
+    sock.sendall(getSignUpMessege(requests.SignUpRequest("userNotExists", "0584029549", "email")))
     resp = get_server_message(sock)
 
     # checks if user has to be logged in
-    sock.sendall(getSignUpMessage(requests.SignUpRequest("userNotExists", "0584029549")))
+    sock.sendall(getSignUpMessege(requests.SignUpRequest("userNotExists", "0584029549", "email")))
     resp = get_server_message(sock)
     respStatus = Responses.SignupResponse(resp).status  # Assuming Responses module has SignupResponse class
-    if respStatus == FAILED_STATUS:
+    if respStatus != FAILED_STATUS:
         print("Was able to sign up twice")
+        return False
+    return True
 
 
-def ableToSignUpIfConnected(sock: socket):
+def ableToSignUpIfConnected(sock: socket) -> bool:
     # logging in
-    sock.sendall(getLoginMessage(requests.SignUpRequest("userNotExists", "0584029549")))
+    sock.sendall(getSignUpMessege(requests.SignUpRequest("userNotExists", "0584029549", "email")))
     resp = get_server_message(sock)
 
     # signing up
-    sock.sendall(getLoginMessage(requests.SignUpRequest("userNotExists", "0584029549")))
+    sock.sendall(getSignUpMessege(requests.SignUpRequest("userNotExists", "0584029549", "email")))
     resp = get_server_message(sock)
     respStatus = Responses.SignupResponse(resp).status  # Assuming Responses module has SignupResponse class
-    if respStatus == FAILED_STATUS:
+    if respStatus != FAILED_STATUS:
         print("Was able to sign if connected ")
+        return False
+
+    return True
 
 
 def check_user_names(sock: socket):
@@ -95,9 +103,10 @@ def check_user_names(sock: socket):
 
 
 def check_v103(sock: socket):
-    signInWithUserDoesntExist(sock)
-    able_to_sign_up_twice(sock)
-    ableToSignUpIfConnected(sock)
+    if (able_to_sign_up_twice(sock) and signInWithUserDoesntExist(sock)  and ableToSignUpIfConnected(sock)) and check_user_names(sock):
+        print("passed tests")
+    else:
+        print("Error")
 
 
 def get_code(resp):
@@ -108,11 +117,8 @@ def get_code(resp):
 def main():
     # Connect to server
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        try:
-            sock.connect(SERVER_DATA)
-            check_v103(sock)
-        except OSError:
-            print("Socket not cpnected")
+        sock.connect(SERVER_DATA)
+        check_v103(sock)
 
 
 if __name__ == "__main__":

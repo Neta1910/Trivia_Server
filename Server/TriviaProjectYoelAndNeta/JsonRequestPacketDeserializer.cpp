@@ -18,7 +18,9 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(const std::v
 SignUpRequest JsonRequestPacketDeserializer::deserializeSignUpRequest(const std::vector<unsigned char> buffer)
 {
 	// Convert buffer to string
-	std::string data(buffer.begin(), buffer.end());
+	std::vector <unsigned char> copyCharConsistingOfLength(buffer.begin() + 1, buffer.begin() + LENGTH_PART_END);
+	int messageSize = JsonRequestPacketDeserializer::convertUnsignedToInt(copyCharConsistingOfLength);
+	std::string data(buffer.begin() + LENGTH_PART_END, buffer.begin() + messageSize + SHIFT);
 	// Extract Json part
 	data = data.substr(data.find('{'));
 	json json_data = json::parse(data); // Parse to json
