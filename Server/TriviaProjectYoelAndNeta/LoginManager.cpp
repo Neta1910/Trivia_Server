@@ -1,8 +1,8 @@
 #include "LoginManager.h"
 
-LoginManager::LoginManager(IDatabase* m_database)
+LoginManager::LoginManager(IDatabase* db)
 {
-	this->m_database = m_database;
+	this->m_database = db;
 
 }
 
