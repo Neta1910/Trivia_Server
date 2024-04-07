@@ -30,5 +30,6 @@ private:
 	std::map<std::string, std::mutex> _filesMutex;
 	std::condition_variable _condForSendingMessage;	
 	IDatabase* m_database;
+	RequestHandlerFactory m_handlerFactory;
 };
 

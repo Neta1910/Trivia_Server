@@ -16,7 +16,7 @@
  * Constructor for Server class.
  * Initializes a TCP server socket. If socket creation fails, throws an exception.
  */
-Server::Server(IDatabase* db) : m_database(db)
+Server::Server(IDatabase* db) : m_database(db), m_handlerFactory(db)
 {
 	// Create a TCP server socket
 	_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
