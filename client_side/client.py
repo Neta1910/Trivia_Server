@@ -24,14 +24,14 @@ def get_server_message(sock):
     return server_msg
 
 
-def getLoginMessage(request: requests.LoginRequest):
-    dict_data = {"username: ": request.userName, "password": request.password}
+def getLoginMessege(request: requests.LoginRequest):
+    dict = {"username": request.userName, "password": request.password}
     # Convert the dictionary to JSON string
     return parseRequestToMessage(dict_data, LOGIN)
 
 
-def getSignUpMessage(request: requests.SignUpRequest):
-    dict_data = {"username: ": request.userName, "password": request.password, "email": request.email}
+def getSignUpMessege(request: requests.SignUpRequest):
+    dict = {"username": request.userName, "password": request.password, "email": request.email}
     # Convert the dictionary to JSON string
     return parseRequestToMessage(dict_data, SIGN_UP)
 
