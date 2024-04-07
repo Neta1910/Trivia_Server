@@ -5,7 +5,7 @@ import requests  # Assuming this is a custom module containing request classes
 
 SERVER_DATA = ('127.0.0.1', 8826)
 
-MESSAGE_TO_SERVER = "Hello"
+START_MESSEGE = "HELLO"
 NUM_OF_BYTES = 1024
 
 LOGIN = 100
@@ -16,7 +16,6 @@ CODE_SIGN_UP_RESP = 201
 CODE_ERROR_RESPONSE = 202
 
 SIZE_OF_LENGTH = 4
-
 
 def get_server_message(sock):
     server_msg = sock.recv(NUM_OF_BYTES)
@@ -107,6 +106,7 @@ def main():
     # Connect to server
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         try:
+            sock.connect(SERVER_DATA)
             check_v103(sock)
         except OSError:
             print("Socket not cpnected")
