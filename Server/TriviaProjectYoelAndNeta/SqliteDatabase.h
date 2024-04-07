@@ -7,7 +7,7 @@
 #include <iostream>
 
 
-#define CREATE_USERS_TABLE "CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, EMAIL TEXT, ADDRESS TEXT, PHONNE_NUMBER INTEGER, BIRTH_DATE TEXT);"
+#define CREATE_USERS_TABLE "CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, EMAIL TEXT, ADDRESS TEXT, PHONNE_NUMBER TEXT, BIRTH_DATE TEXT);"
 
 #define NAME "NAME"
 #define PASSWORD "PASSWORD"
@@ -29,7 +29,7 @@ public:
 	virtual bool close() override;
 	virtual bool doesUserExist(const std::string& username) override;
 	virtual bool doesPasswordMatch(const std::string& username, const std::string& password) override;
-	virtual bool addNewUser(const std::string& name, const std::string& password, const std::string& email, const std::string& address, const std::string& bitrthDate, const int& phoneNumber) override;
+	virtual bool addNewUser(const std::string& name, const std::string& password, const std::string& email, const std::string& address, const std::string& bitrthDate, const std::string& phoneNumber) override;
 
 private:
 	sqlite3* _db;

@@ -39,3 +39,8 @@ bool UserCheckers::checkAddress(const std::string& address)
 
     return std::regex_match(address, pattern);
 }
+
+bool UserCheckers::checkPhone(const int& phoneNumber)
+{
+    return false;
+}
