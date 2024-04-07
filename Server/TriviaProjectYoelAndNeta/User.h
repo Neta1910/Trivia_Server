@@ -22,5 +22,8 @@ private:
 	std::string _userName;
 	std::string _password;
 	std::string _email;
+    std::string _address;
+    std::string _phoneNumber;
+    std::string _birthDate;
     int _id;
 };
