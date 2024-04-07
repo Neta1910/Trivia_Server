@@ -62,7 +62,7 @@ bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(
 
 int loadIntoUsers(void* data, int argc, char** argv, char** azColName)
 {
-	User user(0, "", "", "");
+	User user(0, "", "", "", "", "", "");
 
 	for (int i = 0; i < argc; i++) {
 		if (std::string(azColName[i]) == NAME) {
