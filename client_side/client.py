@@ -1,38 +1,45 @@
 import json
 import socket
 
-import requests
+import Responses  # Assuming this is a custom module containing response classes
+import requests  # Assuming this is a custom module containing request classes
 
 SERVER_DATA = ('127.0.0.1', 8826)
 
-MESSAGE_TO_SERVER = "Hello"
+START_MESSEGE = "HELLO"
 NUM_OF_BYTES = 1024
 
 LOGIN = 100
 SIGN_UP = 101
 
+CODE_LOGIN_RESP = 200
+CODE_SIGN_UP_RESP = 201
+CODE_ERROR_RESPONSE = 202
+
 SIZE_OF_LENGTH = 4
+
+FAILED_STATUS = 0
+WORK_STATUS = 1
 
 
 def get_server_message(sock):
     server_msg = sock.recv(NUM_OF_BYTES)
-    server_msg = server_msg.decode()
     return server_msg
 
 
 def getLoginMessege(request: requests.LoginRequest):
-    dict = {"username: ": request.userName, "password": request.password}
+    dict = {"username": request.userName, "password": request.password}
     # Convert the dictionary to JSON string
-    return parseRequestToMessege(dict, LOGIN)
+    return parseRequestToMessage(dict, LOGIN)
 
 
 def getSignUpMessege(request: requests.SignUpRequest):
-    dict = {"username: ": request.userName, "password": request.password, "email": request.email}
+    dict = {"username": request.userName, "password": request.password, "email": request.email}
     # Convert the dictionary to JSON string
-    return parseRequestToMessege(dict, SIGN_UP)
+    return parseRequestToMessage(dict, SIGN_UP)
 
 
-def parseRequestToMessege(data, code):
+def parseRequestToMessage(data, code):
     res = convertIntIntoByte(code, 1)
     json_string = json.dumps(data)
     # Convert the JSON string to bytes
@@ -42,43 +49,76 @@ def parseRequestToMessege(data, code):
     return res
 
 
-def convertIntIntoByte(number, numOfBytes):
+def convertIntIntoByte(number, num_of_bytes):
     # Convert the integer to a byte array
-    byte_array = number.to_bytes(numOfBytes, byteorder='big')
+    byte_array = number.to_bytes(num_of_bytes, byteorder='big')
 
     return byte_array
 
 
+def signInWithUserDoesntExist(sock: socket):
+    # checks if user can sign up with the same name
+    sock.sendall(getLoginMessege(requests.LoginRequest("user", "0584029549")))
+    resp = get_server_message(sock)
+    respMessage = Responses.LoginResponse(resp).status  # Assuming Responses module has LoginResponse class
+    if respMessage != FAILED_STATUS:  # status might be undefined, assuming it's respMessage
+        print("Was able to add user that doesn't exist")
+        return False
+    return True
+
+
+def able_to_sign_up_twice(sock: socket) -> bool:
+    # checks if user has to be logged in
+    sock.sendall(getSignUpMessege(requests.SignUpRequest("userNotExists", "0584029549", "email")))
+    resp = get_server_message(sock)
+
+    # checks if user has to be logged in
+    sock.sendall(getSignUpMessege(requests.SignUpRequest("userNotExists", "0584029549", "email")))
+    resp = get_server_message(sock)
+    respStatus = Responses.SignupResponse(resp).status  # Assuming Responses module has SignupResponse class
+    if respStatus != FAILED_STATUS:
+        print("Was able to sign up twice")
+        return False
+    return True
+
+
+def ableToSignUpIfConnected(sock: socket) -> bool:
+    # logging in
+    sock.sendall(getSignUpMessege(requests.SignUpRequest("userNotExists", "0584029549", "email")))
+    resp = get_server_message(sock)
+
+    # signing up
+    sock.sendall(getSignUpMessege(requests.SignUpRequest("userNotExists", "0584029549", "email")))
+    resp = get_server_message(sock)
+    respStatus = Responses.SignupResponse(resp).status  # Assuming Responses module has SignupResponse class
+    if respStatus != FAILED_STATUS:
+        print("Was able to sign if connected ")
+        return False
+
+    return True
+
+
+def check_user_names(sock: socket):
+    return True
+
+
+def check_v103(sock: socket):
+    if (able_to_sign_up_twice(sock) and signInWithUserDoesntExist(sock)  and ableToSignUpIfConnected(sock)) and check_user_names(sock):
+        print("passed tests")
+    else:
+        print("Error")
+
+
+def get_code(resp):
+    byte = resp[0]
+    return int.from_bytes(byte, byteorder='big')
+
+
 def main():
     # Connect to server
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    try:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.connect(SERVER_DATA)
-        # Get message from server
-        resp = get_server_message(sock)
-        if not resp:
-            print("[ERROR] Server sent wrong message!")
-        else:  # Send message to server
-            print("Server resp: ", resp)
-            # sending login messeges
-            loginReq = requests.LoginRequest("user1", "1234")
-            loginMessege = getLoginMessege(loginReq)
-            sock.sendall(loginMessege)
-            print("server resp: ", get_server_message(sock))
-
-            # dending signUp messeges
-            signUpReq = requests.SignUpRequest("user1", "1234", "user1@gmail.com")
-            loginMessege = getSignUpMessege(loginReq)
-            sock.sendall(loginMessege)
-            print("server resp: ", get_server_message(sock))
-
-            sock.sendall(MESSAGE_TO_SERVER.encode())
-            print("Client connected successfully :)")
-
-    except socket.error as exception:
-        print("[SOCKET ERROR] " + str(exception))
-
-    sock.close()  # End connection with server
+        check_v103(sock)
 
 
 if __name__ == "__main__":

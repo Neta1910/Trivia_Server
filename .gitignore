@@ -336,3 +336,8 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+
+
+# for DB
+*.db
+*.sqlite

@@ -7,7 +7,6 @@ struct RequestResult; // Forward declaration
 class IRequestHandler
 {
 public: 
-	IRequestHandler() = default; 
 	virtual bool isRequestRelevant(RequestInfo& reqInfo) = 0;
 	virtual RequestResult handleRequest(RequestInfo& reqInfo) = 0;
 };

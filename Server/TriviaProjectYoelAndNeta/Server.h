@@ -4,14 +4,18 @@
 #include <condition_variable>
 #include "WSAInitializer.h"
 #include "Server.h"
+#include <deque>
+#include <map>
+#include "RequestHandlerFactory.h"
+
 
 #define PORT 8826
-
+class RequestHandlerFactory;
 
 class Server
 {
 public:
-	Server();
+	Server(IDatabase* db);
 	~Server();
 	void serve(int port);
 	void run();
@@ -24,6 +28,8 @@ private:
 	std::mutex _usersMu;
 	std::mutex _messagesMu;
 	std::map<std::string, std::mutex> _filesMutex;
-	std::condition_variable _condForSendingMessage;
+	std::condition_variable _condForSendingMessage;	
+	IDatabase* m_database;
+	RequestHandlerFactory m_handlerFactory;
 };
 

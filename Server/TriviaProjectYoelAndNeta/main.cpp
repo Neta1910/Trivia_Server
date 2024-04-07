@@ -5,7 +5,7 @@
 #include <iostream>
 #include <exception>
 #include <thread>
-#include "pch.h"
+#include "SqliteDatabase.h"
 
 
 #include "JsonResponsePacketSerializer.h"
@@ -17,11 +17,12 @@ int main()
 	try
 	{
 		WSAInitializer wsaInit;
-		Server myServer;
-
+		SQLiteDatabase* db = new SQLiteDatabase();
+		Server myServer (db);
 		std::thread connecterThread(&Server::run, &myServer);
 
 		connecterThread.join();
+		delete db;
 	}
 	catch (std::exception& e)
 	{

@@ -1,5 +1,13 @@
 #pragma once
 #include "pch.h"
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <sstream>
+#include <algorithm>
+#include <map>
+#include <WinSock2.h>
+#include <string>
 
 
 enum MessageType : byte
