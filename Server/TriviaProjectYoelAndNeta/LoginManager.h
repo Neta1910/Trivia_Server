@@ -1,8 +1,12 @@
 #pragma once
 #include <iostream>
+#include <iterator>
 #include "IDatabase.h"
 #include "LoggedUser.h"
 #include <vector>
+#include "SQLiteDatabase.h"
+
+#define ERROR_RETURN_CODE -1
 
 class LoginManager
 {
