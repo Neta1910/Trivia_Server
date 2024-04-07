@@ -15,7 +15,7 @@ class RequestHandlerFactory;
 class Server
 {
 public:
-	Server();
+	Server(IDatabase* db);
 	~Server();
 	void serve(int port);
 	void run();
@@ -28,7 +28,7 @@ private:
 	std::mutex _usersMu;
 	std::mutex _messagesMu;
 	std::map<std::string, std::mutex> _filesMutex;
-	std::condition_variable _condForSendingMessage;
-	RequestHandlerFactory m_handlerFactory;
+	std::condition_variable _condForSendingMessage;	
+	IDatabase* m_database;
 };
 
