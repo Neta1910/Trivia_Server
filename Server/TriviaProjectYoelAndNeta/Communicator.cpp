@@ -80,7 +80,8 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 
 			if (newHandler->isRequestRelevant(reqInfo)) // For a valid request, move user to the next state
 			{
-				newHandler->handleRequest(reqInfo);
+				RequestResult resp = newHandler->handleRequest(reqInfo);
+				this->sendData(userSocket, resp.response);
 			}
 			else // Assemble error response
 			{
