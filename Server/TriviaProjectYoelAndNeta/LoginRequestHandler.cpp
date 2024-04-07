@@ -15,7 +15,8 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 	RequestResult req_result;
 	if (reqInfo.RequestId == CODE_LOGIN_REQ)
 	{
-		LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(reqInfo.buffer);		
+		LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(reqInfo.buffer);
+		this->m_handleFactory.GetLoginManager().login(req.userName, req.password);
 		LoginResponse res = { CODE_LOGIN_RESP };
 		return { JsonResponsePacketSerialize::serializeLoginResponse(res), nullptr };
 	}
