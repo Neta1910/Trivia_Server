@@ -24,3 +24,18 @@ bool UserCheckers::checkPassword(const std::string& password)
         return false;
     }
 }
+
+bool UserCheckers::checkEmail(const std::string& email)
+{
+    std::regex pattern("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
+
+    return std::regex_match(email, pattern);
+}
+
+bool UserCheckers::checkAddress(const std::string& address)
+{
+    // Regular expression pattern for the address template
+    std::regex pattern("[a-zA-Z]+,\\s[0-9]+,\\s[a-zA-Z]+");
+
+    return std::regex_match(address, pattern);
+}
