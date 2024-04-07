@@ -49,32 +49,3 @@ bool LoginManager::logout(std::string username)
 		counter++;
 	}
 }
-
-bool LoginManager::open()
-{
-	return m_database->open();
-}
-
-bool LoginManager::close()
-{
-	return m_database->close();
-}
-
-int LoginManager::doesUserExist(std::string username)
-{
-	return m_database->doesUserExist(username);
-}
-
-int LoginManager::DoesPasswordMatch(std::string username, std::string password)
-{
-	return m_database->DoesPasswordMatch(username, password);
-}
-
-int LoginManager::addNewUser(std::string username, std::string password, std::string email)
-{
-	if (!m_database->doesUserExist(username))
-	{
-		return m_database->addNewUser(username, password, email);
-	}
-	return ERROR_RETURN_CODE;
-}
