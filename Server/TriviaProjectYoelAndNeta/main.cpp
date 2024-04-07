@@ -19,7 +19,6 @@ int main()
 		WSAInitializer wsaInit;
 		SQLiteDatabase* db = new SQLiteDatabase();
 		Server myServer (db);
-
 		std::thread connecterThread(&Server::run, &myServer);
 
 		connecterThread.join();

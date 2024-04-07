@@ -5,6 +5,7 @@ std::vector<User> SQLiteDatabase::users;
 SQLiteDatabase::SQLiteDatabase() :
 	IDatabase()
 {
+	this->open();
 }
 
 bool SQLiteDatabase::open()

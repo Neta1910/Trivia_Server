@@ -1,5 +1,7 @@
 #include "LoginRequestHandler.h"
 #include "pch.h"
+#define WORK_STATUS 1
+#define FAIL_STATUS 0
 
 LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handleFactory) : m_handleFactory(handleFactory)
 {
@@ -16,14 +18,30 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 	if (reqInfo.RequestId == CODE_LOGIN_REQ)
 	{
 		LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(reqInfo.buffer);
-		this->m_handleFactory.GetLoginManager().login(req.userName, req.password);
 		LoginResponse res = { CODE_LOGIN_RESP };
+		if (this->m_handleFactory.GetLoginManager().login(req.userName, req.password)) 
+		{
+			res.status = WORK_STATUS;
+		}
+		else
+		{
+			res.status = FAIL_STATUS;
+		}
 		return { JsonResponsePacketSerialize::serializeLoginResponse(res), nullptr };
+
 	}
 	else if (reqInfo.RequestId = CODE_SIGN_UP_REQ)
 	{
 		SignUpRequest req = JsonRequestPacketDeserializer::deserializeSignUpRequest(reqInfo.buffer);
 		SignupResponse res = { CODE_SIGN_UP_RESP };
+		if (this->m_handleFactory.GetLoginManager().signUp(req.userName, req.password, req.email))
+		{
+			res.status = WORK_STATUS;
+		}
+		else
+		{
+			res.status = FAIL_STATUS;
+		}
 		return { JsonResponsePacketSerialize::serializeSignUpResponse(res), nullptr};
 	}
 }

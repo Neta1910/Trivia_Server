@@ -26,12 +26,13 @@ bool LoginManager::login(std::string username, std::string password)
 	{
 		return false;
 	}
-	if (std::count(m_loggedUsers.begin(), m_loggedUsers.end(), username) != 0)
+	// Create LoggedUser object
+	LoggedUser loggedUser(username);	// checking if user is already logged in m_loggedUsers
+	if (std::find(m_loggedUsers.begin(), m_loggedUsers.end(), loggedUser) != m_loggedUsers.end())
 	{
 		return false;
 	}
-	// Create LoggedUser object
-	LoggedUser loggedUser(username);
+
 	m_loggedUsers.push_back(loggedUser);
 	return true;
 }
@@ -48,33 +49,5 @@ bool LoginManager::logout(std::string username)
 		}
 		counter++;
 	}
-}
-
-bool LoginManager::open()
-{
-	return m_database->open();
-}
-
-bool LoginManager::close()
-{
-	return m_database->close();
-}
-
-int LoginManager::doesUserExist(std::string username)
-{
-	return m_database->doesUserExist(username);
-}
-
-int LoginManager::DoesPasswordMatch(std::string username, std::string password)
-{
-	return m_database->DoesPasswordMatch(username, password);
-}
-
-int LoginManager::addNewUser(std::string username, std::string password, std::string email)
-{
-	if (!m_database->doesUserExist(username))
-	{
-		return m_database->addNewUser(username, password, email);
-	}
-	return ERROR_RETURN_CODE;
+	return true;
 }

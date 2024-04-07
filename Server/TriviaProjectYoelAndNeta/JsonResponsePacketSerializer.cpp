@@ -15,6 +15,7 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeLoginResponse(c
     return JsonResponsePacketSerialize::parseDataIntoMessage(bytes, CODE_LOGIN_RESP); // Parsing the data into a message with the specified response code
 }
 
+
 // Function to serialize sign up response into a vector of unsigned char
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeSignUpResponse(const SignupResponse& response)
 {
