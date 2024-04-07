@@ -12,7 +12,7 @@ class LoginManager
 {
 public:
 	LoginManager(IDatabase* db);
-	bool signUp(std::string username, std::string password, std::string email);
+	bool signUp(const std::string& name, const std::string& password, const std::string& email, const std::string& address, const std::string& bitrthDate, const std::string& phoneNumber);
 	bool login(std::string username, std::string password);
 	bool logout(std::string username);
 private:

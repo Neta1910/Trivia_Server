@@ -1,6 +1,6 @@
 #include "User.h"
-User::User(const int& id, const std::string& name, const std::string& password, const std::string& email) :
-	_id(id), _userName(name), _password(password), _email(email)
+User::User(const int& id,const std::string& name, const std::string& password, const std::string& email, const std::string& address, const std::string& bitrthDate, const std::string& phoneNumber) :
+    _id(id), _userName(name), _password(password), _email(email), _address(address), _birthDate(bitrthDate), _phoneNumber(phoneNumber)
 {
 }
 
@@ -38,4 +38,29 @@ void User::setEmail(const std::string& email) {
 void User::setId(const int& id)
 {
     this->_id = id;
+}
+
+const std::string& User::getAddress() const {
+    return _address;
+}
+
+const std::string& User::getPhoneNumber() const {
+    return _phoneNumber;
+}
+
+const std::string& User::getBirthDate() const {
+    return _birthDate;
+}
+
+// Implementations of new setters
+void User::setAddress(const std::string& address) {
+    _address = address;
+}
+
+void User::setPhoneNumber(const std::string& phoneNumber) {
+    _phoneNumber = phoneNumber;
+}
+
+void User::setBirthDate(const std::string& birthDate) {
+    _birthDate = birthDate;
 }

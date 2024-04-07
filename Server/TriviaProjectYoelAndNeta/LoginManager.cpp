@@ -1,4 +1,5 @@
 #include "LoginManager.h"
+#include "userCheckers.h"
 
 LoginManager::LoginManager(IDatabase* db)
 {
@@ -6,14 +7,19 @@ LoginManager::LoginManager(IDatabase* db)
 
 }
 
-bool LoginManager::signUp(std::string username, std::string password, std::string email)
+bool LoginManager::signUp(const std::string& name, const std::string& password, const std::string& email, const std::string& address, const std::string& birthDate, const std::string& phoneNumber)
 {
-	if (m_database->doesUserExist(username))
+	if (m_database->doesUserExist(name))
 	{
 		return false;
 	}
-	m_database->addNewUser(username, password, email);
-	return true;
+	// checking for regex
+	if (UserCheckers::checkAddress(address) && UserCheckers::checkBirth(birthDate) && UserCheckers::checkEmail(email) && UserCheckers::checkPassword(password) && UserCheckers::checkPhone(phoneNumber))
+	{
+		m_database->addNewUser(name, password, email, address, birthDate, phoneNumber);
+		return true;
+	}
+	return false;
 }
 
 bool LoginManager::login(std::string username, std::string password)
