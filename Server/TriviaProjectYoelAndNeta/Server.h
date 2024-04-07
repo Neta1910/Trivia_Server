@@ -15,6 +15,11 @@ class RequestHandlerFactory;
 class Server
 {
 public:
+	static Server& getInstance(IDatabase* db)
+	{
+		static Server instance(db);
+		return instance;
+	}
 	Server(IDatabase* db);
 	~Server();
 	void serve(int port);

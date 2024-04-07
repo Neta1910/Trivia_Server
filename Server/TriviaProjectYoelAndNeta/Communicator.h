@@ -12,6 +12,11 @@
 class Communicator
 {
 public:
+	static Communicator& getInstance(const SOCKET& socket, RequestHandlerFactory handleFactory)
+	{
+		static Communicator instance(socket, handleFactory);
+		return instance;
+	}
 	Communicator(const SOCKET& socket, RequestHandlerFactory& handleFactory);
 	void startHandleRequests();
 	void sendData(const SOCKET sc, std::vector<unsigned char>& message, const int& flags = 0);

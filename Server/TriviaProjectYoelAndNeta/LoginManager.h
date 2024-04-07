@@ -11,6 +11,13 @@
 class LoginManager
 {
 public:
+	
+	static LoginManager& getInstance(IDatabase* db)
+	{
+		static LoginManager instance(db);
+		return instance;	
+	}
+
 	LoginManager(IDatabase* db);
 	bool signUp(const std::string& name, const std::string& password, const std::string& email, const std::string& address, const std::string& bitrthDate, const std::string& phoneNumber);
 	bool login(std::string username, std::string password);
