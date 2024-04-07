@@ -165,6 +165,7 @@
     <ClInclude Include="sqlite3.h" />
     <ClInclude Include="SqliteDatabase.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="userCheckers.h" />
     <ClInclude Include="WSAInitializer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
