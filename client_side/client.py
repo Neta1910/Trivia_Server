@@ -27,7 +27,7 @@ def get_server_message(sock):
 def getLoginMessege(request: requests.LoginRequest):
     dict = {"username": request.userName, "password": request.password}
     # Convert the dictionary to JSON string
-    return parseRequestToMessage(dict_data, LOGIN)
+    return parseRequestToMessage(dict, LOGIN)
 
 
 def getSignUpMessege(request: requests.SignUpRequest):
@@ -55,7 +55,7 @@ def convertIntIntoByte(number, num_of_bytes):
 
 def signInWithUserDoesntExist(sock: socket):
     # checks if user can sign up with the same name
-    sock.sendall(getLoginMessage(requests.SignUpRequest("userNotExists", "0584029549")))
+    sock.sendall(getLoginMessege(requests.LoginRequest("userNotExists", "0584029549")))
     resp = get_server_message(sock)
     respMessage = Responses.LoginResponse(resp).status  # Assuming Responses module has LoginResponse class
     if respMessage == 1:  # status might be undefined, assuming it's respMessage
@@ -106,7 +106,10 @@ def get_code(resp):
 def main():
     # Connect to server
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        check_v103(sock)
+        try:
+            check_v103(sock)
+        except OSError:
+            print("Socket not cpnected")
 
 
 if __name__ == "__main__":
