@@ -41,9 +41,9 @@ bool SQLiteDatabase::doesPasswordMatch(const std::string& username, const std::s
 	return userPassword == password;
 }
 
-bool SQLiteDatabase::addNewUser(const std::string& name, const std::string& password, const std::string& email)
+bool SQLiteDatabase::addNewUser(const std::string& name, const std::string& password, const std::string& email, const std::string& address, const std::string& bitrthDate, const std::string& phoneNumber)
 {
-	std::string query = "INSERT INTO Users (NAME, PASSWORD, EMAIL) VALUES(\"" + name + "\", \"" + password + "\", \"" + email + "\");";
+	std::string query = "INSERT INTO Users (NAME, PASSWORD, EMAIL, ADDRESS, PHONE_NUMBER, BIRTH_DATE) VALUES(\"" + name + "\", \"" + password + "\", \"" + email + "\", \"" + address + "\", \"" +  phoneNumber + "\", \"" + bitrthDate + "\");";
 	this->runCommand(query);
 	return true;
 }
@@ -62,7 +62,7 @@ bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(
 
 int loadIntoUsers(void* data, int argc, char** argv, char** azColName)
 {
-	User user(0, "", "", "");
+	User user(0, "", "", "", "", "", "");
 
 	for (int i = 0; i < argc; i++) {
 		if (std::string(azColName[i]) == NAME) {

@@ -34,7 +34,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 	{
 		SignUpRequest req = JsonRequestPacketDeserializer::deserializeSignUpRequest(reqInfo.buffer);
 		SignupResponse res = { CODE_SIGN_UP_RESP };
-		if (this->m_handleFactory.GetLoginManager().signUp(req.userName, req.password, req.email))
+		if (this->m_handleFactory.GetLoginManager().signUp(req.userName, req.password, req.email, req.address, req.birthDate, req.phoneNumber))
 		{
 			res.status = WORK_STATUS;
 		}
