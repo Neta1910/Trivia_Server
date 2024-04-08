@@ -1,5 +1,6 @@
 #include "RequestHandlerFactory.h"
-RequestHandlerFactory::RequestHandlerFactory(IDatabase* db) : m_database(db) , m_loginManager(LoginManager(db))
+
+RequestHandlerFactory::RequestHandlerFactory(IDatabase* db) : m_database(db) , m_loginManager(db)
 {
 }
 
@@ -14,7 +15,7 @@ LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()
     return new LoginRequestHandler(*this);
 }
 
-LoginManager RequestHandlerFactory::GetLoginManager()
-{
-    return this->m_loginManager;
+LoginManager& RequestHandlerFactory::GetLoginManager()
+{    
+    return LoginManager::getInstance(this->m_database);
 }
