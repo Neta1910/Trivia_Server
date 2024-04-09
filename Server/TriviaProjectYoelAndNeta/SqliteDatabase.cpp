@@ -1,6 +1,7 @@
 #include "SqliteDatabase.h"
 
 std::vector<User> SQLiteDatabase::users;
+std::list<Question>  SQLiteDatabase::questions;
 
 SQLiteDatabase::SQLiteDatabase() :
 	IDatabase()
@@ -47,6 +48,11 @@ bool SQLiteDatabase::addNewUser(const std::string& name, const std::string& pass
 	std::string query = "INSERT INTO Users (NAME, PASSWORD, EMAIL, ADDRESS, PHONE_NUMBER, BIRTH_DATE) VALUES(\"" + name + "\", \"" + password + "\", \"" + email + "\", \"" + address + "\", \"" +  phoneNumber + "\", \"" + bitrthDate + "\");";
 	this->runCommand(query);
 	return true;
+}
+
+std::list<Question> SQLiteDatabase::getQuestions(const int& amount)
+{
+	std::string query = "SELECT * FROM t_questions LIMIT " + std::to_string(amount) + " ;";
 }
 
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
