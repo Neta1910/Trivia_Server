@@ -17,6 +17,7 @@ bool SQLiteDatabase::open()
 	}
 	this->_db = db;
 	this->runCommand(CREATE_USERS_TABLE);
+	this->runCommand(CREATE_QUISTIONS_TABLE);
 	return true;
 }
 
