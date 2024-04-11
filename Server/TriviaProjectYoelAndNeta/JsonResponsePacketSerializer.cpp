@@ -36,6 +36,11 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeErrorResponse(c
     return JsonResponsePacketSerialize::parseDataIntoMessage(bytes, CODE_ERROR_RESPONSE); // Parsing the data into a message with the specified response code
 }
 
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeLogoutResponse(const LogoutResponse& response)
+{
+    return std::vector<unsigned char>();
+}
+
 // Function to parse data into a message
 std::vector<unsigned char> JsonResponsePacketSerialize::parseDataIntoMessage(const std::vector<unsigned char>& data, const int& respCode)
 {
