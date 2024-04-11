@@ -1,6 +1,11 @@
 #include "SqliteDatabase.h"
+#include "json.hpp"
+
+using json = nlohmann::json;
+
 
 std::vector<User> SQLiteDatabase::users;
+std::list<Question>  SQLiteDatabase::questions;
 
 SQLiteDatabase::SQLiteDatabase() :
 	IDatabase()
@@ -17,7 +22,7 @@ bool SQLiteDatabase::open()
 	}
 	this->_db = db;
 	this->runCommand(CREATE_USERS_TABLE);
-
+	this->runCommand(CREATE_QUISTIONS_TABLE);
 	return true;
 }
 
@@ -49,8 +54,75 @@ bool SQLiteDatabase::addNewUser(const std::string& name, const std::string& pass
 	return true;
 }
 
+std::list<Question> SQLiteDatabase::getQuestions(const int& amount)
+{
+	std::string query = "SELECT * FROM t_questions LIMIT " + std::to_string(amount) + " ;";
+	this->runCommand(query, loadIntoQuestions);
+	return SQLiteDatabase::questions;
+}
+
+void SQLiteDatabase::loadQuestionsIntoDB()
+{
+	HINTERNET hInternet = InternetOpenA("HTTPGET", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+	if (!hInternet) {
+		std::cerr << "Failed to open internet handle" << std::endl;
+		return;
+	}
+
+	HINTERNET hConnect = InternetOpenUrlA(hInternet, "https://opentdb.com/api.php?amount=10&difficulty=medium&type=multiple", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+	if (!hConnect) {
+		std::cerr << "Failed to open URL" << std::endl;
+		InternetCloseHandle(hInternet);
+		return;
+	}
+
+	char buf[1024];
+	DWORD bytesRead;
+	std::string response;
+
+	while (InternetReadFile(hConnect, buf, sizeof(buf), &bytesRead) && bytesRead > 0) {
+		response.append(buf, bytesRead);
+	}
+
+	InternetCloseHandle(hConnect);
+	InternetCloseHandle(hInternet);
+
+	// turning string into json
+	json jsonObject = json::parse(response);
+	jsonObject = jsonObject["results"];
+	for (auto it = jsonObject.begin(); it != jsonObject.end(); ++it)
+	{
+		std::vector<std::string> incorrectAnswers;
+		for (auto it : it.value()["incorrect_answers"])
+		{
+			incorrectAnswers.push_back(it);
+		}
+		Question question(it.value()["question"], incorrectAnswers, it.value()["correct_answer"]);
+		this->insertQuestionIntoDB(question);
+	}
+}
+
+void SQLiteDatabase::insertQuestionIntoDB(Question question)
+{
+	std::string sql = "INSERT INTO t_questions (question, correct_ans, ans2, ans3, ans4) VALUES (\"";
+	sql += question.getQuestion();
+	sql += "\", \"";
+	sql += question.getCorrectAnswer();
+	sql += "\", \"";
+	sql += question.getPossibleAnswers()[0];
+	sql += "\", \"";
+	sql += question.getPossibleAnswers()[1];
+	sql += "\", \"";
+	sql += question.getPossibleAnswers()[2];
+	sql += "\");";
+
+	this->runCommand(sql);
+}
+
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
 {
+	SQLiteDatabase::users.clear();
+	SQLiteDatabase::questions.clear();
 	char** errMessage = nullptr;
 	int res = sqlite3_exec(this->_db, sqlStatement.c_str(), callback, secondParam, errMessage);
 	if (res != SQLITE_OK)
@@ -105,5 +177,26 @@ int callbackUserPassword(void* _data, int argc, char** argv, char** azColName)
 	if (std::string(azColName[0]) == PASSWORD)
 		password = argv[0];
 
+	return 0;
+}
+
+int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName)
+{
+	Question question = Question();
+	for (int i = 0; i < argc; i++) {
+		if (std::string(azColName[i]) == QUESTION) {
+			question.setQuestion(argv[i]);
+		}
+		else if (std::string(azColName[i]) == QUESTION_ID) {
+			question.setId(std::stoi(argv[i]));
+		}
+		else if (std::string(azColName[i]) == CORRECT_ANS) {
+			question.setCorrectAnswer(argv[i]);
+		}
+		else if (std::string(azColName[i]) == ANS_2 || std::string(azColName[i]) == ANS_3 || std::string(azColName[i]) == ANS_4) {
+			question.insertOptional(argv[i]);
+		}
+	}
+	SQLiteDatabase::questions.push_back(question);
 	return 0;
 }
