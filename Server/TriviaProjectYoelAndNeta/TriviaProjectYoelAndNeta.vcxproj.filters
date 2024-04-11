@@ -63,7 +63,10 @@
     <ClCompile Include="userCheckers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Quistion.cpp">
+    <ClCompile Include="Room.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,7 +134,13 @@
     <ClInclude Include="userCheckers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Quistion.h">
+    <ClInclude Include="Room.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
