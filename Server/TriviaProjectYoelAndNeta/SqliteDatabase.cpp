@@ -89,9 +89,16 @@ void SQLiteDatabase::loadQuestionsIntoDB()
 
 	// turning string into json
 	json jsonObject = json::parse(response);
-	while ()
+	jsonObject = jsonObject["results"];
+	for (auto it = jsonObject.begin(); it != jsonObject.end(); ++it)
 	{
-
+		std::vector<std::string> incorrectAnswers;
+		for (auto it : it.value()["incorrect_answers"])
+		{
+			incorrectAnswers.push_back(it);
+		}
+		Question question(it.value()["question"], incorrectAnswers, it.value()["correct_answer"]);
+		this->insertQuestionIntoDB(question);
 	}
 }
 

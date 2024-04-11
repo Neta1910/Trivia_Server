@@ -14,21 +14,24 @@
 
 int main()
 {
-	try
-	{
-		WSAInitializer wsaInit;
-		SQLiteDatabase* db = &SQLiteDatabase::getInstance();
-		Server& myServer  = Server::getInstance(db);
-		std::thread connecterThread(&Server::run, &myServer);
-		//std::thread connecterThread(Server::getInstance(db).run, &myServer);
+	//try
+	//{
+	//	WSAInitializer wsaInit;
+	//	SQLiteDatabase* db = &SQLiteDatabase::getInstance();
+	//	Server& myServer  = Server::getInstance(db);
+	//	std::thread connecterThread(&Server::run, &myServer);
+	//	//std::thread connecterThread(Server::getInstance(db).run, &myServer);
 
-		connecterThread.join();
-		delete db;
-	}
-	catch (std::exception& e)
-	{
-		std::cout << "Error occurred: " << e.what() << std::endl;
-	}
-	system("PAUSE");
-	return 0;
+	//	connecterThread.join();
+	//	delete db;
+	//}
+	//catch (std::exception& e)
+	//{
+	//	std::cout << "Error occurred: " << e.what() << std::endl;
+	//}
+	//system("PAUSE");
+	//return 0;
+
+	SQLiteDatabase sql;
+	sql.loadQuestionsIntoDB();
 }

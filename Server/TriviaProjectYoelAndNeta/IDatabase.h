@@ -14,5 +14,5 @@ public:
 	// quistions related
 	virtual std::list<Question> getQuestions(const int& amount) = 0;
 	virtual void loadQuestionsIntoDB() = 0;
-	virtual void insertQuestionIntoDB(Question question) = 0
+	virtual void insertQuestionIntoDB(Question question) = 0;
 };
