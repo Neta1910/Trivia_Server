@@ -113,3 +113,24 @@ int callbackUserPassword(void* _data, int argc, char** argv, char** azColName)
 
 	return 0;
 }
+
+int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName)
+{
+	Question question ()
+	for (int i = 0; i < argc; i++) {
+		if (std::string(azColName[i]) == NAME) {
+			user.setName(argv[i]);
+		}
+		else if (std::string(azColName[i]) == ID) {
+			user.setId(std::stoi(argv[i]));
+		}
+		else if (std::string(azColName[i]) == EMAIL) {
+			user.setEmail(argv[i]);
+		}
+		else if (std::string(azColName[i]) == PASSWORD) {
+			user.setPassword(argv[i]);
+		}
+	}
+	SQLiteDatabase::users.push_back(user);
+	return 0;
+}
