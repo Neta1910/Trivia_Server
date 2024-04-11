@@ -1,23 +1,24 @@
 #pragma once
-#include <vector>
-#include <string>
-#include <WinSock2.h>
-#include <map>
-#include <iostream>
-#include <thread>
-#include <mutex>
-#include <fstream>
-#include <deque>
 
+// ---- Response Codes ----
+enum ResponseCodes
+{
+	CODE_LOGIN_RESP = 200,
+	CODE_SIGN_UP_RESP,
+	CODE_ERROR_RESPONSE,
+	LOGOUT_RESP,
+	GET_ROOM_RESP,
+	GET_PLAYERS_RESP,
+	JOIN_ROOM_RESP,
+	CREATE_ROOM_RESP,
+	GET_HIGH_SCORE_RESP
+};
 
-
-// ---- Messages Codes ----
-#define CODE_LOGIN_RESP 200
-#define CODE_SIGN_UP_RESP 201
-#define CODE_ERROR_RESPONSE 202
-
-#define CODE_LOGIN_REQ 100
-#define CODE_SIGN_UP_REQ 101
+enum RequestCodes
+{
+	CODE_LOGIN_REQ = 100,
+	CODE_SIGN_UP_REQ
+};
 
 // ---- Message constants ----
 #define USERNAME "username"
