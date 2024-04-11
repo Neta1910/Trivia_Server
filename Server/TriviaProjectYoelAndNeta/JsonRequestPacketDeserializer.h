@@ -19,8 +19,17 @@ public:
 	JsonRequestPacketDeserializer(JsonRequestPacketDeserializer const&) = delete;
 	void operator=(JsonRequestPacketDeserializer const&) = delete;
 
+	// v1
 	static LoginRequest deserializeLoginRequest(const std::vector<unsigned char> buffer);
 	static SignUpRequest deserializeSignUpRequest(const std::vector<unsigned char> buffer);
+
+
+	// v2
+	static LoginRequest deserializeGetPlayersInRoomRequest(const std::vector<unsigned char> buffer);
+	static LoginRequest deserializeJoinRoomRequest(const std::vector<unsigned char> buffer);
+	static LoginRequest deserializeCreateRoomRequest(const std::vector<unsigned char> buffer);
+
+	// general
 	static int convertUnsignedToInt(const std::vector<unsigned char>& buffer);
 private:
 	JsonRequestPacketDeserializer() {};
