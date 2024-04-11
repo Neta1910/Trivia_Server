@@ -33,7 +33,7 @@ public:
 	static std::vector<unsigned char> serializeHighScoreResponse(const GetHighScoreResponse& response);
 
 	// general functions
-	static std::vector<unsigned char> parseDataIntoMessage(const std::vector<unsigned char>& data, const int& respCode );
+	static std::vector<unsigned char> parseDataIntoMessage(json j, const int& respCode );
 	static std::vector<unsigned char> turnIntToBytes(const int& num);
 	static void padWithZeros(std::vector<unsigned char>* data, const int& amountOfZeroz);
 private:

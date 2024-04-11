@@ -9,10 +9,7 @@
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeLoginResponse(const LoginResponse& response)
 {
     json j = json{ {"status", response.status} }; // Creating a JSON object j with the status field from the response
-    std::string json_str = j.dump(); // Converting the JSON object to a string
-    // Convert string to bytes
-    std::vector<unsigned char> bytes(json_str.begin(), json_str.end()); // Creating a vector of unsigned char containing the bytes of the JSON string
-    return JsonResponsePacketSerialize::parseDataIntoMessage(bytes, CODE_LOGIN_RESP); // Parsing the data into a message with the specified response code
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, CODE_LOGIN_RESP); // Parsing the data into a message with the specified response code
 }
 
 
@@ -20,30 +17,30 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeLoginResponse(c
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeSignUpResponse(const SignupResponse& response)
 {
     json j = json{ {"status", response.status} }; // Creating a JSON object j with the status field from the response
-    std::string json_str = j.dump(); // Converting the JSON object to a string
-    // Convert string to bytes
-    std::vector<unsigned char> bytes(json_str.begin(), json_str.end()); // Creating a vector of unsigned char containing the bytes of the JSON string
-    return JsonResponsePacketSerialize::parseDataIntoMessage(bytes, CODE_SIGN_UP_RESP); // Parsing the data into a message with the specified response code
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, CODE_SIGN_UP_RESP); // Parsing the data into a message with the specified response code
 }
 
 // Function to serialize error response into a vector of unsigned char
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeErrorResponse(const ErrorResponse& response)
 {
     json j = json{ {"message", response.message} }; // Creating a JSON object j with the message field from the response
-    std::string json_str = j.dump(); // Converting the JSON object to a string
-    // Convert string to bytes
-    std::vector<unsigned char> bytes(json_str.begin(), json_str.end()); // Creating a vector of unsigned char containing the bytes of the JSON string
-    return JsonResponsePacketSerialize::parseDataIntoMessage(bytes, CODE_ERROR_RESPONSE); // Parsing the data into a message with the specified response code
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, CODE_ERROR_RESPONSE); // Parsing the data into a message with the specified response code
 }
 
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeLogoutResponse(const LogoutResponse& response)
 {
-    return std::vector<unsigned char>();
+    
 }
 
 // Function to parse data into a message
-std::vector<unsigned char> JsonResponsePacketSerialize::parseDataIntoMessage(const std::vector<unsigned char>& data, const int& respCode)
+std::vector<unsigned char> JsonResponsePacketSerialize::parseDataIntoMessage(json j, const int& respCode)
 {
+
+    std::string json_str = j.dump(); // Converting the JSON object to a string
+    // Convert string to bytes
+    std::vector<unsigned char> bytes(json_str.begin(), json_str.end()); // Creating a vector of unsigned char containing the bytes of the JSON string
+
+
     std::vector<unsigned char> res; // Creating a vector of unsigned char to hold the resulting message
 
     // putting the code inside
