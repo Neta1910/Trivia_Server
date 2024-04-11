@@ -10,13 +10,17 @@ public:
 	std::string getQuestion() const;
 	std::vector <std::string> getPossibleAnswers() const;
 	std::string getCorrectAnswer() const;
+	int getId() const;
 
-	std::string setQuestion(const std::string& val);
-	std::vector <std::string> setPossibleAnswers(const std::string& val);
-	std::string setCorrectAnswer(const std::string& val);
+	void setQuestion(const std::string& val);
+	void setPossibleAnswers(const std::vector<std::string>& val);
+	void setCorrectAnswer(const std::string& val);
+	void setId(const int& val);
+	void insertOptional(const std::string& val);
 
 private:
 	std::string m_question;
 	std::vector<std::string> m_possibleAnswers;
 	std::string m_correctAnswer;
+	int m_id;
 };

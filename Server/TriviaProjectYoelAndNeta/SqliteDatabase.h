@@ -16,6 +16,14 @@
 #define EMAIL "EMAIL"
 #define ID "ID"
 
+// t_questions
+#define QUESTION_ID "question_id"
+#define QUESTION "question"
+#define CORRECT_ANS "correct_ans"
+#define ANS_2 "ans2"
+#define ANS_3 "ans3"
+#define ANS_4 "ans4"
+
 
 
 int loadIntoUsers(void* data, int argc, char** argv, char** azColName);
