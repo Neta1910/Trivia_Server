@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-
+#include <string>
 struct RoomData
 {
 	unsigned int id;

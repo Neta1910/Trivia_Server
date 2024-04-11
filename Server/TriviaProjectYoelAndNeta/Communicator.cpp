@@ -82,6 +82,7 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 			{
 				RequestResult resp = newHandler->handleRequest(reqInfo);
 				this->sendData(userSocket, resp.response);
+	
 			}
 			else // Assemble error response
 			{
