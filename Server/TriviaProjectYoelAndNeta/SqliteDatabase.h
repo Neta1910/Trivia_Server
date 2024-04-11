@@ -6,7 +6,10 @@
 #include <vector>
 #include <iostream>
 #include <list>
+#include <Windows.h>
+#include <WinInet.h>
 
+#pragma comment(lib, "wininet.lib")
 
 #define CREATE_USERS_TABLE "CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, EMAIL TEXT, ADDRESS TEXT, PHONNE_NUMBER TEXT, BIRTH_DATE TEXT);"
 #define CREATE_QUISTIONS_TABLE "CREATE TABLE IF NOT EXISTS t_questions (question_id	integer NOT NULL, question	text NOT NULL, correct_ans	text NOT NULL, ans2	text NOT NULL,  ans3	text NOT NULL, ans4	text NOT NULL, PRIMARY KEY(question_id AUTOINCREMENT) );"
@@ -59,7 +62,9 @@ public:
 
 	// quistions related
 	virtual std::list<Question> getQuestions(const int& amount) override;
-	virtual void refreshQuestionsInDB() override;
+	virtual void loadQuestionsIntoDB() override;
+	virtual void insertQuestionIntoDB(Question question);
+
 private:
 	sqlite3* _db;
 	bool runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**) = nullptr, void* secondParam = nullptr);
