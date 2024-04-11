@@ -26,6 +26,7 @@ std::vector<std::string> Room::getAllUsers()
 	{
 		all_users.push_back((*it).getUsername());
 	}
+	return all_users;
 }
 
 RoomData& Room::getRoomData()

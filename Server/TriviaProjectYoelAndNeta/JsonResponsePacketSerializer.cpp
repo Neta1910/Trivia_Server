@@ -105,11 +105,11 @@ std::vector<unsigned char> JsonResponsePacketSerialize::parseDataIntoMessage(jso
     res.insert(res.end(), code.begin(), code.end()); // Inserting the bytes of the response code into the result
 
     // getting message size 
-    std::vector<unsigned char> sizeOfMessage = JsonResponsePacketSerialize::turnIntToBytes(data.size()); // Converting the size of the data to bytes
+    std::vector<unsigned char> sizeOfMessage = JsonResponsePacketSerialize::turnIntToBytes(bytes.size()); // Converting the size of the data to bytes
     res.insert(res.end(), sizeOfMessage.begin(), sizeOfMessage.end()); // Inserting the bytes of the message size into the result
 
     // putting in the message data
-    res.insert(res.end(), data.begin(), data.end()); // Inserting the bytes of the message data into the result
+    res.insert(res.end(), bytes.begin(), bytes.end()); // Inserting the bytes of the message data into the result
 
     return res; // Returning the resulting message
 }

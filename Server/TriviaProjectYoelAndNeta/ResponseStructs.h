@@ -1,5 +1,6 @@
 #pragma once
 #include "RoomData.h"
+#include <vector>
 struct LoginResponse
 {
 	unsigned int status;
