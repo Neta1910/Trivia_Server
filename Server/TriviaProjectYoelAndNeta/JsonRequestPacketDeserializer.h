@@ -25,12 +25,13 @@ public:
 
 
 	// v2
-	static LoginRequest deserializeGetPlayersInRoomRequest(const std::vector<unsigned char> buffer);
-	static LoginRequest deserializeJoinRoomRequest(const std::vector<unsigned char> buffer);
-	static LoginRequest deserializeCreateRoomRequest(const std::vector<unsigned char> buffer);
+	static GetPlayersInRoomRequest deserializeGetPlayersInRoomRequest(const std::vector<unsigned char> buffer);
+	static JoinRoomRequest deserializeJoinRoomRequest(const std::vector<unsigned char> buffer);
+	static CreateRoomRequest deserializeCreateRoomRequest(const std::vector<unsigned char> buffer);
 
 	// general
 	static int convertUnsignedToInt(const std::vector<unsigned char>& buffer);
+	static json convertBuferToRequestParser(const std::vector<unsigned char>& buffer);
 private:
 	JsonRequestPacketDeserializer() {};
 };
