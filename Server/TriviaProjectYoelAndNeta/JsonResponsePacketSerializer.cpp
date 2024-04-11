@@ -29,7 +29,24 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeErrorResponse(c
 
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeLogoutResponse(const LogoutResponse& response)
 {
-    
+    json j = json{ {"status", response.status} }; // Creating a JSON object j with the message field from the response
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, LOGOUT_RESP); // Parsing the data into a message with the specified response code
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetRoomResponse(const GetRoomsResponse& response)
+{
+    std::string roomsString = "[ ";
+    for (auto it = response.rooms.begin(); it != response.rooms.begin(); ++it)
+    {
+        roomsString += "id: " + std::to_string(it->id) + ", ";
+        roomsString += "name: " + it->name + ", ";
+        roomsString += "maxPlayers: " + std::to_string(it->maxPlayers) + ", ";
+        roomsString += "numOfQuestionsInGame: " + std::to_string(it->numOfQuestionsInGame);
+        roomsString += "timePerQuestion: " + std::to_string(it->timePerQuestion) + ", ";
+        roomsString += "isActive: " + std::to_string(it->isActive) + "]";
+    }
+    json j = json{ {"rooms", roomsString}, {"status", response.status}}; // Creating a JSON object j with the message field from the response
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, LOGOUT_RESP); // Parsing the data into a message with the specified response code
 }
 
 // Function to parse data into a message
