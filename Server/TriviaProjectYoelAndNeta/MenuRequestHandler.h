@@ -10,15 +10,15 @@ public:
 	bool isRequestRelevant(RequestInfo& reqInfo) override;
 	RequestResult handleRequest(RequestInfo& reqInfo) override;
 
-	RequestResult signOut(RequestResult& reqInfo);
-	RequestResult getRooms(RequestResult& reqInfo);
-	RequestResult getPlayersInRoom(RequestResult& reqInfo);
-	RequestResult getPersonalStats(RequestResult& reqInfo);
-	RequestResult getHighScore(RequestResult& reqInfo);
-	RequestResult joinRoom(RequestResult& reqInfo);
-	RequestResult createRoom(RequestResult& reqInfo);
-
 private:
 	LoggedUser m_user;
 	RequestHandlerFactory& m_handleFactory;
+
+	RequestResult logOut(RequestInfo& reqInfo);
+	RequestResult getRooms(RequestInfo& reqInfo);
+	RequestResult getPlayersInRoom(RequestInfo& reqInfo);
+	RequestResult getPersonalStats(RequestInfo& reqInfo);
+	RequestResult getHighScore(RequestInfo& reqInfo);
+	RequestResult joinRoom(RequestInfo& reqInfo);
+	RequestResult createRoom(RequestInfo& reqInfo);
 };

@@ -19,3 +19,13 @@ LoginManager& RequestHandlerFactory::GetLoginManager()
 {    
     return LoginManager::getInstance(this->m_database);
 }
+
+IDatabase* RequestHandlerFactory::getDatabase()
+{
+    return m_database;
+}
+
+RoomManager& RequestHandlerFactory::getRoomManager()
+{
+    return m_roomManager;
+}
