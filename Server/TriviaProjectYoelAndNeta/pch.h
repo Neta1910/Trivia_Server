@@ -17,7 +17,14 @@ enum ResponseCodes
 enum RequestCodes
 {
 	CODE_LOGIN_REQ = 100,
-	CODE_SIGN_UP_REQ
+	CODE_SIGN_UP_REQ,
+	CODE_ERROR_REQ,
+	LOGOUT_REQ,
+	GET_ROOM_REQ,
+	GET_PLAYERS_REQ,
+	JOIN_ROOM_REQ,
+	CREATE_ROOM_REQ,
+	GET_HIGH_SCORE_REQ
 };
 
 // ---- Message constants ----
