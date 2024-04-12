@@ -1,11 +1,12 @@
 #pragma once
 #include "LoggedUser.h"
 #include "RequestHandlerFactory.h"
-class MenuRequestHandler
+#include "IRequestHandler.h"
+class MenuRequestHandler : public IRequestHandler
 {
 public:
-	boolean isRequestRelevant(const RequestInfo& request);
-	RequestResult handleRequest(const RequestInfo& request);
+	virtual bool isRequestRelevant(RequestInfo& reqInfo) override;
+	virtual RequestResult handleRequest(RequestInfo& reqInfo) override;
 private:
 	LoggedUser m_user;
 	RequestHandlerFactory& m_handlerFactory;
