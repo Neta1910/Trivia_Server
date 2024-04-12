@@ -7,15 +7,15 @@ class RoomManager
 public:
 
 
-	static RoomManager& getInstance()
-	{
-		static RoomManager instance;
-		return instance;
-	}
+	//static RoomManager& getInstance()
+	//{
+	//	static RoomManager instance;
+	//	return instance;
+	//}
 
-	// Delete copy constructor and assignment operator for singleton
-	RoomManager(RoomManager const&) = delete;
-	void operator=(RoomManager const&) = delete;
+	//// Delete copy constructor and assignment operator for singleton
+	//RoomManager(RoomManager const&) = delete;
+	//void operator=(RoomManager const&) = delete;
 
 	RoomManager();
 

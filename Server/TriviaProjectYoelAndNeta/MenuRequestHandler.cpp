@@ -1,6 +1,9 @@
 #include "MenuRequestHandler.h"
 
-MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handleFactory, std::string username) : m_handleFactory(handleFactory), m_user(username)
+MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handleFactory, std::string username, RoomManager roomManager) : 
+	m_handleFactory(handleFactory), 
+	m_user(username), 
+	m_roomManager(roomManager)
 {
 }
 
@@ -35,10 +38,18 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo& reqInfo)
 
 RequestResult MenuRequestHandler::logOut(RequestInfo& reqInfo)
 {
-	LoginManager::getInstance(this->m_handleFactory.getDatabase()->doesUserExist());
+	LoginManager::getInstance(this->m_handleFactory.getDatabase()).logout(m_user.getUsername());
+	LogoutResponse logOut_res = { LOGOUT_RESP };
+	return { JsonResponsePacketSerialize::serializeLogoutResponse(logOut_res), (IRequestHandler*)m_handleFactory.createLoginRequestHandler() };
 }
 
 RequestResult MenuRequestHandler::getRooms(RequestInfo& reqInfo)
 {
-	RequestHandlerFactory::getInstance(this->m_handleFactory.getRoomManager().getRooms());
+	GetRoomsResponse getRooms_res = { GET_ROOM_RESP, m_roomManager.getRooms() };
+	return { JsonResponsePacketSerialize::serializeGetRoomResponse(getRooms_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
+}
+
+RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo& reqInfo)
+{
+	//GetPlayersInRoomResponse getPlayersInRoom_res = JsonRequestPacketDeserializer::de
 }

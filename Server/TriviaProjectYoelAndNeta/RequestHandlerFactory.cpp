@@ -29,3 +29,8 @@ RoomManager& RequestHandlerFactory::getRoomManager()
 {
     return m_roomManager;
 }
+
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser user)
+{
+    return new MenuRequestHandler(*this, user.getUsername(), m_roomManager);
+}
