@@ -341,3 +341,4 @@ ASALocalRun/
 # for DB
 *.db
 *.sqlite
+/Server/TriviaProjectYoelAndNeta/Trivia.db

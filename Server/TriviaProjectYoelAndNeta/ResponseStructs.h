@@ -1,56 +1,55 @@
 #pragma once
 #include "RoomData.h"
 #include <vector>
-struct LoginResponse
+typedef struct LoginResponse
 {
 	unsigned int status;
-} typedef  LoginResponse;
+};
 
-struct SignupResponse
+typedef struct SignupResponse
 {
 	unsigned int status;
-} typedef  SignupResponse;
+};
 
-struct ErrorResponse
+typedef struct ErrorResponse
 {
 	std::string message;
-} typedef ErrorResponse;
-
-struct LogoutResponse
+};
+typedef struct LogoutResponse
 {
 	unsigned int status;
-} typedef LogoutResponse;
+};
 
-struct GetRoomsResponse
+typedef struct GetRoomsResponse
 {
 	unsigned int status;
 	std::vector<RoomData> rooms;
-} typedef GetRoomsResponse;
+};
 
-struct GetPlayersInRoomResponse
+typedef struct GetPlayersInRoomResponse
 {
 	std::vector<std::string> players;
-} typedef GetPlayersInRoomResponse;
+};
 
-struct GetHighScoreResponse
+typedef struct GetHighScoreResponse
 {
 	unsigned int status;
 	std::vector<std::string> statistics;
-} typedef GetHighScoreResponse;
+};
 
 
-struct GetPersonalStatsResponse
+typedef struct GetPersonalStatsResponse
 {
 	unsigned int status;
 	std::vector<std::string> statistics;
-} typedef GetPersonalStatsResponse;
+};
 
-struct JoinRoomResponse
+typedef struct JoinRoomResponse
 {
 	unsigned int status;
-} typedef JoinRoomResponse;
+};
 
-struct CreateRoomResponse
+typedef struct CreateRoomResponse
 {
 	unsigned int status;
-} typedef CreateRoomResponse;
+};

@@ -35,3 +35,9 @@ enum RequestCodes
 // ---- Error Messages ----
 #define INVALID_REQUEST "Invalid Request"
 
+#define ROOM_ID "roomId"
+
+#define ROOM_NAME "roomName"
+#define MAX_USERS "maxUsers"
+#define QUESTION_COUNT "questionCount"
+#define ANSOWER_TIMEOUT "answerTimeout"
