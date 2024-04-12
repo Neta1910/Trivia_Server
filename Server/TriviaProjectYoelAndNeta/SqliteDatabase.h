@@ -67,6 +67,8 @@ public:
 	virtual std::list<Question> getQuestions(const int& amount) override;
 	virtual void loadQuestionsIntoDB() override;
 	virtual void insertQuestionIntoDB(Question question);
+	virtual int getTotalAmountOfQuestions() override;
+
 
 private:
 	sqlite3* _db;

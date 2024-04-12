@@ -88,11 +88,32 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo& reqInfo)
 		{
 			m_roomManager.getRoom(joinRoom_req.roomId).addUser(m_user);
 			JoinRoomResponse joinRoom_res = { JOIN_ROOM_RESP };
-			//return { JsonResponsePacketSerialize::serializeJoinRoomResponse(joinRoom_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler() };
+			//                                   !!!!!!!!!!!!!!!!!!!!!! NOTE !!!!!!!!!!!!!!!!!!!!!!
+			//							The row below isn't working yet (needs implementation of class 'RoomMemberRequestHandler')
+			return { JsonResponsePacketSerialize::serializeJoinRoomResponse(joinRoom_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 		}
 	}
 	error_res = { "Room doesn't exist" };
 	return { JsonResponsePacketSerialize::serializeErrorResponse(error_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
 
 }
+
+RequestResult MenuRequestHandler::createRoom(RequestInfo& reqInfo)
+{
+	CreateRoomRequest createRoom_req = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(reqInfo.buffer);
+	int numOfQuestions = (m_handleFactory.getDatabase())->getTotalAmountOfQuestions();
+	// Check if the new room is valid
+	if (createRoom_req.questionCount >= MIN_NUM_OF_QUESTIONS && createRoom_req.questionCount <= numOfQuestions && createRoom_req.answerTimeout >= MIN_ANS_TIME && createRoom_req.maxUsers >= MIN_USERS)
+	{
+		RoomData newRoomData = { 0, createRoom_req.roomName, createRoom_req.maxUsers, createRoom_req.questionCount, createRoom_req.answerTimeout, ACTIVE_ROOM };
+		m_roomManager.createRoom(m_user, newRoomData);
+		CreateRoomResponse createRoom_res = { CREATE_ROOM_RESP };
+		//                                   !!!!!!!!!!!!!!!!!!!!!! NOTE !!!!!!!!!!!!!!!!!!!!!!
+		//							The row below isn't working yet (needs implementation of class 'RoomMemberRequestHandler')
+		return {JsonResponsePacketSerialize::serializeCreateRoomResponse(createRoom_res),  (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
+	}
+	ErrorResponse error_res = { "Invalid room settings!" };	
+	return { JsonResponsePacketSerialize::serializeErrorResponse(error_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
+}
+
 

@@ -121,6 +121,13 @@ void SQLiteDatabase::insertQuestionIntoDB(Question question)
 	this->runCommand(sql);
 }
 
+int SQLiteDatabase::getTotalAmountOfQuestions()
+{
+	std::string query = "SELECT * FROM t_questions;";
+	this->runCommand(query, loadIntoQuestions);
+	return SQLiteDatabase::questions.size();
+}
+
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
 {
 	SQLiteDatabase::users.clear();

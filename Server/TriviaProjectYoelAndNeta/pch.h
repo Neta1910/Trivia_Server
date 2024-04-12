@@ -42,3 +42,10 @@ enum RequestCodes
 #define MAX_USERS "maxUsers"
 #define QUESTION_COUNT "questionCount"
 #define ANSOWER_TIMEOUT "answerTimeout"
+
+// ---- Room Settings ----
+#define MIN_ANS_TIME 1
+#define MIN_USERS 1
+#define MIN_NUM_OF_QUESTIONS 1
+#define ACTIVE_ROOM 1
+#define INACTIVE_ROOM 0 
