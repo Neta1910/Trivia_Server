@@ -4,7 +4,6 @@ from flask import Flask, request
 from flask_socketio import SocketIO, emit
 
 import Responses
-import requests
 from getMesseges import *
 
 # configuring the flax server
@@ -97,7 +96,8 @@ def handle_signup(data):
     try:
         data_dict = json.loads(data)  # Convert JSON string to Python dictionary
         user_sockets[request.sid].sendall(
-            requests.CreateRoomRequest(data_dict[ROOM_NAME], data_dict[MAX_USERS], data_dict[QUESTION_COUNT], data_dict[ANSOWER_TIMEOUT]).getMessage())
+            requests.CreateRoomRequest(data_dict[ROOM_NAME], data_dict[MAX_USERS], data_dict[QUESTION_COUNT],
+                                       data_dict[ANSOWER_TIMEOUT]).getMessage())
 
         serverMessege = Responses.CreateRoomResponse(get_server_message(user_sockets[request.sid]))
 
@@ -105,6 +105,23 @@ def handle_signup(data):
             raise Exception
         else:
             emit('createRoomResponse', {'status': WORK_STATUS})
+    except Exception as e:
+        print(e)
+        emit('createRoomResponse', {'status': FAILED_STATUS})
+
+
+@socketio.on('getHighScore')
+def handle_signup(data):
+    try:
+        data_dict = json.loads(data)  # Convert JSON string to Python dictionary
+        user_sockets[request.sid].sendall(requests.HighScoreRequest().getMessage())
+
+        serverMessege = Responses.GetHighScoreResponse(get_server_message(user_sockets[request.sid]))
+
+        if serverMessege.status == FAILED_STATUS:
+            raise Exception
+        else:
+            emit('createRoomResponse', {'status': WORK_STATUS, 'statistics': serverMessege.statistics})
     except Exception as e:
         print(e)
         emit('createRoomResponse', {'status': FAILED_STATUS})
