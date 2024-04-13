@@ -1,7 +1,13 @@
+from getMesseges import *
+
 class LoginRequest:
     def __init__(self, user_name, password):
         self.user_name = user_name
         self.password = password
+
+    def getMessage(self):
+        data = {"username": self.user_name, "password": self.password}
+        return parseRequestToMessage(data, LOGIN)
 
 
 class SignUpRequest:
@@ -13,28 +19,35 @@ class SignUpRequest:
         self.phone_number = phone_number
         self.birth_date = birth_date
 
-
-class RequestResult:
-    def __init__(self, response, new_handler):
-        self.response = response  # This will be a list of integers representing bytes
-        self.new_handler = new_handler  # This assumes `new_handler` is an instance of another Python class
-
-
-class RequestInfo:
-    def __init__(self, request_id, receival_time, buffer):
-        self.request_id = request_id
-        self.receival_time = receival_time  # This should be a datetime object
-        self.buffer = buffer  # This will be a list of integers representing bytes
+    def getMessage(self):
+        data = {
+            "username": self.user_name,
+            "password": self.password,
+            "email": self.email,
+            "address": self.address,
+            "phone_number": self.phone_number,
+            "birth_date": self.birth_date
+        }
+        return parseRequestToMessage(data, SIGN_UP)
 
 
+# Similar implementation for the other classes
 class GetPlayersInRoomRequest:
     def __init__(self, room_id):
         self.room_id = room_id
+
+    def getMessage(self):
+        data = {"room_id": self.room_id}
+        return parseRequestToMessage(data, GET_PLAYERS_REQ)
 
 
 class JoinRoomRequest:
     def __init__(self, room_id):
         self.room_id = room_id
+
+    def getMessage(self):
+        data = {"room_id": self.room_id}
+        return parseRequestToMessage(data, JOIN_ROOM_REQ)
 
 
 class CreateRoomRequest:
@@ -43,3 +56,12 @@ class CreateRoomRequest:
         self.max_users = max_users
         self.question_count = question_count
         self.answer_timeout = answer_timeout
+
+    def getMessage(self):
+        data = {
+            "room_name": self.room_name,
+            "max_users": self.max_users,
+            "question_count": self.question_count,
+            "answer_timeout": self.answer_timeout
+        }
+        return parseRequestToMessage(data, CREATE_ROOM_REQ)
