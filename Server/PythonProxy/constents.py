@@ -1,0 +1,18 @@
+SERVER_DATA = ('127.0.0.1', 8826)
+START_MESSEGE = "HELLO"
+NUM_OF_BYTES = 1024
+LOGIN = 100
+SIGN_UP = 101
+CODE_LOGIN_RESP = 200
+CODE_SIGN_UP_RESP = 201
+CODE_ERROR_RESPONSE = 202
+SIZE_OF_LENGTH = 4
+FAILED_STATUS = 0
+WORK_STATUS = 1
+
+EMAIL: str = "email"
+PASSWORD: str = "password"
+USER_NAME: str = "userName"
+ADDRESS: str = "address"
+PHONE_NUMBER: str = "phoneNumber"
+BIRTH_DATE: str = "birthDate"
