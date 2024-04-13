@@ -25,6 +25,7 @@ bool SQLiteDatabase::open()
 	this->runCommand(CREATE_USERS_TABLE);
 	this->runCommand(CREATE_QUISTIONS_TABLE);
 	this->runCommand(CREATE_STATISTICS_TABLE);
+	this->runCommand(CREATE_HIGHEST_SCORES_TABLE);
 	return true;
 }
 
@@ -128,6 +129,11 @@ int SQLiteDatabase::getTotalAmountOfQuestions()
 	return SQLiteDatabase::questions.size();
 }
 
+float SQLiteDatabase::getPlayersAverageAnswerTime(int user_id)
+{
+	return 0.0f;
+}
+
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
 {
 	SQLiteDatabase::users.clear();
@@ -207,5 +213,15 @@ int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName)
 		}
 	}
 	SQLiteDatabase::questions.push_back(question);
+	return 0;
+}
+
+int loadIntoHighestScores(void* _data, int argc, char** argv, char** azColName)
+{
+	
+}
+
+int loadIntoStatistics(void* _data, int argc, char** argv, char** azColName)
+{
 	return 0;
 }

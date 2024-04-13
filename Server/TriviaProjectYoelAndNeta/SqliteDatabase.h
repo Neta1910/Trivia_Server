@@ -2,6 +2,7 @@
 #include "IDatabase.h"
 #include "sqlite3.h"
 #define DB "Trivia.db"
+#include "HighestScore.h"
 #include "User.h"
 #include <vector>
 #include <iostream>
@@ -14,6 +15,7 @@
 #define CREATE_USERS_TABLE "CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, EMAIL TEXT, ADDRESS TEXT, PHONNE_NUMBER TEXT, BIRTH_DATE TEXT);"
 #define CREATE_QUISTIONS_TABLE "CREATE TABLE IF NOT EXISTS t_questions (question_id	integer NOT NULL, question	text NOT NULL, correct_ans	text NOT NULL, ans2	text NOT NULL,  ans3	text NOT NULL, ans4	text NOT NULL, PRIMARY KEY(question_id AUTOINCREMENT) );"
 #define CREATE_STATISTICS_TABLE "CREATE TABLE IF NOT EXISTS Statistics (ID INTEGER, AVERAGE_ANS_TIME INTEGER, CORRECT_ANS INTEGER, TOTAL_ANS INTEGER, PALYERS_GAME INTEGER, FOREIGN KEY(ID) REFERENCES Users(ID));"
+#define CREATE_HIGHEST_SCORES_TABLE "CREATE TABLE IF NOT EXISTS HIGHEST_SCORES (ID INTEGER, HIGHEST_SCORE INTEGER, FOREIGN KEY(ID) REFERENCES Users(ID));"
 
 
 
@@ -36,6 +38,8 @@ int loadIntoUsers(void* data, int argc, char** argv, char** azColName);
 int countCallback(void* data, int argc, char** argv, char** azColName);
 int callbackUserPassword(void* _data, int argc, char** argv, char** azColName);
 int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName);
+int loadIntoHighestScores(void* _data, int argc, char** argv, char** azColName);
+int loadIntoStatistics(void* _data, int argc, char** argv, char** azColName);
 
 class SQLiteDatabase : public IDatabase
 {
@@ -68,6 +72,13 @@ public:
 	virtual void loadQuestionsIntoDB() override;
 	virtual void insertQuestionIntoDB(Question question);
 	virtual int getTotalAmountOfQuestions() override;
+
+	virtual float getPlayersAverageAnswerTime(int user_id) override;
+	virtual int getNumOfCorrectAnswers(int user_id) override;
+	virtual int getNumOfTotalAnswers(int user_id) override;
+	virtual int getNumOfPlayerGames(int user_id) override;
+	virtual int getPlayerScore(int user_id) override;
+	virtual std::vector<std::string> getHighScores() override;
 
 
 private:
