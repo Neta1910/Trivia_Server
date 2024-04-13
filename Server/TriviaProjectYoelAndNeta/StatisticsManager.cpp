@@ -1,11 +1,18 @@
 #include "StatisticsManager.h"
 
-std::vector<std::string> StatisticsManager::getHighScore()
+std::vector<HighestScore> StatisticsManager::getHighScore()
 {
-	return std::vector<std::string>();
+	return m_database->getHighScores(NUM_OF_SCORES);
 }
 
-std::vector<std::string> StatisticsManager::getUserStatistics(std::string username)
+userStats StatisticsManager::getUserStatistics(int user_id)
 {
-	return std::vector<std::string>();
+	userStats user_stats;
+	user_stats.user_id = user_id;
+	user_stats.avg_ans_time = m_database->getPlayersAverageAnswerTime(user_id);
+	user_stats.games_played = m_database->getNumOfPlayerGames(user_id);
+	user_stats.highScore = m_database->getPlayerScore(user_id);
+	user_stats.right_ans = m_database->getNumOfCorrectAnswers(user_id);
+	user_stats.total_ans = m_database->getNumOfTotalAnswers(user_id);
+	return user_stats;
 }

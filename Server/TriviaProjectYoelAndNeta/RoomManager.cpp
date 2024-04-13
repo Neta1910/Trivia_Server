@@ -38,6 +38,19 @@ unsigned int RoomManager::getRoomState(int room_id)
 	}
 }
 
+bool RoomManager::doesRoomExist(int room_id)
+{
+	std::map<int, Room>::iterator it;
+	for (it = m_rooms.begin(); it != m_rooms.end(); ++it)
+	{
+		if ((*it).first == room_id)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 std::vector<RoomData> RoomManager::getRooms()
 {
 	std::vector<RoomData> rooms_data;
@@ -58,5 +71,5 @@ Room& RoomManager::getRoom(int room_id)
 		{			
 			return (*it).second;
 		}
-	}
+	}	
 }
