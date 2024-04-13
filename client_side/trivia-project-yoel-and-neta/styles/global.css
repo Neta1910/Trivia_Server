@@ -3,7 +3,6 @@ body {
   padding: 0;
   margin: 0;
   font-family:
-    Inter,
     -apple-system,
     BlinkMacSystemFont,
     Segoe UI,
@@ -17,16 +16,38 @@ body {
     sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 * {
   box-sizing: border-box;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
+main {
+  padding: 5rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+code {
+  background: #fafafa;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-family:
+    Menlo,
+    Monaco,
+    Lucida Console,
+    Courier New,
+    monospace;
+}
+
+input[type='button'] {
+  border: none;
+  background: cornflowerblue;
+  color: white;
+  padding: 12px 24px;
+  margin: 8px;
+  font-size: 24px;
+  border-radius: 8px;
+  cursor: pointer;
 }
