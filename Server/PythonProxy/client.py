@@ -33,10 +33,10 @@ def handle_login(data):
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('LoginResponse', {'data': 'user logged'})
+            emit('LoginResponse', {'status': WORK_STATUS})
     except Exception as e:
         print(e)
-        emit('LoginResponse', {'data': 'user name and password do not match'})
+        emit('LoginResponse', {'status': FAILED_STATUS})
 
 
 @socketio.on('signup')
@@ -51,10 +51,10 @@ def handle_signup(data):
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('SignUpResponse', {'data': 'user logged'})
+            emit('SignUpResponse', {'status': WORK_STATUS})
     except Exception as e:
         print(e)
-        emit('SignUpResponse', {'data': 'user already exists'})
+        emit('SignUpResponse', {'status': FAILED_STATUS})
 
 
 @socketio.on('getPlayersInRoom')
@@ -68,28 +68,46 @@ def handle_signup(data):
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('LoginResponse', {'data': 'user logged'})
+            emit('getPlayersInRoomResponse', {'status': WORK_STATUS, 'players': serverMessege.players})
     except Exception as e:
         print(e)
-        emit('LoginResponse', {'data': 'user already exists'})
+        emit('getPlayersInRoomResponse', {'status': FAILED_STATUS})
 
 
-@socketio.on('signup')
+@socketio.on('joinRoom')
 def handle_signup(data):
     try:
         data_dict = json.loads(data)  # Convert JSON string to Python dictionary
-        cpp_socket.sendall(
-            requests.SignUpRequest(data_dict[USER_NAME], data_dict[PASSWORD], data_dict[EMAIL], data_dict[ADDRESS],
-                                   data_dict[PHONE_NUMBER], data_dict[BIRTH_DATE]).getMessage())
+        user_sockets[request.sid].sendall(
+            requests.JoinRoomRequest(data_dict[ROOM_ID]).getMessage())
 
-        serverMessege = Responses.SignupResponse(get_server_message(cpp_socket))
+        serverMessege = Responses.JoinRoomResponse(get_server_message(user_sockets[request.sid]))
+
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('LoginResponse', {'data': 'user logged'})
+            emit('joinRoomResponse', {'status': WORK_STATUS})
     except Exception as e:
         print(e)
-        emit('LoginResponse', {'data': 'user already exists'})
+        emit('joinRoomResponse', {'status': FAILED_STATUS})
+
+
+@socketio.on('createRoom')
+def handle_signup(data):
+    try:
+        data_dict = json.loads(data)  # Convert JSON string to Python dictionary
+        user_sockets[request.sid].sendall(
+            requests.CreateRoomRequest(data_dict[ROOM_NAME], data_dict[MAX_USERS], data_dict[QUESTION_COUNT], data_dict[ANSOWER_TIMEOUT]).getMessage())
+
+        serverMessege = Responses.CreateRoomResponse(get_server_message(user_sockets[request.sid]))
+
+        if serverMessege.status == FAILED_STATUS:
+            raise Exception
+        else:
+            emit('createRoomResponse', {'status': WORK_STATUS})
+    except Exception as e:
+        print(e)
+        emit('createRoomResponse', {'status': FAILED_STATUS})
 
 
 def main():

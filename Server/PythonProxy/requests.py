@@ -1,5 +1,6 @@
 from getMesseges import *
 
+
 class LoginRequest:
     def __init__(self, user_name, password):
         self.user_name = user_name
@@ -65,3 +66,22 @@ class CreateRoomRequest:
             "answer_timeout": self.answer_timeout
         }
         return parseRequestToMessage(data, CREATE_ROOM_REQ)
+
+
+class HighScoreRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, GET_HIGH_SCORE_REQ)
+
+
+class LogoutRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, LOGOUT_REQ)
+
+class GetRoomRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, GET_ROOM_REQ)
+
+

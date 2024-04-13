@@ -42,3 +42,15 @@ ADDRESS: str = "address"
 PHONE_NUMBER: str = "phoneNumber"
 BIRTH_DATE: str = "birthDate"
 ROOM_ID = "roomId"
+
+ROOM_NAME = "roomName"
+MAX_USERS = "maxUsers"
+QUESTION_COUNT = "questionCount"
+ANSOWER_TIMEOUT = "answerTimeout"
+
+
+
+
+
+
+
