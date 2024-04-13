@@ -23,7 +23,7 @@ public:
 
 	RequestHandlerFactory(IDatabase* db);
 	~RequestHandlerFactory();
-
+  
 	LoginRequestHandler* createLoginRequestHandler();
 	LoginManager& GetLoginManager();
 
