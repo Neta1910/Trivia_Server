@@ -6,6 +6,7 @@ using json = nlohmann::json;
 
 std::vector<User> SQLiteDatabase::users;
 std::list<Question>  SQLiteDatabase::questions;
+std::vector<HighestScore> SQLiteDatabase::highestScores;
 
 SQLiteDatabase::SQLiteDatabase() :
 	IDatabase()
@@ -25,6 +26,7 @@ bool SQLiteDatabase::open()
 	this->runCommand(CREATE_USERS_TABLE);
 	this->runCommand(CREATE_QUISTIONS_TABLE);
 	this->runCommand(CREATE_STATISTICS_TABLE);
+	this->runCommand(CREATE_HIGHEST_SCORES_TABLE);
 	return true;
 }
 
@@ -121,6 +123,63 @@ void SQLiteDatabase::insertQuestionIntoDB(Question question)
 	this->runCommand(sql);
 }
 
+int SQLiteDatabase::getTotalAmountOfQuestions()
+{
+	std::string query = "SELECT * FROM t_questions;";
+	this->runCommand(query, loadIntoQuestions);
+	return SQLiteDatabase::questions.size();
+}
+
+float SQLiteDatabase::getPlayersAverageAnswerTime(int user_id)
+{
+	float averageAnsTime;
+	std::string query = "SELECT AVERAGE_ANS_TIME FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
+	this->runCommand(query, floatCallBack,&averageAnsTime);
+	return averageAnsTime;
+}
+
+int SQLiteDatabase::getNumOfCorrectAnswers(int user_id)
+{
+	int numOfCorrectAns;
+	std::string query = "SELECT CORRECT_ANS FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
+	this->runCommand(query, integerCallBack, &numOfCorrectAns);
+	return numOfCorrectAns;
+}
+
+int SQLiteDatabase::getNumOfTotalAnswers(int user_id)
+{
+	int numOfTotalAns;
+	std::string query = "SELECT TOTAL_ANS FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
+	this->runCommand(query, integerCallBack, &numOfTotalAns);
+	return numOfTotalAns;
+}
+
+int SQLiteDatabase::getNumOfPlayerGames(int user_id)
+{
+	int numOfGamesPlayed;
+	std::string query = "SELECT GAMES_PLAYED FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
+	this->runCommand(query, integerCallBack, &numOfGamesPlayed);
+	return numOfGamesPlayed;
+}
+
+int SQLiteDatabase::getPlayerScore(int user_id)
+{
+	int playersScore;
+	std::string query = "SELECT HIGHEST_SCORE FROM HIGHEST_SCORES WHERE ID = " + std::to_string(user_id) + " ;";
+	this->runCommand(query, integerCallBack, &playersScore);
+	return playersScore;
+}
+
+std::vector<HighestScore> SQLiteDatabase::getHighScores(int num_of_highScores)
+{
+	std::vector<HighestScore> highestScores;
+	std::string query = "SELECT ID, HIGHEST_SCORE FROM HIGHEST_SCORES ORDER BY HIGHEST_SCORE DESC LIMIT " + std::to_string(num_of_highScores) + " ;";
+	this->runCommand(query, loadIntoHighestScores);
+	return SQLiteDatabase::highestScores;
+}
+
+
+
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
 {
 	SQLiteDatabase::users.clear();
@@ -202,3 +261,48 @@ int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName)
 	SQLiteDatabase::questions.push_back(question);
 	return 0;
 }
+
+int floatCallBack(void* _data, int argc, char** argv, char** azColName)
+{
+	auto& averageAnsTime = *static_cast<float*>(_data);
+	if (argc == 1 && argv[0] != nullptr)
+	{
+		averageAnsTime == std::atoi(argv[0]);
+		return 0;
+	}
+	return 1;
+}
+
+int integerCallBack(void* _data, int argc, char** argv, char** azColName)
+{
+	auto& averageAnsTime = *static_cast<int*>(_data);
+	if (argc == 1 && argv[0] != nullptr)
+	{
+		averageAnsTime == std::atof(argv[0]);
+		return 0;
+	}
+	return 1;
+}
+
+int loadIntoHighestScores(void* _data, int argc, char** argv, char** azColName)
+{
+	HighestScore highScore;
+	for (int i = 0; i < argc; i++)
+	{
+		if (std::string(azColName[i]) == ID)
+		{
+			highScore.user_id = std::stoi(argv[i]);
+		}
+		else if (std::string(azColName[i]) == NAME)
+		{
+			highScore.username = argv[i];
+		}
+		else if (std::string(azColName[i]) == HIGHEST_SCORE)
+		{
+			highScore.newHighScore = std::stof(argv[i]);
+		}
+	}
+	SQLiteDatabase::highestScores.push_back(highScore);
+	return 0;
+}
+

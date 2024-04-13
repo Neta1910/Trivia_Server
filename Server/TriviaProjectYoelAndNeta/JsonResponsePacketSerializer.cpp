@@ -83,6 +83,17 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeHighScoreRespon
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_HIGH_SCORE_RESP); // Parsing the data into a message with the specified response code
 }
 
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(const GetPersonalStatsResponse& response)
+{
+    std::string statsString = "[ ";
+    for (auto it : response.statistics)
+    {
+        statsString += it;
+    }
+    json j = json{ {"statistics", response.statistics}, {"status", response.status} }; // Creating a JSON object j with the message field from the response
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_PERSONAL_STATS_RESP); // Parsing the data into a message with the specified response code
+}
+
 
 
 // Function to parse data into a message
