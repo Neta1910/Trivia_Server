@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Quistion.h"
+#include "HighestScore.h"
 #include <list>
 class IDatabase
 {

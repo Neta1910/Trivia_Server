@@ -36,6 +36,28 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo& reqInfo)
 	}
 }
 
+std::vector<std::string> MenuRequestHandler::statsToVector(userStats user_stats)
+{
+	std::vector<std::string> stats_in_vector;
+	stats_in_vector.push_back(std::to_string(user_stats.total_ans));
+	stats_in_vector.push_back(std::to_string(user_stats.right_ans));
+	stats_in_vector.push_back(std::to_string(user_stats.highScore));
+	stats_in_vector.push_back(std::to_string(user_stats.avg_ans_time));
+	stats_in_vector.push_back(std::to_string(user_stats.games_played));
+	return stats_in_vector;
+}
+
+std::vector<std::string> MenuRequestHandler::highestScoreToVector(std::vector<HighestScore>& highest_scores)
+{
+	std::vector<std::string> highest_scores_in_vector;
+	std::vector<HighestScore>::iterator it;
+	for (it = highest_scores.begin(); it != highest_scores.end(); ++it)
+	{
+		highest_scores_in_vector.push_back(std::to_string((*it).user_id) + (*it).username + std::to_string((*it).newHighScore));
+	}
+	return highest_scores_in_vector;
+}
+
 RequestResult MenuRequestHandler::logOut(RequestInfo& reqInfo)
 {
 	LoginManager::getInstance(this->m_handleFactory.getDatabase()).logout(m_user.getUsername());
@@ -63,13 +85,15 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo& reqInfo)
 
 RequestResult MenuRequestHandler::getPersonalStats(RequestInfo& reqInfo)
 {
-	GetPersonalStatsResponse getPersonalStats_res = { GET_PERSONAL_STATS_RESP, m_handleFactory.getStatisticsManager().getUserStatistics(m_user.getUsername()) };
+	userStats user_stats = m_handleFactory.getStatisticsManager().getUserStatistics(m_user.getId());
+	GetPersonalStatsResponse getPersonalStats_res = { GET_PERSONAL_STATS_RESP, statsToVector(user_stats)};
 	return { JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(getPersonalStats_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
 }
 
 RequestResult MenuRequestHandler::getHighScore(RequestInfo& reqInfo)
 {
-	GetHighScoreResponse getHighScore_res = { GET_HIGH_SCORE_RESP, m_handleFactory.getStatisticsManager().getHighScore() };
+	std::vector<HighestScore> highScores = m_handleFactory.getStatisticsManager().getHighScore();
+	GetHighScoreResponse getHighScore_res = { GET_HIGH_SCORE_RESP, highestScoreToVector(highScores)};
 	return { JsonResponsePacketSerialize::serializeHighScoreResponse(getHighScore_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
 }
 

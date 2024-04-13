@@ -23,7 +23,6 @@
 #define PASSWORD "PASSWORD"
 #define EMAIL "EMAIL"
 #define ID "ID"
-#define NUM_OF_SCORES 5
 
 // t_questions
 #define QUESTION_ID "question_id"

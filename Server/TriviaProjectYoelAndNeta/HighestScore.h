@@ -6,3 +6,4 @@ struct HighestScore
 	std::string username;
 	float newHighScore;
 } typedef HighestScore;
+
