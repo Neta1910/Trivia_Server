@@ -79,9 +79,8 @@ class LogoutRequest:
         data = {}
         return parseRequestToMessage(data, LOGOUT_REQ)
 
+
 class GetRoomRequest:
     def getMessage(self):
         data = {}
         return parseRequestToMessage(data, GET_ROOM_REQ)
-
-

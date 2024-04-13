@@ -37,7 +37,7 @@ class GetRoomsResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
-        self.rooms = [RoomData(**room) for room in json_data["rooms"]]
+        self.rooms = json_data["rooms"]
 
 
 class GetPlayersInRoomResponse:
