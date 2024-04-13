@@ -163,7 +163,7 @@ def handle_signup(data):
 
 
 def main():
-    socketio.run(app, debug=True, port=5000)
+    socketio.run(app, debug=True, port=5000, allow_unsafe_werkzeug=True)
 
 
 if __name__ == "__main__":
