@@ -31,6 +31,7 @@ public:
 	static std::vector<unsigned char> serializeJoinRoomResponse(const JoinRoomResponse& response);
 	static std::vector<unsigned char> serializeCreateRoomResponse(const CreateRoomResponse& response);
 	static std::vector<unsigned char> serializeHighScoreResponse(const GetHighScoreResponse& response);
+	static std::vector<unsigned char> serializeGetPersonalStatsResponse(const GetPersonalStatsResponse& response);
 
 	// general functions
 	static std::vector<unsigned char> parseDataIntoMessage(json j, const int& respCode );

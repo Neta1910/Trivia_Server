@@ -3,6 +3,7 @@
 #include "LoginManager.h"
 #include "RoomManager.h"
 #include "MenuRequestHandler.h"
+#include "StatisticsManager.h"
 
 class LoginManager;
 class LoginRequestHandler;
@@ -31,10 +32,13 @@ public:
 	RoomManager& getRoomManager();
 	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
 
+	StatisticsManager& getStatisticsManager();
 private: 
 
 	LoginManager m_loginManager;
 	IDatabase* m_database;
 	RoomManager m_roomManager;
+	StatisticsManager m_statisticsManager;
+	
 		
 };
