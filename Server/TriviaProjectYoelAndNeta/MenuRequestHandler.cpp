@@ -33,6 +33,8 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo& reqInfo)
 		return this->createRoom(reqInfo);
 	case GET_HIGH_SCORE_REQ:
 		return this->getHighScore(reqInfo);
+	case GET_PERSONAL_STATS_REQ:
+		return this->getPersonalStats(reqInfo);
 	}
 }
 

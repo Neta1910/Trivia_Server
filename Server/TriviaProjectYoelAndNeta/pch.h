@@ -25,7 +25,8 @@ enum RequestCodes
 	GET_PLAYERS_REQ,
 	JOIN_ROOM_REQ,
 	CREATE_ROOM_REQ,
-	GET_HIGH_SCORE_REQ
+	GET_HIGH_SCORE_REQ,
+	GET_PERSONAL_STATS_REQ
 };
 
 // ---- Message constants ----
