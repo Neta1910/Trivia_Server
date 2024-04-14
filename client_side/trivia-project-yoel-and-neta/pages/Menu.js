@@ -1,14 +1,30 @@
-import Link from 'next/link';
+import Image from 'next/image';
+import styles from '../styles/Menu.module.css'
+import NavbarButton
+ from '../componenets/menuButton';
 const Navbar = () => {
   return (
-    <nav>
-      <Link href="/">
-        <a>Home</a>
-      </Link>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </nav>
+    <>
+      <div className={styles.logoImage}>
+      <Image
+        src='/logo.jpg' // Adjust the path based on where you saved it
+        alt="Brain Buzzer Logo"
+        layout = "fixed"
+        width =  {250}
+        height =  {250}
+      />
+      </div>
+
+`     <> 
+      <nav className='navbar'>
+        
+        <NavbarButton 
+          name = "login"
+        />
+
+      </nav>
+      </>
+    </>
   );
 };
 
