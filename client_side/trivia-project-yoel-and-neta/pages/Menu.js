@@ -15,8 +15,8 @@ const Navbar = () => {
       />
       </div>
 
-`     <> 
-      <nav className='navbar'>
+     <> 
+      <nav className= {styles.navbar}>
         
         <NavbarButton 
           name = "login"
