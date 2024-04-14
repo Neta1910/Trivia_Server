@@ -166,6 +166,23 @@ def handle_signup(data):
         emit('logoutResponse', {'status': FAILED_STATUS})
 
 
+@socketio.on('getPersonalStats')
+def handle_signup(data):
+    try:
+        data_dict = json.loads(data)  # Convert JSON string to Python dictionary
+        user_sockets[request.sid].sendall(requests.personalStatsRequest().getMessage())
+
+        serverMessege = Responses.GetPersonalStatsResponse(get_server_message(user_sockets[request.sid]))
+
+        if serverMessege.status == FAILED_STATUS:
+            raise Exception
+        else:
+            emit('getHighScoreResponse', {'status': WORK_STATUS, 'statistics': serverMessege.statistics})
+    except Exception as e:
+        print(e)
+        emit('getHighScoreResponse', {'status': FAILED_STATUS})
+
+
 def main():
     socketio.run(app, debug=True, port=5000, allow_unsafe_werkzeug=True)
 
