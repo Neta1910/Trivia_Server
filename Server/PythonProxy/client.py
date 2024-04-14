@@ -6,22 +6,26 @@ from flask_socketio import SocketIO, emit
 import Responses
 import requests
 from getMesseges import *
+from flask_cors import CORS
 
 # configuring the flax server
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app)
-
+CORS(app)  # Apply CORS to your Flask app with default settings
+socketio = SocketIO(app, cors_allowed_origins="http://localhost:3000")
 user_sockets = {}
 
 
 @socketio.on('connect')
 def handle_connect():
-    user_id = request.sid  # Use the session ID as a unique identifier for the user
-    cpp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    cpp_socket.connect(SERVER_DATA)
-    user_sockets[user_id] = cpp_socket
-    print(f"Connected user {user_id}")
+    try:
+        user_id = request.sid  # Use the session ID as a unique identifier for the user
+        cpp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        cpp_socket.connect(SERVER_DATA)
+        user_sockets[user_id] = cpp_socket
+        print(f"Connected user {user_id}")
+    except ConnectionRefusedError:
+        print("C++ Server is not active")
 
 
 @socketio.on('login')
