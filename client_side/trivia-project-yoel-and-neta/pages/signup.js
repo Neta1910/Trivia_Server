@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import socket from '../socket';
-import Constants from '../constents';
 import { useRouter } from 'next/router';
-import styles from '../styles/login.module.css'
+import styles from '../styles/signup.module.css'
 
 const Signup = () => {
   const router = useRouter();
@@ -18,7 +17,7 @@ const Signup = () => {
   const [emailError, setEmailError] = useState('');
   const [birthDateError, setBirthDateError] = useState('');
   const [phoneNumberError, setPhoneNumberError] = useState('')
-  const [addressError, setAddressError] = useState('';)
+  const [addressError, setAddressError] = useState('');
 
   // Constants for validations
   const MIN_PASSWORD_SIZE = 8;
@@ -81,88 +80,64 @@ const Signup = () => {
   // Function to check birth date validity
   function checkBirth() {
     const pattern = /^(0[1-9]|[12][0-9]|3[01])[\/\.](0[1-9]|1[012])[\/\.]\d{4}$/;
-    if (!pattern.test(birth)) {
+    if (!pattern.test(birthDate)) {
       setBirthDateError("birth date not at format");
       return false;
     }
     return true;
   }
 
-  useEffect(() => {
-    checkEmail();
-    checkPassword();
-    checkAddress();
-    checkPhone();
-    checkBirth();
-  });
-
 
   const handleSignup = (e) => {
-    e.preventDefault(); // Prevent the form from refreshing the page
-    const allValid = checkPassword(password) && checkEmail(email) &&
-      checkAddress(address) && checkPhone(phoneNumber) &&
-      checkBirth(birthDate);
-
-    if (!allValid) {
-      // Handle errors here
-      setPasswordError("Invalid password format");
-      return; // Stop the signup process if validation fails
+    e.preventDefault();
+    if (checkPassword() && checkEmail() && checkAddress() && checkPhone() && checkBirth()) {
+      socket.emit('signup', JSON.stringify({
+        username: userName,
+        password,
+        email,
+        address,
+        phoneNumber,
+        birthDate
+      }));
+      // Optionally navigate the user on successful signup
+      // router.push('/successRoute');
     }
-
-    // Emit the signup event to the server with username and password
-    socket.emit('signup', JSON.stringify({
-      username: userName,
-      password,
-      email,
-      address,
-      phoneNumber,
-      birthDate
-    }));
-
-
-    return (
-      <div className={styles.mainContainer}>
-        <div className={styles.titleContainer}>
-          <div>Signup</div>
-        </div>
-        <br />
-
-        <div className={styles.inputContainer}>
-          <input
-            value={userName}
-            placeholder="Enter your user name here"
-            onChange={(ev) => setUserName(ev.target.value)}
-            className={styles.inputBox}
-          />
-        </div>
-        <br />
-
-        <div className={styles.inputContainer}>
-          <input
-            value={password}
-            placeholder="Enter your password here"
-            onChange={(ev) => setPassword(ev.target.value)}
-            className={styles.inputBox}
-          />
-          <label className={styles.errorLabel}>{passwordError}</label>
-        </div>
-        <br />
-
-        <div className={styles.inputContainer}>
-          <input
-            value={email}
-            placeholder="Enter your email here"
-            onChange={(ev) => setEmail(ev.target.value)}
-            className={styles.inputBox}
-          />
-          <label className={styles.errorLabel}>{emailError}</label>
-        </div>
-        <br />
-        <div className={styles.inputContainer}>
-          <input className={styles.inputButton} type="button" value="Login" onClick={handleLogin} />
-        </div>
-      </div>
-    );
   };
 
-  export default Login;
+
+  return (
+    <div className={styles.mainContainer}>
+      <div className={styles.titleContainer}>
+        <div>Signup</div>
+      </div>
+      <div className={styles.inputContainer}>
+        <input value={userName} placeholder="Enter your user name here" onChange={(ev) => setUserName(ev.target.value)} className={styles.inputBox} />
+      </div>
+      <div className={styles.inputContainer}>
+        <input value={password} placeholder="Enter your password here" onChange={(ev) => setPassword(ev.target.value)} className={styles.inputBox} />
+        <label className={styles.errorLabel}>{passwordError}</label>
+      </div>
+      <div className={styles.inputContainer}>
+        <input value={email} placeholder="Enter your email here" onChange={(ev) => setEmail(ev.target.value)} className={styles.inputBox} />
+        <label className={styles.errorLabel}>{emailError}</label>
+      </div>
+      <div className={styles.inputContainer}>
+        <input value={address} placeholder="Enter your address here" onChange={(ev) => setAddress(ev.target.value)} className={styles.inputBox} />
+        <label className={styles.errorLabel}>{addressError}</label>
+      </div>
+      <div className={styles.inputContainer}>
+        <input value={birthDate} placeholder="Enter your birth date here" onChange={(ev) => setBirthDate(ev.target.value)} className={styles.inputBox} />
+        <label className={styles.errorLabel}>{birthDateError}</label>
+      </div>
+      <div className={styles.inputContainer}>
+        <input value={phoneNumber} placeholder="Enter your phone number here" onChange={(ev) => setPhoneNumber(ev.target.value)} className={styles.inputBox} />
+        <label className={styles.errorLabel}>{phoneNumberError}</label>
+      </div>
+      <div className={styles.inputContainer}>
+        <input className={styles.inputButton} type="button" value="Register" onClick={handleSignup} />
+      </div>
+    </div>
+  );
+};
+
+export default Signup;
