@@ -23,6 +23,7 @@ void Communicator::startHandleRequests()
 			// Output message indicating client acceptance
 			std::cout << "Client accepted. Server and client can speak" << std::endl;
 
+			m_clients[client_socket] = (IRequestHandler*) new LoginRequestHandler(m_handlerFactory.GetLoginManager(), m_handlerFactory);
 			// Create a new thread to handle requests for this client
 			std::thread userThread(&Communicator::handleNewClient, this, client_socket);
 			userThread.detach(); // Detach the thread
@@ -63,27 +64,51 @@ std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, cons
 
 void Communicator::handleNewClient(const SOCKET& userSocket)
 {
-	// Inserting user into the map
-	LoginRequestHandler* newHandler = new LoginRequestHandler(m_handlerFactory);
+	 //Inserting user into the map
+	/*LoginRequestHandler* newHandler = new LoginRequestHandler(m_handlerFactory);
 	this->m_usersMu.lock();
 	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
-	this->m_usersMu.unlock();
+	this->m_usersMu.unlock();*/
 	while (true)
 	{
 		try
 		{
 			std::vector<unsigned char> clientMessage = this->getDataFromSocket(userSocket, MESSEGE_LENGTH);
-			RequestInfo reqInfo;
-			reqInfo.buffer = clientMessage;
-			reqInfo.receivalTime = getCurrentTime();
-			reqInfo.RequestId = clientMessage[0];
-
-			if (newHandler->isRequestRelevant(reqInfo)) // For a valid request, move user to the next state
+			if (clientMessage[0] == MT_CLIENT_EXIT) // Check if user wants to log out
 			{
-				RequestResult resp = newHandler->handleRequest(reqInfo);
-				this->sendData(userSocket, resp.response);
-	
+				if (std::string(clientMessage.begin(), clientMessage.end()) == "logout")
+				{
+					RequestInfo logout_req = { static_cast<RequestCodes>(LOGOUT_REQ), getCurrentTime(), clientMessage };
+					RequestResult res = m_clients.find(userSocket)->second->handleRequest(logout_req);
+				}
+				closesocket(userSocket);
+				m_clients.erase(userSocket);
 			}
+
+			//RequestInfo reqInfo;
+			//reqInfo.buffer = clientMessage;
+			//reqInfo.receivalTime = getCurrentTime();
+			//reqInfo.RequestId = clientMessage[0];
+			RequestInfo reqInfo = { static_cast<RequestCodes>(clientMessage[0]), getCurrentTime(), clientMessage };
+			if (m_clients.find(userSocket)->second != nullptr && m_clients.find(userSocket)->second->isRequestRelevant(reqInfo))
+			{
+				RequestResult resResult = m_clients.find(userSocket)->second->handleRequest(reqInfo);
+				if (resResult.newHandler != nullptr) // Update handler if valid
+				{
+					m_clients.find(userSocket)->second = resResult.newHandler;
+				}
+				//std::string response_as_string = std::string(resResult.response.begin(), resResult.response.end());
+				if (std::string(resResult.response.begin(), resResult.response.end()) != "")
+				{
+					sendData(userSocket, resResult.response);
+				}
+			}
+			//if (newHandler->isRequestRelevant(reqInfo)) // For a valid request, move user to the next state
+			//{
+			//	RequestResult resp = newHandler->handleRequest(reqInfo);
+			//	this->sendData(userSocket, resp.response);
+	
+			//}
 			else // Assemble error response
 			{
 				ErrorResponse err;
