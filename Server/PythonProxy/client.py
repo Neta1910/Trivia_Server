@@ -118,7 +118,6 @@ def handle_signup(data):
 @socketio.on('getHighScore')
 def handle_signup(data):
     try:
-        data_dict = json.loads(data)  # Convert JSON string to Python dictionary
         user_sockets[request.sid].sendall(requests.HighScoreRequest().getMessage())
 
         serverMessege = Responses.GetHighScoreResponse(get_server_message(user_sockets[request.sid]))
@@ -135,7 +134,6 @@ def handle_signup(data):
 @socketio.on('logout')
 def handle_signup(data):
     try:
-        data_dict = json.loads(data)  # Convert JSON string to Python dictionary
         user_sockets[request.sid].sendall(requests.LogoutRequest().getMessage())
 
         serverMessege = Responses.LogoutResponse(get_server_message(user_sockets[request.sid]))
@@ -152,7 +150,6 @@ def handle_signup(data):
 @socketio.on('getRooms')
 def handle_signup(data):
     try:
-        data_dict = json.loads(data)  # Convert JSON string to Python dictionary
         user_sockets[request.sid].sendall(requests.GetRoomRequest().getMessage())
 
         serverMessege = Responses.GetRoomsResponse(get_server_message(user_sockets[request.sid]))
@@ -169,7 +166,6 @@ def handle_signup(data):
 @socketio.on('getPersonalStats')
 def handle_signup(data):
     try:
-        data_dict = json.loads(data)  # Convert JSON string to Python dictionary
         user_sockets[request.sid].sendall(requests.personalStatsRequest().getMessage())
 
         serverMessege = Responses.GetPersonalStatsResponse(get_server_message(user_sockets[request.sid]))

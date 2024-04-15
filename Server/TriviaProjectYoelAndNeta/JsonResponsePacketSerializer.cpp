@@ -77,8 +77,11 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeHighScoreRespon
     json stats = {};
     for (const auto& it : response.statistics)
     {
-        stats[USERNAME] = it.username;
-        stats[HIGH_SCORE] = it.newHighScore;
+        json innerJson = {
+            {USERNAME, it.username},
+            {HIGH_SCORE, it.newHighScore}
+        };
+        stats.push_back(innerJson);
     }
     json j = json{ {"statistics", stats}, {"status", response.status}}; // Creating a JSON object j with the message field from the response
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_HIGH_SCORE_RESP); // Parsing the data into a message with the specified response code

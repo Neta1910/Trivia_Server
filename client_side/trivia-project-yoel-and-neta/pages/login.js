@@ -12,7 +12,6 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault(); // Prevent the form from refreshing the page
-    console.log('data sent');
     // Emit the login event to the server with username and password
     socket.emit('login', JSON.stringify({
       username : userName,
@@ -27,6 +26,10 @@ const Login = () => {
         setPasswordError("Wrong password");
       }
     });
+
+    return () => {
+      socket.off('LoginResponse');
+  };
   };
 
 
