@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import socket from '../socket';
 import Constants from '../constents';
 import { useRouter } from 'next/router';
 import styles from '../styles/login.module.css'
+import { useSocket } from '../componenets/socketContext';
+
 
 const Login = () => {
   const router = useRouter();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
-
+  const socket = useSocket();
+  
   const handleLogin = (e) => {
     e.preventDefault(); // Prevent the form from refreshing the page
-    console.log('data sent');
     // Emit the login event to the server with username and password
     socket.emit('login', JSON.stringify({
       username : userName,
@@ -22,11 +23,16 @@ const Login = () => {
     // Listen for the login response from the server
     socket.on('LoginResponse', (response) => {
       if (response.status === Constants.WORK_STATUS) {
-        router.push('/menu');
+        console.log('Login response');
+        router.push('/Menu');
       } else {
         setPasswordError("Wrong password");
       }
     });
+
+    return () => {
+      socket.off('LoginResponse');
+  };
   };
 
 

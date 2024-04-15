@@ -3,7 +3,7 @@
 #include <iostream>
 #include "IDatabase.h"
 
-#define NUM_OF_SCORES 5
+#define NUM_OF_SCORES 3
 
 struct userStats
 {

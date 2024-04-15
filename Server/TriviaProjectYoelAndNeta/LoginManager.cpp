@@ -13,13 +13,11 @@ bool LoginManager::signUp(const std::string& name, const std::string& password, 
 	{
 		return false;
 	}
-	// checking for regex
-	if (UserCheckers::checkAddress(address) && UserCheckers::checkBirth(birthDate) && UserCheckers::checkEmail(email) && UserCheckers::checkPassword(password) && UserCheckers::checkPhone(phoneNumber))
-	{
-		m_database->addNewUser(name, password, email, address, birthDate, phoneNumber);
-		return true;
-	}
-	return false;
+
+	// no need to chck for regex in server - already checking in fronend
+	m_database->addNewUser(name, password, email, address, birthDate, phoneNumber);
+	return true;
+
 }
 
 bool LoginManager::login(std::string username, std::string password)
@@ -28,7 +26,7 @@ bool LoginManager::login(std::string username, std::string password)
 	{
 		return false;
 	}
-	if (m_database->doesPasswordMatch(username, password))
+	if (!m_database->doesPasswordMatch(username, password))
 	{
 		return false;
 	}

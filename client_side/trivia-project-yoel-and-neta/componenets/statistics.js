@@ -1,16 +1,11 @@
 import { useState, useEffect } from 'react';
+import socket from '../socket.js';
 import Constants from '../constents.js';
 import HighScoreCard from './highScoreCard.js';
 import styles from '../styles/highScores.module.css'
-import LoadingBar from './loadingData.js';
-import { useSocket } from './socketContext.js'
-
 
 const HighScores = () => { 
-  const [highScores, setHighScores] = useState([]); // Initialize as an array
-  const [loading, setLoading] = useState(true); // Track loading state
-  const [error, setError] = useState(null); // Track error state
-  const socket = useSocket();
+    const [highScores, setHighScores] = useState({});
     useEffect(() => {
         socket.emit('getHighScore');
       
@@ -18,12 +13,7 @@ const HighScores = () => {
           socket.on('getHighScoreResponse', (response) => {
             if (response.status === Constants.WORK_STATUS) {
               setHighScores(JSON.parse(response.statistics));
-              setLoading(false);
             } else {
-              console.log("response: " + response);
-              setLoading(false);
-              setError("Failed to load high scores");
-              setLoading(false);
             }
           });
 
@@ -32,11 +22,8 @@ const HighScores = () => {
         };
       }, []);
 
-      if (loading) return <LoadingBar />;
-      if (error) return <p>{error}</p>;
-
       return (
-          <div>
+          <div className={styles.container}>
               <h1 className={styles.title}>High Scores</h1>
               {highScores.length > 0 ? (
                   highScores.map((score, index) => (
@@ -48,5 +35,3 @@ const HighScores = () => {
           </div>
       );
 }
-
-export default HighScores 

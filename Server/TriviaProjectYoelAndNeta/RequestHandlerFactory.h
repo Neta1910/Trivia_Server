@@ -39,6 +39,5 @@ private:
 	IDatabase* m_database;
 	RoomManager m_roomManager;
 	StatisticsManager m_statisticsManager;
-	
 		
 };

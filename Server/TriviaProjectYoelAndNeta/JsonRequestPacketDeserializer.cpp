@@ -11,7 +11,7 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(const std::v
 SignUpRequest JsonRequestPacketDeserializer::deserializeSignUpRequest(const std::vector<unsigned char> buffer)
 {
 	json json_data = JsonRequestPacketDeserializer::convertBuferToRequestParser(buffer);
-	return SignUpRequest({ json_data[USERNAME], json_data[PASSWORD], json_data[EMAIL]});
+	return SignUpRequest({ json_data[USERNAME], json_data[PASSWORD], json_data[EMAIL], json_data[ADDRESS], json_data[PHONE_NUMBER], json_data[BIRTH_DATE]});
 }
 
 GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(const std::vector<unsigned char> buffer)

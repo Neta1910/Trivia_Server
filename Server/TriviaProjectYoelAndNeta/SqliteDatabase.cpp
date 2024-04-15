@@ -46,7 +46,7 @@ bool SQLiteDatabase::doesUserExist(const std::string& userName)
 bool SQLiteDatabase::doesPasswordMatch(const std::string& username, const std::string& password)
 {
 	std::string userPassword; 
-	std::string query = "SELECT PASSWORD FROM USERS WHERE USERNAME = '" + username + "';";
+	std::string query = "SELECT PASSWORD FROM USERS WHERE NAME = '" + username + "';";
 	runCommand(query, callbackUserPassword, &userPassword);
 	return userPassword == password;
 }
@@ -190,6 +190,22 @@ bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(
 	{
 		std::cout << "error code: " << res;
 		return false;
+	}
+	return true;
+}
+
+bool SQLiteDatabase::comparePasswords(const std::string& onePassword, const std::string& secondPassword)
+{
+	if (onePassword.length() != secondPassword.length())
+	{
+		return false;
+	}
+	for (int i = 0; i < onePassword.length(); i++)
+	{
+		if (onePassword[i] != secondPassword[i])
+		{
+			return false;
+		}
 	}
 	return true;
 }

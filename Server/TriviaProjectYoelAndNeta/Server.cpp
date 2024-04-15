@@ -24,6 +24,8 @@ Server::Server(IDatabase* db) : m_database(db), m_handlerFactory(db)
 	if (_serverSocket == INVALID_SOCKET)
 	{
 		std::cout << "Error: " << WSAGetLastError() << std::endl;
+		closesocket(_serverSocket);
+		std::cerr << "Closed socket since an error occoured " << std::endl;
 		throw std::exception(__FUNCTION__ " - socket");
 	}
 }

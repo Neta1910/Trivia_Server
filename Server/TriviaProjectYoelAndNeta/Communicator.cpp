@@ -53,6 +53,7 @@ std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, cons
 	{
 		std::string s = "Error while recieving from socket: ";
 		s += std::to_string(sc);
+		closesocket(sc);
 		throw std::exception(s.c_str());
 	}
 	data[bytesNum] = 0;
@@ -64,7 +65,7 @@ std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, cons
 void Communicator::handleNewClient(const SOCKET& userSocket)
 {
 	// Inserting user into the map
-	LoginRequestHandler* newHandler = new LoginRequestHandler(m_handlerFactory);
+ 	LoginRequestHandler* newHandler = new LoginRequestHandler(m_handlerFactory);
 	this->m_usersMu.lock();
 	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
 	this->m_usersMu.unlock();
@@ -82,7 +83,6 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 			{
 				RequestResult resp = newHandler->handleRequest(reqInfo);
 				this->sendData(userSocket, resp.response);
-	
 			}
 			else // Assemble error response
 			{

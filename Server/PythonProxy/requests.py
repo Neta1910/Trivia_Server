@@ -73,6 +73,11 @@ class HighScoreRequest:
         data = {}
         return parseRequestToMessage(data, GET_HIGH_SCORE_REQ)
 
+class personalStatsRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, GET_PERSONAL_STATS_REQ)
+
 
 class LogoutRequest:
     def getMessage(self):
