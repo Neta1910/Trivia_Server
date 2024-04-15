@@ -50,3 +50,6 @@ enum RequestCodes
 #define MIN_NUM_OF_QUESTIONS 1
 #define ACTIVE_ROOM 1
 #define INACTIVE_ROOM 0 
+
+// ---- Statistics Settings ----
+#define HIGH_SCORE "highestScore"
