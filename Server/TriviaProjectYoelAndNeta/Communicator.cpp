@@ -53,6 +53,7 @@ std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, cons
 	{
 		std::string s = "Error while recieving from socket: ";
 		s += std::to_string(sc);
+		closesocket(sc);
 		throw std::exception(s.c_str());
 	}
 	data[bytesNum] = 0;

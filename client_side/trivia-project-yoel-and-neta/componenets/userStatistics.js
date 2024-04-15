@@ -24,7 +24,7 @@ const UserStats = () => {
               setLoading(false);
             } else {
               setLoading(false);
-              setError("Failed to load high scores");
+              setError("Failed to load user stats");
               setLoading(false);
             }
           });
