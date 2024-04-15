@@ -62,9 +62,8 @@ def handle_signup(data):
 
 
 @socketio.on('getPlayersInRoom')
-def handle_signup(data):
+def handle_get_players():
     try:
-        data_dict = json.loads(data)  # Convert JSON string to Python dictionary
         user_sockets[request.sid].sendall(
             requests.GetPlayersInRoomRequest(data_dict[ROOM_ID]).getMessage())
 
@@ -79,7 +78,7 @@ def handle_signup(data):
 
 
 @socketio.on('joinRoom')
-def handle_signup(data):
+def handle_join_room(data):
     try:
         data_dict = json.loads(data)  # Convert JSON string to Python dictionary
         user_sockets[request.sid].sendall(
@@ -97,7 +96,7 @@ def handle_signup(data):
 
 
 @socketio.on('createRoom')
-def handle_signup(data):
+def handle_create_room(data):
     try:
         data_dict = json.loads(data)  # Convert JSON string to Python dictionary
         user_sockets[request.sid].sendall(
@@ -116,7 +115,7 @@ def handle_signup(data):
 
 
 @socketio.on('getHighScore')
-def handle_signup(data):
+def handle_get_high():
     try:
         user_sockets[request.sid].sendall(requests.HighScoreRequest().getMessage())
 
@@ -132,7 +131,7 @@ def handle_signup(data):
 
 
 @socketio.on('logout')
-def handle_signup(data):
+def handle_logout():
     try:
         user_sockets[request.sid].sendall(requests.LogoutRequest().getMessage())
 
@@ -148,7 +147,7 @@ def handle_signup(data):
 
 
 @socketio.on('getRooms')
-def handle_signup(data):
+def handle_get_rooms():
     try:
         user_sockets[request.sid].sendall(requests.GetRoomRequest().getMessage())
 
@@ -164,7 +163,7 @@ def handle_signup(data):
 
 
 @socketio.on('getPersonalStats')
-def handle_signup(data):
+def handle_get_personal_stats():
     try:
         user_sockets[request.sid].sendall(requests.personalStatsRequest().getMessage())
 
@@ -173,10 +172,10 @@ def handle_signup(data):
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('getHighScoreResponse', {'status': WORK_STATUS, 'statistics': serverMessege.statistics})
+            emit('getPersonalStatsResponse', {'status': WORK_STATUS, 'statistics': serverMessege.statistics})
     except Exception as e:
         print(e)
-        emit('getHighScoreResponse', {'status': FAILED_STATUS})
+        emit('getPersonalStatsResponse', {'status': FAILED_STATUS})
 
 
 def main():
