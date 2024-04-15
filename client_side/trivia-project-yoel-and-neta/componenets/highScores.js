@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
-import socket from '../socket.js';
 import Constants from '../constents.js';
 import HighScoreCard from './highScoreCard.js';
 import styles from '../styles/highScores.module.css'
 import LoadingBar from './loadingData.js';
+import { useSocket } from './socketContext.js'
+
 
 const HighScores = () => { 
   const [highScores, setHighScores] = useState([]); // Initialize as an array
   const [loading, setLoading] = useState(true); // Track loading state
   const [error, setError] = useState(null); // Track error state
-
+  const socket = useSocket();
     useEffect(() => {
         socket.emit('getHighScore');
       

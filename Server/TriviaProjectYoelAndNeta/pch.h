@@ -33,6 +33,10 @@ enum RequestCodes
 #define USERNAME "username"
 #define PASSWORD "password"
 #define EMAIL "email"
+#define ADDRESS "address"
+#define PHONE_NUMBER "phone_number"
+#define BIRTH_DATE "birth_date"
+
 
 // ---- Error Messages ----
 #define INVALID_REQUEST "Invalid Request"

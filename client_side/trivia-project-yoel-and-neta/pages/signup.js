@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import socket from '../socket';
 import { useRouter } from 'next/router';
 import styles from '../styles/signup.module.css'
+import Constants from '../constents';
 
 const Signup = () => {
   const router = useRouter();
@@ -21,6 +22,24 @@ const Signup = () => {
 
   // Constants for validations
   const MIN_PASSWORD_SIZE = 8;
+
+  useEffect(() => {
+    // Event listener for 'SignUpResponse'
+    socket.on('SignUpResponse', (response) => {
+      if (response.status === Constants.WORK_STATUS) {
+        alert('worked');
+        router.push('/Menu');
+      } else {
+        setPasswordError("Something went wrong");
+      }
+    });
+
+    // Cleanup: remove event listener when component unmounts
+    return () => {
+      socket.off('SignUpResponse');
+    };
+  }, []); // empty dependency array ensures the effect runs only once when component mounts
+
 
   // Function to check password validity
   function checkPassword() {
@@ -44,6 +63,7 @@ const Signup = () => {
       setAddressError("Password must contain a digit");
       return false;
     }
+    setPasswordError('');
     return true;
   }
 
@@ -54,6 +74,7 @@ const Signup = () => {
       setEmailError("Email is not at format");
       return false;
     }
+    setEmailError('');
     return true;
   }
 
@@ -64,6 +85,7 @@ const Signup = () => {
       setAddressError("Address is not at format");
       return false;
     }
+    setAddressError('');
     return true;
   }
 
@@ -74,6 +96,7 @@ const Signup = () => {
       setPhoneNumberError("Phone number is not at format");
       return false;
     };
+    setPhoneNumberError('');
     return true;
   }
 
@@ -84,6 +107,7 @@ const Signup = () => {
       setBirthDateError("birth date not at format");
       return false;
     }
+    setBirthDateError('');
     return true;
   }
 
@@ -99,10 +123,9 @@ const Signup = () => {
         phoneNumber,
         birthDate
       }));
-      // Optionally navigate the user on successful signup
-      // router.push('/successRoute');
     }
   };
+
 
 
   return (

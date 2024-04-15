@@ -4,17 +4,16 @@ import { MdHighScore } from 'react-icons/md';
 import { FaRegClock, FaGamepad, FaQuestionCircle } from 'react-icons/fa';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import CountUp from 'react-countup';
-import socket from '../socket.js';
 import Constants from '../constents.js';
 import styles from '../styles/userStatistics.module.css'
 import LoadingBar from './loadingData.js';
-
+import { useSocket } from './socketContext.js'
 
 const UserStats = () => { 
   const [userStats, setUserStats] = useState([]); // Initialize as an array
   const [loading, setLoading] = useState(true); // Track loading state
   const [error, setError] = useState(null); // Track error state
-
+  const socket = useSocket();
     useEffect(() => {
         socket.emit('getPersonalStats');
       
@@ -24,7 +23,7 @@ const UserStats = () => {
               setUserStats(JSON.parse(response.statistics));
               setLoading(false);
             } else {
-              setLoadStatus(false);
+              setLoading(false);
               setError("Failed to load high scores");
               setLoading(false);
             }

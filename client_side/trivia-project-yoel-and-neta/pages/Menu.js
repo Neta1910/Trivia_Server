@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import styles from '../styles/Menu.module.css'
-import NavbarButton
- from '../componenets/menuButton';
+import NavbarButton from '../componenets/menuButton';
 const Navbar = () => {
   return (
     <>
