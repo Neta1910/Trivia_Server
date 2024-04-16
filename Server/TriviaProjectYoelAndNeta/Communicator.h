@@ -8,6 +8,7 @@
 #include <mutex>
 #include <vector>
 #include <map>
+#include "MenuRequestHandler.h"
 
 class Communicator
 {
