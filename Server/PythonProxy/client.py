@@ -145,6 +145,9 @@ def handle_logout():
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
+            # closing the socket
+            user_sockets[request.remote_addr].close()
+            user_sockets.pop(request.remote_addr)
             emit('logoutResponse', {'status': WORK_STATUS})
     except Exception as e:
         print(e)
