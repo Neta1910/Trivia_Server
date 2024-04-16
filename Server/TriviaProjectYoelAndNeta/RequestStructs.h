@@ -1,17 +1,18 @@
 #pragma once
-#include "pch.h"
-
+#include <string>
+#include <vector>
+#include <chrono>
 class IRequestHandler; // Forward declaration
 
 
-struct LoginRequest
+typedef struct LoginRequest
 {
 	std::string userName;
 	std::string password;
-} typedef LoginRequest;
+};
 
 
-struct SignUpRequest
+typedef struct SignUpRequest
 {
 	std::string userName;
 	std::string password;
@@ -19,17 +20,35 @@ struct SignUpRequest
 	std::string address;
 	std::string phoneNumber;
 	std::string birthDate;
-} typedef SignUpRequest;
+};
 
-struct RequestResult
+typedef struct RequestResult
 {
 	std::vector<unsigned char> response;
 	IRequestHandler* newHandler;
-} typedef RequestResult;
+};
 
-struct RequestInfo
+typedef struct RequestInfo
 {
 	int RequestId;
 	std::time_t receivalTime;
 	std::vector<unsigned char> buffer;
-} typedef RequestInfo ;
+};
+
+typedef struct GetPlayersInRoomRequest
+{
+	unsigned int roomId;
+};
+
+typedef struct JoinRoomRequest
+{
+	unsigned int roomId;
+};
+
+typedef struct CreateRoomRequest
+{
+	std::string roomName;
+	unsigned int maxUsers;
+	unsigned int questionCount;
+	unsigned int answerTimeout;
+};

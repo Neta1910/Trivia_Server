@@ -9,10 +9,7 @@
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeLoginResponse(const LoginResponse& response)
 {
     json j = json{ {"status", response.status} }; // Creating a JSON object j with the status field from the response
-    std::string json_str = j.dump(); // Converting the JSON object to a string
-    // Convert string to bytes
-    std::vector<unsigned char> bytes(json_str.begin(), json_str.end()); // Creating a vector of unsigned char containing the bytes of the JSON string
-    return JsonResponsePacketSerialize::parseDataIntoMessage(bytes, CODE_LOGIN_RESP); // Parsing the data into a message with the specified response code
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, CODE_LOGIN_RESP); // Parsing the data into a message with the specified response code
 }
 
 
@@ -20,25 +17,94 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeLoginResponse(c
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeSignUpResponse(const SignupResponse& response)
 {
     json j = json{ {"status", response.status} }; // Creating a JSON object j with the status field from the response
-    std::string json_str = j.dump(); // Converting the JSON object to a string
-    // Convert string to bytes
-    std::vector<unsigned char> bytes(json_str.begin(), json_str.end()); // Creating a vector of unsigned char containing the bytes of the JSON string
-    return JsonResponsePacketSerialize::parseDataIntoMessage(bytes, CODE_SIGN_UP_RESP); // Parsing the data into a message with the specified response code
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, CODE_SIGN_UP_RESP); // Parsing the data into a message with the specified response code
 }
 
 // Function to serialize error response into a vector of unsigned char
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeErrorResponse(const ErrorResponse& response)
 {
     json j = json{ {"message", response.message} }; // Creating a JSON object j with the message field from the response
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, CODE_ERROR_RESPONSE); // Parsing the data into a message with the specified response code
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeLogoutResponse(const LogoutResponse& response)
+{
+    json j = json{ {"status", response.status} }; // Creating a JSON object j with the message field from the response
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, LOGOUT_RESP); // Parsing the data into a message with the specified response code
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetRoomResponse(const GetRoomsResponse& response)
+{
+    std::string roomsString = "[ ";
+    for (auto it = response.rooms.begin(); it != response.rooms.begin(); ++it)
+    {
+        roomsString += "id: " + std::to_string(it->id) + ", ";
+        roomsString += "name: " + it->name + ", ";
+        roomsString += "maxPlayers: " + std::to_string(it->maxPlayers) + ", ";
+        roomsString += "numOfQuestionsInGame: " + std::to_string(it->numOfQuestionsInGame);
+        roomsString += "timePerQuestion: " + std::to_string(it->timePerQuestion) + ", ";
+        roomsString += "isActive: " + std::to_string(it->isActive) + "]";
+    }
+    json j = json{ {"rooms", roomsString}, {"status", response.status}}; // Creating a JSON object j with the message field from the response
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_ROOM_RESP); // Parsing the data into a message with the specified response code
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetPlayersInRoomResponse(const GetPlayersInRoomResponse& response)
+{
+    std::string playersString = "[ ";
+    for (auto it = response.players.begin(); it != response.players.end(); it++)
+    {
+        playersString += *it;
+    }
+    json j = json{ {"players", playersString} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_PLAYERS_RESP); // Parsing the data into a message with the specified response code
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeJoinRoomResponse(const JoinRoomResponse& response)
+{
+    json j = json{ {"status", response.status} }; // Creating a JSON object j with the message field from the response
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, JOIN_ROOM_RESP); // Parsing the data into a message with the specified response code
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeCreateRoomResponse(const CreateRoomResponse& response)
+{
+    json j = json{ {"status", response.status} }; // Creating a JSON object j with the message field from the response
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, CREATE_ROOM_RESP); // Parsing the data into a message with the specified response code
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeHighScoreResponse(const GetHighScoreResponse& response)
+{
+    json stats = {};
+    for (const auto& it : response.statistics)
+    {
+        json innerJson = {
+            {USERNAME, it.username},
+            {HIGH_SCORE, it.newHighScore}
+        };
+        stats.push_back(innerJson);
+    }
+    json j = json{ {"statistics", stats}, {"status", response.status}}; // Creating a JSON object j with the message field from the response
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_HIGH_SCORE_RESP); // Parsing the data into a message with the specified response code
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(const GetPersonalStatsResponse& response)
+{
+    json statsJson = { {"user_id", response.statistics.user_id}, {"total_ans", response.statistics.total_ans}, {"avg_ans_time", response.statistics.avg_ans_time }, {"games_played", response.statistics.games_played}, {"highScore", response.statistics.highScore}, {"right_ans", response.statistics.right_ans} };
+    json j = json{ {"statistics", statsJson}, {"status", response.status}}; // Creating a JSON object j with the message field from the response
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_PERSONAL_STATS_RESP); // Parsing the data into a message with the specified response code
+}
+
+
+
+// Function to parse data into a message
+std::vector<unsigned char> JsonResponsePacketSerialize::parseDataIntoMessage(json j, const int& respCode)
+{
+
     std::string json_str = j.dump(); // Converting the JSON object to a string
     // Convert string to bytes
     std::vector<unsigned char> bytes(json_str.begin(), json_str.end()); // Creating a vector of unsigned char containing the bytes of the JSON string
-    return JsonResponsePacketSerialize::parseDataIntoMessage(bytes, CODE_ERROR_RESPONSE); // Parsing the data into a message with the specified response code
-}
 
-// Function to parse data into a message
-std::vector<unsigned char> JsonResponsePacketSerialize::parseDataIntoMessage(const std::vector<unsigned char>& data, const int& respCode)
-{
+
     std::vector<unsigned char> res; // Creating a vector of unsigned char to hold the resulting message
 
     // putting the code inside
@@ -50,11 +116,11 @@ std::vector<unsigned char> JsonResponsePacketSerialize::parseDataIntoMessage(con
     res.insert(res.end(), code.begin(), code.end()); // Inserting the bytes of the response code into the result
 
     // getting message size 
-    std::vector<unsigned char> sizeOfMessage = JsonResponsePacketSerialize::turnIntToBytes(data.size()); // Converting the size of the data to bytes
+    std::vector<unsigned char> sizeOfMessage = JsonResponsePacketSerialize::turnIntToBytes(bytes.size()); // Converting the size of the data to bytes
     res.insert(res.end(), sizeOfMessage.begin(), sizeOfMessage.end()); // Inserting the bytes of the message size into the result
 
     // putting in the message data
-    res.insert(res.end(), data.begin(), data.end()); // Inserting the bytes of the message data into the result
+    res.insert(res.end(), bytes.begin(), bytes.end()); // Inserting the bytes of the message data into the result
 
     return res; // Returning the resulting message
 }
