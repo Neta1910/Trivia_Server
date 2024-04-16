@@ -33,6 +33,8 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo& reqInfo)
 		return this->createRoom(reqInfo);
 	case GET_HIGH_SCORE_REQ:
 		return this->getHighScore(reqInfo);
+	case GET_PERSONAL_STATS_REQ:
+		return this->getPersonalStats(reqInfo);
 	}
 }
 
@@ -86,14 +88,14 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo& reqInfo)
 RequestResult MenuRequestHandler::getPersonalStats(RequestInfo& reqInfo)
 {
 	userStats user_stats = m_handleFactory.getStatisticsManager().getUserStatistics(m_user.getId());
-	GetPersonalStatsResponse getPersonalStats_res = { GET_PERSONAL_STATS_RESP, statsToVector(user_stats)};
+	GetPersonalStatsResponse getPersonalStats_res = { GET_PERSONAL_STATS_RESP, user_stats};
 	return { JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(getPersonalStats_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
 }
 
 RequestResult MenuRequestHandler::getHighScore(RequestInfo& reqInfo)
 {
 	std::vector<HighestScore> highScores = m_handleFactory.getStatisticsManager().getHighScore();
-	GetHighScoreResponse getHighScore_res = { GET_HIGH_SCORE_RESP, highestScoreToVector(highScores)};
+	GetHighScoreResponse getHighScore_res = { GET_HIGH_SCORE_RESP, highScores};
 	return { JsonResponsePacketSerialize::serializeHighScoreResponse(getHighScore_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
 }
 
