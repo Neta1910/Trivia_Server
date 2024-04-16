@@ -161,10 +161,10 @@ def handle_get_rooms():
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('logoutResponse', {'status': WORK_STATUS, 'rooms': serverMessege.rooms})
+            emit('getRoomsResponse', {'status': WORK_STATUS, 'rooms': serverMessege.rooms})
     except Exception as e:
         print(e)
-        emit('logoutResponse', {'status': FAILED_STATUS})
+        emit('getRoomsResponse', {'status': FAILED_STATUS})
 
 
 @socketio.on('getPersonalStats')

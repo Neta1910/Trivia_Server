@@ -1,11 +1,33 @@
 import React from 'react';
-import styles from './RoomCard.module.css';
 import { FaUsers, FaRegQuestionCircle, FaClock, FaToggleOn, FaToggleOff } from 'react-icons/fa';
+import { useSocket } from './socketContext';
 import styles from '../styles/RoomCard.module.css';
 
-const RoomCard = ({ roomName, maxPlayers, numOfQuestionsInGame, timePerQuestion, isActive }) => {
+const RoomCard = ({ roomId, roomName, maxPlayers, numOfQuestionsInGame, timePerQuestion, isActive }) => {
+    const socket = useSocket();
+    
+    const handleClick = () => {
+        socket.emit('joinRoom', JSON.stringify(roomId));
+
+        // Listen for the login response from the server
+        socket.on('joinRoomResponse', (response) => {
+            if (response.status === Constants.WORK_STATUS) {
+                router.push({
+                    pathname: '/rooms/[roomsId]',
+                    query: {roomId}
+                });
+            } else {
+                alert('somthing went wrong');
+            }
+        });
+
+        return () => {
+            socket.off('joinRoomResponse');
+        }
+    }
+
     return (
-        <div className={styles.card}>
+        <div className={styles.card} onClick={handleClick}>
             <div className={styles.header}>
                 <h2>{roomName}</h2>
                 <div className={styles.status}>
