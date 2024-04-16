@@ -3,7 +3,7 @@
 #define WORK_STATUS 1
 #define FAIL_STATUS 0
 
-LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handleFactory) : m_handleFactory(handleFactory)
+LoginRequestHandler::LoginRequestHandler(LoginManager& loginManager, RequestHandlerFactory& handleFactory) : m_handleFactory(handleFactory), m_loginManager(loginManager)
 {
 }
 

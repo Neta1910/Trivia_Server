@@ -32,6 +32,7 @@ private:
 	std::vector  <unsigned char> charToUnsigned(const char* data, const int& length );
 	char* unsignedToChar(const std::vector<unsigned char>& data);
 	time_t getCurrentTime();
+	//int getMessageCode()
 
 	SOCKET m_serverSocket;
 	std::map <SOCKET, IRequestHandler*> m_clients;

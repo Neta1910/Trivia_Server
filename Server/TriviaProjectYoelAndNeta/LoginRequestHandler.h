@@ -9,15 +9,16 @@ class RequestHandlerFactory;
 class LoginRequestHandler : public IRequestHandler
 {
 public:
-	static LoginRequestHandler& getInstance(RequestHandlerFactory& handleFactory)
+	static LoginRequestHandler& getInstance(LoginManager& loginManager, RequestHandlerFactory& handleFactory)
 	{
-		static LoginRequestHandler instance(handleFactory);
+		static LoginRequestHandler instance(loginManager, handleFactory);
 		return instance;
 	}
 
-	LoginRequestHandler(RequestHandlerFactory& handleFactory);
+	LoginRequestHandler(LoginManager& loginManager, RequestHandlerFactory& handleFactory);
 	bool isRequestRelevant(RequestInfo& reqInfo) override;
 	RequestResult handleRequest(RequestInfo& reqInfo) override;
 private:
+	LoginManager& m_loginManager;
 	RequestHandlerFactory& m_handleFactory;
 };
