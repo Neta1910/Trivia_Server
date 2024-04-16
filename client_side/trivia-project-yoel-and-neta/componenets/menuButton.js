@@ -8,36 +8,35 @@ import { AiOutlineEnter } from "react-icons/ai";
 
 
 const NavbarButton = (props) => {
-    let Component;
-  
-    useEffect(() => {
-      // Dynamically import the icon component
-      switch (props.name) {
-        case "createRoom":
-            Component = FaPlus;
-            break;
-        case "joinRoom":
-            Component = AiOutlineEnter;
-            break;
-        case "statistics":
-            Component = FcStatistics;
-            break;
-        case "logout":
-            Component = TbLogout2;
-            break;
-        
-        default:
-            break;
-      }
-    }, [props.icon]); // Include props.icon in the dependency array to re-import when it changes
-  
-    return (
-      <Link href={`/${props.name}`} passHref className={styles.navbarItem}>
-        {Component ? <Component /> : <p>No component matched!</p>}
-        <div className={styles.navbarItemText}>
-          <h1>{props.name}</h1>
-        </div>
-      </Link>
-    );
+  let Component;
+
+  // Dynamically import the icon component
+  switch (props.name) {
+    case "CreateRoom":
+      Component = FaPlus;
+      break;
+    case "JoinRoom":
+      Component = AiOutlineEnter;
+      break;
+    case "statistics":
+      Component = FcStatistics;
+      break;
+    case "logout":
+      Component = TbLogout2;
+      break;
+
+    default:
+      Component = TbLogout2;
+      break;
   }
+
+  return (
+    <Link href={`/${props.name}`} passHref className={styles.navbarItem}>
+      {Component ? <Component /> : <p>No component matched!</p>}
+      <div className={styles.navbarItemText}>
+        <h1>{props.name}</h1>
+      </div>
+    </Link>
+  );
+}
 export default NavbarButton;

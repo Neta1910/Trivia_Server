@@ -5,23 +5,35 @@ const Navbar = () => {
   return (
     <>
       <div className={styles.logoImage}>
-      <Image
-        src='/logo.jpg' // Adjust the path based on where you saved it
-        alt="Brain Buzzer Logo"
-        layout = "fixed"
-        width =  {250}
-        height =  {250}
-      />
+        <Image
+          src='/logo.jpg' // Adjust the path based on where you saved it
+          alt="Brain Buzzer Logo"
+          layout="fixed"
+          width={250}
+          height={250}
+        />
       </div>
 
-     <> 
-      <nav className= {styles.navbar}>
-        
-        <NavbarButton 
-          name = "login"
-        />
+      <>
+        <nav className={styles.navbar}>
 
-      </nav>
+          <NavbarButton
+            name="CreateRoom"
+          />
+
+          <NavbarButton
+            name="JoinRoom"
+          />
+
+          <NavbarButton
+            name="statistics"
+          />
+
+          <NavbarButton
+            name="logout"
+          />
+          
+        </nav>
       </>
     </>
   );
