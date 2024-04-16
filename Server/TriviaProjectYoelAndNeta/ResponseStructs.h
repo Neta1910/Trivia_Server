@@ -56,3 +56,27 @@ typedef struct CreateRoomResponse
 {
 	unsigned int status;
 };
+// ---------------- V3 ---------------------------
+typedef struct CloseRoomResponse
+{
+	unsigned int status;
+};
+
+typedef struct StartGameResponse
+{
+	unsigned int status;
+};
+
+typedef struct GetRoomStateResponse
+{
+	unsigned int status;
+	bool hasGameBegun;
+	std::vector<std::string> players;
+	unsigned int questionCount;
+	float answerTimeout;
+};
+
+typedef struct LeaveRoomResponse
+{
+	unsigned int status;
+};
