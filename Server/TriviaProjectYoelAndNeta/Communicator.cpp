@@ -38,7 +38,7 @@ void Communicator::startHandleRequests()
 
 void Communicator::sendData(const SOCKET sc, std::vector<unsigned char>& message, const int& flags)
 {
-	if (send(sc, this->unsignedToChar(message) , message.size() * sizeof(unsigned char), 0) == INVALID_SOCKET)
+	if (send(sc, this->unsignedToChar(message), message.size() * sizeof(unsigned char), 0) == INVALID_SOCKET)
 	{
 		throw std::exception("Error while sending message to client");
 	}
@@ -54,7 +54,6 @@ std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, cons
 	{
 		std::string s = "Error while recieving from socket: ";
 		s += std::to_string(sc);
-		closesocket(sc);
 		throw std::exception(s.c_str());
 	}
 	data[bytesNum] = 0;
@@ -65,11 +64,11 @@ std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, cons
 
 void Communicator::handleNewClient(const SOCKET& userSocket)
 {
-	// Inserting user into the map
- 	LoginRequestHandler* newHandler = new LoginRequestHandler(m_handlerFactory);
-	this->m_usersMu.lock();
-	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
-	this->m_usersMu.unlock();*/
+	//Inserting user into the map
+   /*LoginRequestHandler* newHandler = new LoginRequestHandler(m_handlerFactory);
+   this->m_usersMu.lock();
+   this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
+   this->m_usersMu.unlock();*/
 	while (true)
 	{
 		try
@@ -108,7 +107,7 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 			//{
 			//	RequestResult resp = newHandler->handleRequest(reqInfo);
 			//	this->sendData(userSocket, resp.response);
-	
+
 			//}
 			else // Assemble error response
 			{
@@ -154,6 +153,6 @@ time_t Communicator::getCurrentTime()
 
 	std::chrono::duration<double> elapsed_seconds = end - start;
 	std::time_t end_time = std::chrono::system_clock::to_time_t(end);
-	return end_time;	
+	return end_time;
 }
 
