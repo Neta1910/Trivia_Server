@@ -24,7 +24,7 @@ public:
 
 	RequestHandlerFactory(IDatabase* db);
 	~RequestHandlerFactory();
-
+  
 	LoginRequestHandler* createLoginRequestHandler();
 	LoginManager& GetLoginManager();
 
@@ -39,6 +39,5 @@ private:
 	IDatabase* m_database;
 	RoomManager m_roomManager;
 	StatisticsManager m_statisticsManager;
-	
 		
 };

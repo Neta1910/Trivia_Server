@@ -1,6 +1,8 @@
 #pragma once
 #include "RoomData.h"
 #include <vector>
+#include "StatisticsManager.h"
+#include "HighestScore.h"
 typedef struct LoginResponse
 {
 	unsigned int status;
@@ -35,14 +37,14 @@ typedef struct GetPlayersInRoomResponse
 typedef struct GetHighScoreResponse
 {
 	unsigned int status;
-	std::vector<std::string> statistics;
+	std::vector<HighestScore> statistics;
 };
 
 
 typedef struct GetPersonalStatsResponse
 {
 	unsigned int status;
-	std::vector<std::string> statistics;
+	userStats statistics;
 };
 
 typedef struct JoinRoomResponse
