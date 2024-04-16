@@ -95,6 +95,36 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetPersonalStat
 }
 
 
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeCloseRoomResponse(const CloseRoomResponse& response)
+{
+    json j = json{ {"status", response.status} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, CLOSE_ROOM_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeStartGameResponse(const StartGameResponse& response)
+{
+    json j = json{ {"status", response.status} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, START_GAME_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetRoomStateResponse(const GetRoomStateResponse& response)
+{
+    std::string playersString = "[ ";
+    for (auto it : response.players)
+    {
+        playersString += it;
+    }
+    json j = json{ {response.hasGameBegun} , {playersString}, {response.questionCount}, {response.answerTimeout}, {"status", response.status} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_ROOM_STATE_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeLeaveRoomResponse(const LeaveRoomResponse& response)
+{
+    json j = json{ {"status", response.status} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, LEAVE_ROOM_RESP);
+}
+
+
 
 // Function to parse data into a message
 std::vector<unsigned char> JsonResponsePacketSerialize::parseDataIntoMessage(json j, const int& respCode)
