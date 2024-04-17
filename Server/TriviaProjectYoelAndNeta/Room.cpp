@@ -33,3 +33,8 @@ RoomData& Room::getRoomData()
 {
 	return m_metadata;
 }
+
+std::vector<LoggedUser> Room::getAllLoggedUsers()
+{
+	return m_users;
+}
