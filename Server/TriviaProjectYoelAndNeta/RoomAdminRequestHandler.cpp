@@ -52,7 +52,7 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo& reqInfo)
 		Communicator::sendData(roomMembers.getSocket(), serialized_res);
 	}
 	// !!!!!!!!!!!!!!!!! NOTE !!!!!!!!!!!!!!!!!
-	// Line 56 is not yet returning the right handler, it's suppoesed to create a game room, which will be supported in the next versions.
+	// Line 56 is not yet returning the right handler, it's supposed to create a game room, which will be supported in the next versions.
 	return { JsonResponsePacketSerialize::serializeStartGameResponse(startGame_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
 }
 
