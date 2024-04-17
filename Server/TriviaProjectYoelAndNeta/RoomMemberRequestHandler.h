@@ -7,6 +7,7 @@
 class RoomMemberRequestHandler : public IRequestHandler
 {
 public:
+	RoomMemberRequestHandler(RequestHandlerFactory& handleFactory, std::string member, RoomManager& roomManager);
 	virtual bool isRequestRelevant(RequestInfo& reqInfo) override;
 	virtual RequestResult handleRequest(RequestInfo& reqInfo) override;
 private:
@@ -17,6 +18,6 @@ private:
 	Room m_room;
 	LoggedUser m_user;
 	RoomManager& m_roomManager;
-	RequestHandlerFactory& handleFactory;
+	RequestHandlerFactory& m_handleFactory;
 };
 
