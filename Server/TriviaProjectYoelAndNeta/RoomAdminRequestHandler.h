@@ -1,6 +1,5 @@
 #pragma once
-
-
+#include "Communicator.h"
 #include "IRequestHandler.h"
 #include "Room.h"
 #include "RequestHandlerFactory.h"
