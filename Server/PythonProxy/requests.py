@@ -106,3 +106,8 @@ class LeaveRoomRequest:
     def getMessage(self):
         data = {}
         return parseRequestToMessage(data, LEAVE_ROOM_REQ)
+
+class AmIAdminRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, AM_I_ADMIN_REQ)

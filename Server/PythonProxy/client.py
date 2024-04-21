@@ -247,6 +247,21 @@ def handle_start_game():
         print(e)
         emit('leaveRoomResponse', {'status': FAILED_STATUS})
 
+@socketio.on('AmIAdmin')
+def handle_start_game():
+    try:
+        user_sockets[request.remote_addr].sendall(requests.AmIAdminRequest().getMessage())
+
+        server_message = Responses.AmIAdminResponse(get_server_message(user_sockets[request.remote_addr]))
+
+        if server_message.status == FAILED_STATUS:
+            raise Exception
+        else:
+            emit('amIAdminResponse', {'status': WORK_STATUS, "state": server_message.state})
+    except Exception as e:
+        print(e)
+        emit('amIAdminResponse', {'status': FAILED_STATUS})
+
 
 def main():
     socketio.run(app, debug=True, port=5000, allow_unsafe_werkzeug=True)

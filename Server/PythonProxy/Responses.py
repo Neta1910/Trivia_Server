@@ -95,3 +95,9 @@ class LeaveRoomResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
+
+class AmIAdminResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.state = json_data["state"]
