@@ -186,8 +186,6 @@ def handle_get_personal_stats():
         emit('getPersonalStatsResponse', {'status': FAILED_STATUS})
 
 
-def generate_session_number():
-    return uuid.uuid4().hex[:4].upper()  # Generate a 4-character hexadecimal UUID
 
 
 def main():
