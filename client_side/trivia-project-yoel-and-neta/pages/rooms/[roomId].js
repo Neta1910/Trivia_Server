@@ -4,6 +4,7 @@ import { useSocket } from '../../components/socketContext';  // Ensure the path 
 import Player from '../../components/Player';  // Corrected the typo in 'components'
 import QuestionCount from '../../componenets/QuestionCount';
 import AnswerTimeout from '../../componenets/ansowerTimeout';
+import Constants from '../../constents'
 
 export default function Room() {
     const router = useRouter();
@@ -23,7 +24,7 @@ export default function Room() {
 
         // Handle response for players in room
         socket.on('getPlayersInRoomResponse', (response) => {
-            if (response.status === 'WORK_STATUS') { 
+            if (response.status === Constants.WORK_STATUS) { 
                 setPlayers(response.players);
             } else {
                 alert('Something went wrong');
@@ -32,7 +33,7 @@ export default function Room() {
 
         // Handle response for room state
         socket.on('getRoomStateResponse', (response) => {
-            if (response.status === 'WORK_STATUS') {
+            if (response.status === Constants.WORK_STATUS) {
                 setGameBegun(response.hasGameBegun);
                 setPlayers(response.players);  // Update players list if it's part of this response
                 setQuestionCount(response.questionCount);
@@ -49,6 +50,21 @@ export default function Room() {
         };
     }, [socket, roomId]);
 
+
+    function leaveRoom() {
+        socket.emit('LeaveRoom', { roomId });
+
+        // Handle response for room state
+        socket.on('leaveRoomResponse', (response) => {
+            if (response.status === Constants.WORK_STATUS) {
+                router.push('/');  // Redirect to homepage or another route
+            } else {
+                alert('Something went wrong');
+            }
+        });
+        socket.off('leaveRoomResponse');
+    }
+
     return (
         <div>
             <h1>Room: {roomId}</h1>
@@ -60,6 +76,9 @@ export default function Room() {
                     <Player key={index} name={player} />
                 ))}
             </ul>
+            <button onClick={leaveRoom} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer', backgroundColor: '#f04', color: 'white', border: 'none', borderRadius: '5px', marginTop: '20px' }}>
+                Leave Room
+            </button>
         </div>
     );
 }
