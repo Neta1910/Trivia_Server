@@ -227,10 +227,10 @@ def handle_start_game():
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('startGameResponse', {'status': WORK_STATUS, "hasGameBegun": serverMessege.hasGameBegun, "players": serverMessege.players, "questionCount": serverMessege.questionCount, "answerTimeout": serverMessege.answerTimeout})
+            emit('getRoomStateResponse', {'status': WORK_STATUS, "hasGameBegun": serverMessege.hasGameBegun, "players": serverMessege.players, "questionCount": serverMessege.questionCount, "answerTimeout": serverMessege.answerTimeout})
     except Exception as e:
         print(e)
-        emit('startGameResponse', {'status': FAILED_STATUS})
+        emit('getRoomStateResponse', {'status': FAILED_STATUS})
 
 @socketio.on('LeaveRoom')
 def handle_start_game():
@@ -242,10 +242,10 @@ def handle_start_game():
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('startGameResponse', {'status': WORK_STATUS, "hasGameBegun": serverMessege.hasGameBegun, "players": serverMessege.players, "questionCount": serverMessege.questionCount, "answerTimeout": serverMessege.answerTimeout})
+            emit('leaveRoomResponse', {'status': WORK_STATUS, "hasGameBegun": serverMessege.hasGameBegun, "players": serverMessege.players, "questionCount": serverMessege.questionCount, "answerTimeout": serverMessege.answerTimeout})
     except Exception as e:
         print(e)
-        emit('startGameResponse', {'status': FAILED_STATUS})
+        emit('leaveRoomResponse', {'status': FAILED_STATUS})
 
 
 def main():
