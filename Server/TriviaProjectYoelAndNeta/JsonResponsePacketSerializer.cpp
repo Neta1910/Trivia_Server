@@ -114,7 +114,8 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetRoomStateRes
     {
         playersString += it;
     }
-    json j = json{ {response.hasGameBegun} , {playersString}, {response.questionCount}, {response.answerTimeout}, {"status", response.status} };
+    playersString += " ]";
+    json j = json{ {HAS_GAME_BEGUN, response.hasGameBegun} , {PLAYERS, playersString}, {QUESTION_COUNT, response.questionCount}, {ANSOWER_TIMEOUT, response.answerTimeout}, {"status", response.status} };
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_ROOM_STATE_RESP);
 }
 
