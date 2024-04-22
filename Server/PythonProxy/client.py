@@ -103,10 +103,10 @@ def handle_join_room(data):
 @socketio.on('createRoom')
 def handle_create_room(data):
     try:
-        data_dict = json.loads(data)  # Convert JSON string to Python dictionary
+        data_dict = data  # Convert JSON string to Python dictionary
         user_sockets[request.remote_addr].sendall(
-            requests.CreateRoomRequest(data_dict[ROOM_NAME], data_dict[MAX_USERS], data_dict[QUESTION_COUNT],
-                                       data_dict[ANSOWER_TIMEOUT]).getMessage())
+            requests.CreateRoomRequest(data_dict[ROOM_NAME], int(data_dict[MAX_USERS]), int(data_dict[QUESTION_COUNT]),
+                                       int(data_dict[ANSOWER_TIMEOUT])).getMessage())
 
         serverMessege = Responses.CreateRoomResponse(get_server_message(user_sockets[request.remote_addr]))
 
