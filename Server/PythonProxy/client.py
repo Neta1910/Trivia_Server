@@ -12,7 +12,7 @@ from getMesseges import *
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 CORS(app)  # Apply CORS to your Flask app with default settings
-socketio = SocketIO(app, cors_allowed_origins="http://localhost:3000")
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 
 user_sockets = {}
