@@ -56,6 +56,7 @@ typedef struct CreateRoomResponse
 {
 	unsigned int status;
 };
+
 // ---------------- V3 ---------------------------
 typedef struct CloseRoomResponse
 {

@@ -20,12 +20,12 @@ const CreateRoom = () => {
           answerTimeout: timePerQuestion,
           questionCount: questionCount
         }));
-        console.log('data send');
         // Listen for the login response from the server
         socket.on('createRoomResponse', (response) => {
           if (response.status === Constants.WORK_STATUS) {
             console.log('Login response');
             router.push('/Menu');
+            console.log("pushed");
           } else {
             alert('somthing went wrong');
           }
