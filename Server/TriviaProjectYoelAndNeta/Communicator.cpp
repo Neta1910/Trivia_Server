@@ -38,7 +38,7 @@ void Communicator::startHandleRequests()
 
 void Communicator::sendData(const SOCKET sc, std::vector<unsigned char>& message, const int& flags)
 {
-	if (send(sc, this->unsignedToChar(message), message.size() * sizeof(unsigned char), 0) == INVALID_SOCKET)
+	if (send(sc, unsignedToChar(message), message.size() * sizeof(unsigned char), 0) == INVALID_SOCKET)
 	{
 		throw std::exception("Error while sending message to client");
 	}
@@ -143,6 +143,11 @@ char* Communicator::unsignedToChar(const std::vector<unsigned char>& data)
 		res[i] = data[i];
 	}
 	return res;
+}
+
+std::map<SOCKET, IRequestHandler*> Communicator::getClients()
+{
+	return m_clients;
 }
 
 

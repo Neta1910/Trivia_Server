@@ -15,6 +15,11 @@ int LoggedUser::getId() const
 	return user_id;
 }
 
+SOCKET LoggedUser::getSocket()
+{
+	return m_socket;
+}
+
 bool LoggedUser::operator==(const LoggedUser& other)
 {
 	return other.getUsername() == this->m_username;

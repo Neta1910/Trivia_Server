@@ -33,6 +33,12 @@ public:
 	static std::vector<unsigned char> serializeHighScoreResponse(const GetHighScoreResponse& response);
 	static std::vector<unsigned char> serializeGetPersonalStatsResponse(const GetPersonalStatsResponse& response);
 
+	// V3 serializer
+	static std::vector<unsigned char> serializeCloseRoomResponse(const CloseRoomResponse& response);
+	static std::vector<unsigned char> serializeStartGameResponse(const StartGameResponse& response);
+	static std::vector<unsigned char> serializeGetRoomStateResponse(const GetRoomStateResponse& response);
+	static std::vector<unsigned char> serializeLeaveRoomResponse(const LeaveRoomResponse& response);
+
 	// general functions
 	static std::vector<unsigned char> parseDataIntoMessage(json j, const int& respCode );
 	static std::vector<unsigned char> turnIntToBytes(const int& num);

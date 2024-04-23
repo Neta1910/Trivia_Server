@@ -35,6 +35,11 @@ MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser u
     return new MenuRequestHandler(*this, user.getUsername(), m_roomManager);
 }
 
+RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser logged_user, Room room)
+{
+    return new 	RoomAdminRequestHandler(*this, logged_user.getUsername(), m_roomManager);
+}
+
 StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 {
     return m_statisticsManager;

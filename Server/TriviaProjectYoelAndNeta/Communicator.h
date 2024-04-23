@@ -25,14 +25,14 @@ public:
 
 	Communicator(const SOCKET& socket, RequestHandlerFactory& handleFactory);
 	void startHandleRequests();
-	void sendData(const SOCKET sc, std::vector<unsigned char>& message, const int& flags = 0);
+	static void sendData(const SOCKET sc, std::vector<unsigned char>& message, const int& flags = 0);
 	std::vector<unsigned char> getDataFromSocket(const SOCKET sc, const int bytesNum, const int& flags = 0);
+	static char* unsignedToChar(const std::vector<unsigned char>& data);
+	std::map <SOCKET, IRequestHandler*> getClients();
 private:
 	void handleNewClient(const SOCKET& userSocket);
 	std::vector  <unsigned char> charToUnsigned(const char* data, const int& length );
-	char* unsignedToChar(const std::vector<unsigned char>& data);
 	time_t getCurrentTime();
-	//int getMessageCode()
 
 	SOCKET m_serverSocket;
 	std::map <SOCKET, IRequestHandler*> m_clients;
