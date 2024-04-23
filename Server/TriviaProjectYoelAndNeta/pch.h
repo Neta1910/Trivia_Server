@@ -16,7 +16,11 @@ enum ResponseCodes
 	CLOSE_ROOM_RESP,
 	START_GAME_RESP,
 	GET_ROOM_STATE_RESP,
-	LEAVE_ROOM_RESP
+	LEAVE_ROOM_RESP,
+	LEAVE_GAME_RESP,
+	GET_QUESTION_RESP, 
+	SUBMIT_ANSWER_RESP,
+	GET_GAME_RESULTS_RESP
 };
 
 enum RequestCodes
@@ -44,6 +48,9 @@ enum RequestCodes
 #define ADDRESS "address"
 #define PHONE_NUMBER "phone_number"
 #define BIRTH_DATE "birth_date"
+#define CORRECT_ANSWER_COUNT "correct_answer_count"
+#define WRONG_ANSWER_COUNT "wrong_answer_count"
+#define AVERAGE_ANSWER_TIME "average_answer_time"
 
 
 // ---- Error Messages ----

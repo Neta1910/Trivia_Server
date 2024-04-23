@@ -124,6 +124,49 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeLeaveRoomRespon
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, LEAVE_ROOM_RESP);
 }
 
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeLeaveGameResponseResponse(const LeaveGameResponse& response)
+{
+    json j = json{ {"status", response.status} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, LEAVE_GAME_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetQuestionResponseResponse(const GetQuestionResponse& response)
+{
+    json answers = {};
+    for (const auto& it : response.answers) // Create a dictionary of the question and its' number
+    {
+        json innerJson = {
+            {it.first, it.second}  
+        };
+        answers.push_back(innerJson); 
+    }
+    json j = json{ {"status", response.status}, {"question", response.question}, {"answers", answers} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_QUESTION_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeSubmitAnswerResponseResponse(const SubmitAnswerResponse& response)
+{
+    json j = json{ {"status", response.status} , {"correctAnswerId", response.correctAnswerId} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, SUBMIT_ANSWER_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse(const GetGameResultsResponse& response)
+{
+    json results = {};
+    for (const auto& it : response.results)
+    {
+        json innerJson = {
+            {USERNAME, it.username},
+            {CORRECT_ANSWER_COUNT, it.correctAnswerCount },
+            {WRONG_ANSWER_COUNT, it.wrongAnswerCount},
+            {AVERAGE_ANSWER_TIME, it.averageAnswerTime}
+        };
+        results.push_back(innerJson);
+    }
+    json j = json{ {"status", response.status}, {"results", results} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_GAME_RESULTS_RESP);
+}
+
 
 
 // Function to parse data into a message
