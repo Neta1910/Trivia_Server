@@ -8,7 +8,7 @@ RoomManager::RoomManager()
 int RoomManager::createRoom(LoggedUser logged_user, RoomData room_data)
 {
 	// Create new room
-	Room new_room;
+	Room new_room = Room();
 	new_room.addUser(logged_user);
 	// Add room to map of rooms
 	int roomId = this->m_rooms.size();
