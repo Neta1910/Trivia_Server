@@ -19,7 +19,6 @@ export default function Room() {
 
     useEffect(() => {
         if (!socket) return;
-
         socket.emit('getPlayersInRoom', { roomId });
         socket.emit('getRoomState');
         socket.emit('AmIAdmin');
@@ -58,7 +57,7 @@ export default function Room() {
     }, [socket, roomId]);
 
     function leaveRoom() {
-        socket.emit('LeaveRoom');
+        socket.emit('LeaveRoom', {roomId : roomId});
         router.push('/');  // Redirect to homepage or another route
     }
 
