@@ -38,7 +38,11 @@ enum RequestCodes
 	CLOSE_ROOM_REQ,
 	START_GAME_REQ,
 	GET_ROOM_STATE_REQ,
-	LEAVE_ROOM_REQ
+	LEAVE_ROOM_REQ,
+	LEAVE_GAME_REQ,
+	GET_QUESTION_REQ,
+	SUBMIT_ANSWER_REQ,
+	GET_GAME_RESULT_REQ
 };
 
 // ---- Message constants ----
@@ -62,6 +66,7 @@ enum RequestCodes
 #define MAX_USERS "maxUsers"
 #define QUESTION_COUNT "questionCount"
 #define ANSOWER_TIMEOUT "answerTimeout"
+#define ANSWER_ID "answerId"
 
 // ---- Room Settings ----
 #define MIN_ANS_TIME 1
