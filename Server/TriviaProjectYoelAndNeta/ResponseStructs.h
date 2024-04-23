@@ -80,3 +80,37 @@ typedef struct LeaveRoomResponse
 {
 	unsigned int status;
 };
+
+// ---------------- V4 ---------------------------
+
+typedef struct LeaveGameResponse
+{
+	unsigned int status;
+};
+
+typedef struct GetQuestionResponse
+{
+	unsigned int status;
+	std::string question;
+	std::map<unsigned int, std::string> answers;
+};
+
+typedef struct SubmitAnswerResponse
+{
+	unsigned int status;
+	unsigned int correctAnswerId;
+};
+
+typedef struct GetGameResultsResponse
+{
+	unsigned int status;
+	std::vector<PlayerResults> results;
+};
+
+typedef struct PlayerResults
+{
+	std::string username;
+	unsigned int correctAnswerCount;
+	unsigned int wrongAnswerCount;
+	unsigned int averageAnswerTime;
+};
