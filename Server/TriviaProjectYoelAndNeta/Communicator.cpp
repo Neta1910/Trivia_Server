@@ -95,7 +95,6 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 				RequestResult resResult = m_clients.find(userSocket)->second->handleRequest(reqInfo);
 				if (resResult.newHandler != nullptr) // Update handler if valid
 				{
-					delete m_clients.find(userSocket)->second;
 					m_clients.find(userSocket)->second = resResult.newHandler;
 				}
 				//std::string response_as_string = std::string(resResult.response.begin(), resResult.response.end());

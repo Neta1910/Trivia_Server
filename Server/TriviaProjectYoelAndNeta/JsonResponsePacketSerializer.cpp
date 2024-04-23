@@ -68,7 +68,7 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeJoinRoomRespons
 
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeCreateRoomResponse(const CreateRoomResponse& response)
 {
-    json j = json{ {"status", response.status} }; // Creating a JSON object j with the message field from the response
+    json j = json{ {"status", response.status}, {ROOM_ID, response.roomId } }; // Creating a JSON object j with the message field from the response
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, CREATE_ROOM_RESP); // Parsing the data into a message with the specified response code
 }
 

@@ -16,6 +16,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 
 
 user_sockets = {}
+rooms = {}
 
 @socketio.on('connect')
 def handle_connect():
@@ -113,6 +114,8 @@ def handle_create_room(data):
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
+            room_id = len(rooms) + 1  # Simple way to generate a room ID
+            rooms[]
             emit('createRoomResponse', {'status': WORK_STATUS})
     except Exception as e:
         print(e)

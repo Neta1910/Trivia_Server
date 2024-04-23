@@ -132,8 +132,8 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo& reqInfo)
 	if (createRoom_req.questionCount >= MIN_NUM_OF_QUESTIONS && createRoom_req.questionCount <= numOfQuestions && createRoom_req.answerTimeout >= MIN_ANS_TIME && createRoom_req.maxUsers >= MIN_USERS)
 	{
 		RoomData newRoomData = { 0, createRoom_req.roomName, createRoom_req.maxUsers, createRoom_req.questionCount, createRoom_req.answerTimeout, ACTIVE_ROOM };
-		m_roomManager.createRoom(m_user, newRoomData);
-		CreateRoomResponse createRoom_res = { CREATE_ROOM_RESP };
+		int roomId = m_roomManager.createRoom(m_user, newRoomData);
+		CreateRoomResponse createRoom_res = { CREATE_ROOM_RESP, roomId };
 		//                                   !!!!!!!!!!!!!!!!!!!!!! NOTE !!!!!!!!!!!!!!!!!!!!!!
 		//							The row below isn't working yet (needs implementation of class 'RoomMemberRequestHandler')
 		return {JsonResponsePacketSerialize::serializeCreateRoomResponse(createRoom_res),  (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
