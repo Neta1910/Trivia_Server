@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Quistion.h"
 #include "HighestScore.h"
+#include "Game.h"
 #include <list>
 class IDatabase
 {
@@ -24,5 +25,5 @@ public:
 	virtual int getNumOfPlayerGames(int user_id) = 0; // Return the number of games a player has played
 	virtual int getPlayerScore(int user_id) = 0;
 	virtual std::vector<HighestScore> getHighScores(int num_of_highScores) = 0; // Return 5 highest scores
-	
+	virtual int submitGameStatistics(GameData game_data, unsigned int user_id) = 0;
 };

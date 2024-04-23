@@ -14,6 +14,7 @@ typedef struct GameData
 class Game
 {
 public:
+	Game(Game& game);
 	Question getQuestionForUser(LoggedUser user);
 	void submitAnswer(LoggedUser user, unsigned int answer);
 	void removePlayer(LoggedUser user);
@@ -21,6 +22,7 @@ private:
 	std::vector<Question> m_questions;
 	std::map<LoggedUser, GameData> m_players;
 	unsigned int gameId;
-
-	void submitGameStatsToDB(GameData game_data);
+	
+	void submitGameStatsToDB(GameData game_data); // Used when the game has ended, 
+	bool isCurrQuestionLast(LoggedUser user);
 };

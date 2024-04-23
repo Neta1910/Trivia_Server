@@ -24,7 +24,7 @@ bool SQLiteDatabase::open()
 	this->_db = db;
 	// Create Tables
 	this->runCommand(CREATE_USERS_TABLE);
-	this->runCommand(CREATE_QUISTIONS_TABLE);
+	this->runCommand(CREATE_QUESTIONS_TABLE);
 	this->runCommand(CREATE_STATISTICS_TABLE);
 	this->runCommand(CREATE_HIGHEST_SCORES_TABLE);
 	return true;
@@ -176,6 +176,14 @@ std::vector<HighestScore> SQLiteDatabase::getHighScores(int num_of_highScores)
 	std::string query = "SELECT ID, HIGHEST_SCORE FROM HIGHEST_SCORES ORDER BY HIGHEST_SCORE DESC LIMIT " + std::to_string(num_of_highScores) + " ;";
 	this->runCommand(query, loadIntoHighestScores);
 	return SQLiteDatabase::highestScores;
+}
+
+int SQLiteDatabase::submitGameStatistics(GameData game_data, unsigned int user_id)
+{
+	// Update statistics table
+	std::string correctAnsCount_query = "UPDATE Statistics SET CORRECT_ANS = " + std::to_string(game_data.correctAnswerCount) + " WHERE ID = " + std::to_string(user_id) + ";";
+	std::string wrongAnsCount_query = "UPDATE Statistics SET AVERAGE_ANS_TIME = " + std::to_string(game_data.wrongAnswerCount) + " WHERE ID = " + std::to_string(user_id) + ";";
+	std::string avgAnsTime_query = "UPDATE Statistics SET AVERAGE_ANS_TIME = " + std::to_string(game_data.averageAnswerTime) + " WHERE ID = " + std::to_string(user_id) + ";";
 }
 
 
