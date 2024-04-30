@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useSocket } from '../componenets/socketContext';
 import styles from '../styles/CreateRoom.module.css';
 import Constants from '../constents'
-
 const CreateRoom = () => {
     const [roomName, setRoomName] = useState('');
     const [timePerQuestion, setTimePerQuestion] = useState('');
