@@ -12,7 +12,7 @@ from getMesseges import *
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 CORS(app)  # Apply CORS to your Flask app with default settings
-socketio = SocketIO(app, cors_allowed_origins="http://localhost:3000")
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 
 user_sockets = {}
@@ -186,8 +186,81 @@ def handle_get_personal_stats():
         emit('getPersonalStatsResponse', {'status': FAILED_STATUS})
 
 
-def generate_session_number():
-    return uuid.uuid4().hex[:4].upper()  # Generate a 4-character hexadecimal UUID
+@socketio.on('closeRoom')
+def handle_close_room():
+    try:
+        user_sockets[request.remote_addr].sendall(requests.personalStatsRequest().getMessage())
+
+        serverMessege = Responses.CloseRoomResponse(get_server_message(user_sockets[request.remote_addr]))
+
+        if serverMessege.status == FAILED_STATUS:
+            raise Exception
+        else:
+            emit('closeRoomResponse', {'status': WORK_STATUS})
+    except Exception as e:
+        print(e)
+        emit('closeRoomResponse', {'status': FAILED_STATUS})
+
+
+@socketio.on('startGame')
+def handle_start_game():
+    try:
+        user_sockets[request.remote_addr].sendall(requests.StartRoomRequest.getMessage())
+
+        serverMessege = Responses.StartGameResponse(get_server_message(user_sockets[request.remote_addr]))
+
+        if serverMessege.status == FAILED_STATUS:
+            raise Exception
+        else:
+            emit('startGameResponse', {'status': WORK_STATUS})
+    except Exception as e:
+        print(e)
+        emit('startGameResponse', {'status': FAILED_STATUS})
+
+@socketio.on('getRoomState')
+def handle_start_game():
+    try:
+        user_sockets[request.remote_addr].sendall(requests.GetRoomStateRequest().getMessage())
+
+        serverMessege = Responses.GetRoomStaeResponse(get_server_message(user_sockets[request.remote_addr]))
+
+        if serverMessege.status == FAILED_STATUS:
+            raise Exception
+        else:
+            emit('getRoomStateResponse', {'status': WORK_STATUS, "hasGameBegun": serverMessege.hasGameBegun, "players": serverMessege.players, "questionCount": serverMessege.questionCount, "answerTimeout": serverMessege.answerTimeout})
+    except Exception as e:
+        print(e)
+        emit('getRoomStateResponse', {'status': FAILED_STATUS})
+
+@socketio.on('LeaveRoom')
+def handle_start_game():
+    try:
+        user_sockets[request.remote_addr].sendall(requests.LeaveRoomRequest().getMessage())
+
+        serverMessege = Responses.LeaveRoomResponse(get_server_message(user_sockets[request.remote_addr]))
+
+        if serverMessege.status == FAILED_STATUS:
+            raise Exception
+        else:
+            emit('leaveRoomResponse', {'status': WORK_STATUS, "hasGameBegun": serverMessege.hasGameBegun, "players": serverMessege.players, "questionCount": serverMessege.questionCount, "answerTimeout": serverMessege.answerTimeout})
+    except Exception as e:
+        print(e)
+        emit('leaveRoomResponse', {'status': FAILED_STATUS})
+
+@socketio.on('AmIAdmin')
+def handle_start_game():
+    try:
+        user_sockets[request.remote_addr].sendall(requests.AmIAdminRequest().getMessage())
+
+        server_message = Responses.AmIAdminResponse(get_server_message(user_sockets[request.remote_addr]))
+
+        if server_message.status == FAILED_STATUS:
+            raise Exception
+        else:
+            emit('amIAdminResponse', {'status': WORK_STATUS, "state": server_message.state})
+    except Exception as e:
+        print(e)
+        emit('amIAdminResponse', {'status': FAILED_STATUS})
 
 
 def main():

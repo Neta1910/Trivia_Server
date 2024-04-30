@@ -27,7 +27,8 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 		{
 			res.status = FAIL_STATUS;
 		}
-		return { JsonResponsePacketSerialize::serializeLoginResponse(res), this->m_handleFactory.createMenuRequestHandler(LoggedUser(req.userName))};
+		MenuRequestHandler* newHandler = this->m_handleFactory.createMenuRequestHandler(LoggedUser(req.userName));
+		return { JsonResponsePacketSerialize::serializeLoginResponse(res),  newHandler};
 
 	}
 	else if (reqInfo.RequestId = CODE_SIGN_UP_REQ)
@@ -42,6 +43,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 		{
 			res.status = FAIL_STATUS;
 		}
-		return { JsonResponsePacketSerialize::serializeSignUpResponse(res), this->m_handleFactory.createLoginRequestHandler()};
+		LoginRequestHandler* newHandler = this->m_handleFactory.createLoginRequestHandler();
+		return { JsonResponsePacketSerialize::serializeSignUpResponse(res), newHandler};
 	}
 }

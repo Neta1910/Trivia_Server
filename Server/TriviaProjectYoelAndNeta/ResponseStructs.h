@@ -80,3 +80,9 @@ typedef struct LeaveRoomResponse
 {
 	unsigned int status;
 };
+
+typedef struct AmIAdminResponse
+{
+	unsigned int status;
+	bool state;
+};

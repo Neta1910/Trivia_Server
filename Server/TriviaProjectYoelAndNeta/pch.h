@@ -16,7 +16,8 @@ enum ResponseCodes
 	CLOSE_ROOM_RESP,
 	START_GAME_RESP,
 	GET_ROOM_STATE_RESP,
-	LEAVE_ROOM_RESP
+	LEAVE_ROOM_RESP,
+	AM_I_ADMIN_RESP
 };
 
 enum RequestCodes
@@ -34,7 +35,8 @@ enum RequestCodes
 	CLOSE_ROOM_REQ,
 	START_GAME_REQ,
 	GET_ROOM_STATE_REQ,
-	LEAVE_ROOM_REQ
+	LEAVE_ROOM_REQ,
+	AM_I_ADMIN_REQ
 };
 
 // ---- Message constants ----
@@ -65,3 +67,10 @@ enum RequestCodes
 
 // ---- Statistics Settings ----
 #define HIGH_SCORE "highestScore"
+
+
+// ---- RoomState Setttings ----
+#define HAS_GAME_BEGUN "hasGameBegun"
+#define PLAYERS "players"
+#define QUESTION_COUNT "questionCount"
+#define ANSOWER_TIMEOUT "answerTimeout"
