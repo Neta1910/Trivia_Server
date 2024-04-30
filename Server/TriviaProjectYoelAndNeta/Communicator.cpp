@@ -85,31 +85,19 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 				m_clients.erase(userSocket);
 			}
 
-			//RequestInfo reqInfo;
-			//reqInfo.buffer = clientMessage;
-			//reqInfo.receivalTime = getCurrentTime();
-			//reqInfo.RequestId = clientMessage[0];
 			RequestInfo reqInfo = { static_cast<RequestCodes>(clientMessage[0]), getCurrentTime(), clientMessage };
 			if (m_clients.find(userSocket)->second != nullptr && m_clients.find(userSocket)->second->isRequestRelevant(reqInfo))
 			{
 				RequestResult resResult = m_clients.find(userSocket)->second->handleRequest(reqInfo);
 				if (resResult.newHandler != nullptr) // Update handler if valid
 				{
-					delete m_clients.find(userSocket)->second;
 					m_clients.find(userSocket)->second = resResult.newHandler;
 				}
-				//std::string response_as_string = std::string(resResult.response.begin(), resResult.response.end());
 				if (std::string(resResult.response.begin(), resResult.response.end()) != "")
 				{
 					sendData(userSocket, resResult.response);
 				}
 			}
-			//if (newHandler->isRequestRelevant(reqInfo)) // For a valid request, move user to the next state
-			//{
-			//	RequestResult resp = newHandler->handleRequest(reqInfo);
-			//	this->sendData(userSocket, resp.response);
-
-			//}
 			else // Assemble error response
 			{
 				ErrorResponse err;

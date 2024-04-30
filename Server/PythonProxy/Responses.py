@@ -71,6 +71,7 @@ class CreateRoomResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
+        self.roomId = json_data["roomId"]
 
 class CloseRoomResponse:
     def __init__(self, resp):

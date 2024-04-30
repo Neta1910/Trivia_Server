@@ -53,10 +53,10 @@ enum RequestCodes
 
 #define ROOM_ID "roomId"
 
-#define ROOM_NAME "roomName"
-#define MAX_USERS "maxUsers"
-#define QUESTION_COUNT "questionCount"
-#define ANSOWER_TIMEOUT "answerTimeout"
+#define ROOM_NAME "room_name"
+#define MAX_USERS "max_users"
+#define QUESTION_COUNT "question_count"
+#define ANSOWER_TIMEOUT "answer_timeout"
 
 // ---- Room Settings ----
 #define MIN_ANS_TIME 1
@@ -72,5 +72,3 @@ enum RequestCodes
 // ---- RoomState Setttings ----
 #define HAS_GAME_BEGUN "hasGameBegun"
 #define PLAYERS "players"
-#define QUESTION_COUNT "questionCount"
-#define ANSOWER_TIMEOUT "answerTimeout"

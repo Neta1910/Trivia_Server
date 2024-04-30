@@ -2,10 +2,11 @@ import React from 'react';
 import { FaUsers, FaRegQuestionCircle, FaClock, FaToggleOn, FaToggleOff } from 'react-icons/fa';
 import { useSocket } from './socketContext';
 import styles from '../styles/RoomCard.module.css';
+import { useRouter } from 'next/router';
 
 const RoomCard = ({ roomId, roomName, maxPlayers, numOfQuestionsInGame, timePerQuestion, isActive }) => {
     const socket = useSocket();
-    
+    router = useRouter()
     const handleClick = () => {
         socket.emit('joinRoom', JSON.stringify(roomId));
 

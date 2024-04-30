@@ -4,27 +4,28 @@ import styles from '../styles/CreateRoom.module.css';
 import Constants from '../constents'
 const CreateRoom = () => {
     const [roomName, setRoomName] = useState('');
-    const [timePerQuestion, setTimePerQuestion] = useState('');
-    const [maxPlayers, setMaxPlayers] = useState('');
-    const [questionCount, setQuestionCount] = useState('');
+    const [timePerQuestion, setTimePerQuestion] = useState();
+    const [maxPlayers, setMaxPlayers] = useState();
+    const [questionCount, setQuestionCount] = useState();
 
     const socket = useSocket();
 
     const handleSubmit = (e) => {
         e.preventDefault(); // Prevent the form from refreshing the page
         // Emit the login event to the server with username and password
-        socket.emit('createRoom', JSON.stringify({
-          roomName : roomName,
-          maxUsers: maxPlayers,
-          answerTimeout: timePerQuestion,
-          questionCount: questionCount
-        }));
-        console.log('data send');
+        console.log(typeof maxPlayers)
+        socket.emit('createRoom', {
+            roomName: roomName,
+            maxUsers: maxPlayers,
+            answerTimeout: timePerQuestion,
+            questionCount: questionCount
+        });
         // Listen for the login response from the server
         socket.on('createRoomResponse', (response) => {
           if (response.status === Constants.WORK_STATUS) {
             console.log('Login response');
             router.push('/Menu');
+            console.log("pushed");
           } else {
             alert('somthing went wrong');
           }
