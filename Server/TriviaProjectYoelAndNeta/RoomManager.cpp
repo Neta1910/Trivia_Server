@@ -2,15 +2,18 @@
 
 RoomManager::RoomManager()
 {
+	this->m_rooms;
 }
 
-void RoomManager::createRoom(LoggedUser logged_user, RoomData room_data)
+int RoomManager::createRoom(LoggedUser logged_user, RoomData room_data)
 {
 	// Create new room
-	Room new_room;
+	Room new_room = Room();
 	new_room.addUser(logged_user);
 	// Add room to map of rooms
-	m_rooms.insert({ room_data.id, new_room });
+	int roomId = this->m_rooms.size();
+	this->m_rooms.insert({ roomId, new_room });
+	return roomId;
 }
 
 void RoomManager::DeleteRoom(int room_id)
