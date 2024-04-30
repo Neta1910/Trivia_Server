@@ -97,17 +97,44 @@ class StartRoomRequest:
         data = {}
         return parseRequestToMessage(data, START_GAME_REQ)
 
+
 class GetRoomStateRequest:
     def getMessage(self):
         data = {}
         return parseRequestToMessage(data, GET_ROOM_STATE_REQ)
+
 
 class LeaveRoomRequest:
     def getMessage(self):
         data = {}
         return parseRequestToMessage(data, LEAVE_ROOM_REQ)
 
+
 class AmIAdminRequest:
     def getMessage(self):
         data = {}
         return parseRequestToMessage(data, AM_I_ADMIN_REQ)
+
+
+class SubmitAnswerRequest:
+    def getMessage(self, answerId):
+        data = {"answerId": answerId}
+        return parseRequestToMessage(data, SUBMIT_ANSOWER_REQ)
+
+
+class LeaveGameRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, LEAVE_GAME_REQ)
+
+
+class GetQuestionRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, GET_QUESTION_REQ)
+
+
+class GetGameResultRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, GET_GAME_RES_REQ)

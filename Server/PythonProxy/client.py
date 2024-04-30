@@ -18,6 +18,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 user_sockets = {}
 rooms = {}
 
+
 @socketio.on('connect')
 def handle_connect():
     try:
@@ -36,6 +37,7 @@ def handle_connect():
 @socketio.on('login')
 def handle_login(data):
     try:
+        # TO DO - convort data_dict into a simple dict
         data_dict = json.loads(data)  # Convert JSON string to Python dictionary
         user_sockets[request.remote_addr].sendall(requests.LoginRequest(data_dict[USER_NAME], data_dict[PASSWORD]).getMessage())
         serverMessege = Responses.LoginResponse(get_server_message(user_sockets[request.remote_addr]))
@@ -277,10 +279,13 @@ def getPlayersInRoom(roomId):
     serverMessege = Responses.GetPlayersInRoomResponse(get_server_message(user_sockets[request.remote_addr]))
     return serverMessege
 
+
 def getRooms():
     user_sockets[request.remote_addr].sendall(requests.GetRoomRequest().getMessage())
 
     return Responses.GetRoomsResponse(get_server_message(user_sockets[request.remote_addr]))
+
+
 
 def main():
     socketio.run(app, debug=True, port=5000, allow_unsafe_werkzeug=True)

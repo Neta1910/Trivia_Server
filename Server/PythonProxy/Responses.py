@@ -1,7 +1,5 @@
 import json
 
-from RoomData import RoomData
-
 
 def parseResponse(resp):
     length = int.from_bytes(resp[1:4], byteorder='little')
@@ -73,15 +71,18 @@ class CreateRoomResponse:
         self.status = json_data["status"]
         self.roomId = json_data["roomId"]
 
+
 class CloseRoomResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
 
+
 class StartGameResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
+
 
 class GetRoomStaeResponse:
     def __init__(self, resp):
@@ -92,13 +93,44 @@ class GetRoomStaeResponse:
         self.questionCount = json_data["questionCount"]
         self.answerTimeout = json_data["answerTimeout"]
 
+
 class LeaveRoomResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
+
 
 class AmIAdminResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
         self.state = json_data["state"]
+
+
+class LeaveGameResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+
+
+class GetQuestionResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.question = json_data["question"]
+        self.answers = json_data["answers"]
+
+
+class SubmitAnswerResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.correctId = json_data["correctAnswerId"]
+
+
+class GetGameResultsResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.results = json_data["results"]
+
