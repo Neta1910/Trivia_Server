@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSocket } from '../componenets/socketContext';
 import styles from '../styles/CreateRoom.module.css';
-
+import Constants from '../constents'
 const CreateRoom = () => {
     const [roomName, setRoomName] = useState('');
     const [timePerQuestion, setTimePerQuestion] = useState('');
@@ -71,7 +71,7 @@ const CreateRoom = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="questionCount">Max Players:</label>
+                    <label htmlFor="questionCount">question Count:</label>
                     <input
                         id="QuestionCount"
                         type="number"

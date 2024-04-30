@@ -73,6 +73,7 @@ class HighScoreRequest:
         data = {}
         return parseRequestToMessage(data, GET_HIGH_SCORE_REQ)
 
+
 class personalStatsRequest:
     def getMessage(self):
         data = {}
@@ -89,3 +90,24 @@ class GetRoomRequest:
     def getMessage(self):
         data = {}
         return parseRequestToMessage(data, GET_ROOM_REQ)
+
+
+class StartRoomRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, START_GAME_REQ)
+
+class GetRoomStateRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, GET_ROOM_STATE_REQ)
+
+class LeaveRoomRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, LEAVE_ROOM_REQ)
+
+class AmIAdminRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, AM_I_ADMIN_REQ)
