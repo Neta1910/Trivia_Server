@@ -8,7 +8,7 @@ const CreateRoom = () => {
     const [timePerQuestion, setTimePerQuestion] = useState(0);
     const [maxPlayers, setMaxPlayers] = useState(0);
     const [questionCount, setQuestionCount] = useState(0);
-
+    const [roomId, setRoomId] = useState(0)
     const socket = useSocket();
     const router = useRouter();
     const handleSubmit = (e) => {
@@ -24,11 +24,13 @@ const CreateRoom = () => {
         // Listen for the login response from the server
         socket.on('createRoomResponse', (response) => {
           if (response.status === Constants.WORK_STATUS) {
+            setRoomId(response.roomId)
             console.log('Login response');
             router.push({
-                pathname: '/rooms/[roomsId]',
-                query: {roomId}
+                pathname: '/rooms/[roomId]',  // Make sure this matches your file name in the pages directory
+                query: { roomId: roomId }  // Replace 'desired-room-id' with the actual room ID you want to navigate to.
             });
+            
           } else {
             alert('somthing went wrong');
           }

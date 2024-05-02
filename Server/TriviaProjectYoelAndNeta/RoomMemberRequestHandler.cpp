@@ -1,10 +1,10 @@
 #include "RoomMemberRequestHandler.h"
 
-RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& handleFactory, std::string member, RoomManager& roomManager) :
+RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& handleFactory, std::string member, RoomManager& roomManager, RoomData room_data) :
 	m_handleFactory(handleFactory),
 	m_user(member),
 	m_roomManager(roomManager),
-	m_room(RoomData())
+	m_room(room_data)
 {
 }
 
@@ -28,13 +28,13 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo& reqInfo)
 
 RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo reqInfo)
 {
-	LeaveRoomResponse leaveRoom_res = { LEAVE_ROOM_RESP };
+	LeaveRoomResponse leaveRoom_res = { WORKING_STATUS };
 	m_roomManager.getRoom(m_room.getRoomData().id).removeUser(m_user);
 	return { JsonResponsePacketSerialize::serializeLeaveRoomResponse(leaveRoom_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
 
 RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo& reqInfo)
 {
-	GetRoomStateResponse getRoomState_res{ GET_ROOM_STATE_RESP, m_room.getRoomData().isActive, m_room.getAllUsers(), m_room.getRoomData().numOfQuestionsInGame, m_room.getRoomData().timePerQuestion };
+	GetRoomStateResponse getRoomState_res{ WORKING_STATUS, m_room.getRoomData().isActive, m_room.getAllUsers(), m_room.getRoomData().numOfQuestionsInGame, m_room.getRoomData().timePerQuestion };
 	return { JsonResponsePacketSerialize::serializeGetRoomStateResponse(getRoomState_res), (IRequestHandler*)m_handleFactory.createRoomAdminRequestHandler(m_user, m_room) };
 }

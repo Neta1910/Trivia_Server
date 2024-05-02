@@ -1,10 +1,10 @@
 #include "RoomAdminRequestHandler.h"
 
-RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory& handleFactory, std::string roomAdmin, RoomManager& roomManager) :
+RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory& handleFactory, std::string roomAdmin, RoomManager& roomManager, RoomData room_data) :
 	m_handlerFactory(handleFactory),
 	m_user(roomAdmin),
 	m_roomManager(roomManager),
-	m_room(RoomData())
+	m_room(room_data)
 {
 }
 
@@ -38,7 +38,7 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo& reqInfo)
 	// Send LeaveRoomResponse to all room members
 	for (auto roomMembers : m_room.getAllLoggedUsers())
 	{
-		LeaveRoomResponse leaveRoom_res = { LEAVE_ROOM_RESP };
+		LeaveRoomResponse leaveRoom_res = { WORKING_STATUS };
 		m_roomManager.getRoom(m_room.getRoomData().id).removeUser(roomMembers);
 		std::vector<unsigned char> serialized_res = JsonResponsePacketSerialize::serializeLeaveRoomResponse(leaveRoom_res);
 		Communicator::sendData(roomMembers.getSocket(), serialized_res);
@@ -49,7 +49,7 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo& reqInfo)
 
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo& reqInfo)
 {
-	StartGameResponse startGame_res = { START_GAME_RESP };
+	StartGameResponse startGame_res = { WORKING_STATUS };
 	for (auto roomMembers : m_room.getAllLoggedUsers())
 	{
 		std::vector<unsigned char> serialized_res = JsonResponsePacketSerialize::serializeStartGameResponse(startGame_res);
@@ -62,12 +62,12 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo& reqInfo)
 
 RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo& reqInfo)
 {
-	GetRoomStateResponse getRoomState_res{ GET_ROOM_STATE_RESP, m_room.getRoomData().isActive, m_room.getAllUsers(), m_room.getRoomData().numOfQuestionsInGame, m_room.getRoomData().timePerQuestion };
+	GetRoomStateResponse getRoomState_res{ WORKING_STATUS, m_room.getRoomData().isActive, m_room.getAllUsers(), m_room.getRoomData().numOfQuestionsInGame, m_room.getRoomData().timePerQuestion };
 	return { JsonResponsePacketSerialize::serializeGetRoomStateResponse(getRoomState_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
 }
 
 RequestResult RoomAdminRequestHandler::amIAdmin(RequestInfo& requInfo)
 {
-	AmIAdminResponse amIAdmin_res{ AM_I_ADMIN_RESP, m_room.getRoomData().roomAdmin == m_user.getId()};
+	AmIAdminResponse amIAdmin_res{ WORKING_STATUS, m_room.getRoomData().roomAdmin == m_user.getId()};
 	return { JsonResponsePacketSerialize::serializeAmIAdminResponse(amIAdmin_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
 }

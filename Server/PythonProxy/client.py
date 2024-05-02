@@ -69,8 +69,7 @@ def handle_signup(data):
 @socketio.on('getPlayersInRoom')
 def handle_get_players(data):
     try:
-        json_data = json.loads(data)
-        serverMessege = getPlayersInRoom(json_data[ROOM_ID])
+        serverMessege = getPlayersInRoom(data[ROOM_ID])
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
@@ -116,7 +115,7 @@ def handle_create_room(data):
             room_id = serverMessege.roomId
             join_room(room_id)
             roomData = RoomData(room_id, data_dict[ROOM_NAME], int(data_dict[MAX_USERS]), int(data_dict[QUESTION_COUNT]), int(data_dict[ANSOWER_TIMEOUT]), True)
-            emit('createRoomResponse', {'status': WORK_STATUS})
+            emit('createRoomResponse', {'status': WORK_STATUS, 'roomId': room_id})
             emit('roomAdded', {"room": roomData.to_dict()})
     except Exception as e:
         print(e)
