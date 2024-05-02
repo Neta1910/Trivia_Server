@@ -305,10 +305,10 @@ def handle_start_game():
         if server_message.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('LeaveGameResponse', {'status': WORK_STATUS, 'question': server_message.question, 'answers': server_message.answers})
+            emit('GetQuestionResponse', {'status': WORK_STATUS, 'question': server_message.question, 'answers': server_message.answers})
     except Exception as e:
         print(e)
-        emit('LeaveGameResponse', {'status': FAILED_STATUS})
+        emit('GetQuestionResponse', {'status': FAILED_STATUS})
 
 @socketio.on('SubmitAsnwer')
 def handle_start_game(data):
