@@ -1,6 +1,6 @@
 #include "MenuRequestHandler.h"
 
-MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handleFactory, std::string username, RoomManager roomManager) : 
+MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handleFactory, std::string username, RoomManager& roomManager) : 
 	m_handleFactory(handleFactory), 
 	m_user(username), 
 	m_roomManager(roomManager)
@@ -134,9 +134,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo& reqInfo)
 		RoomData newRoomData = { 0, createRoom_req.roomName, createRoom_req.maxUsers, createRoom_req.questionCount, createRoom_req.answerTimeout, ACTIVE_ROOM };
 		int roomId = m_roomManager.createRoom(m_user, newRoomData);
 		CreateRoomResponse createRoom_res = { CREATE_ROOM_RESP, roomId };
-		//                                   !!!!!!!!!!!!!!!!!!!!!! NOTE !!!!!!!!!!!!!!!!!!!!!!
-		//							The row below isn't working yet (needs implementation of class 'RoomMemberRequestHandler')
-		return {JsonResponsePacketSerialize::serializeCreateRoomResponse(createRoom_res),  (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
+		return {JsonResponsePacketSerialize::serializeCreateRoomResponse(createRoom_res),  (IRequestHandler*)m_handleFactory.createRoomMemberRequestHandler(this->m_user, this->m_roomManager.getRoom(roomId))};
 	}
 	ErrorResponse error_res = { "Invalid room settings!" };	
 	return { JsonResponsePacketSerialize::serializeErrorResponse(error_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
