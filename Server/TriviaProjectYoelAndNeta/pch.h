@@ -17,7 +17,10 @@ enum ResponseCodes
 	START_GAME_RESP,
 	GET_ROOM_STATE_RESP,
 	LEAVE_ROOM_RESP,
-	AM_I_ADMIN_RESP
+	LEAVE_GAME_RESP,
+	GET_QUESTION_RESP, 
+	SUBMIT_ANSWER_RESP,
+	GET_GAME_RESULTS_RESP
 };
 
 enum RequestCodes
@@ -36,7 +39,10 @@ enum RequestCodes
 	START_GAME_REQ,
 	GET_ROOM_STATE_REQ,
 	LEAVE_ROOM_REQ,
-	AM_I_ADMIN_REQ
+	LEAVE_GAME_REQ,
+	GET_QUESTION_REQ,
+	SUBMIT_ANSWER_REQ,
+	GET_GAME_RESULT_REQ
 };
 
 // ---- Message constants ----
@@ -46,6 +52,9 @@ enum RequestCodes
 #define ADDRESS "address"
 #define PHONE_NUMBER "phone_number"
 #define BIRTH_DATE "birth_date"
+#define CORRECT_ANSWER_COUNT "correct_answer_count"
+#define WRONG_ANSWER_COUNT "wrong_answer_count"
+#define AVERAGE_ANSWER_TIME "average_answer_time"
 
 
 // ---- Error Messages ----
@@ -53,10 +62,11 @@ enum RequestCodes
 
 #define ROOM_ID "roomId"
 
-#define ROOM_NAME "room_name"
-#define MAX_USERS "max_users"
-#define QUESTION_COUNT "question_count"
-#define ANSOWER_TIMEOUT "answer_timeout"
+#define ROOM_NAME "roomName"
+#define MAX_USERS "maxUsers"
+#define QUESTION_COUNT "questionCount"
+#define ANSOWER_TIMEOUT "answerTimeout"
+#define ANSWER_ID "answerId"
 
 // ---- Room Settings ----
 #define MIN_ANS_TIME 1

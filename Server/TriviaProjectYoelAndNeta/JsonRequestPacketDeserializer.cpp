@@ -37,6 +37,12 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(co
 	return CreateRoomRequest({ json_data[ROOM_NAME], json_data[MAX_USERS], json_data[QUESTION_COUNT], json_data[ANSOWER_TIMEOUT]});
 }
 
+SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(const std::vector<unsigned char> buffer)
+{
+	json json_data = JsonRequestPacketDeserializer::convertBuferToRequestParser(buffer);
+	return SubmitAnswerRequest({ json_data[ANSWER_ID] });
+}
+
 int JsonRequestPacketDeserializer::convertUnsignedToInt(const std::vector<unsigned char>& buffer)
 {
 	// Convert bytes to integer
