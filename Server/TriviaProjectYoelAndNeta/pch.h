@@ -77,3 +77,8 @@ enum RequestCodes
 
 // ---- Statistics Settings ----
 #define HIGH_SCORE "highestScore"
+
+
+// ---- RoomState Setttings ----
+#define HAS_GAME_BEGUN "hasGameBegun"
+#define PLAYERS "players"

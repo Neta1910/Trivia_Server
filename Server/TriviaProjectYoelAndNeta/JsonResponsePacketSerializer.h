@@ -38,6 +38,8 @@ public:
 	static std::vector<unsigned char> serializeStartGameResponse(const StartGameResponse& response);
 	static std::vector<unsigned char> serializeGetRoomStateResponse(const GetRoomStateResponse& response);
 	static std::vector<unsigned char> serializeLeaveRoomResponse(const LeaveRoomResponse& response);
+	static std::vector<unsigned char> serializeAmIAdminResponse(const AmIAdminResponse& response);
+
 
 	// V4 serializer
 	static std::vector<unsigned char> serializeLeaveGameResponseResponse(const LeaveGameResponse& response);

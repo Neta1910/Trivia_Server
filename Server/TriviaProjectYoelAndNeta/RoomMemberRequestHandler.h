@@ -3,6 +3,7 @@
 #include "Room.h"
 #include "RequestHandlerFactory.h"
 #include "LoggedUser.h"
+#include "RoomData.h"
 
 class RoomMemberRequestHandler : public IRequestHandler
 {
