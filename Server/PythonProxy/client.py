@@ -117,7 +117,7 @@ def handle_create_room(data):
             join_room(room_id)
             roomData = RoomData(room_id, data_dict[ROOM_NAME], int(data_dict[MAX_USERS]), int(data_dict[QUESTION_COUNT]), int(data_dict[ANSOWER_TIMEOUT]), True)
             emit('createRoomResponse', {'status': WORK_STATUS})
-            emit('roomAdded', {"room": roomData})
+            emit('roomAdded', {"room": roomData.to_dict()})
     except Exception as e:
         print(e)
         emit('createRoomResponse', {'status': FAILED_STATUS})

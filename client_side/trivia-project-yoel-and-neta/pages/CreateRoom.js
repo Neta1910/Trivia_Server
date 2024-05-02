@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { useSocket } from '../componenets/socketContext';
 import styles from '../styles/CreateRoom.module.css';
 import Constants from '../constents'
+import { useRouter } from 'next/router';
 const CreateRoom = () => {
     const [roomName, setRoomName] = useState('');
-    const [timePerQuestion, setTimePerQuestion] = useState();
-    const [maxPlayers, setMaxPlayers] = useState();
-    const [questionCount, setQuestionCount] = useState();
+    const [timePerQuestion, setTimePerQuestion] = useState(0);
+    const [maxPlayers, setMaxPlayers] = useState(0);
+    const [questionCount, setQuestionCount] = useState(0);
 
     const socket = useSocket();
-
+    const router = useRouter();
     const handleSubmit = (e) => {
         e.preventDefault(); // Prevent the form from refreshing the page
         // Emit the login event to the server with username and password
@@ -24,8 +25,10 @@ const CreateRoom = () => {
         socket.on('createRoomResponse', (response) => {
           if (response.status === Constants.WORK_STATUS) {
             console.log('Login response');
-            router.push('/Menu');
-            console.log("pushed");
+            router.push({
+                pathname: '/rooms/[roomsId]',
+                query: {roomId}
+            });
           } else {
             alert('somthing went wrong');
           }
