@@ -9,7 +9,7 @@ class userStats;
 class MenuRequestHandler : public IRequestHandler
 {
 public:
-	MenuRequestHandler(RequestHandlerFactory& handleFactory, std::string username, RoomManager roomManager);
+	MenuRequestHandler(RequestHandlerFactory& handleFactory, std::string username, RoomManager& roomManager);
 	bool isRequestRelevant(RequestInfo& reqInfo) override;
 	RequestResult handleRequest(RequestInfo& reqInfo) override;
 	static std::vector<std::string> statsToVector(userStats user_stats);

@@ -16,8 +16,7 @@ public:
 	//// Delete copy constructor and assignment operator for singleton
 	//RoomManager(RoomManager const&) = delete;
 	//void operator=(RoomManager const&) = delete;
-
-	RoomManager();
+	RoomManager(){}
 
 	int createRoom(LoggedUser logged_user, RoomData room_data);
 	void DeleteRoom(int room_id);
