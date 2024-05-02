@@ -125,6 +125,12 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeLeaveRoomRespon
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, LEAVE_ROOM_RESP);
 }
 
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeAmIAdminResponse(const AmIAdminResponse& response)
+{
+    json j = json{ {"status", response.status}, {"state", response.state} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, AM_I_ADMIN_RESP);
+}
+
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeLeaveGameResponseResponse(const LeaveGameResponse& response)
 {
     json j = json{ {"status", response.status} };

@@ -85,6 +85,12 @@ typedef struct LeaveRoomResponse
 
 // ---------------- V4 ---------------------------
 
+typedef struct AmIAdminResponse
+{
+	unsigned int status;
+	bool state;
+};
+
 typedef struct LeaveGameResponse
 {
 	unsigned int status;
