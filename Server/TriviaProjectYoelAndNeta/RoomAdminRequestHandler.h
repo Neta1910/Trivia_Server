@@ -16,6 +16,7 @@ private:
 	RequestResult closeRoom(RequestInfo& reqInfo);
 	RequestResult startGame(RequestInfo& reqInfo);
 	RequestResult getRoomState(RequestInfo& reqInfo);
+	RequestResult amIAdmin(RequestInfo& requInfo);
 
 	Room m_room;
 	LoggedUser m_user;

@@ -68,7 +68,7 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeJoinRoomRespons
 
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeCreateRoomResponse(const CreateRoomResponse& response)
 {
-    json j = json{ {"status", response.status} }; // Creating a JSON object j with the message field from the response
+    json j = json{ {"status", response.status}, {ROOM_ID, response.roomId } }; // Creating a JSON object j with the message field from the response
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, CREATE_ROOM_RESP); // Parsing the data into a message with the specified response code
 }
 
@@ -114,7 +114,8 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetRoomStateRes
     {
         playersString += it;
     }
-    json j = json{ {response.hasGameBegun} , {playersString}, {response.questionCount}, {response.answerTimeout}, {"status", response.status} };
+    playersString += " ]";
+    json j = json{ {HAS_GAME_BEGUN, response.hasGameBegun} , {PLAYERS, playersString}, {QUESTION_COUNT, response.questionCount}, {ANSOWER_TIMEOUT, response.answerTimeout}, {"status", response.status} };
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_ROOM_STATE_RESP);
 }
 
@@ -122,6 +123,12 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeLeaveRoomRespon
 {
     json j = json{ {"status", response.status} };
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, LEAVE_ROOM_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeAmIAdminResponse(const AmIAdminResponse& response)
+{
+    json j = json{ {"status", response.status}, {"state", response.state} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, AM_I_ADMIN_RESP);
 }
 
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeLeaveGameResponseResponse(const LeaveGameResponse& response)

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import socket from '../socket';
 import { useRouter } from 'next/router';
 import styles from '../styles/signup.module.css'
 import Constants from '../constents';
+import { useSocket } from '../componenets/socketContext';
 
 const Signup = () => {
+  const socket = useSocket();
   const router = useRouter();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');

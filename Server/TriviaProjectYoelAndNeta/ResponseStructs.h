@@ -55,7 +55,9 @@ typedef struct JoinRoomResponse
 typedef struct CreateRoomResponse
 {
 	unsigned int status;
+	unsigned int roomId;
 };
+
 // ---------------- V3 ---------------------------
 typedef struct CloseRoomResponse
 {
@@ -82,6 +84,12 @@ typedef struct LeaveRoomResponse
 };
 
 // ---------------- V4 ---------------------------
+
+typedef struct AmIAdminResponse
+{
+	unsigned int status;
+	bool state;
+};
 
 typedef struct LeaveGameResponse
 {

@@ -9,4 +9,5 @@ struct RoomData
 	unsigned int numOfQuestionsInGame;
 	unsigned int timePerQuestion;
 	unsigned int isActive;
+	unsigned int roomAdmin;
 } typedef RoomData;

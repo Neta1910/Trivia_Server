@@ -125,9 +125,12 @@ void SQLiteDatabase::insertQuestionIntoDB(Question question)
 
 int SQLiteDatabase::getTotalAmountOfQuestions()
 {
-	std::string query = "SELECT * FROM t_questions;";
-	this->runCommand(query, loadIntoQuestions);
-	return SQLiteDatabase::questions.size();
+	//std::string query = "SELECT * FROM t_questions;";
+	//this->runCommand(query, loadIntoQuestions);
+	//return SQLiteDatabase::questions.size();
+	// returining one for now
+
+	return 100;
 }
 
 float SQLiteDatabase::getPlayersAverageAnswerTime(int user_id)

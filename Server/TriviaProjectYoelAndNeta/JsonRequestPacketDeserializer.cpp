@@ -29,7 +29,18 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const 
 CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(const std::vector<unsigned char> buffer)
 {
 	json json_data = JsonRequestPacketDeserializer::convertBuferToRequestParser(buffer);
+	std::cout << json_data[MAX_USERS] << std::endl;
+	std::cout << json_data[ROOM_NAME] << std::endl;
+	std::cout << json_data[QUESTION_COUNT] << std::endl;
+	std::cout << json_data[ANSOWER_TIMEOUT] << std::endl;
+
 	return CreateRoomRequest({ json_data[ROOM_NAME], json_data[MAX_USERS], json_data[QUESTION_COUNT], json_data[ANSOWER_TIMEOUT]});
+}
+
+SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(const std::vector<unsigned char> buffer)
+{
+	json json_data = JsonRequestPacketDeserializer::convertBuferToRequestParser(buffer);
+	return SubmitAnswerRequest({ json_data[ANSWER_ID] });
 }
 
 int JsonRequestPacketDeserializer::convertUnsignedToInt(const std::vector<unsigned char>& buffer)

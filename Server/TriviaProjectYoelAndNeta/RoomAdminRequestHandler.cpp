@@ -3,13 +3,14 @@
 RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory& handleFactory, std::string roomAdmin, RoomManager& roomManager) :
 	m_handlerFactory(handleFactory),
 	m_user(roomAdmin),
-	m_roomManager(roomManager)
+	m_roomManager(roomManager),
+	m_room(RoomData())
 {
 }
 
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo& reqInfo)
 {
-	return (reqInfo.RequestId == CLOSE_ROOM_REQ || reqInfo.RequestId == START_GAME_REQ || reqInfo.RequestId == GET_ROOM_STATE_REQ || reqInfo.RequestId == LEAVE_ROOM_REQ);
+	return (reqInfo.RequestId == CLOSE_ROOM_REQ || reqInfo.RequestId == START_GAME_REQ || reqInfo.RequestId == GET_ROOM_STATE_REQ || reqInfo.RequestId == LEAVE_ROOM_REQ || reqInfo.RequestId == AM_I_ADMIN_REQ);
 }
 
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo& reqInfo)
@@ -24,6 +25,9 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo& reqInfo)
 		break;
 	case GET_ROOM_STATE_REQ:
 		return getRoomState(reqInfo);
+		break;
+	case AM_I_ADMIN_REQ:
+		return amIAdmin(reqInfo);
 		break;
 	}
 }
@@ -60,4 +64,10 @@ RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo& reqInfo)
 {
 	GetRoomStateResponse getRoomState_res{ GET_ROOM_STATE_RESP, m_room.getRoomData().isActive, m_room.getAllUsers(), m_room.getRoomData().numOfQuestionsInGame, m_room.getRoomData().timePerQuestion };
 	return { JsonResponsePacketSerialize::serializeGetRoomStateResponse(getRoomState_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
+}
+
+RequestResult RoomAdminRequestHandler::amIAdmin(RequestInfo& requInfo)
+{
+	AmIAdminResponse amIAdmin_res{ AM_I_ADMIN_RESP, m_room.getRoomData().roomAdmin == m_user.getId()};
+	return { JsonResponsePacketSerialize::serializeAmIAdminResponse(amIAdmin_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
 }

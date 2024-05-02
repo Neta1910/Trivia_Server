@@ -71,3 +71,34 @@ class CreateRoomResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
+        self.roomId = json_data["roomId"]
+
+class CloseRoomResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+
+class StartGameResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+
+class GetRoomStaeResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.hasGameBegun = json_data["hasGameBegun"]
+        self.players = json_data["players"]
+        self.questionCount = json_data["questionCount"]
+        self.answerTimeout = json_data["answerTimeout"]
+
+class LeaveRoomResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+
+class AmIAdminResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.state = json_data["state"]

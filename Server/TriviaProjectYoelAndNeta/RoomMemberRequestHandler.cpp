@@ -3,7 +3,8 @@
 RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& handleFactory, std::string member, RoomManager& roomManager) :
 	m_handleFactory(handleFactory),
 	m_user(member),
-	m_roomManager(roomManager)
+	m_roomManager(roomManager),
+	m_room(RoomData())
 {
 }
 

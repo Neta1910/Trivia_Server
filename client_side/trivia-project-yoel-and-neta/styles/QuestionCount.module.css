@@ -1,0 +1,12 @@
+.counter {
+    font-size: 20px;
+    color: #333;
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+    transition: transform 0.5s ease;
+}
+
+.animate {
+    transform: scale(1.1);
+}
