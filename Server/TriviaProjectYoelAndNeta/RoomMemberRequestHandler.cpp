@@ -22,6 +22,7 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo& reqInfo)
 		break;
 	case GET_ROOM_STATE_REQ:
 		return getRoomState(reqInfo);
+		break;
 	case GET_PLAYERS_REQ:
 		return this->getPlayersInRoom(reqInfo);
 		break;

@@ -19,10 +19,10 @@ export default function Room() {
 
   useEffect(() => {
     if (!socket) return;
-    console.log("sent")
-    socket.emit("getPlayersInRoom", { roomId });
-    // socket.emit('getRoomState');
-    // socket.emit('AmIAdmin');
+    console.log("room_id in room: ", roomId)
+    socket.emit("getPlayersInRoom", { roomId: roomId });
+    socket.emit('getRoomState');
+    socket.emit('AmIAdmin');
 
     socket.on("getPlayersInRoomResponse", (response) => {
       console.log(response);

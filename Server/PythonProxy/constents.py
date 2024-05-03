@@ -54,11 +54,13 @@ PHONE_NUMBER: str = "phoneNumber"
 BIRTH_DATE: str = "birthDate"
 ROOM_ID = "roomId"
 
-ROOM_NAME = "roomName"
-MAX_USERS = "maxUsers"
-QUESTION_COUNT = "questionCount"
-ANSOWER_TIMEOUT = "answerTimeout"
+ROOM_NAME = "room_name"
+MAX_USERS = "max_users"
+QUESTION_COUNT = "question_count"
+ANSOWER_TIMEOUT = "answer_timeout"
 
+HAS_GAME_BEGUN = "hasGameBegun"
+PLAYERS = "players"
 
 
 

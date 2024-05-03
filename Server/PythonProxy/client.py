@@ -69,7 +69,7 @@ def handle_signup(data):
 @socketio.on('getPlayersInRoom')
 def handle_get_players(data):
     try:
-        serverMessege = getPlayersInRoom(data[ROOM_ID])
+        serverMessege = getPlayersInRoom(int(data["roomId"]))
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:

@@ -16,19 +16,18 @@ const CreateRoom = () => {
         // Emit the login event to the server with username and password
         console.log(typeof maxPlayers)
         socket.emit('createRoom', {
-            roomName: roomName,
-            maxUsers: maxPlayers,
-            answerTimeout: timePerQuestion,
-            questionCount: questionCount
+            [Constants.FIELDS.ROOM_NAME] : roomName,
+            [Constants.FIELDS.MAX_USERS]  : maxPlayers,
+            [Constants.FIELDS.ANSOWER_TIMEOUT] : timePerQuestion,
+            [Constants.FIELDS.QUESTION_COUNT] : questionCount
         });
         // Listen for the login response from the server
         socket.on('createRoomResponse', (response) => {
           if (response.status === Constants.WORK_STATUS) {
-            setRoomId(response.roomId)
-            console.log('Login response');
+            console.log(response, response.roomId, roomId);
             router.push({
                 pathname: '/rooms/[roomId]',  // Make sure this matches your file name in the pages directory
-                query: { roomId: roomId }  // Replace 'desired-room-id' with the actual room ID you want to navigate to.
+                query: { roomId: response.roomId }  // Replace 'desired-room-id' with the actual room ID you want to navigate to.
             });
             
           } else {
