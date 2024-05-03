@@ -44,11 +44,11 @@ void Game::submitGameStatsToDB(GameData game_data)
 bool Game::isCurrQuestionLast(LoggedUser user)
 {
     // Find current question for user
-    for (auto it : m_players)
+    /*for (auto it : m_players)
     {
         if (it.second.currentQuestion == m_questions[m_questions.max_size()])
         {
 
         }
-    }
+    }*/
 }
