@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './QuestionCount.module.css'; // Assuming the CSS module file is named QuestionCount.module.css
+import styles from '../styles/QuestionCount.module.css'; // Assuming the CSS module file is named QuestionCount.module.css
 
 function QuestionCount({ count }) {
     const [triggerAnimation, setTriggerAnimation] = useState(false);

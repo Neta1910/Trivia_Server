@@ -1,3 +1,4 @@
+import constents
 from getMesseges import *
 
 
@@ -38,7 +39,7 @@ class GetPlayersInRoomRequest:
         self.room_id = room_id
 
     def getMessage(self):
-        data = {"room_id": self.room_id}
+        data = {"roomId": self.room_id}
         return parseRequestToMessage(data, GET_PLAYERS_REQ)
 
 
@@ -47,7 +48,7 @@ class JoinRoomRequest:
         self.room_id = room_id
 
     def getMessage(self):
-        data = {"room_id": self.room_id}
+        data = {"roomId": self.room_id}
         return parseRequestToMessage(data, JOIN_ROOM_REQ)
 
 
@@ -60,10 +61,10 @@ class CreateRoomRequest:
 
     def getMessage(self):
         data = {
-            "room_name": self.room_name,
-            "max_users": self.max_users,
-            "question_count": self.question_count,
-            "answer_timeout": self.answer_timeout
+            constents.ROOM_NAME: self.room_name,
+            constents.MAX_USERS: self.max_users,
+            constents.QUESTION_COUNT: self.question_count,
+            constents.ANSOWER_TIMEOUT : self.answer_timeout
         }
         return parseRequestToMessage(data, CREATE_ROOM_REQ)
 

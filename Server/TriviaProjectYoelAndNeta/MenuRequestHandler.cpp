@@ -25,8 +25,6 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo& reqInfo)
 		return this->logOut(reqInfo);
 	case GET_ROOM_REQ:
 		return this->getRooms(reqInfo);
-	case GET_PLAYERS_REQ:
-		return this->getPlayersInRoom(reqInfo);
 	case JOIN_ROOM_REQ:
 		return this->joinRoom(reqInfo);
 	case CREATE_ROOM_REQ:
@@ -63,39 +61,27 @@ std::vector<std::string> MenuRequestHandler::highestScoreToVector(std::vector<Hi
 RequestResult MenuRequestHandler::logOut(RequestInfo& reqInfo)
 {
 	LoginManager::getInstance(this->m_handleFactory.getDatabase()).logout(m_user.getUsername());
-	LogoutResponse logOut_res = { LOGOUT_RESP };
+	LogoutResponse logOut_res = { WORKING_STATUS };
 	return { JsonResponsePacketSerialize::serializeLogoutResponse(logOut_res), (IRequestHandler*)m_handleFactory.createLoginRequestHandler() };
 }
 
 RequestResult MenuRequestHandler::getRooms(RequestInfo& reqInfo)
 {
-	GetRoomsResponse getRooms_res = { GET_ROOM_RESP, m_roomManager.getRooms() };
+	GetRoomsResponse getRooms_res = { WORKING_STATUS, m_roomManager.getRooms() };
 	return { JsonResponsePacketSerialize::serializeGetRoomResponse(getRooms_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
-}
-
-RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo& reqInfo)
-{
-	GetPlayersInRoomRequest getPlayersInRoom_req = JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(reqInfo.buffer);
-	if (!m_roomManager.doesRoomExist(getPlayersInRoom_req.roomId))
-	{
-		ErrorResponse error_res = { "Room doesn't exist" };
-		return { JsonResponsePacketSerialize::serializeErrorResponse(error_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
-	}
-	GetPlayersInRoomResponse getPlayersRoom_res = { GET_PLAYERS_RESP, m_roomManager.getRoom(getPlayersInRoom_req.roomId).getAllUsers() };
-	return { JsonResponsePacketSerialize::serializeGetPlayersInRoomResponse(getPlayersRoom_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
 }
 
 RequestResult MenuRequestHandler::getPersonalStats(RequestInfo& reqInfo)
 {
 	userStats user_stats = m_handleFactory.getStatisticsManager().getUserStatistics(m_user.getId());
-	GetPersonalStatsResponse getPersonalStats_res = { GET_PERSONAL_STATS_RESP, user_stats};
+	GetPersonalStatsResponse getPersonalStats_res = { WORKING_STATUS, user_stats};
 	return { JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(getPersonalStats_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
 }
 
 RequestResult MenuRequestHandler::getHighScore(RequestInfo& reqInfo)
 {
 	std::vector<HighestScore> highScores = m_handleFactory.getStatisticsManager().getHighScore();
-	GetHighScoreResponse getHighScore_res = { GET_HIGH_SCORE_RESP, highScores};
+	GetHighScoreResponse getHighScore_res = { WORKING_STATUS, highScores};
 	return { JsonResponsePacketSerialize::serializeHighScoreResponse(getHighScore_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
 }
 
@@ -113,10 +99,8 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo& reqInfo)
 		else // Join player to room if there's enough space
 		{
 			m_roomManager.getRoom(joinRoom_req.roomId).addUser(m_user);
-			JoinRoomResponse joinRoom_res = { JOIN_ROOM_RESP };
-			//                                   !!!!!!!!!!!!!!!!!!!!!! NOTE !!!!!!!!!!!!!!!!!!!!!!
-			//							The row below isn't working yet (needs implementation of class 'RoomMemberRequestHandler')
-			return { JsonResponsePacketSerialize::serializeJoinRoomResponse(joinRoom_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
+			JoinRoomResponse joinRoom_res = { WORKING_STATUS };
+			return { JsonResponsePacketSerialize::serializeJoinRoomResponse(joinRoom_res), (IRequestHandler*)m_handleFactory.createRoomMemberRequestHandler(this->m_user, m_roomManager.getRoom(joinRoom_req.roomId)) };
 		}
 	}
 	error_res = { "Room doesn't exist" };
@@ -133,7 +117,8 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo& reqInfo)
 	{
 		RoomData newRoomData = { 0, createRoom_req.roomName, createRoom_req.maxUsers, createRoom_req.questionCount, createRoom_req.answerTimeout, ACTIVE_ROOM };
 		int roomId = m_roomManager.createRoom(m_user, newRoomData);
-		CreateRoomResponse createRoom_res = { CREATE_ROOM_RESP, roomId };
+		
+		CreateRoomResponse createRoom_res = { WORKING_STATUS, roomId };
 		return {JsonResponsePacketSerialize::serializeCreateRoomResponse(createRoom_res),  (IRequestHandler*)m_handleFactory.createRoomMemberRequestHandler(this->m_user, this->m_roomManager.getRoom(roomId))};
 	}
 	ErrorResponse error_res = { "Invalid room settings!" };	

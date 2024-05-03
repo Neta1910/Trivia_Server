@@ -37,12 +37,12 @@ MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser u
 
 RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser logged_user, Room room)
 {
-    return new RoomAdminRequestHandler(*this, logged_user.getUsername(), m_roomManager);
+    return new RoomAdminRequestHandler(*this, logged_user.getUsername(), m_roomManager, room.getRoomData());
 }
 
 RoomMemberRequestHandler* RequestHandlerFactory::RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser logged_user, Room room)
 {
-    return new RoomMemberRequestHandler(*this, logged_user.getUsername(), m_roomManager);   
+    return new RoomMemberRequestHandler(*this, logged_user.getUsername(), m_roomManager, room.getRoomData());   
 }
 
 StatisticsManager& RequestHandlerFactory::getStatisticsManager()
