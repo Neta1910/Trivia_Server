@@ -25,8 +25,6 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo& reqInfo)
 		return this->logOut(reqInfo);
 	case GET_ROOM_REQ:
 		return this->getRooms(reqInfo);
-	case GET_PLAYERS_REQ:
-		return this->getPlayersInRoom(reqInfo);
 	case JOIN_ROOM_REQ:
 		return this->joinRoom(reqInfo);
 	case CREATE_ROOM_REQ:
@@ -71,18 +69,6 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo& reqInfo)
 {
 	GetRoomsResponse getRooms_res = { WORKING_STATUS, m_roomManager.getRooms() };
 	return { JsonResponsePacketSerialize::serializeGetRoomResponse(getRooms_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
-}
-
-RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo& reqInfo)
-{
-	GetPlayersInRoomRequest getPlayersInRoom_req = JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(reqInfo.buffer);
-	if (!m_roomManager.doesRoomExist(getPlayersInRoom_req.roomId))
-	{
-		ErrorResponse error_res = { "Room doesn't exist" };
-		return { JsonResponsePacketSerialize::serializeErrorResponse(error_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
-	}
-	GetPlayersInRoomResponse getPlayersRoom_res = { WORKING_STATUS, m_roomManager.getRoom(getPlayersInRoom_req.roomId).getAllUsers() };
-	return { JsonResponsePacketSerialize::serializeGetPlayersInRoomResponse(getPlayersRoom_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
 }
 
 RequestResult MenuRequestHandler::getPersonalStats(RequestInfo& reqInfo)

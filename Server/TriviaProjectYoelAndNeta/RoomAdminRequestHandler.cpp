@@ -10,7 +10,7 @@ RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory& handleFa
 
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo& reqInfo)
 {
-	return (reqInfo.RequestId == CLOSE_ROOM_REQ || reqInfo.RequestId == START_GAME_REQ || reqInfo.RequestId == GET_ROOM_STATE_REQ || reqInfo.RequestId == LEAVE_ROOM_REQ || reqInfo.RequestId == AM_I_ADMIN_REQ);
+	return (reqInfo.RequestId == CLOSE_ROOM_REQ || reqInfo.RequestId == START_GAME_REQ || reqInfo.RequestId == GET_ROOM_STATE_REQ || reqInfo.RequestId == LEAVE_ROOM_REQ || reqInfo.RequestId == AM_I_ADMIN_REQ || reqInfo.RequestId == GET_PLAYERS_REQ);
 }
 
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo& reqInfo)
@@ -28,6 +28,9 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo& reqInfo)
 		break;
 	case AM_I_ADMIN_REQ:
 		return amIAdmin(reqInfo);
+		break;
+	case GET_PLAYERS_REQ:
+		return this->getPlayersInRoom(reqInfo);
 		break;
 	}
 }
@@ -70,4 +73,16 @@ RequestResult RoomAdminRequestHandler::amIAdmin(RequestInfo& requInfo)
 {
 	AmIAdminResponse amIAdmin_res{ WORKING_STATUS, m_room.getRoomData().roomAdmin == m_user.getId()};
 	return { JsonResponsePacketSerialize::serializeAmIAdminResponse(amIAdmin_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
+}
+
+RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo& reqInfo)
+{
+	GetPlayersInRoomRequest getPlayersInRoom_req = JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(reqInfo.buffer);
+	if (!m_roomManager.doesRoomExist(getPlayersInRoom_req.roomId))
+	{
+		ErrorResponse error_res = { "Room doesn't exist" };
+		return { JsonResponsePacketSerialize::serializeErrorResponse(error_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room)};
+	}
+	GetPlayersInRoomResponse getPlayersRoom_res = { WORKING_STATUS, m_roomManager.getRoom(getPlayersInRoom_req.roomId).getAllUsers() };
+	return { JsonResponsePacketSerialize::serializeGetPlayersInRoomResponse(getPlayersRoom_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
 }
