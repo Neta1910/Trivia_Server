@@ -20,19 +20,19 @@ export default function Room() {
   useEffect(() => {
     if (!socket) return;
     console.log("room_id in room: ", roomId)
-    socket.emit("getPlayersInRoom", { roomId: roomId });
+    // socket.emit("getPlayersInRoom", { roomId: roomId });
     socket.emit('getRoomState');
     socket.emit('AmIAdmin');
 
-    socket.on("getPlayersInRoomResponse", (response) => {
-      console.log(response);
-      if (response.status === Constants.WORK_STATUS) {
-        console.log("Players: ", response.players);
-        setPlayers(response.players);
-      } else {
-        alert("Something went wrong - get players");
-      }
-    });
+    // socket.on("getPlayersInRoomResponse", (response) => {
+    //   console.log("players", response);
+    //   if (response.status === Constants.WORK_STATUS) {
+    //     console.log("Players: ", response.players);
+    //     setPlayers(response.players);
+    //   } else {
+    //     alert("Something went wrong - get players");
+    //   }
+    // });
 
     socket.on("getRoomStateResponse", (response) => {
       if (response.status === Constants.WORK_STATUS) {
@@ -40,6 +40,7 @@ export default function Room() {
         setGameBegun(response.hasGameBegun);
         setQuestionCount(response.questionCount);
         setAnswerTimeout(response.answerTimeout);
+        setPlayers(response.players)
       } else {
         alert("Something went wrong - get stat");
       }
@@ -63,7 +64,7 @@ export default function Room() {
   }
 
   function deleteRoom() {
-    socket.emit("closeRoom");
+    socket.emit("closeRoom", { roomId: roomId });
     router.push("/"); // Redirect after deletion
   }
 

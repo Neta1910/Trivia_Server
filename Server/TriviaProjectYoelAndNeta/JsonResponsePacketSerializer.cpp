@@ -56,7 +56,7 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetPlayersInRoo
     {
         playersString += *it;
     }
-    json j = json{ {"players", playersString} };
+    json j = json{ {"status", response.status ,"players", response.players}};
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_PLAYERS_RESP); // Parsing the data into a message with the specified response code
 }
 
@@ -115,7 +115,7 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetRoomStateRes
         playersString += it;
     }
     playersString += " ]";
-    json j = json{ {HAS_GAME_BEGUN, response.hasGameBegun} , {PLAYERS, playersString}, {QUESTION_COUNT, response.questionCount}, {ANSOWER_TIMEOUT, response.answerTimeout}, {"status", response.status} };
+    json j = json{ {HAS_GAME_BEGUN, response.hasGameBegun} , {PLAYERS, response.players}, {QUESTION_COUNT, response.questionCount}, {ANSOWER_TIMEOUT, response.answerTimeout}, {"status", response.status} };
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_ROOM_STATE_RESP);
 }
 
