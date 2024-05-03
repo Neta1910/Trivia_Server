@@ -1,16 +1,24 @@
 #include "RoomManager.h"
 
-RoomManager::RoomManager()
-{
-}
-
-void RoomManager::createRoom(LoggedUser logged_user, RoomData room_data)
+int RoomManager::createRoom(LoggedUser logged_user, RoomData room_data)
 {
 	// Create new room
-	Room new_room;
+	Room new_room = Room(room_data);
 	new_room.addUser(logged_user);
+
 	// Add room to map of rooms
-	m_rooms.insert({ room_data.id, new_room });
+	int roomId = 0;
+
+	// creating loop to decide what is a unique id to use for a room
+	for (auto it : m_rooms) {
+		if (it.second.getRoomData().id > roomId)
+		{
+			roomId = it.second.getRoomData().id;
+		}
+	}
+	roomId++;
+	this->m_rooms.insert({ roomId, new_room });
+	return roomId;
 }
 
 void RoomManager::DeleteRoom(int room_id)

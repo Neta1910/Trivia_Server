@@ -12,7 +12,12 @@ enum ResponseCodes
 	JOIN_ROOM_RESP,
 	CREATE_ROOM_RESP,
 	GET_HIGH_SCORE_RESP,
-	GET_PERSONAL_STATS_RESP
+	GET_PERSONAL_STATS_RESP,
+	CLOSE_ROOM_RESP,
+	START_GAME_RESP,
+	GET_ROOM_STATE_RESP,
+	LEAVE_ROOM_RESP,
+	AM_I_ADMIN_RESP
 };
 
 enum RequestCodes
@@ -26,7 +31,12 @@ enum RequestCodes
 	JOIN_ROOM_REQ,
 	CREATE_ROOM_REQ,
 	GET_HIGH_SCORE_REQ,
-	GET_PERSONAL_STATS_REQ
+	GET_PERSONAL_STATS_REQ,
+	CLOSE_ROOM_REQ,
+	START_GAME_REQ,
+	GET_ROOM_STATE_REQ,
+	LEAVE_ROOM_REQ,
+	AM_I_ADMIN_REQ
 };
 
 // ---- Message constants ----
@@ -43,10 +53,10 @@ enum RequestCodes
 
 #define ROOM_ID "roomId"
 
-#define ROOM_NAME "roomName"
-#define MAX_USERS "maxUsers"
-#define QUESTION_COUNT "questionCount"
-#define ANSOWER_TIMEOUT "answerTimeout"
+#define ROOM_NAME "room_name"
+#define MAX_USERS "max_users"
+#define QUESTION_COUNT "question_count"
+#define ANSOWER_TIMEOUT "answer_timeout"
 
 // ---- Room Settings ----
 #define MIN_ANS_TIME 1
@@ -57,3 +67,11 @@ enum RequestCodes
 
 // ---- Statistics Settings ----
 #define HIGH_SCORE "highestScore"
+
+
+// ---- RoomState Setttings ----
+#define HAS_GAME_BEGUN "hasGameBegun"
+#define PLAYERS "players"
+
+#define	WORKING_STATUS 1
+#define FAILED_STATUS 0

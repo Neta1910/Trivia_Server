@@ -1,0 +1,21 @@
+.timeoutWrapper {
+    background-color: #ddd;
+    border-radius: 8px;
+    padding: 5px;
+    position: relative;
+    height: 30px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.timeoutBar {
+    background-color: #4CAF50;
+    height: 100%;
+    transition: width 1s linear;
+    position: absolute;
+    left: 0;
+    top: 0;
+}

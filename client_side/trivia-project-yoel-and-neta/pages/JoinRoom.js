@@ -5,7 +5,7 @@ import LoadingBar from "../componenets/loadingData";
 import Constants from '../constents'
 
 const JoinRoom = () => {
-    const [rooms, setRooms] = useState({});
+    const [rooms, setRooms] = useState([]);
     const [loading, setLoading] = useState(true); // Track loading state
     const [error, setError] = useState(null); // Track error state
     const socket = useSocket();
@@ -17,17 +17,28 @@ const JoinRoom = () => {
         socket.on('getRoomsResponse', (response) => {
             if (response.status === Constants.WORK_STATUS) {
                 setLoading(false);
-                setRooms(JSON.parse(response.body));
+                setRooms(JSON.parse(response.rooms));
             } else {
                 setLoading(false);
                 setError("Error getting from server... ");
             }
+
+                // Listen for the login response from the server
+        socket.on('roomDeleted', (response) => {
+            setRooms(currentRooms => currentRooms.filter(room => room.id !== response.roomId));
         });
+
+        socket.on('roomAdded', (response) => {
+            setRooms(rooms.push(JSON.parse(response.room)));
+        });
+
         // Clean up on component unmount
         return () => {
             socket.off('getRoomsResponse')
+            socket.off('roomAdded')
+            socket.off('roomDeleted')
         };
-    }, []);
+    }, [])})
 
     if (loading) return <LoadingBar />
     if (rooms.length == 0) return <p> There is no aveilable rooms </p>
@@ -49,4 +60,4 @@ const JoinRoom = () => {
     )
 }
 
-export default JoinRoom
+export default JoinRoom;

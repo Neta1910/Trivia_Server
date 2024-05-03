@@ -38,7 +38,7 @@ void Communicator::startHandleRequests()
 
 void Communicator::sendData(const SOCKET sc, std::vector<unsigned char>& message, const int& flags)
 {
-	if (send(sc, this->unsignedToChar(message), message.size() * sizeof(unsigned char), 0) == INVALID_SOCKET)
+	if (send(sc, unsignedToChar(message), message.size() * sizeof(unsigned char), 0) == INVALID_SOCKET)
 	{
 		throw std::exception("Error while sending message to client");
 	}
@@ -85,10 +85,6 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 				m_clients.erase(userSocket);
 			}
 
-			//RequestInfo reqInfo;
-			//reqInfo.buffer = clientMessage;
-			//reqInfo.receivalTime = getCurrentTime();
-			//reqInfo.RequestId = clientMessage[0];
 			RequestInfo reqInfo = { static_cast<RequestCodes>(clientMessage[0]), getCurrentTime(), clientMessage };
 			if (m_clients.find(userSocket)->second != nullptr && m_clients.find(userSocket)->second->isRequestRelevant(reqInfo))
 			{
@@ -97,18 +93,11 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 				{
 					m_clients.find(userSocket)->second = resResult.newHandler;
 				}
-				//std::string response_as_string = std::string(resResult.response.begin(), resResult.response.end());
 				if (std::string(resResult.response.begin(), resResult.response.end()) != "")
 				{
 					sendData(userSocket, resResult.response);
 				}
 			}
-			//if (newHandler->isRequestRelevant(reqInfo)) // For a valid request, move user to the next state
-			//{
-			//	RequestResult resp = newHandler->handleRequest(reqInfo);
-			//	this->sendData(userSocket, resp.response);
-
-			//}
 			else // Assemble error response
 			{
 				ErrorResponse err;
@@ -143,6 +132,11 @@ char* Communicator::unsignedToChar(const std::vector<unsigned char>& data)
 		res[i] = data[i];
 	}
 	return res;
+}
+
+std::map<SOCKET, IRequestHandler*> Communicator::getClients()
+{
+	return m_clients;
 }
 
 

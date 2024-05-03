@@ -16,10 +16,9 @@ public:
 	//// Delete copy constructor and assignment operator for singleton
 	//RoomManager(RoomManager const&) = delete;
 	//void operator=(RoomManager const&) = delete;
+	RoomManager(){}
 
-	RoomManager();
-
-	void createRoom(LoggedUser logged_user, RoomData room_data);
+	int createRoom(LoggedUser logged_user, RoomData room_data);
 	void DeleteRoom(int room_id);
 	unsigned int getRoomState(int room_id); // Return the 'isActive' variable of the room
 	bool doesRoomExist(int room_id);

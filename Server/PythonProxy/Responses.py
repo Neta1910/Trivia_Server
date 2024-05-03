@@ -1,5 +1,5 @@
 import json
-
+import constents
 from RoomData import RoomData
 
 
@@ -71,3 +71,34 @@ class CreateRoomResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
+        self.roomId = json_data["roomId"]
+
+class CloseRoomResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+
+class StartGameResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+
+class GetRoomStaeResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.hasGameBegun = json_data[constents.HAS_GAME_BEGUN]
+        self.players = json_data[constents.PLAYERS]
+        self.questionCount = json_data[constents.QUESTION_COUNT]
+        self.answerTimeout = json_data[constents.ANSOWER_TIMEOUT]
+
+class LeaveRoomResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+
+class AmIAdminResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.state = json_data["state"]

@@ -29,6 +29,7 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const 
 CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(const std::vector<unsigned char> buffer)
 {
 	json json_data = JsonRequestPacketDeserializer::convertBuferToRequestParser(buffer);
+
 	return CreateRoomRequest({ json_data[ROOM_NAME], json_data[MAX_USERS], json_data[QUESTION_COUNT], json_data[ANSOWER_TIMEOUT]});
 }
 

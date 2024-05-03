@@ -15,6 +15,12 @@ JOIN_ROOM_REQ = 106
 CREATE_ROOM_REQ = 107
 GET_HIGH_SCORE_REQ = 108
 GET_PERSONAL_STATS_REQ = 109
+CLOSE_ROOM_REQ = 110
+START_GAME_REQ = 111
+GET_ROOM_STATE_REQ = 112
+LEAVE_ROOM_REQ = 113
+AM_I_ADMIN_REQ = 114
+
 
 # responses code
 class ResponseCode(Enum):
@@ -28,6 +34,11 @@ class ResponseCode(Enum):
     CREATE_ROOM_RESP = 207
     GET_HIGH_SCORE_RESP = 208
     GET_PERSONAL_STATS_RESP = 209
+    CLOSE_ROOM_RESP = 210
+    START_GAME_RESP = 211
+    GET_ROOM_STATE_RESP = 212
+    LEAVE_ROOM_RESP = 213
+    AM_I_ADMIN_RESP = 214
 
 
 
@@ -43,11 +54,13 @@ PHONE_NUMBER: str = "phoneNumber"
 BIRTH_DATE: str = "birthDate"
 ROOM_ID = "roomId"
 
-ROOM_NAME = "roomName"
-MAX_USERS = "maxUsers"
-QUESTION_COUNT = "questionCount"
-ANSOWER_TIMEOUT = "answerTimeout"
+ROOM_NAME = "room_name"
+MAX_USERS = "max_users"
+QUESTION_COUNT = "question_count"
+ANSOWER_TIMEOUT = "answer_timeout"
 
+HAS_GAME_BEGUN = "hasGameBegun"
+PLAYERS = "players"
 
 
 
