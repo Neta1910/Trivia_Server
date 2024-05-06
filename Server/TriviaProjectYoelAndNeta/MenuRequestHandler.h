@@ -23,7 +23,6 @@ private:
 
 	RequestResult logOut(RequestInfo& reqInfo);
 	RequestResult getRooms(RequestInfo& reqInfo);
-	RequestResult getPlayersInRoom(RequestInfo& reqInfo);
 	RequestResult getPersonalStats(RequestInfo& reqInfo);
 	RequestResult getHighScore(RequestInfo& reqInfo);
 	RequestResult joinRoom(RequestInfo& reqInfo);

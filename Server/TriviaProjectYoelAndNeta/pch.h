@@ -82,3 +82,6 @@ enum RequestCodes
 // ---- RoomState Setttings ----
 #define HAS_GAME_BEGUN "hasGameBegun"
 #define PLAYERS "players"
+
+#define	WORKING_STATUS 1
+#define FAILED_STATUS 0
