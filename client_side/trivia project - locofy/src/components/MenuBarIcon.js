@@ -1,13 +1,8 @@
 import styles from "./MenuBarIcon.module.css";
 
-const MenuBarIcon = () => {
+const MenuBarIcon = ({ menuBar }) => {
   return (
-    <img
-      className={styles.menuBarIcon}
-      loading="lazy"
-      alt=""
-      src="/menu-bar1.svg"
-    />
+    <img className={styles.menuBarIcon} loading="lazy" alt="" src={menuBar} />
   );
 };
 

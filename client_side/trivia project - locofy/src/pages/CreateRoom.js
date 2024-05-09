@@ -1,3 +1,4 @@
+import MenuBarIcon from "../components/MenuBarIcon";
 import styles from "./CreateRoom.module.css";
 
 const CreateRoom = () => {
@@ -100,12 +101,7 @@ const CreateRoom = () => {
           src="/vector-5.svg"
         />
       </div>
-      <img
-        className={styles.menuBarIcon}
-        loading="lazy"
-        alt=""
-        src="/menu-bar.svg"
-      />
+      <MenuBarIcon menuBar="/menu-bar1.svg" />
     </div>
   );
 };

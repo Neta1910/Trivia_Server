@@ -1,10 +1,10 @@
-import HighhScoreres from "./HighhScoreres";
+import HighhScoreres1 from "./HighhScoreres1";
 import styles from "./AdminArea.module.css";
 
 const AdminArea = () => {
   return (
     <section className={styles.adminArea}>
-      <HighhScoreres />
+      <HighhScoreres1 />
       <div className={styles.actionSectionAdminWrapper}>
         <div className={styles.actionSectionAdmin}>
           <div className={styles.adminButton}>

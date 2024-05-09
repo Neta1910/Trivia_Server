@@ -1,7 +1,7 @@
 import UserStats from "./UserStats";
-import styles from "./FrameComponent3.module.css";
+import styles from "./StatProperties.module.css";
 
-const FrameComponent3 = () => {
+const StatProperties = () => {
   return (
     <section className={styles.userStatsParent}>
       <UserStats
@@ -37,4 +37,4 @@ const FrameComponent3 = () => {
   );
 };
 
-export default FrameComponent3;
+export default StatProperties;

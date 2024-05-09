@@ -1,12 +1,12 @@
-import HighhScoreres1 from "../components/HighhScoreres1";
-import FrameComponent3 from "../components/FrameComponent3";
+import HighhScoreres from "../components/HighhScoreres";
+import StatProperties from "../components/StatProperties";
 import styles from "./Statistics.module.css";
 
 const Statistics = () => {
   return (
     <div className={styles.statistics}>
       <section className={styles.highhScoreresParent}>
-        <HighhScoreres1 />
+        <HighhScoreres />
         <div className={styles.frameWrapper}>
           <div className={styles.vectorParent}>
             <img
@@ -24,7 +24,7 @@ const Statistics = () => {
           </div>
         </div>
       </section>
-      <FrameComponent3 />
+      <StatProperties />
     </div>
   );
 };

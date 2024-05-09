@@ -91,7 +91,17 @@
     box-sizing: border-box;
   }
 }
-@media screen and (max-width: 488px) {
+@media screen and (max-width: 900px) {
+  .yourAvgAnsContainer {
+    font-size: var(--font-size-7xl);
+  }
+
+  .userStatsGroup {
+    flex-wrap: wrap;
+    gap: 78px 39px;
+  }
+}
+@media screen and (max-width: 700px) {
   .yourAvgAnsContainer {
     font-size: var(--font-size-lgi);
   }

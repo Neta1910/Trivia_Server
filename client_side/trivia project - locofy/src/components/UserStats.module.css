@@ -55,7 +55,12 @@
     flex: 1;
   }
 }
-@media screen and (max-width: 488px) {
+@media screen and (max-width: 900px) {
+  .youPlayedX {
+    font-size: var(--font-size-7xl);
+  }
+}
+@media screen and (max-width: 700px) {
   .youPlayedX {
     font-size: var(--font-size-lgi);
   }

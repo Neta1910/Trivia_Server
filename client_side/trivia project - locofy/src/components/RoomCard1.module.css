@@ -114,6 +114,19 @@
   font-family: var(--font-kavoon);
 }
 
+@media screen and (max-width: 900px) {
+  .roomName {
+    font-size: var(--font-size-7xl);
+  }
+
+  .xPlayers {
+    font-size: var(--font-size-7xl);
+  }
+
+  .xTimeout {
+    font-size: var(--font-size-7xl);
+  }
+}
 @media screen and (max-width: 450px) {
   .roomName {
     font-size: var(--font-size-lgi);

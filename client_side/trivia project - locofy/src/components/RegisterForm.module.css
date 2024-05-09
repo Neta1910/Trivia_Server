@@ -1,0 +1,357 @@
+.register {
+  margin-left: -89px;
+  width: 646px;
+  position: relative;
+  display: inline-block;
+  text-shadow:
+    1px 0 0 #000,
+    0 1px 0 #000,
+    -1px 0 0 #000,
+    0 -1px 0 #000;
+  max-width: 120%;
+  flex-shrink: 0;
+}
+.mdipassword {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: none;
+}
+.userName {
+  width: 225px;
+  position: relative;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.frameChild {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 2px;
+  height: 40px;
+}
+.emailIcon {
+  position: absolute;
+  top: 5.5px;
+  left: 18px;
+  width: 21px;
+  height: 28px;
+}
+.vectorParent {
+  width: 39px;
+  height: 40px;
+  position: relative;
+}
+.frameWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-11xs-5) 0px 0px;
+}
+.userNameParent {
+  align-self: stretch;
+  box-shadow: -4px 7px 4px rgba(0, 0, 0, 0.25);
+  border: 5px solid var(--color-black);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--padding-7xs) var(--padding-14xl) var(--padding-4xs)
+    var(--padding-4xs);
+  gap: var(--gap-xl);
+}
+.email {
+  width: 157px;
+  position: relative;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.icbaselineEmailIcon {
+  position: absolute;
+  top: 6.5px;
+  left: 15px;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+}
+.vectorGroup {
+  width: 47px;
+  height: 40px;
+  position: relative;
+}
+.emailParent {
+  align-self: stretch;
+  box-shadow: -4px 7px 4px rgba(0, 0, 0, 0.25);
+  border: 5px solid var(--color-black);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--padding-7xs) var(--padding-6xl) var(--padding-4xs)
+    var(--padding-4xs);
+  gap: var(--gap-xl);
+}
+.address {
+  width: 193px;
+  position: relative;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.entypoaddressIcon {
+  position: absolute;
+  top: 6.5px;
+  left: 15px;
+  width: 33px;
+  height: 33px;
+  overflow: hidden;
+}
+.vectorContainer {
+  width: 48px;
+  height: 40px;
+  position: relative;
+}
+.addressParent {
+  align-self: stretch;
+  box-shadow: -4px 7px 4px rgba(0, 0, 0, 0.25);
+  border: 5px solid var(--color-black);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--padding-7xs) var(--padding-5xl) var(--padding-4xs)
+    var(--padding-4xs);
+  gap: var(--gap-xl);
+}
+.phoneNumber {
+  width: 289px;
+  position: relative;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.phoneNumberParent {
+  align-self: stretch;
+  box-shadow: -4px 7px 4px rgba(0, 0, 0, 0.25);
+  border: 5px solid var(--color-black);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--padding-7xs) var(--padding-5xl) var(--padding-4xs)
+    var(--padding-4xs);
+  gap: var(--gap-xl);
+}
+.usernameInputParent {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-21xl);
+  max-width: 100%;
+}
+.submit {
+  position: relative;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  min-width: 127px;
+}
+.submitButton {
+  flex: 1;
+  border-radius: var(--br-3xs);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(20px);
+  border: 5px solid var(--color-khaki-100);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-6xs) var(--padding-16xl);
+}
+.submitButtonWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0px var(--padding-27xl) 0px var(--padding-28xl);
+}
+.logIn {
+  color: var(--color-skyblue-100);
+}
+.alreadyAUserContainer {
+  align-self: stretch;
+  position: relative;
+  font-size: var(--font-size-base);
+  text-decoration: underline;
+  letter-spacing: 0.01em;
+}
+.frameGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: var(--gap-27xl);
+}
+.frameWrapper2 {
+  width: 450px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px var(--padding-56xl);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.frameParent {
+  width: 468px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-46xl);
+  max-width: 100%;
+  font-size: var(--font-size-17xl);
+}
+.registerForm {
+  width: 664px;
+  border-radius: var(--br-xl);
+  background-color: var(--color-gainsboro);
+  border: 9px solid var(--color-black);
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-lgi) var(--padding-9xl) var(--padding-25xl)
+    var(--padding-60xl);
+  gap: var(--gap-36xl);
+  max-width: 100%;
+  z-index: 1;
+  text-align: center;
+  font-size: var(--font-size-21xl);
+  color: var(--color-black);
+  font-family: var(--font-kavoon);
+}
+
+@media screen and (max-width: 900px) {
+  .register {
+    font-size: var(--font-size-13xl);
+  }
+
+  .userName {
+    font-size: var(--font-size-10xl);
+  }
+
+  .email {
+    font-size: var(--font-size-10xl);
+  }
+
+  .address {
+    font-size: var(--font-size-10xl);
+  }
+
+  .phoneNumber {
+    font-size: var(--font-size-10xl);
+  }
+
+  .submit {
+    font-size: var(--font-size-10xl);
+  }
+
+  .registerForm {
+    gap: 27px 55px;
+    padding-left: var(--padding-20xl);
+    padding-top: var(--padding-xl);
+    padding-bottom: var(--padding-10xl);
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 700px) {
+  .phoneNumberParent {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .usernameInputParent {
+    gap: 20px 40px;
+  }
+
+  .frameParent {
+    gap: 32px 65px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .register {
+    font-size: var(--font-size-5xl);
+  }
+
+  .userName {
+    font-size: var(--font-size-3xl);
+  }
+
+  .userNameParent {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .email {
+    font-size: var(--font-size-3xl);
+  }
+
+  .emailParent {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .address {
+    font-size: var(--font-size-3xl);
+  }
+
+  .addressParent {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .phoneNumber {
+    font-size: var(--font-size-3xl);
+  }
+
+  .submit {
+    font-size: var(--font-size-3xl);
+  }
+
+  .submitButtonWrapper {
+    padding-left: var(--padding-xl);
+    padding-right: var(--padding-xl);
+    box-sizing: border-box;
+  }
+
+  .frameGroup {
+    gap: 23px 46px;
+  }
+
+  .frameWrapper2 {
+    padding-left: var(--padding-xl);
+    padding-right: var(--padding-xl);
+    box-sizing: border-box;
+  }
+
+  .registerForm {
+    padding-bottom: var(--padding-xl);
+    box-sizing: border-box;
+  }
+}

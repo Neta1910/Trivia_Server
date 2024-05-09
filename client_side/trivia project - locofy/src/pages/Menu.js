@@ -40,7 +40,7 @@ const Menu = () => {
           src="/vector-4.svg"
         />
       </div>
-      <MenuBarIcon />
+      <MenuBarIcon menuBar="/menu-bar.svg" />
     </div>
   );
 };

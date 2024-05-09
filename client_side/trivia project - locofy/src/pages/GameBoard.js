@@ -1,6 +1,5 @@
 import FrameComponent from "../components/FrameComponent";
 import Answer from "../components/Answer";
-import AnswerComp from "../components/AnswerComp";
 import styles from "./GameBoard.module.css";
 
 const GameBoard = () => {
@@ -26,30 +25,73 @@ const GameBoard = () => {
                 <div className={styles.answer1Wrapper}>
                   <Answer answer1Text="Answer 1 text" showIconParkSolidoneKey />
                 </div>
-                <AnswerComp
-                  answerText="Answer 2 text"
-                  icon="/iconparksolidtwokey@2x.png"
-                  showIconParkSolidoneKey={false}
-                />
+                <div className={styles.answer2Parent}>
+                  <Answer
+                    answer1Text="Answer 2 text"
+                    showIconParkSolidoneKey={false}
+                    propAlignSelf="unset"
+                    propBackgroundColor="#06bee1"
+                    propPadding="var(--padding-7xl) var(--padding-sm)"
+                    propGap="unset"
+                    propPosition="absolute"
+                    propTop="0px"
+                    propLeft="0px"
+                    propWidth="100%"
+                    propHeight="100%"
+                  />
+                  <img
+                    className={styles.iconParkSolidtwoKey}
+                    loading="lazy"
+                    alt=""
+                    src="/iconparksolidtwokey@2x.png"
+                  />
+                </div>
               </div>
             </div>
           </div>
           <div className={styles.frameWrapper}>
-            <div className={styles.frameDiv}>
-              <AnswerComp
-                answerText="Answer 3 text"
-                icon="/iconparksolidthreekey@2x.png"
-                propBackgroundColor="#ea9e8d"
-                propTop="26px"
-                showIconParkSolidoneKey={false}
-              />
-              <AnswerComp
-                answerText="Answer 4 text"
-                icon="/iconparksolidthreekey-1@2x.png"
-                propBackgroundColor="#006c67"
-                propTop="26px"
-                showIconParkSolidoneKey={false}
-              />
+            <div className={styles.frameParent1}>
+              <div className={styles.answer2Parent}>
+                <Answer
+                  answer1Text="Answer 3 text"
+                  showIconParkSolidoneKey={false}
+                  propAlignSelf="unset"
+                  propBackgroundColor="#ea9e8d"
+                  propPadding="var(--padding-7xl) var(--padding-sm)"
+                  propGap="unset"
+                  propPosition="absolute"
+                  propTop="0px"
+                  propLeft="0px"
+                  propWidth="100%"
+                  propHeight="100%"
+                />
+                <img
+                  className={styles.iconParkSolidthreeKey}
+                  loading="lazy"
+                  alt=""
+                  src="/iconparksolidthreekey@2x.png"
+                />
+              </div>
+              <div className={styles.answer2Parent}>
+                <Answer
+                  answer1Text="Answer 4 text"
+                  showIconParkSolidoneKey={false}
+                  propAlignSelf="unset"
+                  propBackgroundColor="#006c67"
+                  propPadding="var(--padding-7xl) var(--padding-sm)"
+                  propGap="unset"
+                  propPosition="absolute"
+                  propTop="0px"
+                  propLeft="0px"
+                  propWidth="100%"
+                  propHeight="100%"
+                />
+                <img
+                  className={styles.iconParkSolidthreeKey}
+                  alt=""
+                  src="/iconparksolidthreekey-1@2x.png"
+                />
+              </div>
             </div>
           </div>
         </section>

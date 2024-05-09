@@ -1,19 +1,9 @@
-.icbaselineEmail {
-  height: 24px;
-  width: 24px;
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: none;
-}
-.address1 {
-  margin-left: -413px;
+.userName {
   width: 225px;
   position: relative;
   letter-spacing: 0.01em;
   display: inline-block;
   flex-shrink: 0;
-  z-index: 1;
 }
 .frameChild {
   position: absolute;
@@ -22,50 +12,67 @@
   width: 2px;
   height: 40px;
 }
-.entypoaddressIcon {
+.wpfnameIcon {
   position: absolute;
-  top: 0.5px;
-  left: 16px;
-  width: 31px;
+  top: 6.5px;
+  left: 15px;
+  width: 35px;
   height: 31px;
   overflow: hidden;
 }
 .vectorParent {
+  align-self: stretch;
   height: 40px;
-  width: 47px;
   position: relative;
-  flex-shrink: 0;
 }
-.icbaselineEmailParent {
-  width: 468px;
+.inputWrapper {
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-11xs-5) 0px 0px;
+  box-sizing: border-box;
+}
+.userNameParent {
+  flex: 1;
   box-shadow: -4px 7px 4px rgba(0, 0, 0, 0.25);
   border: 5px solid var(--color-black);
   box-sizing: border-box;
   overflow: hidden;
-  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: flex-start;
-  padding: var(--padding-5xs) var(--padding-6xl) var(--padding-6xs)
-    var(--padding-377xl);
-  gap: var(--gap-169xl);
+  justify-content: space-between;
+  padding: var(--padding-7xs) var(--padding-3xl) var(--padding-4xs)
+    var(--padding-4xs);
   max-width: 100%;
+  gap: var(--gap-xl);
 }
-.address {
-  width: 468px;
+.usernameInput {
+  align-self: stretch;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
+  max-width: 100%;
   text-align: center;
   font-size: var(--font-size-17xl);
   color: var(--color-black);
   font-family: var(--font-kavoon);
 }
 
+@media screen and (max-width: 900px) {
+  .userName {
+    font-size: var(--font-size-10xl);
+  }
+}
 @media screen and (max-width: 450px) {
-  .address1 {
+  .userName {
     font-size: var(--font-size-3xl);
+  }
+
+  .userNameParent {
+    flex-wrap: wrap;
   }
 }

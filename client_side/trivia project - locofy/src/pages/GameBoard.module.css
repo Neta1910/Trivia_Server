@@ -41,6 +41,22 @@
   box-sizing: border-box;
   max-width: 100%;
 }
+.iconParkSolidtwoKey {
+  position: absolute;
+  top: 32px;
+  left: 18px;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  object-fit: cover;
+  z-index: 1;
+}
+.answer2Parent {
+  height: 168px;
+  width: 426px;
+  position: relative;
+  max-width: 100%;
+}
 .frameDiv {
   flex: 1;
   display: flex;
@@ -68,6 +84,25 @@
   justify-content: flex-start;
   gap: 36.5px;
   max-width: 100%;
+}
+.iconParkSolidthreeKey {
+  position: absolute;
+  top: 26px;
+  left: 15px;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  object-fit: cover;
+  z-index: 1;
+}
+.frameParent1 {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 100%;
+  gap: var(--gap-xl);
 }
 .frameParent {
   width: 1269px;
@@ -144,7 +179,27 @@
     box-sizing: border-box;
   }
 }
-@media screen and (max-width: 488px) {
+@media screen and (max-width: 900px) {
+  .questionText {
+    font-size: var(--font-size-10xl);
+  }
+
+  .frameDiv {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .frameParent1 {
+    flex-wrap: wrap;
+  }
+
+  .actuoelGame {
+    padding-top: var(--padding-30xl);
+    padding-bottom: var(--padding-30xl);
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 700px) {
   .frameContainer {
     gap: 24px 48.5px;
   }

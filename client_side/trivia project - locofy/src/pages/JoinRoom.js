@@ -1,4 +1,3 @@
-import FrameComponent2 from "../components/FrameComponent2";
 import RoomCard1 from "../components/RoomCard1";
 import RoomCard from "../components/RoomCard";
 import styles from "./JoinRoom.module.css";
@@ -7,12 +6,19 @@ const JoinRoom = () => {
   return (
     <div className={styles.joinRoom}>
       <section className={styles.frameParent}>
-        <FrameComponent2 />
+        <div className={styles.frameWrapper}>
+          <div className={styles.frameGroup}>
+            <div className={styles.chooseARoomWrapper}>
+              <div className={styles.chooseARoom}>choose a room</div>
+            </div>
+            <RoomCard1 />
+          </div>
+        </div>
         <RoomCard1 xPlayersDebugCommit="unset" />
       </section>
       <div className={styles.roomCardParent}>
         <div className={styles.roomCard}>
-          <div className={styles.frameGroup}>
+          <div className={styles.frameContainer}>
             <div className={styles.roomNameWrapper}>
               <div className={styles.roomName}>Room name</div>
             </div>

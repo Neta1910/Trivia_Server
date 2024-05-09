@@ -198,7 +198,20 @@
   font-family: var(--font-kavoon);
 }
 
-@media screen and (max-width: 488px) {
+@media screen and (max-width: 900px) {
+  .createRoom {
+    font-size: var(--font-size-29xl);
+  }
+
+  .joinRoom {
+    font-size: var(--font-size-29xl);
+  }
+
+  .statistics {
+    font-size: var(--font-size-29xl);
+  }
+}
+@media screen and (max-width: 700px) {
   .frameGroup {
     gap: 43px 87px;
   }

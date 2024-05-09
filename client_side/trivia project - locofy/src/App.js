@@ -5,14 +5,14 @@ import {
   useNavigationType,
   useLocation,
 } from "react-router-dom";
+import Register from "./pages/Register";
+import Statistics from "./pages/Statistics";
+import Menu from "./pages/Menu";
 import GameBoard from "./pages/GameBoard";
 import WaitRoom from "./pages/WaitRoom";
 import JoinRoom from "./pages/JoinRoom";
-import CreateRoom from "./pages/CreateRoom";
-import Menu from "./pages/Menu";
-import Statistics from "./pages/Statistics";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
+import CreateRoom from "./pages/CreateRoom";
 
 function App() {
   const action = useNavigationType();
@@ -34,6 +34,18 @@ function App() {
         title = "";
         metaDescription = "";
         break;
+      case "/statistics":
+        title = "";
+        metaDescription = "";
+        break;
+      case "/menu":
+        title = "";
+        metaDescription = "";
+        break;
+      case "/game-board":
+        title = "";
+        metaDescription = "";
+        break;
       case "/wait-room":
         title = "";
         metaDescription = "";
@@ -42,23 +54,11 @@ function App() {
         title = "";
         metaDescription = "";
         break;
-      case "/create-room":
-        title = "";
-        metaDescription = "";
-        break;
-      case "/menu":
-        title = "";
-        metaDescription = "";
-        break;
-      case "/statistics":
-        title = "";
-        metaDescription = "";
-        break;
       case "/login":
         title = "";
         metaDescription = "";
         break;
-      case "/register":
+      case "/create-room":
         title = "";
         metaDescription = "";
         break;
@@ -81,14 +81,13 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Register />} />
+      <Route path="/statistics" element={<Statistics />} />
+      <Route path="/menu" element={<Menu />} />
+      <Route path="/game-board" element={<GameBoard />} />
       <Route path="/wait-room" element={<WaitRoom />} />
       <Route path="/join-room" element={<JoinRoom />} />
-      <Route path="/create-room" element={<CreateRoom />} />
-      <Route path="/menu" element={<Menu />} />
-      <Route path="/statistics" element={<Statistics />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/game-board" element={<GameBoard />} />
+      <Route path="/create-room" element={<CreateRoom />} />
     </Routes>
   );
 }
