@@ -80,7 +80,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<GameBoard />} />
+      <Route path="/" element={<Register />} />
       <Route path="/wait-room" element={<WaitRoom />} />
       <Route path="/join-room" element={<JoinRoom />} />
       <Route path="/create-room" element={<CreateRoom />} />
@@ -88,6 +88,7 @@ function App() {
       <Route path="/statistics" element={<Statistics />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/game-board" element={<GameBoard />} />
     </Routes>
   );
 }
