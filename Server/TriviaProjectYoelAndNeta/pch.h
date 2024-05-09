@@ -63,6 +63,7 @@ enum RequestCodes
 #define INVALID_REQUEST "Invalid Request"
 
 #define ROOM_ID "roomId"
+#define NUM_OF_QUESTIONS 4
 
 #define ROOM_NAME "roomName"
 #define MAX_USERS "maxUsers"

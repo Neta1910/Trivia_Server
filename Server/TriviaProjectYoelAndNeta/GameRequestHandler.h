@@ -6,8 +6,11 @@
 class GameRequestHandler : public IRequestHandler
 {
 public:
-	bool isRequestRelevant(RequestInfo reqInfo);
-	RequestResult handleRequest(RequestInfo reqInfo);
+	GameRequestHandler(RequestHandlerFactory& handleFactory, GameManager& m_gameManager, std::string user, Game& game);
+	/*bool isRequestRelevant(RequestInfo reqInfo) override;
+	RequestResult handleRequest(RequestInfo reqInfo) override;*/
+	bool isRequestRelevant(RequestInfo& reqInfo) override;
+	RequestResult handleRequest(RequestInfo& reqInfo) override;
 private:
 	RequestHandlerFactory& m_handlerFactory;
 	GameManager& m_gameManager; 
