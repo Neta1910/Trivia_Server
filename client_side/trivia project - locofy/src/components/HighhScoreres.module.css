@@ -1,0 +1,160 @@
+.playerNamesChild {
+  height: 59px;
+  width: 59px;
+  position: absolute;
+  margin: 0 !important;
+  top: -15px;
+  left: -25px;
+  border-radius: 50%;
+  background-color: var(--color-white);
+}
+.semicolonPlacement {
+  position: relative;
+  display: inline-block;
+  min-width: 10px;
+  z-index: 1;
+}
+.playerNames {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  color: var(--color-teal);
+}
+.userName {
+  width: 235px;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.score {
+  height: 0px;
+  width: 174px;
+  position: relative;
+  display: none;
+  flex-shrink: 0;
+}
+.player {
+  width: 740px;
+  border-radius: var(--br-6xs);
+  background: linear-gradient(90deg, #ffee88, rgba(255, 238, 136, 0.48));
+  box-shadow: -5px 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-12xl) var(--padding-20xl) var(--padding-11xl);
+  box-sizing: border-box;
+  gap: var(--gap-25xl);
+  max-width: 100%;
+}
+.div {
+  position: relative;
+  display: inline-block;
+  min-width: 13px;
+  z-index: 1;
+}
+.player1 {
+  width: 740px;
+  border-radius: var(--br-6xs);
+  background: linear-gradient(90deg, #ffee88, rgba(255, 238, 136, 0.48));
+  box-shadow: -5px 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-12xl) var(--padding-20xl) var(--padding-11xl);
+  box-sizing: border-box;
+  gap: var(--gap-22xl);
+  max-width: 100%;
+}
+.div1 {
+  position: relative;
+  display: inline-block;
+  min-width: 14px;
+  z-index: 1;
+}
+.player2 {
+  width: 740px;
+  border-radius: var(--br-6xs);
+  background: linear-gradient(90deg, #ffee88, rgba(255, 238, 136, 0.48));
+  box-shadow: -5px 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-12xl) var(--padding-20xl) var(--padding-11xl);
+  box-sizing: border-box;
+  gap: var(--gap-21xl);
+  max-width: 100%;
+}
+.highhScoreres {
+  flex: 1;
+  border-radius: var(--br-mini);
+  box-shadow: -7px 7px 4px rgba(0, 0, 0, 0.25);
+  border: 5px solid var(--color-black);
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-xl) var(--padding-xl) var(--padding-26xl);
+  gap: var(--gap-36xl);
+  min-height: 460px;
+  max-width: 100%;
+  text-align: left;
+  font-size: var(--font-size-5xl);
+  color: var(--color-black);
+  font-family: var(--font-kavoon);
+}
+
+@media screen and (max-width: 488px) {
+  .semicolonPlacement {
+    font-size: var(--font-size-lgi);
+  }
+
+  .userName {
+    font-size: var(--font-size-lgi);
+  }
+
+  .score {
+    font-size: var(--font-size-lgi);
+  }
+
+  .player {
+    gap: 44px 22px;
+  }
+
+  .div {
+    font-size: var(--font-size-lgi);
+  }
+
+  .player1 {
+    gap: 41px 20px;
+  }
+
+  .div1 {
+    font-size: var(--font-size-lgi);
+  }
+
+  .player2 {
+    gap: 40px 20px;
+  }
+
+  .highhScoreres {
+    gap: 27px 55px;
+    padding-top: var(--padding-xl);
+    padding-bottom: var(--padding-10xl);
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 450px) {
+  .highhScoreres {
+    min-width: 100%;
+  }
+}

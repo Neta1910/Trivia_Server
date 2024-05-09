@@ -1,0 +1,150 @@
+.roomName {
+  flex: 1;
+  position: relative;
+}
+.roomNameWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0px var(--padding-7xl) 0px var(--padding-17xl);
+}
+.frameChild {
+  width: 100%;
+  height: 333px;
+  position: absolute;
+  margin: 0 !important;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  border-radius: 0px 0px var(--br-mini) var(--br-mini);
+  background-color: var(--color-khaki-100);
+}
+.xPlayers {
+  flex: 1;
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  z-index: 1;
+}
+.xPlayersWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px 0px var(--padding-2xl);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.frameItem {
+  height: 3px;
+  width: 176px;
+  position: relative;
+  z-index: 1;
+}
+.vectorWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0px var(--padding-xl);
+}
+.xTimeout {
+  align-self: stretch;
+  position: relative;
+  z-index: 1;
+}
+.xQuestions1 {
+  align-self: stretch;
+  position: relative;
+}
+.questionsList {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-3xl);
+}
+.xQuestions {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-29xl);
+}
+.frameGroup {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-3xl);
+  max-width: 100%;
+}
+.frameParent {
+  flex: 1;
+  border-radius: var(--br-mini);
+  background-color: var(--color-white);
+  box-shadow: -9px 5px 4px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-black);
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: var(--padding-16xl) var(--padding-28xl) var(--padding-35xl)
+    var(--padding-mid);
+  position: relative;
+  gap: var(--gap-56xl);
+  max-width: 100%;
+}
+.roomCard {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  debug_commit: 1de1738;
+  max-width: 100%;
+  text-align: center;
+  font-size: var(--font-size-13xl);
+  color: var(--color-black);
+  font-family: var(--font-kavoon);
+}
+
+@media screen and (max-width: 450px) {
+  .roomName {
+    font-size: var(--font-size-lgi);
+  }
+
+  .xPlayers {
+    font-size: var(--font-size-lgi);
+  }
+
+  .xTimeout {
+    font-size: var(--font-size-lgi);
+  }
+
+  .xQuestions1 {
+    font-size: var(--font-size-lgi);
+  }
+
+  .xQuestions {
+    gap: 24px 48px;
+  }
+
+  .frameParent {
+    gap: 37px 75px;
+    padding-top: var(--padding-208xl);
+    padding-right: var(--padding-xl);
+    padding-bottom: var(--padding-16xl);
+    box-sizing: border-box;
+  }
+}

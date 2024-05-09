@@ -1,0 +1,74 @@
+.logo1Icon {
+  height: 870px;
+  width: 870px;
+  position: absolute;
+  margin: 0 !important;
+  top: -90px;
+  right: -53px;
+  overflow: hidden;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.createdByYoel {
+  align-self: stretch;
+  position: relative;
+  letter-spacing: 0.01em;
+}
+.createdByYoelWeisbergAndNWrapper {
+  width: 566px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 806px 0px 0px;
+  box-sizing: border-box;
+  min-width: 566px;
+  max-width: 100%;
+}
+.login {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-khaki-100);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-45xl) var(--padding-4xl) var(--padding-32xl);
+  box-sizing: border-box;
+  gap: 82px;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  font-size: var(--font-size-17xl);
+  color: var(--color-gray-100);
+  font-family: var(--font-kavoon);
+}
+
+@media screen and (max-width: 488px) {
+  .createdByYoel {
+    font-size: var(--font-size-3xl);
+  }
+
+  .createdByYoelWeisbergAndNWrapper {
+    padding-top: 341px;
+    box-sizing: border-box;
+  }
+
+  .login {
+    gap: 82px 20px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .createdByYoel {
+    font-size: var(--font-size-10xl);
+  }
+
+  .createdByYoelWeisbergAndNWrapper {
+    min-width: 100%;
+  }
+
+  .login {
+    gap: 82px 41px;
+  }
+}

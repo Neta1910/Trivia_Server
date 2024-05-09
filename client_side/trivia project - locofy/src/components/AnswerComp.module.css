@@ -1,0 +1,16 @@
+.iconParkSolidtwoKey {
+  position: absolute;
+  top: 32px;
+  left: 18px;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  object-fit: cover;
+  z-index: 1;
+}
+.answer2Parent {
+  height: 168px;
+  width: 426px;
+  position: relative;
+  max-width: 100%;
+}

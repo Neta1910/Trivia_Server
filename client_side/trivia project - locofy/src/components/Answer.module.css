@@ -1,0 +1,39 @@
+.iconParkSolidoneKey {
+  height: 48px;
+  width: 48px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.answer1Text {
+  width: 322px;
+  position: relative;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  flex-shrink: 0;
+  max-width: calc(100% - 72px);
+}
+.answer1 {
+  align-self: stretch;
+  border-radius: var(--br-mini);
+  background-color: var(--color-khaki-100);
+  box-shadow: -3px 5px 4px rgba(0, 0, 0, 0.25);
+  border: 6px solid var(--color-black);
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-7xl) var(--padding-5xs) var(--padding-7xl)
+    var(--padding-xs);
+  gap: var(--gap-5xl);
+  min-height: 168px;
+  white-space: nowrap;
+  max-width: 100%;
+  text-align: left;
+  font-size: var(--font-size-13xl);
+  color: var(--color-black);
+  font-family: var(--font-kavoon);
+}

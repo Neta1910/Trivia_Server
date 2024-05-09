@@ -1,0 +1,21 @@
+.waitRoom {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-white);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 38px var(--padding-8xl) var(--padding-33xl);
+  box-sizing: border-box;
+  gap: var(--gap-32xl);
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+@media screen and (max-width: 450px) {
+  .waitRoom {
+    gap: 25px 51px;
+  }
+}

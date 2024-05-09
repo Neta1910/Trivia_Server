@@ -1,0 +1,222 @@
+.register {
+  margin-left: -89px;
+  width: 646px;
+  position: relative;
+  display: inline-block;
+  text-shadow:
+    1px 0 0 #000,
+    0 1px 0 #000,
+    -1px 0 0 #000,
+    0 -1px 0 #000;
+  max-width: 120%;
+  flex-shrink: 0;
+}
+.icbaselineEmail {
+  height: 24px;
+  width: 24px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: none;
+}
+.email1 {
+  margin-left: -434px;
+  width: 225px;
+  position: relative;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  flex-shrink: 0;
+  debug_commit: 1de1738;
+  z-index: 1;
+}
+.vectorIcon {
+  position: absolute;
+  top: 13.5px;
+  left: 20px;
+  width: 28px;
+  height: 22.4px;
+}
+.frameChild {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 2px;
+  height: 40px;
+}
+.vectorParent {
+  height: 40px;
+  width: 48px;
+  position: relative;
+  flex-shrink: 0;
+  debug_commit: 1de1738;
+}
+.icbaselineEmailParent {
+  width: 468px;
+  box-shadow: -4px 7px 4px rgba(0, 0, 0, 0.25);
+  border: 5px solid var(--color-black);
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-5xs) var(--padding-5xl) var(--padding-6xs)
+    var(--padding-377xl);
+  gap: var(--gap-190xl);
+  max-width: 100%;
+}
+.email {
+  width: 468px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.form {
+  flex: 1;
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-21xl);
+  max-width: 100%;
+}
+.register1 {
+  width: 468px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px 0px var(--padding-3xs);
+  box-sizing: border-box;
+  max-width: 100%;
+  font-size: var(--font-size-17xl);
+}
+.submit {
+  position: relative;
+  font-size: var(--font-size-17xl);
+  letter-spacing: 0.01em;
+  font-family: var(--font-kavoon);
+  color: var(--color-black);
+  text-align: center;
+  display: inline-block;
+  min-width: 127px;
+}
+.submitButton {
+  cursor: pointer;
+  border: 5px solid var(--color-khaki-100);
+  padding: var(--padding-6xs) var(--padding-16xl);
+  background-color: transparent;
+  flex: 1;
+  border-radius: var(--br-3xs);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.submitButton:hover {
+  background-color: var(--color-khaki-300);
+  border: 5px solid var(--color-khaki-200);
+  box-sizing: border-box;
+}
+.submitBtn {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0px var(--padding-27xl) 0px var(--padding-28xl);
+}
+.logIn {
+  color: var(--color-skyblue-100);
+}
+.alreadyAUserContainer {
+  align-self: stretch;
+  position: relative;
+  text-decoration: underline;
+  letter-spacing: 0.01em;
+}
+.submitBtnParent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: var(--gap-27xl);
+}
+.logoContainer {
+  width: 450px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px var(--padding-56xl);
+  box-sizing: border-box;
+  max-width: 100%;
+  font-size: var(--font-size-base);
+}
+.textInput {
+  width: 664px;
+  border-radius: var(--br-xl);
+  background-color: var(--color-gainsboro);
+  border: 9px solid var(--color-black);
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-lgi) var(--padding-9xl) var(--padding-25xl)
+    var(--padding-60xl);
+  gap: var(--gap-36xl);
+  max-width: 100%;
+  text-align: center;
+  font-size: var(--font-size-21xl);
+  color: var(--color-black);
+  font-family: var(--font-kavoon);
+}
+
+@media screen and (max-width: 488px) {
+  .form {
+    gap: 20px 40px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .register {
+    font-size: var(--font-size-5xl);
+  }
+
+  .email1 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .submit {
+    font-size: var(--font-size-3xl);
+  }
+
+  .submitBtn {
+    padding-left: var(--padding-xl);
+    padding-right: var(--padding-xl);
+    box-sizing: border-box;
+  }
+
+  .submitBtnParent {
+    gap: 23px 46px;
+  }
+
+  .logoContainer {
+    padding-left: var(--padding-xl);
+    padding-right: var(--padding-xl);
+    box-sizing: border-box;
+  }
+
+  .textInput {
+    padding-bottom: var(--padding-xl);
+    box-sizing: border-box;
+  }
+}
