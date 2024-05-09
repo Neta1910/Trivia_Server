@@ -162,7 +162,7 @@
     <ClInclude Include="Communicator.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="GmeRequestHandler.h" />
+    <ClInclude Include="GameRequestHandler.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="HighestScore.h" />
     <ClInclude Include="IDatabase.h" />
