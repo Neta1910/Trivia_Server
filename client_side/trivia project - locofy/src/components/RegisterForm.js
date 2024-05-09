@@ -8,8 +8,8 @@ const RegisterForm = () => {
       <div className={styles.mdipassword} />
       <div className={styles.frameParent}>
         <div className={styles.usernameInputParent}>
-          <UserNameInput placeHolder="User name" />
-          <UserNameInput placeHolder="Email" />
+          <UserNameInput placeHolder="User name" icon="/wpfname.svg"/>
+          <UserNameInput placeHolder="Password" icon="/email-icon.svg"/>
           {/* <div className={styles.userNameParent}>
             <div className={styles.userName}>Password</div>
             <div className={styles.frameWrapper}>

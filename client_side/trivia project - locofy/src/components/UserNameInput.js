@@ -1,6 +1,6 @@
 import styles from "./UserNameInput.module.css";
 
-const UserNameInput = ({ placeHolder }) => {
+const UserNameInput = ({ placeHolder, icon }) => {
   return (
     <div className={styles.usernameInput}>
       <div className={styles.userNameParent}>
@@ -8,7 +8,7 @@ const UserNameInput = ({ placeHolder }) => {
         <div className={styles.inputWrapper}>
           <div className={styles.vectorParent}>
             <img className={styles.frameChild} alt="" src="/vector-2.svg" />
-            <img className={styles.wpfnameIcon} alt="" src="/wpfname.svg" />
+            <img className={styles.wpfnameIcon} alt="" src={icon} />
           </div>
         </div>
       </div>
