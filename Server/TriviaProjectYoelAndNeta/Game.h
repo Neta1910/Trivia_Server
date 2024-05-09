@@ -14,7 +14,7 @@ typedef struct GameData
 class Game
 {
 public:
-	Game(Game& game);
+	Game(GameData& game_data); // C'tor ned to get 'GameData' 
 	Question getQuestionForUser(LoggedUser user);
 	void submitAnswer(LoggedUser user, unsigned int answer); // Not done implementing
 	void removePlayer(LoggedUser user);

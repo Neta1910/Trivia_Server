@@ -7,6 +7,11 @@ Game::Game(Game& game)
     this->gameId = game.gameId;
 }
 
+Game::Game(GameData& game_data)
+{
+    this->
+}
+
 Question Game::getQuestionForUser(LoggedUser user)
 {
     for (auto& it : this->m_players) // Find the needed player and return the current question
