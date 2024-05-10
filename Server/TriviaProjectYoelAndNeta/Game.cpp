@@ -12,6 +12,21 @@
 //    this->
 //}
 
+Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser> players, const  unsigned int gameId)
+{    
+    for (auto& question : questions)
+    {
+        this->m_questions.push_back(question);
+    }
+
+    for (auto& logged_user : players)
+    {
+        GameData new_gameData{ m_questions[0], 0,0,0 };
+        this->m_players.insert({ logged_user, new_gameData });
+    }
+    this->m_gameId = gameId;
+}
+
 Question Game::getQuestionForUser(LoggedUser user)
 {
     for (auto& it : this->m_players) // Find the needed player and return the current question
@@ -59,17 +74,9 @@ std::map<LoggedUser, GameData> Game::getAllPlayers()
     return m_players;
 }
 
-int Game::getIdForCurrGame(LoggedUser user)
+int Game::getGameId()
 {
-    std::map<LoggedUser, GameData>::iterator it;
-    for (it = m_players.begin(); it != m_players.end(); ++it)
-    {
-        if ((*it).first.getId() == user.getId())
-        {
-            return (*it).first.getId();
-        }
-    }
-    return -1;
+    return m_gameId;
 }
 
 void Game::submitGameStatsToDB(GameData game_data)
