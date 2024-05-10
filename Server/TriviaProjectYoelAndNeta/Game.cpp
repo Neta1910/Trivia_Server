@@ -1,16 +1,16 @@
 #include "Game.h"
 
-Game::Game(Game& game)
-{
-    this->m_questions = game.m_questions;
-    this->m_players = game.m_players;
-    this->gameId = game.gameId;
-}
-
-Game::Game(GameData& game_data)
-{
-    this->
-}
+//Game::Game(Game& game)
+//{
+//    this->m_questions = game.m_questions;
+//    this->m_players = game.m_players;
+//    this->gameId = game.gameId;
+//}
+//
+//Game::Game(GameData& game_data)
+//{
+//    this->
+//}
 
 Question Game::getQuestionForUser(LoggedUser user)
 {
@@ -39,6 +39,37 @@ void Game::removePlayer(LoggedUser user)
     {
         m_players.erase(it);
     }
+}
+
+bool Game::areAllPlayersDonePlaying()
+{
+    std::map<LoggedUser, GameData>::iterator it;
+    for (it = m_players.begin(); it != m_players.end(); ++it)
+    {
+        if ((*it).second.currentQuestion != m_questions.back())
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+std::map<LoggedUser, GameData> Game::getAllPlayers()
+{
+    return m_players;
+}
+
+int Game::getIdForCurrGame(LoggedUser user)
+{
+    std::map<LoggedUser, GameData>::iterator it;
+    for (it = m_players.begin(); it != m_players.end(); ++it)
+    {
+        if ((*it).first.getId() == user.getId())
+        {
+            return (*it).first.getId();
+        }
+    }
+    return -1;
 }
 
 void Game::submitGameStatsToDB(GameData game_data)

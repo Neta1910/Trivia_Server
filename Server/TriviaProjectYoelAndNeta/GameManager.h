@@ -4,6 +4,8 @@
 #include "Room.h"
 #include <vector>
 
+class RequestHandlerFactory;
+
 class GameManager
 {
 public:

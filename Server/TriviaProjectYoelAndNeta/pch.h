@@ -64,6 +64,7 @@ enum RequestCodes
 
 #define ROOM_ID "roomId"
 #define NUM_OF_QUESTIONS 4
+#define CORRECT_ANS_INDEX 1
 
 #define ROOM_NAME "roomName"
 #define MAX_USERS "maxUsers"

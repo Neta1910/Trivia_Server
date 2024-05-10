@@ -3,6 +3,8 @@
 #include <map>
 #include "LoggedUser.h"
 
+class Question; 
+
 typedef struct GameData
 {
 	Question currentQuestion;
@@ -14,10 +16,13 @@ typedef struct GameData
 class Game
 {
 public:
-	Game(GameData& game_data); // C'tor ned to get 'GameData' 
+	//Game(GameData& game_data); // C'tor ned to get 'GameData' 
 	Question getQuestionForUser(LoggedUser user);
 	void submitAnswer(LoggedUser user, unsigned int answer); // Not done implementing
 	void removePlayer(LoggedUser user);
+	bool areAllPlayersDonePlaying();
+	std::map<LoggedUser, GameData> getAllPlayers();
+	int getIdForCurrGame(LoggedUser user);
 private:
 	std::vector<Question> m_questions;
 	std::map<LoggedUser, GameData> m_players;

@@ -14,6 +14,8 @@ class LoginManager;
 class LoginRequestHandler;
 class MenuRequestHandler;
 class RoomMemberRequestHandler;
+class GameRequestHandler;
+class GameManager;
 
 class RequestHandlerFactory
 {

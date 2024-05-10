@@ -53,3 +53,9 @@ void Question::insertOptional(const std::string& val)
 {
     this->insertOptional(val);
 }
+
+bool Question::operator!=(const Question& question)
+{
+    return question.getId() == this->getId();
+}   
+        

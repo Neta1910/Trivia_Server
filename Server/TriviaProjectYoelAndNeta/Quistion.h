@@ -18,7 +18,7 @@ public:
 	void setCorrectAnswer(const std::string& val);
 	void setId(const int& val);
 	void insertOptional(const std::string& val);
-
+	bool operator!=(const Question& question);
 private:
 	std::string m_question;
 	std::vector<std::string> m_possibleAnswers;

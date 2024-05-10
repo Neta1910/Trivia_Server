@@ -3,12 +3,14 @@
 #include "RequestHandlerFactory.h"
 #include "GameManager.h"
 
+class RequestHandlerFactory;
+//class GameManager;
+
+
 class GameRequestHandler : public IRequestHandler
 {
 public:
 	GameRequestHandler(RequestHandlerFactory& handleFactory, GameManager& m_gameManager, std::string user, Game& game);
-	/*bool isRequestRelevant(RequestInfo reqInfo) override;
-	RequestResult handleRequest(RequestInfo reqInfo) override;*/
 	bool isRequestRelevant(RequestInfo& reqInfo) override;
 	RequestResult handleRequest(RequestInfo& reqInfo) override;
 private:
