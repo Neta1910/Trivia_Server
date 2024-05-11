@@ -41,10 +41,38 @@ Question Game::getQuestionForUser(LoggedUser user)
 
 void Game::submitAnswer(LoggedUser user, unsigned int answer)
 {
+    GameData* game_data = NULL;
+    // Search for needed player
     for (auto it : this->m_players)
     {
-
+        if (it.first.getId() == user.getId())
+        {
+            game_data = &it.second;
+        }
     }
+
+    if (game_data != NULL) // If player was found
+    {
+        if (answer == CORRECT_ANS)
+        {
+            game_data->correctAnswerCount++;
+        }
+        else
+        {
+            game_data->wrongAnswerCount++;
+        }
+        // Find index of current question and move on to the next one
+        int curr_q_index = 0;
+        for (curr_q_index = 0; curr_q_index < m_questions.size(); curr_q_index++)
+        {
+            if (game_data->currentQuestion == m_questions[curr_q_index])
+            {
+                break;
+            }
+        }
+        game_data->currentQuestion = m_questions[curr_q_index + 1]; // Assign next question
+    }
+
 }
 
 void Game::removePlayer(LoggedUser user)
@@ -81,17 +109,24 @@ int Game::getGameId()
 
 void Game::submitGameStatsToDB(GameData game_data)
 {
-
+    if (areAllPlayersDonePlaying())
+    {
+        for (auto it : m_players) 
+        {
+            m_database->submitGameStatistics(game_data, it.first.getId());
+        }        
+    }
 }
 
 bool Game::isCurrQuestionLast(LoggedUser user)
 {
     // Find current question for user
-    /*for (auto it : m_players)
+    for (auto it : m_players)
     {
         if (it.second.currentQuestion == m_questions[m_questions.max_size()])
         {
-
+            return true;
         }
-    }*/
+    }
+    return false;
 }

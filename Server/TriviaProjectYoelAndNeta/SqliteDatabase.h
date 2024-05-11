@@ -14,7 +14,7 @@
 
 #define CREATE_USERS_TABLE "CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, EMAIL TEXT, ADDRESS TEXT, PHONE_NUMBER TEXT, BIRTH_DATE TEXT);"
 #define CREATE_QUESTIONS_TABLE "CREATE TABLE IF NOT EXISTS t_questions (question_id	integer NOT NULL, question	text NOT NULL, correct_ans	text NOT NULL, ans2	text NOT NULL,  ans3	text NOT NULL, ans4	text NOT NULL, PRIMARY KEY(question_id AUTOINCREMENT) );"
-#define CREATE_STATISTICS_TABLE "CREATE TABLE IF NOT EXISTS Statistics (ID INTEGER, AVERAGE_ANS_TIME INTEGER, CORRECT_ANS INTEGER, TOTAL_ANS INTEGER, GAMES_PLAYED INTEGER, FOREIGN KEY(ID) REFERENCES Users(ID));"
+#define CREATE_STATISTICS_TABLE "CREATE TABLE IF NOT EXISTS Statistics (ID INTEGER, AVERAGE_ANS_TIME INTEGER, CORRECT_ANS INTEGER, WRONG_ANS INTEGER, TOTAL_ANS INTEGER, GAMES_PLAYED INTEGER, FOREIGN KEY(ID) REFERENCES Users(ID));"
 #define CREATE_HIGHEST_SCORES_TABLE "CREATE TABLE IF NOT EXISTS HIGHEST_SCORES (ID INTEGER, NAME TEXT, HIGHEST_SCORE INTEGER, FOREIGN KEY(ID) REFERENCES Users(ID), FOREIGN KEY(NAME) REFERENCES Users(NAME));"
 
 
@@ -91,7 +91,7 @@ private:
 	bool runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**) = nullptr, void* secondParam = nullptr);
 	bool comparePasswords(const std::string& onePassword, const std::string& secondPassword);
 	int getNumOfGamesPlayed(unsigned int user_id);
-	float getAverageAnsTime(unsigned int user_id);
-	int getNumOfCorrectAnswers(unsigned int user_id);
-	int getNumOfTotalAmswers(unsigned int user_id);
+	float getAverageAnsTime(unsigned int user_id);	
+	int getNumOfTotalAnswers(unsigned int user_id);
+	float calcNewAverageAnsTime(unsigned int user_id, float new_average_time);
 };

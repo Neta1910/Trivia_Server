@@ -2,6 +2,8 @@
 #include "Quistion.h"
 #include <map>
 #include "LoggedUser.h"
+#include "pch.h"
+#include "IDatabase.h"
 
 class Question; 
 
@@ -19,7 +21,7 @@ public:
 	//Game(GameData& game_data); // C'tor ned to get 'GameData' 
 	Game(const std::vector<Question> questions, const std::vector<LoggedUser> players, const  unsigned int gameId);
 	Question getQuestionForUser(LoggedUser user);
-	void submitAnswer(LoggedUser user, unsigned int answer); // Not done implementing
+	void submitAnswer(LoggedUser user, unsigned int answer); 
 	void removePlayer(LoggedUser user);
 	bool areAllPlayersDonePlaying();
 	std::map<LoggedUser, GameData> getAllPlayers();	
@@ -28,7 +30,8 @@ private:
 	std::vector<Question> m_questions;
 	std::map<LoggedUser, GameData> m_players;
 	unsigned int m_gameId;
-	
+	IDatabase* m_database;
+
 	void submitGameStatsToDB(GameData game_data); // Used when the game has ended,    (Not done implementing)
 	bool isCurrQuestionLast(LoggedUser user); // Not done implementing
 };	
