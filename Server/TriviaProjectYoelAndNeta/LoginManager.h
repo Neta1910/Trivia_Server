@@ -8,6 +8,8 @@
 
 #define ERROR_RETURN_CODE -1
 
+class RequestHandlerFactory;
+
 class LoginManager
 {
 public:

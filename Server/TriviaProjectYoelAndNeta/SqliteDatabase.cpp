@@ -24,7 +24,7 @@ bool SQLiteDatabase::open()
 	this->_db = db;
 	// Create Tables
 	this->runCommand(CREATE_USERS_TABLE);
-	this->runCommand(CREATE_QUISTIONS_TABLE);
+	this->runCommand(CREATE_QUESTIONS_TABLE);
 	this->runCommand(CREATE_STATISTICS_TABLE);
 	this->runCommand(CREATE_HIGHEST_SCORES_TABLE);
 	return true;
@@ -181,6 +181,17 @@ std::vector<HighestScore> SQLiteDatabase::getHighScores(int num_of_highScores)
 	return SQLiteDatabase::highestScores;
 }
 
+int SQLiteDatabase::submitGameStatistics(GameData game_data, unsigned int user_id)
+{
+	// Update statistics table   
+	std::string correctAnsCount_query = "UPDATE Statistics SET CORRECT_ANS = " + std::to_string(game_data.correctAnswerCount + getNumOfCorrectAnswers(user_id)) + " WHERE ID = " + std::to_string(user_id) + ";";
+	runCommand(correctAnsCount_query);
+	std::string wrongAnsCount_query = "UPDATE Statistics SET WRONG_ANS = " + std::to_string(getNumOfTotalAnswers(user_id) - getNumOfCorrectAnswers(user_id) ) + " WHERE ID = " + std::to_string(user_id) + ";";
+	runCommand(wrongAnsCount_query);
+	std::string avgAnsTime_query = "UPDATE Statistics SET AVERAGE_ANS_TIME = " + std::to_string(calcNewAverageAnsTime(user_id, game_data.averageAnswerTime)) + " WHERE ID = " + std::to_string(user_id) + ";";
+	runCommand(avgAnsTime_query);
+}
+
 
 
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
@@ -211,6 +222,11 @@ bool SQLiteDatabase::comparePasswords(const std::string& onePassword, const std:
 		}
 	}
 	return true;
+}
+
+float SQLiteDatabase::calcNewAverageAnsTime(unsigned int user_id, float new_average_time)
+{
+	return (getAverageAnsTime(user_id) + new_average_time) / getNumOfPlayerGames(user_id);
 }
 
 int loadIntoUsers(void* data, int argc, char** argv, char** azColName)
