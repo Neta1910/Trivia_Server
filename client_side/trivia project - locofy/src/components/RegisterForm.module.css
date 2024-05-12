@@ -1,3 +1,7 @@
+.errorLabel {
+    color: red;
+    font-size: 12px;
+}
 .register {
   margin-left: -89px;
   width: 646px;
@@ -166,6 +170,7 @@
   display: inline-block;
   min-width: 127px;
 }
+
 .submitButton {
   flex: 1;
   border-radius: var(--br-3xs);
@@ -177,7 +182,23 @@
   align-items: flex-start;
   justify-content: flex-start;
   padding: var(--padding-6xs) var(--padding-16xl);
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
 }
+
+@keyframes scaleAnimation {
+  from { scale: 1; }
+  to { scale: 1.1; }
+}
+
+.submitButton:hover{
+  transform: scale(1.1); /* Slightly enlarge the button */
+  animation-name: scaleAnimation;
+  animation-duration: 0.1s; /* Duration of the animation */
+  animation-fill-mode: forwards; /* Keeps the state at the end of the animation */
+}
+
 .submitButtonWrapper {
   align-self: stretch;
   display: flex;
@@ -188,6 +209,7 @@
 }
 .logIn {
   color: var(--color-skyblue-100);
+  cursor: pointer;
 }
 .alreadyAUserContainer {
   align-self: stretch;

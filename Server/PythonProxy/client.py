@@ -50,9 +50,8 @@ def handle_login(data):
 
 
 @socketio.on('signup')
-def handle_signup(data):
+def handle_signup(data_dict):
     try:
-        data_dict = json.loads(data)  # Convert JSON string to Python dictionary
         user_sockets[request.remote_addr].sendall(
             requests.SignUpRequest(data_dict[USER_NAME], data_dict[PASSWORD], data_dict[EMAIL], data_dict[ADDRESS],
                                    data_dict[PHONE_NUMBER], data_dict[BIRTH_DATE]).getMessage())

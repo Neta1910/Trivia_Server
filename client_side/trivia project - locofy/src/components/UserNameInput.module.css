@@ -1,5 +1,20 @@
+textarea {   
+  border: none;
+  background: none;
+  color: var(--color-black);
+  font-family: var(--font-kavoon);
+  font-size: 20px;
+  margin: 0;
+  padding: 0;  /* Removes padding inside the textarea */
+  width: 100%; /* Full width of the containing element */
+}
+
+textarea:focus {
+  outline: none;
+}
+
 .userName {
-  width: 225px;
+  width: 85%;
   position: relative;
   letter-spacing: 0.01em;
   display: inline-block;
@@ -49,6 +64,8 @@
   max-width: 100%;
   gap: var(--gap-xl);
 }
+
+
 .usernameInput {
   align-self: stretch;
   display: flex;

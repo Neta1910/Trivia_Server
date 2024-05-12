@@ -1,79 +1,60 @@
 import styles from "./Login.module.css";
+import TextInput from "../components/UserNameInput";
+import { useState, useEffect } from "react";
+import { socket } from "../socket";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
+  function handleFormSubmit(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+    socket.emit("login", {
+      [Constants.FIELDS.USER_NAME]: userName,
+      [Constants.FIELDS.PASSWORD]: password,
+    });
+  }
+
+  function navigateToRegister() {
+    navigate("/")
+  }
+
+  useEffect(() => {
+    // Event listener for 'SignUpResponse'
+    socket.on('LoginResponse', (response) => {
+      if (response.status === Constants.WORK_STATUS) {
+        alert('worked');
+        navigate("/menu")
+      } else {
+        alert("somthing went wrong")
+      }
+    });
+
+    // Cleanup: remove event listener when component unmounts
+    return () => {
+      socket.off('LoginResponse');
+    };
+  }, []); // empty dependency array ensures the effect runs only once when component mounts
+  
   return (
     <div className={styles.login}>
       <div className={styles.textInput}>
         <div className={styles.register}>Login</div>
         <div className={styles.textInputInner}>
-          <div className={styles.formParent}>
+          <form className={styles.formParent}>
             <div className={styles.form}>
-              <div className={styles.userName}>
-                <div className={styles.userNameParent}>
-                  <div className={styles.userName1}>User name</div>
-                  <div className={styles.submitButtonContainer}>
-                    <div className={styles.wpfnameParent}>
-                      <img
-                        className={styles.wpfnameIcon}
-                        alt=""
-                        src="/vector-2.svg"
-                      />
-                      <img
-                        className={styles.wpfnameIcon1}
-                        alt=""
-                        src="/wpfname.svg"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.userName}>
-                <div className={styles.mdipasswordParent}>
-                  <div className={styles.mdipassword} />
-                  <div className={styles.passwordWrapper}>
-                    <div className={styles.createdByYoel}>Password</div>
-                  </div>
-                  <div className={styles.vectorParent}>
-                    <img
-                      className={styles.vectorIcon}
-                      alt=""
-                      src="/vector.svg"
-                    />
-                    <img
-                      className={styles.wpfnameIcon}
-                      alt=""
-                      src="/vector-2.svg"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className={styles.email}>
-                <div className={styles.icbaselineEmailParent}>
-                  <div className={styles.icbaselineEmail} />
-                  <img className={styles.vectorIcon1} alt="" />
-                  <div className={styles.mdipassword1} />
-                  <div className={styles.email1}>Email</div>
-                  <img className={styles.frameItem} alt="" />
-                </div>
-              </div>
-              <div className={styles.email}>
-                <div className={styles.icbaselineEmailParent}>
-                  <div className={styles.icbaselineEmail} />
-                  <div className={styles.mdipassword1} />
-                  <div className={styles.address1}>Address</div>
-                  <img className={styles.frameItem} alt="" />
-                  <img className={styles.entypoaddressIcon} alt="" />
-                </div>
-              </div>
-              <div className={styles.email}>
-                <div className={styles.icbaselineEmailParent}>
-                  <div className={styles.icbaselineEmail} />
-                  <div className={styles.mdipassword1} />
-                  <div className={styles.phoneNumber1}>Phone number</div>
-                  <img className={styles.frameItem} alt="" />
-                  <img className={styles.phphoneFillIcon} alt="" />
-                </div>
-              </div>
+              <TextInput
+                placeHolder={"User name"}
+                icon={"/wpfname.svg"}
+                setter={setUserName}
+              />
+              <TextInput
+                placeHolder={"Password"}
+                icon={"/email-icon.svg"}
+                setter={setPassword}
+              />
             </div>
             <div className={styles.frameWrapper}>
               <div className={styles.frameParent}>
@@ -84,12 +65,12 @@ const Login = () => {
                 </div>
                 <div className={styles.alreadyAUserContainer}>
                   <span className={styles.notAUser}>{`Not a user?  `}</span>
-                  <span className={styles.register1}>Register</span>
+                  <span className={styles.register1} onClick={navigateToRegister} >Register</span>
                   <span className={styles.span}>{` `}</span>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
       <img className={styles.logo1Icon} alt="" src="/logo-1.svg" />

@@ -227,6 +227,7 @@
   text-align: center;
   display: inline-block;
   min-width: 127px;
+  cursor: pointer;
 }
 .submitButton {
   cursor: pointer;
@@ -260,6 +261,7 @@
 }
 .register1 {
   color: var(--color-khaki-100);
+  cursor: pointer;
 }
 .span {
   color: var(--color-skyblue-100);

@@ -1,10 +1,13 @@
 import styles from "./UserNameInput.module.css";
 
-const UserNameInput = ({ placeHolder, icon }) => {
+const TextInput = ({ placeHolder, icon, type = "text", setter, pattern="*", title=""}) => {
+  const handleChange = (event) => {
+    setter(event.target.value);
+  };
   return (
     <div className={styles.usernameInput}>
       <div className={styles.userNameParent}>
-        <div className={styles.userName}>{placeHolder}</div>
+        <textarea className={styles.userName} placeholder={placeHolder} type={type} onChange={handleChange} pattern={pattern} title={title} required/>
         <div className={styles.inputWrapper}>
           <div className={styles.vectorParent}>
             <img className={styles.frameChild} alt="" src="/vector-2.svg" />
@@ -16,4 +19,4 @@ const UserNameInput = ({ placeHolder, icon }) => {
   );
 };
 
-export default UserNameInput;
+export default TextInput;
