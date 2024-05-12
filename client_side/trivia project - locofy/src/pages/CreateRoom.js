@@ -1,7 +1,53 @@
 import MenuBarIcon from "../components/MenuBarIcon";
 import styles from "./CreateRoom.module.css";
+import TextInput from "../components/UserNameInput";
+import { socket } from "../socket";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const CreateRoom = () => {
+  const [roomName, setRoomName] = useState('');
+  const [timePerQuestion, setTimePerQuestion] = useState(0);
+  const [maxPlayers, setMaxPlayers] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
+  const [roomId, setRoomId] = useState(0)
+
+  const navigate = useNavigate();
+
+  function handleSubmit(e) {
+    e.preventDefault(); // Prevent the form from refreshing the page
+
+    // Emit the login event to the server with username and password
+    console.log(typeof maxPlayers);
+    socket.emit('createRoom', {
+        [Constants.FIELDS.ROOM_NAME]: roomName,
+        [Constants.FIELDS.MAX_USERS]: maxPlayers,
+        [Constants.FIELDS.ANSOWER_TIMEOUT]: timePerQuestion,
+        [Constants.FIELDS.QUESTION_COUNT]: questionCount
+    });
+    // Listen for the login response from the server
+    socket.on('createRoomResponse', (response) => {
+        if (response.status === Constants.WORK_STATUS) {
+            console.log(response, response.roomId, roomId);
+            router.push({
+                pathname: '/rooms/[roomId]', // Make sure this matches your file name in the pages directory
+                query: { roomId: response.roomId } // Replace 'desired-room-id' with the actual room ID you want to navigate to.
+            });
+
+        } else {
+            alert('somthing went wrong');
+        }
+    }
+    );
+    return () => {
+        socket.off('createRoomResponse');
+    };
+  }
+
+  useEffect (() => {
+    socket.on("createRoomResponse", )
+  })
+
   return (
     <div className={styles.createRoom}>
       <div className={styles.createRoomInner}>
@@ -9,8 +55,13 @@ const CreateRoom = () => {
           <div className={styles.frameChild} />
           <h2 className={styles.createRoom1}>Create room</h2>
           <div className={styles.fRAMEWrapper}>
-            <div className={styles.fRAME}>
-              <button className={styles.roomNameParent}>
+            <form className={styles.fRAME}>
+              <TextInput 
+              placeHolder={"Room name"} 
+              icon={"/wpfname.svg"}
+
+              />
+              {/* <button className={styles.roomNameParent}>
                 <div className={styles.roomName}>Room name</div>
                 <div className={styles.frameWrapper}>
                   <div className={styles.vectorParent}>
@@ -26,7 +77,7 @@ const CreateRoom = () => {
                     />
                   </div>
                 </div>
-              </button>
+              </button> */}
               <div className={styles.questionTimeOutQuestionParent}>
                 <button className={styles.questionTimeOutQuestion}>
                   <div className={styles.questionTimeout}>Question timeOut</div>
@@ -89,7 +140,7 @@ const CreateRoom = () => {
                   <div className={styles.submit}>Submit</div>
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

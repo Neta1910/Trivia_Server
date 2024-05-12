@@ -11,33 +11,34 @@ const CreateRoom = () => {
     const [roomId, setRoomId] = useState(0)
     const socket = useSocket();
     const router = useRouter();
-    const handleSubmit = (e) => {
+    function handleSubmit(e) {
         e.preventDefault(); // Prevent the form from refreshing the page
+
         // Emit the login event to the server with username and password
-        console.log(typeof maxPlayers)
+        console.log(typeof maxPlayers);
         socket.emit('createRoom', {
-            [Constants.FIELDS.ROOM_NAME] : roomName,
-            [Constants.FIELDS.MAX_USERS]  : maxPlayers,
-            [Constants.FIELDS.ANSOWER_TIMEOUT] : timePerQuestion,
-            [Constants.FIELDS.QUESTION_COUNT] : questionCount
+            [Constants.FIELDS.ROOM_NAME]: roomName,
+            [Constants.FIELDS.MAX_USERS]: maxPlayers,
+            [Constants.FIELDS.ANSOWER_TIMEOUT]: timePerQuestion,
+            [Constants.FIELDS.QUESTION_COUNT]: questionCount
         });
         // Listen for the login response from the server
         socket.on('createRoomResponse', (response) => {
-          if (response.status === Constants.WORK_STATUS) {
-            console.log(response, response.roomId, roomId);
-            router.push({
-                pathname: '/rooms/[roomId]',  // Make sure this matches your file name in the pages directory
-                query: { roomId: response.roomId }  // Replace 'desired-room-id' with the actual room ID you want to navigate to.
-            });
-            
-          } else {
-            alert('somthing went wrong');
-          }
+            if (response.status === Constants.WORK_STATUS) {
+                console.log(response, response.roomId, roomId);
+                router.push({
+                    pathname: '/rooms/[roomId]', // Make sure this matches your file name in the pages directory
+                    query: { roomId: response.roomId } // Replace 'desired-room-id' with the actual room ID you want to navigate to.
+                });
+
+            } else {
+                alert('somthing went wrong');
+            }
         }
-    )
-    return () => {
-        socket.off('createRoomResponse');
-    };
+        );
+        return () => {
+            socket.off('createRoomResponse');
+        };
     }
     
 
