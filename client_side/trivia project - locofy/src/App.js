@@ -13,6 +13,7 @@ import WaitRoom from "./pages/WaitRoom";
 import JoinRoom from "./pages/JoinRoom";
 import Login from "./pages/Login";
 import CreateRoom from "./pages/CreateRoom";
+import Logout from "./components/logout";
 
 function App() {
   const action = useNavigationType();
@@ -62,6 +63,10 @@ function App() {
         title = "";
         metaDescription = "";
         break;
+      case "/logout":
+        title = "";
+        metaDescription = "";
+        break;
     }
 
     if (title) {
@@ -70,7 +75,7 @@ function App() {
 
     if (metaDescription) {
       const metaDescriptionTag = document.querySelector(
-        'head > meta[name="description"]',
+        'head > meta[name="description"]'
       );
       if (metaDescriptionTag) {
         metaDescriptionTag.content = metaDescription;
@@ -88,6 +93,7 @@ function App() {
       <Route path="/join-room" element={<JoinRoom />} />
       <Route path="/login" element={<Login />} />
       <Route path="/create-room" element={<CreateRoom />} />
+      <Route path="/logout" element={<Logout />} />
     </Routes>
   );
 }

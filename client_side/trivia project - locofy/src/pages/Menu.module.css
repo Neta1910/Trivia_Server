@@ -23,6 +23,7 @@
   padding: 4.5px 13.5px;
   box-sizing: border-box;
   max-width: 100%;
+  cursor: pointer;
 }
 .joinRoom {
   height: 116px;
@@ -49,6 +50,7 @@
   padding: 11.5px 28.5px;
   box-sizing: border-box;
   max-width: 100%;
+  cursor: pointer;
 }
 .frameGroup {
   align-self: stretch;
@@ -110,6 +112,7 @@
   padding: 9.5px var(--padding-20xl);
   box-sizing: border-box;
   max-width: 100%;
+  cursor: pointer;
 }
 .logOutWrapper {
   width: 627px;
@@ -123,6 +126,7 @@
   padding: 11px var(--padding-2xl);
   box-sizing: border-box;
   max-width: 100%;
+  cursor: pointer;
 }
 .frameDiv {
   align-self: stretch;
