@@ -18,7 +18,13 @@ const Constants = {
       ANSOWER_TIMEOUT: "answer_timeout",
       HAS_GAME_BEGUN: "hasGameBegun",
       PLAYERS: "players",
-      IS_ACTIVE: "is_active"
+      IS_ACTIVE: "is_active",
+      HIGH_SCORE: "highestScore",
+      CORRECT_ANSWER_COUNT : "correct_answer_count",
+      WRONG_ANSWER_COUNT : "wrong_answer_count",
+      AVERAGE_ANSWER_TIME : "average_answer_time",
+      GAMES_PLAYED : "games_played",
+      TOTAL_ANS : "total_ans"
     },
   };
   

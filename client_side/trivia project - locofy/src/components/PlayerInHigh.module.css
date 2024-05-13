@@ -8,12 +8,14 @@
   border-radius: 50%;
   background-color: var(--color-white);
 }
+
 .separator {
   position: relative;
   display: inline-block;
   min-width: 10px;
   z-index: 1;
 }
+
 .circleShapeParent {
   display: flex;
   flex-direction: row;
@@ -21,11 +23,13 @@
   justify-content: flex-start;
   position: relative;
 }
+
 .userName {
   flex: 1;
   position: relative;
   color: var(--color-black);
 }
+
 .frameParent {
   width: 289px;
   display: flex;
@@ -34,10 +38,12 @@
   justify-content: flex-start;
   gap: var(--gap-25xl);
 }
+
 .score {
   align-self: stretch;
   position: relative;
 }
+
 .scoreWrapper {
   width: 174px;
   display: flex;
@@ -48,6 +54,7 @@
   box-sizing: border-box;
   color: var(--color-black);
 }
+
 .player {
   width: 740px;
   border-radius: var(--br-6xs);
@@ -58,18 +65,20 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  padding: var(--padding-12xl) var(--padding-12xl) var(--padding-8xl)
-    var(--padding-20xl);
+  padding: var(--padding-12xl) var(--padding-12xl) var(--padding-8xl) var(--padding-20xl);
   box-sizing: border-box;
   gap: var(--gap-xl);
   max-width: 100%;
+  min-height: 25%;
 }
+
 .div {
   position: relative;
   display: inline-block;
   min-width: 13px;
   z-index: 1;
 }
+
 .frameGroup {
   width: 289px;
   display: flex;
@@ -78,12 +87,14 @@
   justify-content: flex-start;
   gap: var(--gap-22xl);
 }
+
 .div1 {
   position: relative;
   display: inline-block;
   min-width: 14px;
   z-index: 1;
 }
+
 .frameContainer {
   width: 289px;
   display: flex;
@@ -91,40 +102,6 @@
   align-items: flex-start;
   justify-content: flex-start;
   gap: var(--gap-21xl);
-}
-.highhScoreres {
-  flex: 1;
-  border-radius: var(--br-mini);
-  box-shadow: -7px 7px 4px rgba(0, 0, 0, 0.25);
-  border: 5px solid var(--color-black);
-  box-sizing: border-box;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: var(--padding-xl) var(--padding-xl) var(--padding-26xl);
-  gap: var(--gap-36xl);
-  height: 460px;
-  max-width: 50%;
-  text-align: left;
-  font-size: var(--font-size-5xl);
-  color: var(--color-teal);
-  font-family: var(--font-kavoon);
-  overflow-y: auto;
-
-  
-  /* Hide scrollbar for WebKit browsers like Chrome and Safari */
-  ::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Hide scrollbar for IE, Edge, and Firefox */
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-
 }
 
 @media screen and (max-width: 700px) {
@@ -167,6 +144,7 @@
     box-sizing: border-box;
   }
 }
+
 @media screen and (max-width: 450px) {
   .player {
     flex-wrap: wrap;

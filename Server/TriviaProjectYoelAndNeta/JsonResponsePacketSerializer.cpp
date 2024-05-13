@@ -97,7 +97,7 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeHighScoreRespon
 
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(const GetPersonalStatsResponse& response)
 {
-    json statsJson = { {"user_id", response.statistics.user_id}, {"total_ans", response.statistics.total_ans}, {"avg_ans_time", response.statistics.avg_ans_time }, {"games_played", response.statistics.games_played}, {"highScore", response.statistics.highScore}, {"right_ans", response.statistics.right_ans} };
+    json statsJson = { {"user_id", response.statistics.user_id}, {TOTAL_ANS, response.statistics.total_ans}, {AVERAGE_ANSWER_TIME, response.statistics.avg_ans_time }, {GAMES_PLAYED, response.statistics.games_played}, {HIGH_SCORE, response.statistics.highScore}, {CORRECT_ANSWER_COUNT, response.statistics.right_ans} };
     json j = json{ {"statistics", statsJson}, {"status", response.status}}; // Creating a JSON object j with the message field from the response
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_PERSONAL_STATS_RESP); // Parsing the data into a message with the specified response code
 }

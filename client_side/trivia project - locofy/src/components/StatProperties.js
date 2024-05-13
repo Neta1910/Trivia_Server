@@ -1,38 +1,25 @@
 import UserStats from "./UserStats";
 import styles from "./StatProperties.module.css";
 
-const StatProperties = () => {
+const StatProperties = ({numOfGames, highScore, avgTime}) => {
   return (
     <section className={styles.userStatsParent}>
-      <UserStats
-        fluentgames24Filled="/fluentgames24filled.svg"
-        youPlayedXGames="you played x games"
-      />
-      <div className={styles.userStatsGroup}>
         <UserStats
-          fluentgames24Filled="/fluentgames24filled-1.svg"
-          youPlayedXGames="Your highest score is x"
-          propWidth="unset"
-          propMinWidth="231px"
-          propFlex="1"
-          propBackground="linear-gradient(91.65deg, #ffee88, #06bee1)"
+          nameStat={`you played ${numOfGames} games`} // Correctly formatted prop
+          icon={"/fluentgames24filled.svg"}
         />
-        <div className={styles.userStats}>
-          <div className={styles.yourAvgAnsContainer}>
-            <p className={styles.yourAvgAns}>Your avg ans time</p>
-            <p className={styles.yourAvgAns}>is x seconds</p>
-          </div>
-          <div className={styles.ellipseParent}>
-            <div className={styles.frameChild} />
-            <img
-              className={styles.tableralarmAverageIcon}
-              loading="lazy"
-              alt=""
-              src="/tableralarmaverage.svg"
-            />
-          </div>
-        </div>
-      </div>
+
+        <UserStats
+          icon="/fluentgames24filled-1.svg"
+          background="linear-gradient(91.65deg, #ffee88, #06bee1)"
+          nameStat={`your high score is ${highScore}`}
+        />
+        
+        <UserStats
+          icon="/tableralarmaverage.svg"
+          background="linear-gradient(91.65deg, #ffee88, #06bee1)"
+          nameStat={`your avg time is ${avgTime} seconds`}
+        /> 
     </section>
   );
 };

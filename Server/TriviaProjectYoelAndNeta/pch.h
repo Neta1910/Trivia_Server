@@ -52,9 +52,12 @@ enum RequestCodes
 #define ADDRESS "address"
 #define PHONE_NUMBER "phone_number"
 #define BIRTH_DATE "birth_date"
+
 #define CORRECT_ANSWER_COUNT "correct_answer_count"
 #define WRONG_ANSWER_COUNT "wrong_answer_count"
 #define AVERAGE_ANSWER_TIME "average_answer_time"
+#define GAMES_PLAYED "games_played"
+#define TOTAL_ANS "total_ans"
 
 
 // ---- Error Messages ----
@@ -67,6 +70,7 @@ enum RequestCodes
 #define QUESTION_COUNT "questionCount"
 #define ANSOWER_TIMEOUT "answerTimeout"
 #define ANSWER_ID "answerId"
+#define IS_ACTIVE "is_active"
 
 // ---- Room Settings ----
 #define MIN_ANS_TIME 1
