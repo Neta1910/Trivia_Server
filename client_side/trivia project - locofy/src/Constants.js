@@ -18,6 +18,7 @@ const Constants = {
       ANSOWER_TIMEOUT: "answer_timeout",
       HAS_GAME_BEGUN: "hasGameBegun",
       PLAYERS: "players",
+      IS_ACTIVE: "is_active"
     },
   };
   

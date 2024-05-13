@@ -35,17 +35,25 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeLogoutResponse(
 
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetRoomResponse(const GetRoomsResponse& response)
 {
-    std::string roomsString = "[ ";
-    for (auto it = response.rooms.begin(); it != response.rooms.begin(); ++it)
+
+    // Create a JSON array to hold room data
+    nlohmann::json jsonRooms = nlohmann::json::array();
+
+    for (const auto& room : response.rooms)
     {
-        roomsString += "id: " + std::to_string(it->id) + ", ";
-        roomsString += "name: " + it->name + ", ";
-        roomsString += "maxPlayers: " + std::to_string(it->maxPlayers) + ", ";
-        roomsString += "numOfQuestionsInGame: " + std::to_string(it->numOfQuestionsInGame);
-        roomsString += "timePerQuestion: " + std::to_string(it->timePerQuestion) + ", ";
-        roomsString += "isActive: " + std::to_string(it->isActive) + "]";
+        // Directly use a JSON object for each room
+        nlohmann::json jsonRoom;
+        jsonRoom[ROOM_ID] = room.id;
+        jsonRoom[ROOM_NAME] = room.name;
+        jsonRoom[MAX_USERS] = room.maxPlayers;
+        jsonRoom[QUESTION_COUNT] = room.numOfQuestionsInGame;
+        jsonRoom[ANSOWER_TIMEOUT] = room.timePerQuestion;
+        jsonRoom[IS_ACTIVE] = room.isActive;
+
+        // Append the room JSON object to the rooms array
+        jsonRooms.push_back(jsonRoom);
     }
-    json j = json{ {"rooms", roomsString}, {"status", response.status}}; // Creating a JSON object j with the message field from the response
+    json j = json{ {"rooms", jsonRooms}, {"status", response.status}}; // Creating a JSON object j with the message field from the response
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_ROOM_RESP); // Parsing the data into a message with the specified response code
 }
 

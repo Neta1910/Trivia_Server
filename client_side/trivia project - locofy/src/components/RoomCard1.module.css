@@ -112,6 +112,7 @@
   font-size: var(--font-size-13xl);
   color: var(--color-black);
   font-family: var(--font-kavoon);
+  cursor: pointer;
 }
 
 @media screen and (max-width: 900px) {

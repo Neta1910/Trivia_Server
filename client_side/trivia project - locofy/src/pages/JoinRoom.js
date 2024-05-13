@@ -1,8 +1,31 @@
-import RoomCard1 from "../components/RoomCard1";
-import RoomCard from "../components/RoomCard";
+import { useEffect, useState } from "react";
+import RoomCard from "../components/RoomCard1";
 import styles from "./JoinRoom.module.css";
+import { socket } from "../socket";
+import Constents from "../Constants";
 
 const JoinRoom = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [rooms, setRooms] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    socket.emit("getRooms");
+    socket.on("getRoomsResponse", (response) => {
+      if (response.status === Constents.WORK_STATUS) {
+        setRooms(response.rooms);
+        setIsLoading(false);
+      } else {
+        setError("Error while recieving ");
+        setIsLoading(false);
+      }
+    });
+  }, []);
+
+  if (isLoading) return <p>Loading elemnts </p>;
+  if (error.length > 0) return <p> An error accured while loading </p>
+  if (rooms.length === 0) return <p>There are no rooms</p>
+  
   return (
     <div className={styles.joinRoom}>
       <section className={styles.frameParent}>
@@ -11,49 +34,19 @@ const JoinRoom = () => {
             <div className={styles.chooseARoomWrapper}>
               <div className={styles.chooseARoom}>choose a room</div>
             </div>
-            <RoomCard1 />
+            <div className={styles.roomCardParent}>
+              {rooms.map((room) => (
+                <RoomCard 
+                  RoomName={room[Constents.FIELDS.ROOM_NAME]} 
+                  AmountOfPlayers={room[Constents.FIELDS.MAX_USERS]}
+                  timeout={room[Constents.FIELDS.ANSOWER_TIMEOUT]}
+                  questions={room[Constents.FIELDS.QUESTION_COUNT]}
+                />
+              ))}
+            </div>
           </div>
         </div>
-        <RoomCard1 xPlayersDebugCommit="unset" />
       </section>
-      <div className={styles.roomCardParent}>
-        <div className={styles.roomCard}>
-          <div className={styles.frameContainer}>
-            <div className={styles.roomNameWrapper}>
-              <div className={styles.roomName}>Room name</div>
-            </div>
-            <div className={styles.frameChild} />
-            <div className={styles.xPlayersParent}>
-              <div className={styles.xPlayers}>{`x players `}</div>
-              <div className={styles.similarNamesForSubComponenParent}>
-                <div className={styles.similarNamesForSubComponen}>
-                  <img
-                    className={styles.questionMarkerIcon}
-                    loading="lazy"
-                    alt=""
-                    src="/vector-6.svg"
-                  />
-                </div>
-                <div className={styles.similarNamesForSubComponen2}>
-                  <div className={styles.xPlayers}>x timeout</div>
-                  <div className={styles.similarNamesForSubComponenParent}>
-                    <div className={styles.similarNamesForSubComponen}>
-                      <img
-                        className={styles.questionMarkerIcon}
-                        loading="lazy"
-                        alt=""
-                        src="/vector-6.svg"
-                      />
-                    </div>
-                    <div className={styles.xPlayers}>x questions</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <RoomCard />
-      </div>
     </div>
   );
 };

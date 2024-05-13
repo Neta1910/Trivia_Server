@@ -1,22 +1,17 @@
 import { useMemo } from "react";
 import styles from "./RoomCard1.module.css";
 
-const RoomCard1 = ({ xPlayersDebugCommit }) => {
-  const roomCardStyle = useMemo(() => {
-    return {
-      debugCommit: xPlayersDebugCommit,
-    };
-  }, [xPlayersDebugCommit]);
+const RoomCard = ({RoomName, AmountOfPlayers, timeout, questions}) => {
 
   return (
-    <div className={styles.roomCard} style={roomCardStyle}>
+    <div className={styles.roomCard}>
       <div className={styles.frameParent}>
         <div className={styles.roomNameWrapper}>
-          <div className={styles.roomName}>Room name</div>
+          <div className={styles.roomName}>{RoomName}</div>
         </div>
         <div className={styles.frameChild} />
         <div className={styles.xPlayersParent}>
-          <div className={styles.xPlayers}>{`x players `}</div>
+          <div className={styles.xPlayers}> {AmountOfPlayers } players  </div>
           <div className={styles.frameGroup}>
             <div className={styles.horizontalAxisWrapper}>
               <img
@@ -27,7 +22,7 @@ const RoomCard1 = ({ xPlayersDebugCommit }) => {
               />
             </div>
             <div className={styles.xTimeoutWrapper}>
-              <div className={styles.xTimeout}>x timeout</div>
+              <div className={styles.xTimeout}>{timeout} timeout</div>
             </div>
             <div className={styles.instanceOfCard}>
               <div className={styles.horizontalAxisWrapper}>
@@ -38,7 +33,7 @@ const RoomCard1 = ({ xPlayersDebugCommit }) => {
                   src="/vector-6.svg"
                 />
               </div>
-              <div className={styles.xPlayers}>x questions</div>
+              <div className={styles.xPlayers}>{questions} questions</div>
             </div>
           </div>
         </div>
@@ -47,4 +42,4 @@ const RoomCard1 = ({ xPlayersDebugCommit }) => {
   );
 };
 
-export default RoomCard1;
+export default RoomCard;
