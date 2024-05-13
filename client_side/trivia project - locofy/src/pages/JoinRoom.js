@@ -41,6 +41,7 @@ const JoinRoom = () => {
                   AmountOfPlayers={room[Constents.FIELDS.MAX_USERS]}
                   timeout={room[Constents.FIELDS.ANSOWER_TIMEOUT]}
                   questions={room[Constents.FIELDS.QUESTION_COUNT]}
+                  roomId={room[Constents.FIELDS.ROOM_ID]}
                 />
               ))}
             </div>

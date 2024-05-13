@@ -1,10 +1,30 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import styles from "./RoomCard1.module.css";
+import { useNavigate } from "react-router-dom";
+import { socket } from "../socket";
+import Constants from "../Constants";
 
-const RoomCard = ({RoomName, AmountOfPlayers, timeout, questions}) => {
+const RoomCard = ({RoomName, AmountOfPlayers, timeout, questions, roomId}) => {
+  
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const queryParams = new URLSearchParams({
+      roomId: roomId
+    }).toString();
+    socket.on("joinRoomResponse", () => {  
+      navigate(`/WaitRoom?${queryParams}`)
+    })
+  }, [])
+
+  const onClickOnCard = () => {
+    socket.emit("joinRoom", {
+      [Constants.FIELDS.ROOM_ID]: roomId
+    })
+  }
 
   return (
-    <div className={styles.roomCard}>
+    <div className={styles.roomCard} onClick={onClickOnCard}>
       <div className={styles.frameParent}>
         <div className={styles.roomNameWrapper}>
           <div className={styles.roomName}>{RoomName}</div>

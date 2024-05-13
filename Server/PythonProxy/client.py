@@ -77,9 +77,8 @@ def handle_get_players(data):
 
 
 @socketio.on('joinRoom')
-def handle_join_room(data):
+def handle_join_room(data_dict):
     try:
-        data_dict = json.loads(data)  # Convert JSON string to Python dictionary
         user_sockets[request.remote_addr].sendall(
             requests.JoinRoomRequest(data_dict[ROOM_ID]).getMessage())
 
