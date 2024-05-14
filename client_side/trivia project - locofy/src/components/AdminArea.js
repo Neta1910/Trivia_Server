@@ -4,7 +4,6 @@ import styles from "./AdminArea.module.css";
 const AdminArea = () => {
   return (
     <section className={styles.adminArea}>
-      <HighhScoreres1 />
       <div className={styles.actionSectionAdminWrapper}>
         <div className={styles.actionSectionAdmin}>
           <div className={styles.adminButton}>

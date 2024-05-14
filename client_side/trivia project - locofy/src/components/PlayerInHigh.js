@@ -1,6 +1,6 @@
 import styles from './PlayerInHigh.module.css'
 
-const PlayerInHigh = ({place, userName, score}) => {
+const PlayerInHigh = ({place, userName, score, isInHigh = true}) => {
     return (
         <div className={styles.player}>
         <div className={styles.frameParent}>
@@ -10,9 +10,11 @@ const PlayerInHigh = ({place, userName, score}) => {
           </div>
           <div className={styles.userName}>{userName}</div>
         </div>
-        <div className={styles.scoreWrapper}>
-          <div className={styles.score}>{score}</div>
-        </div>
+        { isInHigh ? 
+          <div className={styles.scoreWrapper}>
+            <div className={styles.score}>{score}</div>
+          </div>
+        : null}
       </div>
     )
 }

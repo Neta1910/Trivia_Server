@@ -1,34 +1,22 @@
 import styles from "./HighhScoreres1.module.css";
+import PlayerInHigh from "./PlayerInHigh";
 
-const HighhScoreres1 = () => {
+const ListOfPlayers = ({ players }) => {
   return (
     <div className={styles.highhScoreres}>
-      <div className={styles.player}>
-        <div className={styles.playerNames}>
-          <div className={styles.playerNamesChild} />
-          <div className={styles.semicolonPlacement}>1</div>
-        </div>
-        <div className={styles.userName}>User name</div>
-        <div className={styles.score}>Score</div>
-      </div>
-      <div className={styles.player1}>
-        <div className={styles.playerNames}>
-          <div className={styles.playerNamesChild} />
-          <div className={styles.div}>2</div>
-        </div>
-        <div className={styles.userName}>User name</div>
-        <div className={styles.score}>Score</div>
-      </div>
-      <div className={styles.player2}>
-        <div className={styles.playerNames}>
-          <div className={styles.playerNamesChild} />
-          <div className={styles.div1}>3</div>
-        </div>
-        <div className={styles.userName}>User name</div>
-        <div className={styles.score}>Score</div>
-      </div>
+      {players.length === 0 ? (
+        <p>There are no players in this room yet</p>
+      ) : (
+        players.map((elemnt, index) => {
+          <PlayerInHigh
+            userName={elemnt[Constents.FIELDS.USER_NAME]}
+            place={index}
+            isInHigh={false}
+          />;
+        })
+      )}
     </div>
   );
 };
 
-export default HighhScoreres1;
+export default ListOfPlayers;
