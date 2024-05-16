@@ -4,7 +4,9 @@ import styles from "./Answer.module.css";
 const Answer = ({
   answerText,
   icon,
-  backgroundColor
+  backgroundColor,
+  onClickFunc,
+  id
 }) => {
 
   const style = {
@@ -12,7 +14,7 @@ const Answer = ({
   };
 
   return (
-  <div className={styles.answer1Wrapper}>
+  <div className={styles.answer1Wrapper} onClick={onClickFunc(id)}>
     <div className={styles.answer1}  style={style}>
         <img
           className={styles.iconParkSolidoneKey}

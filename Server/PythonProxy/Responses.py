@@ -102,3 +102,8 @@ class AmIAdminResponse:
         json_data = parseResponse(resp)
         self.status = json_data["status"]
         self.state = json_data["state"]
+
+
+class GetQuestionResponse:
+    def __init__(self, resp):
+        server_messege =  parseResponse(resp)

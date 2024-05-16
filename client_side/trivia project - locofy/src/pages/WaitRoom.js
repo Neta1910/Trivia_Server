@@ -12,7 +12,6 @@ const WaitRoom = () => {
   const [searchParams] = useSearchParams();
   const roomId = searchParams.get('roomId');
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isLoadingAdmin, setIsLoadingAmIAdmin] = useState(true);
 
   const [error, setError] = useState(false);
   const [questions, setQuestions] = useState(0);
@@ -26,11 +25,9 @@ const WaitRoom = () => {
     socket.on ('amIAdminResponse', (response) => {
       if (response.status === Constants.WORK_STATUS) {
         setIsAdmin(response.state);
-        setIsLoadingAmIAdmin(false);
       }
       else {
         setError(true);
-        setIsLoadingStat(false);
       }
     })
 

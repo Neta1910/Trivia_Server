@@ -273,6 +273,34 @@ def handle_start_game():
         emit('amIAdminResponse', {'status': FAILED_STATUS})
 
 
+@socketio.on('getQuestion')
+def handle_start_game():
+    user_sockets[request.remote_addr].sendall(requests.GetQuestionRequest().getMessage())
+
+    server_message = parseRequestToMessage(get_server_message(user_sockets[request.remote_addr]))
+
+    emit('getQuestionResponse', server_message)
+
+@socketio.on('submitAnswer')
+def handle_start_game(data):
+    user_sockets[request.remote_addr].sendall(requests.SubmitAnswerRequest().getMessage(data[ANSWER_ID]))
+
+    server_message = parseRequestToMessage(get_server_message(user_sockets[request.remote_addr]))
+
+    emit('submitAnswerResponse', server_message)
+
+
+
+@socketio.on('getRoomRes')
+def handle_start_game(data):
+    user_sockets[request.remote_addr].sendall(requests.GetGameResRequest().getMessage())
+
+    server_message = parseRequestToMessage(get_server_message(user_sockets[request.remote_addr]))
+
+    emit('getRoomResResponse', server_message)
+
+
+
 def getPlayersInRoom(roomId):
     user_sockets[request.remote_addr].sendall(
         requests.GetPlayersInRoomRequest(roomId).getMessage())
