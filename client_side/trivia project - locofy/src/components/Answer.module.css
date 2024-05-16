@@ -37,3 +37,14 @@
   color: var(--color-black);
   font-family: var(--font-kavoon);
 }
+
+.answer1Wrapper {
+  width: 426px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-7xs) 0px 0px;
+  box-sizing: border-box;
+  max-width: 100%;
+}

@@ -2,10 +2,24 @@ import FrameComponent from "../components/FrameComponent";
 import Answer from "../components/Answer";
 import styles from "./GameBoard.module.css";
 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+
 const GameBoard = () => {
+
+  const colors = ["#ea9e8d", "#06bee1", "#006c67", "#ecc8af"]
+  const shuffledColors = shuffleArray(colors);
+
   return (
     <div className={styles.gameBoard}>
       <FrameComponent />
+      
       <main className={styles.actuoelGame}>
         <section className={styles.frameParent}>
           <div className={styles.frameGroup}>
@@ -20,78 +34,40 @@ const GameBoard = () => {
                 src="/vector-9.svg"
               />
             </div>
+            
             <div className={styles.frameWrapper}>
               <div className={styles.frameDiv}>
-                <div className={styles.answer1Wrapper}>
-                  <Answer answer1Text="Answer 1 text" showIconParkSolidoneKey />
-                </div>
-                <div className={styles.answer2Parent}>
+
+                  <Answer 
+                  answerText="Answer 1 text" 
+                  icon="./iconparksolidonekey@2x.png" 
+                  backgroundColor={shuffledColors[0]}
+                  />
+
                   <Answer
-                    answer1Text="Answer 2 text"
-                    showIconParkSolidoneKey={false}
-                    propAlignSelf="unset"
-                    propBackgroundColor="#06bee1"
-                    propPadding="var(--padding-7xl) var(--padding-sm)"
-                    propGap="unset"
-                    propPosition="absolute"
-                    propTop="0px"
-                    propLeft="0px"
-                    propWidth="100%"
-                    propHeight="100%"
+                    answerText="Answer 2 text"
+                    icon={"/iconparksolidtwokey@2x.png"}
+                    backgroundColor={shuffledColors[1]}
                   />
-                  <img
-                    className={styles.iconParkSolidtwoKey}
-                    loading="lazy"
-                    alt=""
-                    src="/iconparksolidtwokey@2x.png"
-                  />
-                </div>
+              
               </div>
             </div>
           </div>
+
           <div className={styles.frameWrapper}>
             <div className={styles.frameParent1}>
-              <div className={styles.answer2Parent}>
                 <Answer
-                  answer1Text="Answer 3 text"
-                  showIconParkSolidoneKey={false}
-                  propAlignSelf="unset"
-                  propBackgroundColor="#ea9e8d"
-                  propPadding="var(--padding-7xl) var(--padding-sm)"
-                  propGap="unset"
-                  propPosition="absolute"
-                  propTop="0px"
-                  propLeft="0px"
-                  propWidth="100%"
-                  propHeight="100%"
+                  answerText="Answer 3 text"
+                  icon={"/iconparksolidthreekey@2x.png"}
+                  backgroundColor={shuffledColors[2]}
                 />
-                <img
-                  className={styles.iconParkSolidthreeKey}
-                  loading="lazy"
-                  alt=""
-                  src="/iconparksolidthreekey@2x.png"
-                />
-              </div>
-              <div className={styles.answer2Parent}>
+
                 <Answer
-                  answer1Text="Answer 4 text"
-                  showIconParkSolidoneKey={false}
-                  propAlignSelf="unset"
-                  propBackgroundColor="#006c67"
-                  propPadding="var(--padding-7xl) var(--padding-sm)"
-                  propGap="unset"
-                  propPosition="absolute"
-                  propTop="0px"
-                  propLeft="0px"
-                  propWidth="100%"
-                  propHeight="100%"
+                  answerText="Answer 4 text"
+                  icon={"/iconparksolidthreekey-1@2x.png"}
+                  backgroundColor={shuffledColors[3]}
                 />
-                <img
-                  className={styles.iconParkSolidthreeKey}
-                  alt=""
-                  src="/iconparksolidthreekey-1@2x.png"
-                />
-              </div>
+
             </div>
           </div>
         </section>
