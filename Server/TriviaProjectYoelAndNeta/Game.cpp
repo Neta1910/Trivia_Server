@@ -111,7 +111,7 @@ void Game::submitGameStatsToDB(GameData game_data)
 {
     if (areAllPlayersDonePlaying())
     {
-        for (auto it : m_players) 
+        for (const auto& it : m_players) 
         {
             m_database->submitGameStatistics(game_data, it.first.getId());
         }        

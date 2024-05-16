@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import RegisterForm from "../components/RegisterForm";
 import styles from "./Register.module.css";
 

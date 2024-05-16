@@ -67,7 +67,10 @@ const GameBoard = () => {
     getQuestions();
 
     return (
-      socket.off("getQuestionResponse")
+      () => {
+        socket.off("getQuestionResponse")
+        socket.off("submitAnswerResponse")
+      }
     )
   }, [])
 
@@ -89,10 +92,10 @@ const GameBoard = () => {
     endTimeFunc();
     const duration = (endTime - startTime) / 1000; // Convert milliseconds to seconds
     answerTimes.push(duration);
-
     socket.emit("submitAnswer", {[Constents.FIELDS.ANSWER_ID]: id})
   }
   
+
   return (
     <div className={styles.gameBoard}>
       <TopPartGameBoard

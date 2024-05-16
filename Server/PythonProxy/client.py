@@ -17,16 +17,18 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 user_sockets = {}
 rooms = {}
 
+def get_user_id():
+    return f"{request.remote_addr}, {request.headers.get('User-Agent')}"
+
 
 @socketio.on('connect')
 def handle_connect():
     try:
-        user_id = request.remote_addr  # Use the session ID as a unique identifier for the user
-        if user_id not in user_sockets:
+        if get_user_id() not in user_sockets:
             cpp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             cpp_socket.connect(SERVER_DATA)
-            user_sockets[user_id] = cpp_socket
-            print(f"Connected user {user_id}")
+            user_sockets[get_user_id()] = cpp_socket
+            print(f"Connected user {get_user_id()}")
         else:
             print("User already connected")
     except ConnectionRefusedError:
@@ -37,9 +39,9 @@ def handle_connect():
 def handle_login(data):
     try:
         data_dict = json.loads(data)  # Convert JSON string to Python dictionary
-        user_sockets[request.remote_addr].sendall(
+        user_sockets[get_user_id()].sendall(
             requests.LoginRequest(data_dict[USER_NAME], data_dict[PASSWORD]).getMessage())
-        serverMessege = Responses.LoginResponse(get_server_message(user_sockets[request.remote_addr]))
+        serverMessege = Responses.LoginResponse(get_server_message(user_sockets[get_user_id()]))
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
@@ -52,11 +54,11 @@ def handle_login(data):
 @socketio.on('signup')
 def handle_signup(data_dict):
     try:
-        user_sockets[request.remote_addr].sendall(
+        user_sockets[get_user_id()].sendall(
             requests.SignUpRequest(data_dict[USER_NAME], data_dict[PASSWORD], data_dict[EMAIL], data_dict[ADDRESS],
                                    data_dict[PHONE_NUMBER], data_dict[BIRTH_DATE]).getMessage())
 
-        serverMessege = Responses.SignupResponse(get_server_message(user_sockets[request.remote_addr]))
+        serverMessege = Responses.SignupResponse(get_server_message(user_sockets[get_user_id()]))
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
@@ -79,10 +81,10 @@ def handle_get_players(data):
 @socketio.on('joinRoom')
 def handle_join_room(data_dict):
     try:
-        user_sockets[request.remote_addr].sendall(
+        user_sockets[get_user_id()].sendall(
             requests.JoinRoomRequest(data_dict[ROOM_ID]).getMessage())
 
-        serverMessege = Responses.JoinRoomResponse(get_server_message(user_sockets[request.remote_addr]))
+        serverMessege = Responses.JoinRoomResponse(get_server_message(user_sockets[get_user_id()]))
 
         if serverMessege.status == FAILED_STATUS:
             raise Exception
@@ -100,10 +102,10 @@ def handle_join_room(data_dict):
 def handle_create_room(data):
     try:
         data_dict = data
-        user_sockets[request.remote_addr].sendall(
+        user_sockets[get_user_id()].sendall(
             requests.CreateRoomRequest(data_dict[ROOM_NAME], int(data_dict[MAX_USERS]), int(data_dict[QUESTION_COUNT]),
                                        int(data_dict[ANSOWER_TIMEOUT])).getMessage())
-        serverMessege = Responses.CreateRoomResponse(get_server_message(user_sockets[request.remote_addr]))
+        serverMessege = Responses.CreateRoomResponse(get_server_message(user_sockets[get_user_id()]))
 
         if serverMessege.status == FAILED_STATUS:
             raise Exception
@@ -122,9 +124,9 @@ def handle_create_room(data):
 @socketio.on('getHighScore')
 def handle_get_high():
     try:
-        user_sockets[request.remote_addr].sendall(requests.HighScoreRequest().getMessage())
+        user_sockets[get_user_id()].sendall(requests.HighScoreRequest().getMessage())
 
-        serverMessege = Responses.GetHighScoreResponse(get_server_message(user_sockets[request.remote_addr]))
+        serverMessege = Responses.GetHighScoreResponse(get_server_message(user_sockets[get_user_id()]))
 
         if serverMessege.status == FAILED_STATUS:
             raise Exception
@@ -138,16 +140,16 @@ def handle_get_high():
 @socketio.on('logout')
 def handle_logout():
     try:
-        user_sockets[request.remote_addr].sendall(requests.LogoutRequest().getMessage())
+        user_sockets[get_user_id()].sendall(requests.LogoutRequest().getMessage())
 
-        serverMessege = Responses.LogoutResponse(get_server_message(user_sockets[request.remote_addr]))
+        serverMessege = Responses.LogoutResponse(get_server_message(user_sockets[get_user_id()]))
 
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
             # closing the socket
-            user_sockets[request.remote_addr].close()
-            user_sockets.pop(request.remote_addr)
+            user_sockets[get_user_id()].close()
+            user_sockets.pop(get_user_id())
             emit('logoutResponse', {'status': WORK_STATUS})
     except Exception as e:
         print(e)
@@ -170,9 +172,9 @@ def handle_get_rooms():
 @socketio.on('getPersonalStats')
 def handle_get_personal_stats():
     try:
-        user_sockets[request.remote_addr].sendall(requests.personalStatsRequest().getMessage())
+        user_sockets[get_user_id()].sendall(requests.personalStatsRequest().getMessage())
 
-        serverMessege = Responses.GetPersonalStatsResponse(get_server_message(user_sockets[request.remote_addr]))
+        serverMessege = Responses.GetPersonalStatsResponse(get_server_message(user_sockets[get_user_id()]))
 
         if serverMessege.status == FAILED_STATUS:
             raise Exception
@@ -187,8 +189,8 @@ def handle_get_personal_stats():
 def handle_close_room(data):
     try:
         roomId = data.roomId
-        user_sockets[request.remote_addr].sendall(requests.personalStatsRequest().getMessage())
-        serverMessege = Responses.CloseRoomResponse(get_server_message(user_sockets[request.remote_addr]))
+        user_sockets[get_user_id()].sendall(requests.personalStatsRequest().getMessage())
+        serverMessege = Responses.CloseRoomResponse(get_server_message(user_sockets[get_user_id()]))
 
         if serverMessege.status == FAILED_STATUS:
             raise Exception
@@ -203,9 +205,9 @@ def handle_close_room(data):
 @socketio.on('startGame')
 def handle_start_game():
     try:
-        user_sockets[request.remote_addr].sendall(requests.StartRoomRequest.getMessage())
+        user_sockets[get_user_id()].sendall(requests.StartRoomRequest.getMessage())
 
-        serverMessege = Responses.StartGameResponse(get_server_message(user_sockets[request.remote_addr]))
+        serverMessege = Responses.StartGameResponse(get_server_message(user_sockets[get_user_id()]))
 
         if serverMessege.status == FAILED_STATUS:
             raise Exception
@@ -219,9 +221,9 @@ def handle_start_game():
 @socketio.on('getRoomState')
 def handle_start_game():
     try:
-        user_sockets[request.remote_addr].sendall(requests.GetRoomStateRequest().getMessage())
+        user_sockets[get_user_id()].sendall(requests.GetRoomStateRequest().getMessage())
 
-        serverMessege = Responses.GetRoomStaeResponse(get_server_message(user_sockets[request.remote_addr]))
+        serverMessege = Responses.GetRoomStaeResponse(get_server_message(user_sockets[get_user_id()]))
 
         if serverMessege.status == FAILED_STATUS:
             raise Exception
@@ -240,9 +242,9 @@ def handle_start_game(data):
         roomId = data.roomId
         playersInRoom = getPlayersInRoom(roomId).players
 
-        user_sockets[request.remote_addr].sendall(requests.LeaveRoomRequest().getMessage())
+        user_sockets[get_user_id()].sendall(requests.LeaveRoomRequest().getMessage())
 
-        serverMessege = Responses.LeaveRoomResponse(get_server_message(user_sockets[request.remote_addr]))
+        serverMessege = Responses.LeaveRoomResponse(get_server_message(user_sockets[get_user_id()]))
 
         if serverMessege.status == FAILED_STATUS:
             raise Exception
@@ -260,9 +262,9 @@ def handle_start_game(data):
 @socketio.on('AmIAdmin')
 def handle_start_game():
     try:
-        user_sockets[request.remote_addr].sendall(requests.AmIAdminRequest().getMessage())
+        user_sockets[get_user_id()].sendall(requests.AmIAdminRequest().getMessage())
 
-        server_message = Responses.AmIAdminResponse(get_server_message(user_sockets[request.remote_addr]))
+        server_message = Responses.AmIAdminResponse(get_server_message(user_sockets[get_user_id()]))
 
         if server_message.status == FAILED_STATUS:
             raise Exception
@@ -275,17 +277,17 @@ def handle_start_game():
 
 @socketio.on('getQuestion')
 def handle_start_game():
-    user_sockets[request.remote_addr].sendall(requests.GetQuestionRequest().getMessage())
+    user_sockets[get_user_id()].sendall(requests.GetQuestionRequest().getMessage())
 
-    server_message = parseRequestToMessage(get_server_message(user_sockets[request.remote_addr]))
+    server_message = parseRequestToMessage(get_server_message(user_sockets[get_user_id()]))
 
     emit('getQuestionResponse', server_message)
 
 @socketio.on('submitAnswer')
 def handle_start_game(data):
-    user_sockets[request.remote_addr].sendall(requests.SubmitAnswerRequest().getMessage(data[ANSWER_ID]))
+    user_sockets[get_user_id()].sendall(requests.SubmitAnswerRequest().getMessage(data[ANSWER_ID]))
 
-    server_message = parseRequestToMessage(get_server_message(user_sockets[request.remote_addr]))
+    server_message = parseRequestToMessage(get_server_message(user_sockets[get_user_id()]))
 
     emit('submitAnswerResponse', server_message)
 
@@ -293,26 +295,26 @@ def handle_start_game(data):
 
 @socketio.on('getRoomRes')
 def handle_start_game(data):
-    user_sockets[request.remote_addr].sendall(requests.GetGameResRequest().getMessage())
+    user_sockets[get_user_id()].sendall(requests.GetGameResRequest().getMessage())
 
-    server_message = parseRequestToMessage(get_server_message(user_sockets[request.remote_addr]))
+    server_message = parseRequestToMessage(get_server_message(user_sockets[get_user_id()]))
 
     emit('getRoomResResponse', server_message)
 
 
 
 def getPlayersInRoom(roomId):
-    user_sockets[request.remote_addr].sendall(
+    user_sockets[get_user_id()].sendall(
         requests.GetPlayersInRoomRequest(roomId).getMessage())
 
-    serverMessege = Responses.GetPlayersInRoomResponse(get_server_message(user_sockets[request.remote_addr]))
+    serverMessege = Responses.GetPlayersInRoomResponse(get_server_message(user_sockets[get_user_id()]))
     return serverMessege
 
 
 def getRooms():
-    user_sockets[request.remote_addr].sendall(requests.GetRoomRequest().getMessage())
+    user_sockets[get_user_id()].sendall(requests.GetRoomRequest().getMessage())
 
-    return Responses.GetRoomsResponse(get_server_message(user_sockets[request.remote_addr]))
+    return Responses.GetRoomsResponse(get_server_message(user_sockets[get_user_id()]))
 
 
 def main():
