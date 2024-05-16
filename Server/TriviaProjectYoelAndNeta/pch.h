@@ -17,6 +17,7 @@ enum ResponseCodes
 	START_GAME_RESP,
 	GET_ROOM_STATE_RESP,
 	LEAVE_ROOM_RESP,
+	AM_I_ADMIN_RESP,
 	LEAVE_GAME_RESP,
 	GET_QUESTION_RESP, 
 	SUBMIT_ANSWER_RESP,
@@ -39,6 +40,7 @@ enum RequestCodes
 	START_GAME_REQ,
 	GET_ROOM_STATE_REQ,
 	LEAVE_ROOM_REQ,
+	AM_I_ADMIN_REQ,
 	LEAVE_GAME_REQ,
 	GET_QUESTION_REQ,
 	SUBMIT_ANSWER_REQ,
@@ -64,6 +66,8 @@ enum RequestCodes
 #define INVALID_REQUEST "Invalid Request"
 
 #define ROOM_ID "roomId"
+#define NUM_OF_QUESTIONS 4
+#define CORRECT_ANS_INDEX 1
 
 #define ROOM_NAME "roomName"
 #define MAX_USERS "maxUsers"
@@ -87,5 +91,6 @@ enum RequestCodes
 #define HAS_GAME_BEGUN "hasGameBegun"
 #define PLAYERS "players"
 
+#define CORRECT_ANS 0
 #define	WORKING_STATUS 1
 #define FAILED_STATUS 0

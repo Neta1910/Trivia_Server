@@ -85,6 +85,12 @@ typedef struct LeaveRoomResponse
 
 // ---------------- V4 ---------------------------
 
+typedef struct AmIAdminResponse
+{
+	unsigned int status;
+	bool state;
+};
+
 typedef struct LeaveGameResponse
 {
 	unsigned int status;
@@ -103,12 +109,6 @@ typedef struct SubmitAnswerResponse
 	unsigned int correctAnswerId;
 };
 
-typedef struct GetGameResultsResponse
-{
-	unsigned int status;
-	std::vector<PlayerResults> results;
-};
-
 typedef struct PlayerResults
 {
 	std::string username;
@@ -116,3 +116,10 @@ typedef struct PlayerResults
 	unsigned int wrongAnswerCount;
 	unsigned int averageAnswerTime;
 };
+
+typedef struct GetGameResultsResponse
+{
+	unsigned int status;
+	std::vector<PlayerResults> results;
+};
+
