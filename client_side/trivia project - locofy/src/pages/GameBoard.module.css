@@ -1,0 +1,227 @@
+.questionText {
+  flex: 1;
+  position: relative;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  max-width: 100%;
+}
+.questionTextWrapper {
+  width: 1173px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0px 69px;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.frameChild {
+  align-self: stretch;
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.frameContainer {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 48.5px;
+  max-width: 100%;
+}
+
+.iconParkSolidtwoKey {
+  position: absolute;
+  top: 32px;
+  left: 18px;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  object-fit: cover;
+  z-index: 1;
+}
+.answer2Parent {
+  height: 168px;
+  width: 426px;
+  position: relative;
+  max-width: 100%;
+}
+.frameDiv {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 100%;
+  gap: var(--gap-xl);
+}
+.frameWrapper {
+  width: 1157px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0px var(--padding-34xl);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.frameGroup {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 36.5px;
+  max-width: 100%;
+}
+.iconParkSolidthreeKey {
+  position: absolute;
+  top: 26px;
+  left: 15px;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  object-fit: cover;
+  z-index: 1;
+}
+.frameParent1 {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 100%;
+  gap: var(--gap-xl);
+}
+.frameParent {
+  width: 1269px;
+  border-radius: var(--br-mini);
+  background-color: rgba(202, 202, 202, 0.15);
+  backdrop-filter: blur(5.2px);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: var(--padding-6xl) var(--padding-33xl) var(--padding-14xl)
+    var(--padding-14xl);
+  box-sizing: border-box;
+  gap: 91px;
+  max-width: 100%;
+  text-align: center;
+  font-size: var(--font-size-17xl);
+  color: var(--color-black);
+  font-family: var(--font-kavoon);
+}
+.actuoelGame {
+  align-self: stretch;
+  border-radius: var(--br-mini) var(--br-mini) 0px 0px;
+  background: linear-gradient(
+    71.71deg,
+    #ffee88,
+    #06bee1 25%,
+    rgba(234, 158, 141, 0.54) 48.14%,
+    rgba(0, 108, 103, 0.59) 75%,
+    rgba(0, 56, 68, 0.55)
+  );
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--padding-56xl) var(--padding-xl);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.gameBoard {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-white);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 42px 0px 0px;
+  box-sizing: border-box;
+  gap: 36px;
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+@media screen and (max-width: 1200px) {
+  .questionTextWrapper {
+    padding-left: var(--padding-15xl);
+    padding-right: var(--padding-15xl);
+    box-sizing: border-box;
+  }
+
+  .frameWrapper {
+    padding-left: var(--padding-7xl);
+    padding-right: var(--padding-7xl);
+    box-sizing: border-box;
+  }
+
+  .frameParent {
+    padding-right: var(--padding-7xl);
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 900px) {
+  .questionText {
+    font-size: var(--font-size-10xl);
+  }
+
+  .frameDiv {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .frameParent1 {
+    flex-wrap: wrap;
+  }
+
+  .actuoelGame {
+    padding-top: var(--padding-30xl);
+    padding-bottom: var(--padding-30xl);
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 700px) {
+  .frameContainer {
+    gap: 24px 48.5px;
+  }
+
+  .frameGroup {
+    gap: 18px 36.5px;
+  }
+
+  .frameParent {
+    gap: 45px 91px;
+    padding-top: var(--padding-xl);
+    padding-bottom: var(--padding-2xl);
+    box-sizing: border-box;
+  }
+
+  .gameBoard {
+    gap: 18px 36px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .questionText {
+    font-size: var(--font-size-3xl);
+  }
+
+  .frameParent {
+    gap: 23px 91px;
+  }
+
+  .actuoelGame {
+    padding-top: var(--padding-13xl);
+    padding-bottom: var(--padding-13xl);
+    box-sizing: border-box;
+  }
+}

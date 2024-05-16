@@ -1,0 +1,72 @@
+.frameChild {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffee88, rgba(255, 238, 136, 0.46));
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 100%;
+}
+.fluentgames24FilledIcon {
+  position: absolute;
+  top: 36px;
+  left: 106px;
+  width: 126px;
+  height: 126px;
+  overflow: hidden;
+  z-index: 1;
+}
+.ellipseParent {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+.youPlayedX {
+  position: absolute;
+  top: 178px;
+  left: 32px;
+  display: inline-block;
+  width: 281px;
+  height: 104px;
+  text-shadow:
+    6px 0 0 #fff,
+    0 6px 0 #fff,
+    -6px 0 0 #fff,
+    0 -6px 0 #fff;
+  z-index: 1;
+}
+.userStats {
+  height: 356px;
+  width: 356px;
+  position: relative;
+  min-width: 356px;
+  max-width: 100%;
+  text-align: center;
+  font-size: var(--font-size-13xl);
+  color: var(--color-black);
+  font-family: var(--font-kavoon);
+}
+
+@media screen and (max-width: 1200px) {
+  .userStats {
+    flex: 1;
+  }
+}
+@media screen and (max-width: 900px) {
+  .youPlayedX {
+    font-size: var(--font-size-7xl);
+  }
+}
+@media screen and (max-width: 700px) {
+  .youPlayedX {
+    font-size: var(--font-size-lgi);
+  }
+}
+@media screen and (max-width: 450px) {
+  .userStats {
+    min-width: 100%;
+  }
+}

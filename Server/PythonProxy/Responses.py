@@ -1,5 +1,5 @@
 import json
-
+import constents
 from RoomData import RoomData
 
 
@@ -87,10 +87,10 @@ class GetRoomStaeResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
-        self.hasGameBegun = json_data["hasGameBegun"]
-        self.players = json_data["players"]
-        self.questionCount = json_data["questionCount"]
-        self.answerTimeout = json_data["answerTimeout"]
+        self.hasGameBegun = json_data[constents.HAS_GAME_BEGUN]
+        self.players = json_data[constents.PLAYERS]
+        self.questionCount = json_data[constents.QUESTION_COUNT]
+        self.answerTimeout = json_data[constents.ANSOWER_TIMEOUT]
 
 class LeaveRoomResponse:
     def __init__(self, resp):

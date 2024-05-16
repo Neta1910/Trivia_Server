@@ -1,0 +1,8 @@
+.menuBarIcon {
+  height: 944px;
+  width: 174px;
+  position: relative;
+  border-radius: var(--br-11xs);
+  overflow: hidden;
+  flex-shrink: 0;
+}
