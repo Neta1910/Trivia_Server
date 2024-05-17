@@ -115,7 +115,7 @@ def handle_create_room(data):
             roomData = RoomData(room_id, data_dict[ROOM_NAME], int(data_dict[MAX_USERS]),
                                 int(data_dict[QUESTION_COUNT]), int(data_dict[ANSOWER_TIMEOUT]), True)
             emit('createRoomResponse', {'status': WORK_STATUS, 'roomId': room_id})
-            emit('roomAdded', {"room": roomData.to_dict()})
+            emit('roomAdded', {"room": roomData.to_dict()}, room=)
     except Exception as e:
         print(e)
         emit('createRoomResponse', {'status': FAILED_STATUS})
@@ -195,15 +195,14 @@ def handle_close_room(data):
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('roomDeleted', {'roomId': roomId})
-            emit('closeRoomResponse', {'status': WORK_STATUS})
+            emit('closeRoomResponse', {'status': WORK_STATUS}, room=rooms[roomId])
     except Exception as e:
         print(e)
         emit('closeRoomResponse', {'status': FAILED_STATUS})
 
 
 @socketio.on('startGame')
-def handle_start_game():
+def handle_start_game(data):
     try:
         user_sockets[get_user_id()].sendall(requests.StartRoomRequest.getMessage())
 
@@ -212,7 +211,7 @@ def handle_start_game():
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('startGameResponse', {'status': WORK_STATUS})
+            emit('startGameResponse', {'status': WORK_STATUS}, room=rooms[data.roomId])
     except Exception as e:
         print(e)
         emit('startGameResponse', {'status': FAILED_STATUS})

@@ -1,7 +1,7 @@
 import TopPart from "../components/FrameComponent1";
 import AdminArea from "../components/AdminArea";
 import styles from "./WaitRoom.module.css";
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { socket } from "../socket";
 import Constants from "../Constants";
@@ -9,17 +9,15 @@ import ActionSectionNotAdmin from '../components/ActionSectionNotAdmin'
 import ListOfPlayers from "../components/HighhScoreres1";
 
 const WaitRoom = () => {
-  const [searchParams] = useSearchParams();
-  const roomId = searchParams.get('roomId');
   const [isAdmin, setIsAdmin] = useState(false);
-
   const [error, setError] = useState(false);
   const [questions, setQuestions] = useState(0);
   const [timeOut, setTimeOut] = useState(0);
   const [isLoadingStat, setIsLoadingStat] = useState(true);
-
+  const searchParams = new URLSearchParams(window.location.search);
+  const roomId = localStorage.getItem("currentRoomId")
   const [players, setPlayers] = useState([]);
-  
+  const navigate = useNavigate();
 
   useEffect(() => {
     socket.on ('amIAdminResponse', (response) => {
@@ -52,10 +50,34 @@ const WaitRoom = () => {
       else {
         setError(true);
       }
+
+    socket.on('startGameResponse', (response) => {
+      if (response.status === Constants.WORK_STATUS) {
+        navigate("/game-board")
+      }
+    })
+
+    socket.on('closeRoomResponse', (response) => {
+      if (response.status === Constants.WORK_STATUS) {
+        if (!isAdmin) {
+          alert("The admin had closed the room");
+        }
+        navigate("/menu")
+      }
+    })
+
+    return (
+      () => {
+        socket.off('amIAdminResponse')
+        socket.off('getRoomStateResponse')
+        socket.off("getPlayersInRoomResponse")
+        socket.off("startGameResponse")
+        socket.off("closeRoomResponse")
+      }
+    )
     })
 
     socket.emit("AmIAdmin");
-    
     socket.emit("getRoomState")
 
 
@@ -81,7 +103,7 @@ const WaitRoom = () => {
         <ListOfPlayers 
           players={players}
         />
-        {isAdmin ? <AdminArea /> : <ActionSectionNotAdmin />}
+        {isAdmin ? <AdminArea roomId={roomId}/> : <ActionSectionNotAdmin />}
       </section>
       </div>
     </div>

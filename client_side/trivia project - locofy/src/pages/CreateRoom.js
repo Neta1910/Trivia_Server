@@ -28,12 +28,8 @@ const CreateRoom = () => {
     // Listen for the login response from the server
     socket.on('createRoomResponse', (response) => {
         if (response.status === Constants.WORK_STATUS) {
-            console.log(response, response.roomId, roomId);
-            router.push({
-                pathname: '/rooms/[roomId]', // Make sure this matches your file name in the pages directory
-                query: { roomId: response.roomId } // Replace 'desired-room-id' with the actual room ID you want to navigate to.
-            });
-
+            localStorage.setItem("currentRoomId", response.roomId)
+            navigate("/wait-room")
         } else {
             alert('somthing went wrong');
         }
