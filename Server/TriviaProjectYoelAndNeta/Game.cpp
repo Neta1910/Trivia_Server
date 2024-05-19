@@ -89,7 +89,7 @@ bool Game::areAllPlayersDonePlaying()
     std::map<LoggedUser, GameData>::iterator it;
     for (it = m_players.begin(); it != m_players.end(); ++it)
     {
-        if ((*it).second.currentQuestion != m_questions.back())
+        if ((*it).second.currentQuestion.getId() != m_questions.back().getId())
         {
             return false;
         }

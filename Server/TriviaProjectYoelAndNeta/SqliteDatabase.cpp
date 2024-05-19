@@ -190,6 +190,7 @@ int SQLiteDatabase::submitGameStatistics(GameData game_data, unsigned int user_i
 	runCommand(wrongAnsCount_query);
 	std::string avgAnsTime_query = "UPDATE Statistics SET AVERAGE_ANS_TIME = " + std::to_string(calcNewAverageAnsTime(user_id, game_data.averageAnswerTime)) + " WHERE ID = " + std::to_string(user_id) + ";";
 	runCommand(avgAnsTime_query);
+	return 0;
 }
 
 

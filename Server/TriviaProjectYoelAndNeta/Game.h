@@ -4,16 +4,10 @@
 #include "LoggedUser.h"
 #include "pch.h"
 #include "IDatabase.h"
+#include "GameData.h"
 
 class Question; 
-
-typedef struct GameData
-{
-	Question currentQuestion;
-	unsigned int correctAnswerCount;
-	unsigned int wrongAnswerCount;
-	unsigned int averageAnswerTime;
-};
+class IDatabase;
 
 class Game
 {
@@ -28,7 +22,7 @@ public:
 	int getGameId();
 private:
 	std::vector<Question> m_questions;
-	std::map<LoggedUser, GameData> m_players;
+	mutable std::map<LoggedUser, GameData> m_players;
 	unsigned int m_gameId;
 	IDatabase* m_database;
 

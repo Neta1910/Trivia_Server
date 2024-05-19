@@ -32,7 +32,7 @@ bool LoginManager::login(std::string username, std::string password)
 	}
 	// Create LoggedUser object
 	LoggedUser loggedUser(username);	// checking if user is already logged in m_loggedUsers
-	if (std::find(m_loggedUsers.begin(), m_loggedUsers.end(), loggedUser) != m_loggedUsers.end())
+	if (std::find(m_loggedUsers.begin(), m_loggedUsers.end(), loggedUser) == m_loggedUsers.end())
 	{
 		return false;
 	}
