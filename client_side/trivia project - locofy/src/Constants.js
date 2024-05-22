@@ -24,7 +24,12 @@ const Constants = {
       WRONG_ANSWER_COUNT : "wrong_answer_count",
       AVERAGE_ANSWER_TIME : "average_answer_time",
       GAMES_PLAYED : "games_played",
-      TOTAL_ANS : "total_ans"
+      TOTAL_ANS : "total_ans",
+      QUESTION: "question",
+      ANSWERS: "answers",
+      CORRECT_ANS_ID: "correctAnswerId",
+      ANSWER_ID: "answerId",
+      RESULTS: "results"
     },
   };
   

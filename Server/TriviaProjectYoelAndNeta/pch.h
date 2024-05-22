@@ -91,6 +91,11 @@ enum RequestCodes
 #define HAS_GAME_BEGUN "hasGameBegun"
 #define PLAYERS "players"
 
+
+// ---- GameManager Setttings ----
+#define QUESTION "question"
+#define ANSWERS "answers"
+
 #define CORRECT_ANS 0
 #define	WORKING_STATUS 1
 #define FAILED_STATUS 0

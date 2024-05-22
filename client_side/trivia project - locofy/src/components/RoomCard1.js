@@ -12,8 +12,9 @@ const RoomCard = ({RoomName, AmountOfPlayers, timeout, questions, roomId}) => {
     const queryParams = new URLSearchParams({
       roomId: roomId
     }).toString();
-    socket.on("joinRoomResponse", () => {  
-      navigate(`/WaitRoom?${queryParams}`)
+    socket.on("joinRoomResponse", () => {
+      localStorage.setItem('currentRoomId', roomId)  
+      navigate(`/WaitRoom`)
     })
   }, [])
 

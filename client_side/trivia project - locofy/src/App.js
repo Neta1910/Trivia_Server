@@ -14,6 +14,7 @@ import JoinRoom from "./pages/JoinRoom";
 import Login from "./pages/Login";
 import CreateRoom from "./pages/CreateRoom";
 import Logout from "./components/logout";
+import GamResultd from "./pages/GamResultd";
 
 function App() {
   const action = useNavigationType();
@@ -67,6 +68,10 @@ function App() {
         title = "";
         metaDescription = "";
         break;
+      case "/game-results":
+        title = "";
+        metaDescription = "";
+        break
     }
 
     if (title) {
@@ -94,6 +99,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/create-room" element={<CreateRoom />} />
       <Route path="/logout" element={<Logout />} />
+      <Route path="/game-results" element={<GamResultd />} />
     </Routes>
   );
 }
