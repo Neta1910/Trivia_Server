@@ -24,3 +24,14 @@ bool LoggedUser::operator==(const LoggedUser& other)
 {
 	return other.getUsername() == this->m_username;
 }
+
+bool LoggedUser::operator<(const LoggedUser& other)
+{
+	return this->getId() < other.getId();
+}
+
+
+//bool LoggedUser::operator>(const LoggedUser other)
+//{
+//	return false;
+//}
