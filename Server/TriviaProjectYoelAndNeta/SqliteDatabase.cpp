@@ -225,6 +225,14 @@ bool SQLiteDatabase::comparePasswords(const std::string& onePassword, const std:
 	return true;
 }
 
+float SQLiteDatabase::getAverageAnsTime(unsigned int user_id)
+{
+	float averageAnsTime;
+	std::string query = "SELECT AVERAGE_ANS_TIME FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
+	this->runCommand(query, floatCallBack, &averageAnsTime);
+	return averageAnsTime;
+}
+
 float SQLiteDatabase::calcNewAverageAnsTime(unsigned int user_id, float new_average_time)
 {
 	return (getAverageAnsTime(user_id) + new_average_time) / getNumOfPlayerGames(user_id);

@@ -22,7 +22,8 @@ Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser> 
     for (LoggedUser logged_user : players)
     {
         GameData new_gameData{ m_questions[0], 0,0,0 };
-        this->m_players.insert({ logged_user, new_gameData });
+        std::pair<LoggedUser, GameData> new_pair(logged_user, new_gameData);
+        this->m_players.insert(new_pair);
     }
     this->m_gameId = gameId;
 }
