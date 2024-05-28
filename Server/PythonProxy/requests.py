@@ -9,7 +9,7 @@ class LoginRequest:
 
     def getMessage(self):
         data = {"username": self.user_name, "password": self.password}
-        return parseRequestToMessage(data, LOGIN)
+        return parseRequestToMessage(data, CODE_LOGIN_REQ)
 
 
 class SignUpRequest:
@@ -30,7 +30,7 @@ class SignUpRequest:
             "phone_number": self.phone_number,
             "birth_date": self.birth_date
         }
-        return parseRequestToMessage(data, SIGN_UP)
+        return parseRequestToMessage(data, CODE_SIGN_UP_REQ)
 
 
 # Similar implementation for the other classes

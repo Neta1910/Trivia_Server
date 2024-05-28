@@ -3,7 +3,7 @@ import styles from "./CreateRoom.module.css";
 import TextInput from "../components/UserNameInput";
 import { socket } from "../socket";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const CreateRoom = () => {
   const [roomName, setRoomName] = useState('');
@@ -52,88 +52,43 @@ const CreateRoom = () => {
           <h2 className={styles.createRoom1}>Create room</h2>
           <div className={styles.fRAMEWrapper}>
             <form className={styles.fRAME}>
+              
               <TextInput 
               placeHolder={"Room name"} 
               icon={"/wpfname.svg"}
-
+              setter={setRoomName}
               />
-              {/* <button className={styles.roomNameParent}>
-                <div className={styles.roomName}>Room name</div>
-                <div className={styles.frameWrapper}>
-                  <div className={styles.vectorParent}>
-                    <img
-                      className={styles.frameItem}
-                      alt=""
-                      src="/vector-2.svg"
-                    />
-                    <img
-                      className={styles.wpfnameIcon}
-                      alt=""
-                      src="/wpfname.svg"
-                    />
-                  </div>
-                </div>
-              </button> */}
-              <div className={styles.questionTimeOutQuestionParent}>
-                <button className={styles.questionTimeOutQuestion}>
-                  <div className={styles.questionTimeout}>Question timeOut</div>
-                  <div className={styles.questionTimeOutQuestionInner}>
-                    <div className={styles.mingcutetimeFillParent}>
-                      <img
-                        className={styles.mingcutetimeFillIcon}
-                        alt=""
-                        src="/mingcutetimefill.svg"
-                      />
-                      <img
-                        className={styles.frameItem}
-                        alt=""
-                        src="/vector-2.svg"
-                      />
-                    </div>
-                  </div>
-                </button>
-                <button className={styles.questionTimeOutQuestion1}>
-                  <div className={styles.questionTimeout}>
-                    Amount of players
-                  </div>
-                  <div className={styles.frameParent}>
-                    <div className={styles.vectorWrapper}>
-                      <img
-                        className={styles.vectorIcon}
-                        alt=""
-                        src="/vector-2.svg"
-                      />
-                    </div>
-                    <img
-                      className={styles.gameIconstabletopPlayers}
-                      alt=""
-                      src="/gameiconstabletopplayers.svg"
-                    />
-                  </div>
-                </button>
-              </div>
-              <div className={styles.menuBarWrapper}>
-                <button className={styles.menuBar}>
-                  <div className={styles.questionCount}>Question count</div>
-                  <div className={styles.menuBarInner}>
-                    <div className={styles.vectorGroup}>
-                      <img
-                        className={styles.frameItem}
-                        alt=""
-                        src="/vector-2.svg"
-                      />
-                      <img
-                        className={styles.pajamasquestionIcon}
-                        alt=""
-                        src="/pajamasquestion.svg"
-                      />
-                    </div>
-                  </div>
-                </button>
-              </div>
+
+              <TextInput
+              placeHolder={"Question timeOut"}
+              icon={"/mingcutetimefill.svg"}
+              setter={setTimePerQuestion}
+              type="range"
+              min={2}
+              max={100}
+              />
+
+              <TextInput
+              placeHolder={"Amount of players"}
+              icon={"/gameiconstabletopplayers.svg"}
+              setter={setMaxPlayers}
+              type="range"
+              min={2}
+              max={30}
+              />
+
+              <TextInput
+              placeHolder={"Question count"}
+              icon={"/pajamasquestion.svg"}
+              setter={setQuestionCount}
+              type="range"
+              min={2}
+              max={30}
+              />
+
               <div className={styles.fRAMEInner}>
                 <button className={styles.submitWrapper}>
-                  <div className={styles.submit}>Submit</div>
+                  <div className={styles.submit} onClick={handleSubmit}>Submit</div>
                 </button>
               </div>
             </form>

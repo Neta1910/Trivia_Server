@@ -13,6 +13,7 @@ const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [birthDate, setBirthDate] = useState("");
 
   function handleFormSubmit(event) {
     event.preventDefault(); // Prevent the default form submission behavior
@@ -22,6 +23,7 @@ const RegisterForm = () => {
       [Constants.FIELDS.EMAIL]: email,
       [Constants.FIELDS.ADDRESS]: address,
       [Constants.FIELDS.PHONE_NUMBER]: phoneNumber,
+      [Constants.FIELDS.BIRTH_DATE]: birthDate
     });
   }
 
@@ -88,6 +90,14 @@ const RegisterForm = () => {
             pattern="^0[0-9]{2,3}-[0-9]+$"
             title="ID must start with a '0' followed by 2 or 3 digits, a hyphen, and then more digits."
             setter={setPhoneNumber}
+          />
+
+          <TextInput
+            placeHolder="Birth date"
+            icon="/phphonefill.svg"
+            type="date"
+            title="ID must start with a '0' followed by 2 or 3 digits, a hyphen, and then more digits."
+            setter={setBirthDate}
           />
         </div>
         <div className={styles.frameWrapper2}>

@@ -17,6 +17,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 user_sockets = {}
 rooms = {}
 
+
 def get_user_id():
     return f"{request.remote_addr}, {request.headers.get('User-Agent')}"
 
@@ -53,19 +54,13 @@ def handle_login(data):
 
 @socketio.on('signup')
 def handle_signup(data_dict):
-    try:
-        user_sockets[get_user_id()].sendall(
-            requests.SignUpRequest(data_dict[USER_NAME], data_dict[PASSWORD], data_dict[EMAIL], data_dict[ADDRESS],
-                                   data_dict[PHONE_NUMBER], data_dict[BIRTH_DATE]).getMessage())
+    user_sockets[get_user_id()].sendall(
+        requests.SignUpRequest(data_dict[USER_NAME], data_dict[PASSWORD], data_dict[EMAIL], data_dict[ADDRESS],
+                               data_dict[PHONE_NUMBER], data_dict[BIRTH_DATE]).getMessage())
 
-        serverMessege = Responses.SignupResponse(get_server_message(user_sockets[get_user_id()]))
-        if serverMessege.status == FAILED_STATUS:
-            raise Exception
-        else:
-            emit('SignUpResponse', {'status': WORK_STATUS})
-    except Exception as e:
-        print(e)
-        emit('SignUpResponse', {'status': FAILED_STATUS})
+    serverMessege = Responses.SignupResponse(get_server_message(user_sockets[get_user_id()]))
+
+    emit('SignUpResponse', {'status': serverMessege.status})
 
 
 @socketio.on('getPlayersInRoom')
@@ -115,7 +110,7 @@ def handle_create_room(data):
             roomData = RoomData(room_id, data_dict[ROOM_NAME], int(data_dict[MAX_USERS]),
                                 int(data_dict[QUESTION_COUNT]), int(data_dict[ANSOWER_TIMEOUT]), True)
             emit('createRoomResponse', {'status': WORK_STATUS, 'roomId': room_id})
-            emit('roomAdded', {"room": roomData.to_dict()}, room=)
+            emit('roomAdded', {"room": roomData.to_dict()})
     except Exception as e:
         print(e)
         emit('createRoomResponse', {'status': FAILED_STATUS})
@@ -282,6 +277,7 @@ def handle_start_game():
 
     emit('getQuestionResponse', server_message)
 
+
 @socketio.on('submitAnswer')
 def handle_start_game(data):
     user_sockets[get_user_id()].sendall(requests.SubmitAnswerRequest().getMessage(data[ANSWER_ID]))
@@ -291,7 +287,6 @@ def handle_start_game(data):
     emit('submitAnswerResponse', server_message)
 
 
-
 @socketio.on('getRoomRes')
 def handle_start_game(data):
     user_sockets[get_user_id()].sendall(requests.GetGameResRequest().getMessage())
@@ -299,7 +294,6 @@ def handle_start_game(data):
     server_message = parseRequestToMessage(get_server_message(user_sockets[get_user_id()]))
 
     emit('getRoomResResponse', server_message)
-
 
 
 def getPlayersInRoom(roomId):

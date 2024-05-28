@@ -13,6 +13,20 @@ textarea:focus {
   outline: none;
 }
 
+input {   
+  border: none;
+  background: none;
+  color: var(--color-black);
+  font-family: var(--font-kavoon);
+  font-size: 20px;
+  margin: 0;
+  padding: 0;  /* Removes padding inside the textarea */
+  width: 100%; /* Full width of the containing element */
+}
+
+input:focus {
+  outline: none;
+}
 .userName {
   width: 85%;
   position: relative;
@@ -41,7 +55,7 @@ textarea:focus {
   position: relative;
 }
 .inputWrapper {
-  width: 50px;
+  width: 40px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -49,6 +63,19 @@ textarea:focus {
   padding: var(--padding-11xs-5) 0px 0px;
   box-sizing: border-box;
 }
+.sliderTitle {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: center; /* Center align title */
+}
+
+.sliderValue {
+  font-size: 20px;
+  margin-bottom: 10px;
+  text-align: center; /* Center align value */
+}
+
 .userNameParent {
   flex: 1;
   box-shadow: -4px 7px 4px rgba(0, 0, 0, 0.25);
@@ -71,6 +98,36 @@ textarea:focus {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 100%;
+  text-align: center;
+  font-size: var(--font-size-17xl);
+  color: var(--color-black);
+  font-family: var(--font-kavoon);
+}
+
+.userNameParentRange {
+  flex: 1;
+  box-shadow: -4px 7px 4px rgba(0, 0, 0, 0.25);
+  border: 5px solid var(--color-black);
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--padding-7xs) var(--padding-3xl) var(--padding-4xs)
+    var(--padding-4xs);
+  max-width: 100%;
+  gap: var(--gap-xl);
+}
+
+
+.usernameInputRange {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: flex-start;
   max-width: 100%;
   text-align: center;
