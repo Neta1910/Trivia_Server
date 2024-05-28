@@ -21,6 +21,7 @@ const TextInput = ({
 
   // Initialize state for the slider value
   const [value, setValue] = useState(type === "range" ? (max + min) / 2 : "");
+  setter(value);
   const [showPassword, setShowPassword] = useState(false);
 
   return (

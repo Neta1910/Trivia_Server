@@ -14,7 +14,7 @@ const RoomCard = ({RoomName, AmountOfPlayers, timeout, questions, roomId}) => {
     }).toString();
     socket.on("joinRoomResponse", () => {
       localStorage.setItem('currentRoomId', roomId)  
-      navigate(`/WaitRoom`)
+      navigate(`/wait-room`)
     })
   }, [])
 
@@ -32,7 +32,7 @@ const RoomCard = ({RoomName, AmountOfPlayers, timeout, questions, roomId}) => {
         </div>
         <div className={styles.frameChild} />
         <div className={styles.xPlayersParent}>
-          <div className={styles.xPlayers}> {AmountOfPlayers } players  </div>
+          <div className={styles.xPlayers}> {AmountOfPlayers } max players  </div>
           <div className={styles.frameGroup}>
             <div className={styles.horizontalAxisWrapper}>
               <img
@@ -43,7 +43,7 @@ const RoomCard = ({RoomName, AmountOfPlayers, timeout, questions, roomId}) => {
               />
             </div>
             <div className={styles.xTimeoutWrapper}>
-              <div className={styles.xTimeout}>{timeout} timeout</div>
+              <div className={styles.xTimeout}>{timeout} seconds timeout</div>
             </div>
             <div className={styles.instanceOfCard}>
               <div className={styles.horizontalAxisWrapper}>

@@ -319,7 +319,7 @@ int floatCallBack(void* _data, int argc, char** argv, char** azColName)
 	auto& averageAnsTime = *static_cast<float*>(_data);
 	if (argc == 1 && argv[0] != nullptr)
 	{
-		averageAnsTime == std::atoi(argv[0]);
+		averageAnsTime == std::stoi(argv[0]);
 		return 0;
 	}
 	return 1;
@@ -330,7 +330,7 @@ int integerCallBack(void* _data, int argc, char** argv, char** azColName)
 	auto& averageAnsTime = *static_cast<int*>(_data);
 	if (argc == 1 && argv[0] != nullptr)
 	{
-		averageAnsTime == std::atof(argv[0]);
+		averageAnsTime = std::atoi(argv[0]);
 		return 0;
 	}
 	return 1;

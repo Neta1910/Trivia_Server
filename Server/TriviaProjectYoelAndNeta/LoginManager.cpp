@@ -36,6 +36,7 @@ bool LoginManager::login(std::string username, std::string password)
 	// Create LoggedUser object
 	int userId = m_database->getUserId(username, password);
 	LoggedUser loggedUser(username, userId);	// checking if user is already logged in m_loggedUsers
+	
 	if (std::find(m_loggedUsers.begin(), m_loggedUsers.end(), loggedUser) != m_loggedUsers.end())
 	{
 		return false;

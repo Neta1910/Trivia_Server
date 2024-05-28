@@ -1,6 +1,6 @@
 #include "RoomAdminRequestHandler.h"
 
-RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory& handleFactory, std::string roomAdmin, RoomManager& roomManager, RoomData room_data) :
+RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser roomAdmin, RoomManager& roomManager, RoomData room_data) :
 	m_handlerFactory(handleFactory),
 	m_user(roomAdmin),
 	m_roomManager(roomManager),

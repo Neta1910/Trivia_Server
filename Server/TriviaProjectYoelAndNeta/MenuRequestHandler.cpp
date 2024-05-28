@@ -1,8 +1,8 @@
 #include "MenuRequestHandler.h"
 
-MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handleFactory, std::string username, RoomManager& roomManager) : 
+MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser user, RoomManager& roomManager) : 
 	m_handleFactory(handleFactory), 
-	m_user(username), 
+	m_user(user), 
 	m_roomManager(roomManager)
 {
 }
@@ -75,14 +75,14 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo& reqInfo)
 {
 	userStats user_stats = m_handleFactory.getStatisticsManager().getUserStatistics(m_user.getId());
 	GetPersonalStatsResponse getPersonalStats_res = { WORKING_STATUS, user_stats};
-	return { JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(getPersonalStats_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
+	return { JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(getPersonalStats_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
 
 RequestResult MenuRequestHandler::getHighScore(RequestInfo& reqInfo)
 {
 	std::vector<HighestScore> highScores = m_handleFactory.getStatisticsManager().getHighScore();
 	GetHighScoreResponse getHighScore_res = { WORKING_STATUS, highScores};
-	return { JsonResponsePacketSerialize::serializeHighScoreResponse(getHighScore_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
+	return { JsonResponsePacketSerialize::serializeHighScoreResponse(getHighScore_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
 
 RequestResult MenuRequestHandler::joinRoom(RequestInfo& reqInfo)
@@ -104,7 +104,7 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo& reqInfo)
 		}
 	}
 	error_res = { "Room doesn't exist" };
-	return { JsonResponsePacketSerialize::serializeErrorResponse(error_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
+	return { JsonResponsePacketSerialize::serializeErrorResponse(error_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 
 }
 
@@ -120,10 +120,10 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo& reqInfo)
 		newRoomData.id = roomId;
 		
 		CreateRoomResponse createRoom_res = { WORKING_STATUS, roomId };
-		return {JsonResponsePacketSerialize::serializeCreateRoomResponse(createRoom_res),  (IRequestHandler*)m_handleFactory.createRoomMemberRequestHandler(this->m_user, this->m_roomManager.getRoom(roomId))};
+		return {JsonResponsePacketSerialize::serializeCreateRoomResponse(createRoom_res),  (IRequestHandler*)m_handleFactory.createRoomAdminRequestHandler(this->m_user, this->m_roomManager.getRoom(roomId))};
 	}
 	ErrorResponse error_res = { "Invalid room settings!" };	
-	return { JsonResponsePacketSerialize::serializeErrorResponse(error_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user.getUsername()) };
+	return { JsonResponsePacketSerialize::serializeErrorResponse(error_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
 
 

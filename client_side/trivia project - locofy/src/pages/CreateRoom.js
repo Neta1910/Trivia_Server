@@ -25,23 +25,23 @@ const CreateRoom = () => {
         [Constants.FIELDS.ANSOWER_TIMEOUT]: timePerQuestion,
         [Constants.FIELDS.QUESTION_COUNT]: questionCount
     });
-    // Listen for the login response from the server
-    socket.on('createRoomResponse', (response) => {
-        if (response.status === Constants.WORK_STATUS) {
-            localStorage.setItem("currentRoomId", response.roomId)
-            navigate("/wait-room")
-        } else {
-            alert('somthing went wrong');
-        }
-    }
-    );
-    return () => {
-        socket.off('createRoomResponse');
-    };
   }
 
   useEffect (() => {
-    socket.on("createRoomResponse", )
+        // Listen for the login response from the server
+        socket.on('createRoomResponse', (response) => {
+          console.log(response);
+            if (response.status === Constants.WORK_STATUS) {
+                localStorage.setItem("currentRoomId", response.roomId)
+                navigate("/wait-room")
+            } else {
+                alert('somthing went wrong');
+            }
+        }
+        );
+        return () => {
+            socket.off('createRoomResponse');
+        };
   })
 
   return (

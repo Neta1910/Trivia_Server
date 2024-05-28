@@ -3,8 +3,6 @@
 int RoomManager::createRoom(LoggedUser logged_user, RoomData room_data)
 {
 	// Create new room
-	Room new_room = Room(room_data);
-	new_room.addUser(logged_user);
 
 	// Add room to map of rooms
 	int roomId = 0;
@@ -16,7 +14,13 @@ int RoomManager::createRoom(LoggedUser logged_user, RoomData room_data)
 			roomId = it.second.getRoomData().id;
 		}
 	}
+
 	roomId++;
+	room_data.id = roomId;
+
+	Room new_room = Room(room_data);
+	new_room.addUser(logged_user);
+
 	this->m_rooms.insert({ roomId, new_room });
 	return roomId;
 }

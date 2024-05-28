@@ -7,6 +7,7 @@
 }
 .everyoneIsWaitingContainer {
   position: relative;
+  cursor: pointer;
 }
 .adminButton {
   border-radius: var(--br-mini);
@@ -39,9 +40,7 @@
   justify-content: flex-start;
   white-space: nowrap;
 }
-.adminButton2:hover {
-  background-color: var(--color-deepskyblue);
-}
+
 .adminButton1 {
   display: flex;
   flex-direction: row;
@@ -79,6 +78,7 @@
   text-align: center;
 }
 .adminArea {
+  align-self: flex-end;
   width: 1367px;
   display: flex;
   flex-direction: row;
@@ -90,6 +90,7 @@
   font-size: var(--font-size-5xl);
   color: var(--color-black);
   font-family: var(--font-kavoon);
+
 }
 
 @media screen and (max-width: 1200px) {

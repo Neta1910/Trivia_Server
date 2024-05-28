@@ -1,10 +1,11 @@
 #include "LoggedUser.h"
 
-LoggedUser::LoggedUser(std::string username, int id)
+LoggedUser::LoggedUser(std::string username, const int& id)
 {
 	this->m_username = username;
 	this->user_id = id;
 }
+
 
 std::string LoggedUser::getUsername() const
 {
