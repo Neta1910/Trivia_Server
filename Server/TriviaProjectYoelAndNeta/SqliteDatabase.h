@@ -90,8 +90,8 @@ private:
 	sqlite3* _db;
 	bool runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**) = nullptr, void* secondParam = nullptr);
 	bool comparePasswords(const std::string& onePassword, const std::string& secondPassword);
-	int getNumOfGamesPlayed(unsigned int user_id);
+	//int getNumOfGamesPlayed(unsigned int user_id);
 	float getAverageAnsTime(unsigned int user_id);	
-	int getNumOfTotalAnswers(unsigned int user_id);
+	//int getNumOfTotalAnswers(unsigned int user_id);
 	float calcNewAverageAnsTime(unsigned int user_id, float new_average_time);
 };

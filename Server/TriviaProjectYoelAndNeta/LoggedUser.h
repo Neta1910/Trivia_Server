@@ -10,6 +10,9 @@ public:
 	int getId() const;
 	SOCKET getSocket();
 	bool operator==(const LoggedUser& other);
+	bool operator<(const LoggedUser& other) const;
+	//bool operator>(const LoggedUser other);
+
 private:
 	std::string m_username;
 	int user_id;

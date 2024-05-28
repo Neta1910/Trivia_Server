@@ -19,10 +19,11 @@ Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser> 
         this->m_questions.push_back(question);
     }
 
-    for (auto& logged_user : players)
+    for (LoggedUser logged_user : players)
     {
         GameData new_gameData{ m_questions[0], 0,0,0 };
-        this->m_players.insert({ logged_user, new_gameData });
+        std::pair<LoggedUser, GameData> new_pair(logged_user, new_gameData);
+        this->m_players.insert(new_pair);
     }
     this->m_gameId = gameId;
 }
@@ -77,11 +78,20 @@ void Game::submitAnswer(LoggedUser user, unsigned int answer)
 
 void Game::removePlayer(LoggedUser user)
 {
-    std::map<LoggedUser, GameData>::iterator it = m_players.find(user);
-    if (it != m_players.end())
+    //std::map<LoggedUser, GameData>::iterator it = m_players.find(user);
+    //if (it != m_players.end())
+    //{
+    //    m_players.erase(it);
+    //}
+    std::map<LoggedUser, GameData>::iterator it;
+    for (it = m_players.begin(); it != m_players.end(); ++it)
     {
-        m_players.erase(it);
+        if ((*it).first.getUsername() == user.getUsername())
+        {
+            m_players.erase(it);
+        }
     }
+
 }
 
 bool Game::areAllPlayersDonePlaying()
@@ -89,7 +99,7 @@ bool Game::areAllPlayersDonePlaying()
     std::map<LoggedUser, GameData>::iterator it;
     for (it = m_players.begin(); it != m_players.end(); ++it)
     {
-        if ((*it).second.currentQuestion != m_questions.back())
+        if ((*it).second.currentQuestion.getId() != m_questions.back().getId())
         {
             return false;
         }

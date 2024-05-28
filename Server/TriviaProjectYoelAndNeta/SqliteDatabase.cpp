@@ -190,6 +190,7 @@ int SQLiteDatabase::submitGameStatistics(GameData game_data, unsigned int user_i
 	runCommand(wrongAnsCount_query);
 	std::string avgAnsTime_query = "UPDATE Statistics SET AVERAGE_ANS_TIME = " + std::to_string(calcNewAverageAnsTime(user_id, game_data.averageAnswerTime)) + " WHERE ID = " + std::to_string(user_id) + ";";
 	runCommand(avgAnsTime_query);
+	return 0;
 }
 
 
@@ -222,6 +223,14 @@ bool SQLiteDatabase::comparePasswords(const std::string& onePassword, const std:
 		}
 	}
 	return true;
+}
+
+float SQLiteDatabase::getAverageAnsTime(unsigned int user_id)
+{
+	float averageAnsTime;
+	std::string query = "SELECT AVERAGE_ANS_TIME FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
+	this->runCommand(query, floatCallBack, &averageAnsTime);
+	return averageAnsTime;
 }
 
 float SQLiteDatabase::calcNewAverageAnsTime(unsigned int user_id, float new_average_time)

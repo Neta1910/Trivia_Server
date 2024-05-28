@@ -3,7 +3,11 @@
 #include "Quistion.h"
 #include "HighestScore.h"
 #include "Game.h"
+#include "GameData.h"
 #include <list>
+
+class Game;
+
 class IDatabase
 {
 public:
