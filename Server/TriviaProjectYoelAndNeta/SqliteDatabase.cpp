@@ -58,6 +58,14 @@ bool SQLiteDatabase::addNewUser(const std::string& name, const std::string& pass
 	return true;
 }
 
+int SQLiteDatabase::getUserId(const std::string& name, const std::string& password)
+{
+	std::string query = "SELECT ID FROM Users WHERE name == \"" + name + "\" and PASSWORD == \"" + password + "\"";
+	int id = 0;
+	this->runCommand(query, integerCallBack, &id);
+	return id;
+}
+
 std::list<Question> SQLiteDatabase::getQuestions(const int& amount)
 {
 	std::string query = "SELECT * FROM t_questions LIMIT " + std::to_string(amount) + " ;";

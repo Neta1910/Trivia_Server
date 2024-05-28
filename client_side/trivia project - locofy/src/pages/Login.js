@@ -7,14 +7,14 @@ import Constents from '../Constants'
 
 const Login = () => {
   const navigate = useNavigate();
-  const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
+  const [userName, setUserName] = useState();
+  const [password, setPassword] = useState();
 
   function handleFormSubmit(event) {
     event.preventDefault(); // Prevent the default form submission behavior
     socket.emit("login", {
-      [Constants.FIELDS.USER_NAME]: userName,
-      [Constants.FIELDS.PASSWORD]: password,
+      [Constents.FIELDS.USER_NAME]: userName,
+      [Constents.FIELDS.PASSWORD]: password,
     });
   }
 
@@ -25,7 +25,7 @@ const Login = () => {
   useEffect(() => {
     // Event listener for 'SignUpResponse'
     socket.on('LoginResponse', (response) => {
-      if (response.status === Constants.WORK_STATUS) {
+      if (response.status === Constents.WORK_STATUS) {
         alert('worked');
         navigate("/menu")
       } else {
@@ -55,13 +55,14 @@ const Login = () => {
                 placeHolder={"Password"}
                 icon={"/email-icon.svg"}
                 setter={setPassword}
+                type="password"
               />
             </div>
             <div className={styles.frameWrapper}>
               <div className={styles.frameParent}>
                 <div className={styles.submitButtonWrapper}>
                   <button className={styles.submitButton}>
-                    <div className={styles.submit}>Submit</div>
+                    <div className={styles.submit} onClick={handleFormSubmit}>Submit</div>
                   </button>
                 </div>
                 <div className={styles.alreadyAUserContainer}>

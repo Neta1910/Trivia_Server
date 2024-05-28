@@ -37,9 +37,8 @@ def handle_connect():
 
 
 @socketio.on('login')
-def handle_login(data):
+def handle_login(data_dict):
     try:
-        data_dict = json.loads(data)  # Convert JSON string to Python dictionary
         user_sockets[get_user_id()].sendall(
             requests.LoginRequest(data_dict[USER_NAME], data_dict[PASSWORD]).getMessage())
         serverMessege = Responses.LoginResponse(get_server_message(user_sockets[get_user_id()]))

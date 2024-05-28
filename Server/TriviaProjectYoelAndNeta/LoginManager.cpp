@@ -16,6 +16,9 @@ bool LoginManager::signUp(const std::string& name, const std::string& password, 
 
 	// no need to chck for regex in server - already checking in fronend
 	m_database->addNewUser(name, password, email, address, birthDate, phoneNumber);
+	int userId = m_database->getUserId(name, password);
+	LoggedUser loggedUser(name, userId);	// checking if user is already logged in m_loggedUsers
+	m_loggedUsers.push_back(loggedUser);
 	return true;
 
 }
@@ -31,12 +34,12 @@ bool LoginManager::login(std::string username, std::string password)
 		return false;
 	}
 	// Create LoggedUser object
-	LoggedUser loggedUser(username);	// checking if user is already logged in m_loggedUsers
-	if (std::find(m_loggedUsers.begin(), m_loggedUsers.end(), loggedUser) == m_loggedUsers.end())
+	int userId = m_database->getUserId(username, password);
+	LoggedUser loggedUser(username, userId);	// checking if user is already logged in m_loggedUsers
+	if (std::find(m_loggedUsers.begin(), m_loggedUsers.end(), loggedUser) != m_loggedUsers.end())
 	{
 		return false;
 	}
-
 	m_loggedUsers.push_back(loggedUser);
 	return true;
 }

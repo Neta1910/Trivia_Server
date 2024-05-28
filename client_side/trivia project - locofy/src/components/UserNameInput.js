@@ -15,8 +15,13 @@ const TextInput = ({
     setter(event.target.value);
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   // Initialize state for the slider value
-  const [value, setValue] = useState((max + min) / 2);
+  const [value, setValue] = useState(type === "range" ? (max + min) / 2 : "");
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
       <div className={styles.usernameInput}>
@@ -31,7 +36,7 @@ const TextInput = ({
           <input
             className={styles.userName}
             placeholder={placeHolder}
-            type={type}
+            type={showPassword ? "text" : type}
             onChange={handleChange}
             pattern={pattern}
             title={title}
@@ -41,7 +46,7 @@ const TextInput = ({
             required
           />
           <div className={styles.inputWrapper}>
-            <div className={styles.vectorParent}>
+            <div className={styles.vectorParent} onClick={togglePasswordVisibility}>
               <img className={styles.frameChild} alt="" src="/vector-2.svg" />
               <img className={styles.wpfnameIcon} alt="" src={icon} />
             </div>
