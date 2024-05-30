@@ -36,8 +36,6 @@ const TextInput = ({
             onChange={handleChange}
             pattern={pattern}
             title={title}
-            min={min}
-            max={max}
             value={value}
             required
           />

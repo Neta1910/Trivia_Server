@@ -92,13 +92,13 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo& reqInfo)
 	if (m_roomManager.doesRoomExist(joinRoom_req.roomId))
 	{
 		// Check if room is full
-		if (m_roomManager.getRoom(joinRoom_req.roomId).getRoomData().maxPlayers == m_roomManager.getRoom(joinRoom_req.roomId).getAllUsers().size())
+		if (m_roomManager.getRoom(joinRoom_req.roomId)->getRoomData().maxPlayers == m_roomManager.getRoom(joinRoom_req.roomId)->getAllUsers().size())
 		{
 			error_res = { "room is full!" };
 		}
 		else // Join player to room if there's enough space
 		{
-			m_roomManager.getRoom(joinRoom_req.roomId).addUser(m_user);
+			m_roomManager.getRoom(joinRoom_req.roomId)->addUser(m_user);
 			JoinRoomResponse joinRoom_res = { WORKING_STATUS };
 			return { JsonResponsePacketSerialize::serializeJoinRoomResponse(joinRoom_res), (IRequestHandler*)m_handleFactory.createRoomMemberRequestHandler(this->m_user, m_roomManager.getRoom(joinRoom_req.roomId)) };
 		}

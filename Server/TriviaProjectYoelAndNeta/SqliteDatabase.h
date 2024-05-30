@@ -72,7 +72,7 @@ public:
 
 	// questions related
 	virtual std::list<Question> getQuestions(const int& amount) override;
-	virtual void loadQuestionsIntoDB() override;
+	virtual void loadQuestionsIntoDB(int amount) override;
 	virtual void insertQuestionIntoDB(Question question);
 	virtual int getTotalAmountOfQuestions() override;
 

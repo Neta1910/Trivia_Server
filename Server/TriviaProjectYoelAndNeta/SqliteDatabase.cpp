@@ -68,20 +68,27 @@ int SQLiteDatabase::getUserId(const std::string& name, const std::string& passwo
 
 std::list<Question> SQLiteDatabase::getQuestions(const int& amount)
 {
+	// getting count of questions, and if its too low - updating questions
+	int amountOfQuestions = 0;
+	this->runCommand("SELECT COUNT(*) FROM t_questions", countCallback, &amountOfQuestions);
+	if (amountOfQuestions < amount)
+	{
+		this->loadQuestionsIntoDB(amount - amountOfQuestions + 1);
+	}
 	std::string query = "SELECT * FROM t_questions LIMIT " + std::to_string(amount) + " ;";
 	this->runCommand(query, loadIntoQuestions);
 	return SQLiteDatabase::questions;
 }
 
-void SQLiteDatabase::loadQuestionsIntoDB()
+void SQLiteDatabase::loadQuestionsIntoDB(int amount)
 {
 	HINTERNET hInternet = InternetOpenA("HTTPGET", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
 	if (!hInternet) {
 		std::cerr << "Failed to open internet handle" << std::endl;
 		return;
 	}
-
-	HINTERNET hConnect = InternetOpenUrlA(hInternet, "https://opentdb.com/api.php?amount=10&difficulty=medium&type=multiple", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+	std::string url = "https://opentdb.com/api.php?amount=" + std::to_string(amount) + "& category = 9 & difficulty = hard & type = multiple";
+	HINTERNET hConnect = InternetOpenUrlA(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
 	if (!hConnect) {
 		std::cerr << "Failed to open URL" << std::endl;
 		InternetCloseHandle(hInternet);
@@ -116,16 +123,42 @@ void SQLiteDatabase::loadQuestionsIntoDB()
 
 void SQLiteDatabase::insertQuestionIntoDB(Question question)
 {
-	std::string sql = "INSERT INTO t_questions (question, correct_ans, ans2, ans3, ans4) VALUES (\"";
+	int i = 0;
+	std::string sql;
+	switch (question.getPossibleAnswers().size())
+	{
+	case 1:
+		sql = "INSERT INTO t_questions (question, correct_ans, ans2) VALUES (\"";
+		break;
+	case 2:
+		sql = "INSERT INTO t_questions (question, correct_ans, ans2, ans3) VALUES (\"";
+		break;
+	case 3:
+		sql = "INSERT INTO t_questions (question, correct_ans, ans2, ans3, ans4) VALUES (\"";
+		break;
+	default:
+		break;
+	}
+
 	sql += question.getQuestion();
 	sql += "\", \"";
 	sql += question.getCorrectAnswer();
 	sql += "\", \"";
-	sql += question.getPossibleAnswers()[0];
-	sql += "\", \"";
-	sql += question.getPossibleAnswers()[1];
-	sql += "\", \"";
-	sql += question.getPossibleAnswers()[2];
+	if (question.getPossibleAnswers().size() == 1)
+	{
+		sql += question.getPossibleAnswers()[0];
+	}
+	else
+	{
+		for (i = 0; i < question.getPossibleAnswers().size() - 1; i++)
+		{
+			sql += question.getPossibleAnswers()[i];
+			sql += "\", \"";
+		}
+		if (question.getPossibleAnswers().size() > i + 1)
+			sql += question.getPossibleAnswers()[i + 1];
+	}
+
 	sql += "\");";
 
 	this->runCommand(sql);
@@ -307,7 +340,9 @@ int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName)
 			question.setCorrectAnswer(argv[i]);
 		}
 		else if (std::string(azColName[i]) == ANS_2 || std::string(azColName[i]) == ANS_3 || std::string(azColName[i]) == ANS_4) {
-			question.insertOptional(argv[i]);
+			if (argv[i] != NULL) {
+				question.insertOptional(argv[i]);
+			}
 		}
 	}
 	SQLiteDatabase::questions.push_back(question);

@@ -35,14 +35,14 @@ MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser u
     return new MenuRequestHandler(*this, user, this->m_roomManager);
 }
 
-RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser logged_user, Room room)
+RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser logged_user, Room* room)
 {
-    return new RoomAdminRequestHandler(*this, logged_user, m_roomManager, room.getRoomData());
+    return new RoomAdminRequestHandler(*this, logged_user, m_roomManager, room->getRoomData(), room->getAllLoggedUsers());
 }
 
-RoomMemberRequestHandler* RequestHandlerFactory::RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser logged_user, Room room)
+RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser logged_user, Room* room)
 {
-    return new RoomMemberRequestHandler(*this, logged_user, m_roomManager, room.getRoomData());   
+    return new RoomMemberRequestHandler(*this, logged_user, m_roomManager, room->getRoomData(), room->getAllLoggedUsers());   
 }
 
 GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser logged_user, Game& game)

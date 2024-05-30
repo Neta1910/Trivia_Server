@@ -55,6 +55,9 @@ const WaitRoom = () => {
       if (response.status === Constants.WORK_STATUS) {
         navigate("/game-board")
       }
+      else {
+        console.log("error")
+      }
     })
 
     socket.on('closeRoomResponse', (response) => {
@@ -83,9 +86,9 @@ const WaitRoom = () => {
 
     return () => {
       // Clean up the event listeners when the component unmounts
-      socket.off('amIAdminResponse', handleAmIAdminResponse);
-      socket.off('getRoomStateResponse', handleGetRoomStateResponse);
-      socket.off("getPlayersInRoomResponse", handleGetPlayersInRoomResponse);
+      socket.off('amIAdminResponse');
+      socket.off('getRoomStateResponse');
+      socket.off("getPlayersInRoomResponse");
     };
   }, [socket])
 

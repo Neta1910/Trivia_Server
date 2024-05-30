@@ -51,8 +51,9 @@ void Question::setId(const int& val)
 
 void Question::insertOptional(const std::string& val)
 {
-    this->insertOptional(val);
+    this->m_possibleAnswers.push_back(val);
 }
+
 //
 //bool Question::operator!=(const Question& question)
 //{

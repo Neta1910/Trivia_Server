@@ -1,7 +1,7 @@
 #include "Room.h"
 
-Room::Room(RoomData metadata) :
-	m_metadata(metadata)
+Room::Room(RoomData metadata, std::vector<LoggedUser> users) :
+	m_metadata(metadata), m_users(users)
 {
 }
 

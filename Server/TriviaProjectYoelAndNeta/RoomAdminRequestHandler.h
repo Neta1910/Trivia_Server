@@ -8,7 +8,7 @@
 class RoomAdminRequestHandler : public IRequestHandler
 {
 public:
-	RoomAdminRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser roomAdmin, RoomManager& roomManager, RoomData room_data);
+	RoomAdminRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser roomAdmin, RoomManager& roomManager, RoomData room_data, std::vector<LoggedUser> users);
 	virtual bool isRequestRelevant(RequestInfo& reqInfo) override;
 	virtual RequestResult handleRequest(RequestInfo& reqInfo) override;
 private:
@@ -19,7 +19,7 @@ private:
 	RequestResult amIAdmin(RequestInfo& requInfo);
 	RequestResult getPlayersInRoom(RequestInfo& reqInfo);
 
-	Room m_room;
+	Room* m_room;
 	LoggedUser m_user;
 	RoomManager& m_roomManager;
 	RequestHandlerFactory& m_handlerFactory;

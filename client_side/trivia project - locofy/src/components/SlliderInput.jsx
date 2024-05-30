@@ -16,9 +16,9 @@ const SliderInput = ({setter, min, max, title}) => {
   
     const handleBlur = () => {
       if (value < min) {
-        setValue(0);
+        setValue(min);
       } else if (value > max) {
-        setValue(100);
+        setValue(max);
       }
     };
   
@@ -56,9 +56,9 @@ const SliderInput = ({setter, min, max, title}) => {
               onChange={handleInputChange}
               onBlur={handleBlur}
               inputProps={{
-                step: 10,
-                min: 0,
-                max: 100,
+                step: 5,
+                min: min,
+                max: max,
                 type: 'number',
                 'aria-labelledby': 'input-slider',
               }}
