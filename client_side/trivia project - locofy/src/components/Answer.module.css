@@ -47,4 +47,10 @@
   padding: var(--padding-7xs) 0px 0px;
   box-sizing: border-box;
   max-width: 100%;
+  cursor: pointer;
+  overflow-x: auto;
+}
+
+.answer1Wrapper :hover {
+  scale: 1.1;
 }

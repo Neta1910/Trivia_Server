@@ -6,7 +6,6 @@ const Answer = ({
   icon,
   backgroundColor,
   onClickFunc,
-  id
 }) => {
 
   const style = {
@@ -14,7 +13,7 @@ const Answer = ({
   };
 
   return (
-  <div className={styles.answer1Wrapper} onClick={onClickFunc(id)}>
+  <div className={styles.answer1Wrapper} onClick={onClickFunc}>
     <div className={styles.answer1}  style={style}>
         <img
           className={styles.iconParkSolidoneKey}
@@ -22,7 +21,7 @@ const Answer = ({
           alt=""
           src={icon}
         />
-      <div className={styles.answer1Text}>{answerText}</div>
+      <div className={styles.answer1Text}>{answerText[1]}</div>
     </div>
   </div>
   );

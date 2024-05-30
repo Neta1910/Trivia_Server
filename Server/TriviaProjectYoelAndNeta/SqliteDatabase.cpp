@@ -155,8 +155,8 @@ void SQLiteDatabase::insertQuestionIntoDB(Question question)
 			sql += question.getPossibleAnswers()[i];
 			sql += "\", \"";
 		}
-		if (question.getPossibleAnswers().size() > i + 1)
-			sql += question.getPossibleAnswers()[i + 1];
+		if (question.getPossibleAnswers().size() > i)
+			sql += question.getPossibleAnswers()[i];
 	}
 
 	sql += "\");";

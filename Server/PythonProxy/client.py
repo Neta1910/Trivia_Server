@@ -182,18 +182,11 @@ def handle_close_room(data):
 
 @socketio.on('startGame')
 def handle_start_game(data):
-    try:
-        user_sockets[get_user_id()].sendall(requests.StartRoomRequest().getMessage())
+    user_sockets[get_user_id()].sendall(requests.StartRoomRequest().getMessage())
 
-        serverMessege = Responses.StartGameResponse(get_server_message(user_sockets[get_user_id()]))
+    serverMessege = Responses.StartGameResponse(get_server_message(user_sockets[get_user_id()]))
 
-        if serverMessege.status == FAILED_STATUS:
-            raise Exception
-        else:
-            emit('startGameResponse', {'status': WORK_STATUS})
-    except Exception as e:
-        print(e)
-        emit('startGameResponse', {'status': FAILED_STATUS})
+    emit('startGameResponse', {'status': serverMessege.status})
 
 
 @socketio.on('getRoomState')
@@ -234,18 +227,19 @@ def handle_start_game():
 def handle_start_game():
     user_sockets[get_user_id()].sendall(requests.GetQuestionRequest().getMessage())
 
-    server_message = parseRequestToMessage(get_server_message(user_sockets[get_user_id()]), GET_QUESTION_REQ)
+    server_message = Responses.GetQuestionResponse(get_server_message(user_sockets[get_user_id()]))
 
-    emit('getQuestionResponse', server_message)
+    emit('getQuestionResponse',  server_message.to_dict())
 
 
 @socketio.on('submitAnswer')
 def handle_start_game(data):
+    print(data)
     user_sockets[get_user_id()].sendall(requests.SubmitAnswerRequest().getMessage(data[ANSWER_ID]))
 
-    server_message = parseRequestToMessage(get_server_message(user_sockets[get_user_id()]), SUBMIT_ANSWER_REQ)
-
-    emit('submitAnswerResponse', server_message)
+    server_message = Responses.SubmitAnsResp(get_server_message(user_sockets[get_user_id()]))
+    if server_message.status ==
+    emit('submitAnswerResponse', server_message.to_dict())
 
 
 @socketio.on('getRoomRes')

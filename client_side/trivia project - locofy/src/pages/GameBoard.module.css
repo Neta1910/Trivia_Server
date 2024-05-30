@@ -54,6 +54,7 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
+  flex-wrap: wrap;
   max-width: 100%;
   gap: var(--gap-xl);
 }

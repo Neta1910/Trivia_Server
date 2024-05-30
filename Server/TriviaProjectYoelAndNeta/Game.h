@@ -22,6 +22,7 @@ public:
 	int getGameId();
 private:
 	std::vector<Question> m_questions;
+	mutable std::map<LoggedUser, int> m_question_of_user;
 	mutable std::map<LoggedUser, GameData> m_players;
 	unsigned int m_gameId;
 	IDatabase* m_database;

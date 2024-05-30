@@ -52,7 +52,7 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo& reqInfo)
 
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo& reqInfo)
 {
-	StartGameResponse startGame_res = { START_GAME_RESP };
+	StartGameResponse startGame_res = { WORKING_STATUS };
 	Game& currGame = m_handlerFactory.getGameManager().createGame(m_room);
 
 	m_room->getRoomData().isActive = ACTIVE_ROOM;

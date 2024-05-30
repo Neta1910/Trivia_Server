@@ -24,20 +24,14 @@ Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser> 
         GameData new_gameData{ m_questions[0], 0,0,0 };
         std::pair<LoggedUser, GameData> new_pair(logged_user, new_gameData);
         this->m_players.insert(new_pair);
+        this->m_question_of_user.insert({ logged_user, 0 });
     }
     this->m_gameId = gameId;
 }
 
 Question Game::getQuestionForUser(LoggedUser user)
 {
-    for (auto& it : this->m_players) // Find the needed player and return the current question
-    {
-        if (it.first.getUsername() == user.getUsername())
-        {
-            return it.second.currentQuestion;
-        }
-    }
-    return Question("", std::vector<std::string>(), ""); // Return an empty question if the wanted user was not found
+    return this->m_questions[this->m_question_of_user.find(user)->second];
 }
 
 void Game::submitAnswer(LoggedUser user, unsigned int answer)
@@ -63,15 +57,7 @@ void Game::submitAnswer(LoggedUser user, unsigned int answer)
             game_data->wrongAnswerCount++;
         }
         // Find index of current question and move on to the next one
-        int curr_q_index = 0;
-        for (curr_q_index = 0; curr_q_index < m_questions.size(); curr_q_index++)
-        {
-            if (game_data->currentQuestion == m_questions[curr_q_index])
-            {
-                break;
-            }
-        }
-        game_data->currentQuestion = m_questions[curr_q_index + 1]; // Assign next question
+        this->m_question_of_user[user]++;
     }
 
 }
@@ -96,10 +82,9 @@ void Game::removePlayer(LoggedUser user)
 
 bool Game::areAllPlayersDonePlaying()
 {
-    std::map<LoggedUser, GameData>::iterator it;
-    for (it = m_players.begin(); it != m_players.end(); ++it)
+    for (auto it : m_question_of_user)
     {
-        if ((*it).second.currentQuestion.getId() != m_questions.back().getId())
+        if (it.second < m_questions.size() - 1)
         {
             return false;
         }

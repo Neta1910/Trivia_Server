@@ -26,7 +26,6 @@ const Login = () => {
     // Event listener for 'SignUpResponse'
     socket.on('LoginResponse', (response) => {
       if (response.status === Constents.WORK_STATUS) {
-        alert('worked');
         navigate("/menu")
       } else {
         alert("somthing went wrong")
