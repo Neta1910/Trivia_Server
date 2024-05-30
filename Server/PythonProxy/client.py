@@ -82,9 +82,14 @@ def handle_join_room(data_dict):
 
         if serverMessege.status == FAILED_STATUS:
             raise Exception
+
         else:
             join_room(data_dict[ROOM_ID])
+            if data_dict[ROOM_ID] not in rooms:
+                rooms[data_dict[ROOM_ID]] = []
+
             players = getPlayersInRoom((data_dict[ROOM_ID]))
+
             emit("getPlayersInRoomResponse", {'status': WORK_STATUS, 'players': players}, room=data_dict[ROOM_ID])
             emit('joinRoomResponse', {'status': WORK_STATUS})
     except Exception as e:
@@ -104,12 +109,16 @@ def handle_create_room(data):
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
+
             room_id = serverMessege.roomId
+            rooms[room_id] = []
             join_room(room_id)
+
             roomData = RoomData(room_id, data_dict[ROOM_NAME], int(data_dict[MAX_USERS]),
                                 int(data_dict[QUESTION_COUNT]), int(data_dict[ANSOWER_TIMEOUT]), True)
+
             emit('createRoomResponse', {'status': WORK_STATUS, 'roomId': room_id})
-            emit('roomAdded', {"room": roomData.to_dict()})
+            emit('roomAdded', {"room": roomData.to_dict()}, broadcast=True)
     except Exception as e:
         print(e)
         emit('createRoomResponse', {'status': FAILED_STATUS})
@@ -183,7 +192,7 @@ def handle_get_personal_stats():
 def handle_close_room(data):
     try:
         roomId = data.roomId
-        user_sockets[get_user_id()].sendall(requests.personalStatsRequest().getMessage())
+        user_sockets[get_user_id()].sendall(requests..getMessage())
         serverMessege = Responses.CloseRoomResponse(get_server_message(user_sockets[get_user_id()]))
 
         if serverMessege.status == FAILED_STATUS:
@@ -198,14 +207,14 @@ def handle_close_room(data):
 @socketio.on('startGame')
 def handle_start_game(data):
     try:
-        user_sockets[get_user_id()].sendall(requests.StartRoomRequest.getMessage())
+        user_sockets[get_user_id()].sendall(requests.StartRoomRequest().getMessage())
 
         serverMessege = Responses.StartGameResponse(get_server_message(user_sockets[get_user_id()]))
 
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('startGameResponse', {'status': WORK_STATUS}, to=rooms[data.roomId])
+            emit('startGameResponse', {'status': WORK_STATUS}, room=data.roomId)
     except Exception as e:
         print(e)
         emit('startGameResponse', {'status': FAILED_STATUS})
@@ -233,8 +242,8 @@ def handle_start_game():
 def handle_start_game(data):
     try:
         roomId = data.roomId
-        playersInRoom = getPlayersInRoom(roomId).players
-
+        # TO-DO
+        # Add request to get the users name
         user_sockets[get_user_id()].sendall(requests.LeaveRoomRequest().getMessage())
 
         serverMessege = Responses.LeaveRoomResponse(get_server_message(user_sockets[get_user_id()]))
@@ -245,8 +254,7 @@ def handle_start_game(data):
             emit("getPlayersInRoomResponse", {'status': WORK_STATUS, 'players': playersInRoom}, room=roomId)
             leave_room(roomId)
             emit('leaveRoomResponse',
-                 {'status': WORK_STATUS, "hasGameBegun": serverMessege.hasGameBegun, "players": serverMessege.players,
-                  "questionCount": serverMessege.questionCount, "answerTimeout": serverMessege.answerTimeout})
+                 {'status': WORK_STATUS})
     except Exception as e:
         print(e)
         emit('leaveRoomResponse', {'status': FAILED_STATUS})

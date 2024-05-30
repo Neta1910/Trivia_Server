@@ -90,7 +90,7 @@ const WaitRoom = () => {
   }, [socket])
 
   // if (isLoading) return <p>Still loading data </p>
-  // if (error) return <p>There is an error</p>
+  if (error) return <p>There is an error</p>
 
   return (
     <div className={styles.mainContainer} >

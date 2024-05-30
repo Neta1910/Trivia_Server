@@ -42,7 +42,7 @@ const TextInput = ({
             required
           />
           : 
-          <SliderInput setter={setter} min={min} max={max} title={placeHolder} />
+          <SliderInput setter={setter} min={min} max={max} title={placeHolder}  />
           }
           <div className={styles.inputWrapper}>
             <div className={styles.vectorParent} onClick={togglePasswordVisibility}>

@@ -70,12 +70,6 @@ const CreateRoom = () => {
               max={100}
               />
               
-              {/* <SliderInput 
-                setter={setTimePerQuestion}
-                min={2}
-                max={100}
-                title={"Question timeOut"}
-              /> */}
 
               <TextInput
               placeHolder={"Amount of players"}

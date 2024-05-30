@@ -20,6 +20,17 @@ const JoinRoom = () => {
         setIsLoading(false);
       }
     });
+  
+    socket.on("roomAdded", (response) => {
+      setRooms(...rooms, response.room);
+    })
+    
+    return (
+      () => {
+        socket.off("getRoomsResponse");
+        socket.off("roomAdded")
+      }
+    )
   }, []);
 
   if (isLoading) return <p>Loading elemnts </p>;
