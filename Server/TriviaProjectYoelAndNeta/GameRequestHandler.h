@@ -24,4 +24,5 @@ private:
 	RequestResult getGameResults(RequestInfo reqInfo);
 	RequestResult leaveGame(RequestInfo reqInfo);
 	std::map<unsigned int, std::string> shuffleAnswers(std::map<unsigned int, std::string> prev);
+	std::map<LoggedUser, GameData> sortMap(std::map<LoggedUser, GameData> map);
 };

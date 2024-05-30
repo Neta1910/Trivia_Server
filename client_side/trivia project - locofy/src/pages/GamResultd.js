@@ -17,13 +17,20 @@ const GamResultd = () => {
     })
 
     socket.emit("getRoomRes");
+    
+    const intervalId = setInterval(() => {
+      if (loading) {
+        socket.emit("getRoomRes")
+      }
+    }, 3000); // 3 seconds interval
 
     return (
       () => {
+        clearInterval(intervalId);
         socket.off("getRoomResResponse")
       }
     )
-  }, [])
+  }, [loading])
 
   return (
     <div className={styles.gamResultd}>

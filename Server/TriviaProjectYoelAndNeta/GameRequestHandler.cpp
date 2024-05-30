@@ -53,8 +53,8 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo reqInfo)
 RequestResult GameRequestHandler::submitAnswer(RequestInfo reqInfo)
 {
     SubmitAnswerRequest submitAns_req = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(reqInfo.buffer);
-    m_game.submitAnswer(m_user, submitAns_req.answerId); 
-    SubmitAnswerResponse submitAnswer_res = { WORKING_STATUS, CORRECT_ANS_INDEX };
+    int code = m_game.submitAnswer(m_user, submitAns_req.answerId); 
+    SubmitAnswerResponse submitAnswer_res = { code, CORRECT_ANS_INDEX };
     return { JsonResponsePacketSerialize::serializeSubmitAnswerResponseResponse(submitAnswer_res), (IRequestHandler*)m_handlerFactory.createGameRequestHandler(m_user, m_game) };
 }
 
@@ -65,12 +65,12 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
     // If not all players are done playing, keep player in game state
     if (!m_game.areAllPlayersDonePlaying())
     {        
-        return { JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse({WORKING_STATUS, player_results}), (IRequestHandler*)m_handlerFactory.createGameRequestHandler(m_user, m_game)};
+        return { JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse({FAILED_STATUS, player_results}), (IRequestHandler*)m_handlerFactory.createGameRequestHandler(m_user, m_game)};
     }
     
     std::map<LoggedUser, GameData> all_players = m_game.getAllPlayers();
     std::map<LoggedUser, GameData>::iterator players_it;
-    std::vector<PlayerResults>::iterator results_it = player_results.begin(); 
+    auto results_it = player_results.begin(); 
 
     for (players_it = all_players.begin(); players_it != all_players.end(); ++players_it) // Assemble vector of 'PlayerResults'
     {
@@ -114,5 +114,24 @@ std::map<unsigned int, std::string> GameRequestHandler::shuffleAnswers(std::map<
 
     // Return the shuffled map
     return shuffledMap;
+}
+
+std::map<LoggedUser, GameData> GameRequestHandler::sortMap(std::map<LoggedUser, GameData> map)
+{
+    // Create a vector of pairs to store key-value pairs
+    std::vector<std::pair<LoggedUser, GameData>> vec(map.begin(), map.end());
+
+    // Sort the vector based on values (using the < operator defined for GameData)
+    std::sort(vec.begin(), vec.end(), [](auto& a, auto& b) {
+        return a.second < b.second;
+        });
+
+    // Construct a new map from the sorted vector
+    std::map<LoggedUser, GameData> sortedMap;
+    for (const auto& pair : vec) {
+        sortedMap.insert(pair);
+    }
+
+    return sortedMap;
 }
 

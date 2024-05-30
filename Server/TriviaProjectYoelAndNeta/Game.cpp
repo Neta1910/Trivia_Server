@@ -34,7 +34,7 @@ Question Game::getQuestionForUser(LoggedUser user)
     return this->m_questions[this->m_question_of_user.find(user)->second];
 }
 
-void Game::submitAnswer(LoggedUser user, unsigned int answer)
+int Game::submitAnswer(LoggedUser user, unsigned int answer)
 {
     GameData* game_data = NULL;
     // Search for needed player
@@ -57,9 +57,13 @@ void Game::submitAnswer(LoggedUser user, unsigned int answer)
             game_data->wrongAnswerCount++;
         }
         // Find index of current question and move on to the next one
+        if (m_question_of_user[user] == m_questions.size() - 1)
+        {
+            return USER_ENDED_GAME;
+        }
         this->m_question_of_user[user]++;
     }
-
+    return 1;
 }
 
 void Game::removePlayer(LoggedUser user)

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { socket } from "../socket";
 import Constents from "../Constants";
 import he from 'he';
+import { useNavigate } from "react-router-dom";
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -33,6 +34,8 @@ const GameBoard = () => {
   const [correctAnsCount, setcorrectAnsCount] = useState(0);
   const [wrongAnsCount, setWrongAnsCount] = useState(0);
 
+  const navigate = useNavigate();
+
   const avgTime = useMemo(() => {
     const sum = answerTimes.reduce((accumulator, currentValue) => {
       return accumulator + currentValue;
@@ -57,11 +60,15 @@ const GameBoard = () => {
     });
 
     socket.on("submitAnswerResponse", (response) => {
-      if (response.status == Constents.WORK_STATUS) {
+      if (response.status === Constents.WORK_STATUS) {
         response[Constents.FIELDS.ANSWER_ID] === myAns
           ? setcorrectAnsCount(correctAnsCount + 1)
           : setWrongAnsCount(wrongAnsCount + 1);
         getQuestions();
+      }
+      else if (response.status === Constents.GAME_ENDED_FOR_USER)
+      {
+          navigate("/game-results")
       }
     });
 

@@ -2,7 +2,7 @@ const Constants = {
     SIZE_OF_LENGTH: 4,
     FAILED_STATUS: 0,
     WORK_STATUS: 1,
-  
+    GAME_ENDED_FOR_USER: 100,
     // Field names commonly used in the application
     FIELDS: {
       EMAIL: "email",

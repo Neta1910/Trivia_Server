@@ -238,7 +238,6 @@ def handle_start_game(data):
     user_sockets[get_user_id()].sendall(requests.SubmitAnswerRequest().getMessage(data[ANSWER_ID]))
 
     server_message = Responses.SubmitAnsResp(get_server_message(user_sockets[get_user_id()]))
-    if server_message.status ==
     emit('submitAnswerResponse', server_message.to_dict())
 
 
