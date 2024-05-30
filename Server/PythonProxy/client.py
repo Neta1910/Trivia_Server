@@ -189,7 +189,7 @@ def handle_close_room(data):
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('closeRoomResponse', {'status': WORK_STATUS}, room=rooms[roomId])
+            emit('closeRoomResponse', {'status': WORK_STATUS}, to=rooms[roomId])
     except Exception as e:
         print(e)
         emit('closeRoomResponse', {'status': FAILED_STATUS})
@@ -205,7 +205,7 @@ def handle_start_game(data):
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            emit('startGameResponse', {'status': WORK_STATUS}, room=rooms[data.roomId])
+            emit('startGameResponse', {'status': WORK_STATUS}, to=rooms[data.roomId])
     except Exception as e:
         print(e)
         emit('startGameResponse', {'status': FAILED_STATUS})

@@ -4,6 +4,8 @@ import TextInput from "../components/UserNameInput";
 import { socket } from "../socket";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import SliderInput from "../components/SlliderInput";
+
 import Constants from "../Constants";
 const CreateRoom = () => {
   const [roomName, setRoomName] = useState('');
@@ -67,6 +69,13 @@ const CreateRoom = () => {
               min={2}
               max={100}
               />
+              
+              {/* <SliderInput 
+                setter={setTimePerQuestion}
+                min={2}
+                max={100}
+                title={"Question timeOut"}
+              /> */}
 
               <TextInput
               placeHolder={"Amount of players"}

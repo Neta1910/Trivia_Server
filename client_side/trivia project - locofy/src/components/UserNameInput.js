@@ -1,5 +1,6 @@
 import styles from "./UserNameInput.module.css";
 import { useState } from "react";
+import SliderInput from "./SlliderInput";
 const TextInput = ({
   placeHolder,
   icon,
@@ -27,13 +28,7 @@ const TextInput = ({
   return (
       <div className={styles.usernameInput}>
         <div className={styles.userNameParent}>
-          {type === "range" ? (
-            <>
-              {/* Display the current value above the slider */}
-              <div className={styles.sliderValue}>{value}</div>
-            </>
-          ) : null}
-
+          {type !== 'range' ? 
           <input
             className={styles.userName}
             placeholder={placeHolder}
@@ -46,6 +41,9 @@ const TextInput = ({
             value={value}
             required
           />
+          : 
+          <SliderInput setter={setter} min={min} max={max} title={placeHolder} />
+          }
           <div className={styles.inputWrapper}>
             <div className={styles.vectorParent} onClick={togglePasswordVisibility}>
               <img className={styles.frameChild} alt="" src="/vector-2.svg" />
