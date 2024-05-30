@@ -52,16 +52,19 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo& reqInfo)
 
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo& reqInfo)
 {
-	StartGameResponse startGame_res = { WORKING_STATUS };
+	StartGameResponse startGame_res = { START_GAME_RESP };
+	Game& currGame = m_handlerFactory.getGameManager().createGame(m_room);
+
 	for (auto roomMembers : m_room.getAllLoggedUsers())
 	{
+		this->m_handlerFactory.createGameRequestHandler(roomMembers, currGame);
 		std::vector<unsigned char> serialized_res = JsonResponsePacketSerialize::serializeStartGameResponse(startGame_res);
 		Communicator::sendData(roomMembers.getSocket(), serialized_res);
 	}
-	// !!!!!!!!!!!!!!!!! NOTE !!!!!!!!!!!!!!!!!
-	// Line 56 is not yet returning the right handler, it's supposed to create a game room, which will be supported in the next versions.
-	return { JsonResponsePacketSerialize::serializeStartGameResponse(startGame_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
+	m_room.getRoomData().isActive = ROOM_ACTIVE;
+	return { JsonResponsePacketSerialize::serializeStartGameResponse(startGame_res), (IRequestHandler*)m_handlerFactory.createGameRequestHandler(m_user, currGame) };
 }
+
 
 RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo& reqInfo)
 {

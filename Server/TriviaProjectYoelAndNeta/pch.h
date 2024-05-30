@@ -83,6 +83,8 @@ enum RequestCodes
 #define ACTIVE_ROOM 1
 #define INACTIVE_ROOM 0 
 
+#define ROOM_ACTIVE 1
+#define ROOM_INACTIVE 0
 // ---- Statistics Settings ----
 #define HIGH_SCORE "highestScore"
 
