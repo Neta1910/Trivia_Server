@@ -11,24 +11,23 @@ const TextInput = ({
   min = 0,
   max = 0,
 }) => {
+  const [value, setValue] = useState(type === "range" ? (max + min) / 2 : "");
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleChange = (event) => {
-    setValue(event.target.value);
-    setter(event.target.value);
+    const newValue = event.target.value;
+    setValue(newValue);
+    setter(newValue);
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  // Initialize state for the slider value
-  const [value, setValue] = useState(type === "range" ? (max + min) / 2 : "");
-  setter(value);
-  const [showPassword, setShowPassword] = useState(false);
-
   return (
-      <div className={styles.usernameInput}>
-        <div className={styles.userNameParent}>
-          {type !== 'range' ? 
+    <div className={styles.usernameInput}>
+      <div className={styles.userNameParent}>
+        {type !== "range" ? (
           <input
             className={styles.userName}
             placeholder={placeHolder}
@@ -39,17 +38,17 @@ const TextInput = ({
             value={value}
             required
           />
-          : 
-          <SliderInput setter={setter} min={min} max={max} title={placeHolder}  />
-          }
-          <div className={styles.inputWrapper}>
-            <div className={styles.vectorParent} onClick={togglePasswordVisibility}>
-              <img className={styles.frameChild} alt="" src="/vector-2.svg" />
-              <img className={styles.wpfnameIcon} alt="" src={icon} />
-            </div>
+        ) : (
+          <SliderInput setter={setter} min={min} max={max} title={placeHolder} />
+        )}
+        <div className={styles.inputWrapper}>
+          <div className={styles.vectorParent} onClick={togglePasswordVisibility}>
+            <img className={styles.frameChild} alt="" src="/vector-2.svg" />
+            <img className={styles.wpfnameIcon} alt="" src={icon} />
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

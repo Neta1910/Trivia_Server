@@ -20,7 +20,6 @@ const CreateRoom = () => {
     e.preventDefault(); // Prevent the form from refreshing the page
 
     // Emit the login event to the server with username and password
-    console.log(typeof maxPlayers);
     socket.emit('createRoom', {
         [Constants.FIELDS.ROOM_NAME]: roomName,
         [Constants.FIELDS.MAX_USERS]: maxPlayers,
@@ -67,7 +66,7 @@ const CreateRoom = () => {
               setter={setTimePerQuestion}
               type="range"
               min={2}
-              max={100}
+              max={30}
               />
               
 

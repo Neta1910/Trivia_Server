@@ -38,6 +38,8 @@ const SliderInput = ({setter, min, max, title}) => {
               value={typeof value === 'number' ? value : 0}
               onChange={handleSliderChange}
               aria-labelledby="input-slider"
+              min={min}
+              max={max}
               sx={{
                 color: 'primary.main', // Change the primary color of the slider
                 '& .MuiSlider-thumb': {

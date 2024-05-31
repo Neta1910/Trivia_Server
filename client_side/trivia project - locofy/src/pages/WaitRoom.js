@@ -53,7 +53,9 @@ const WaitRoom = () => {
 
     socket.on('startGameResponse', (response) => {
       if (response.status === Constants.WORK_STATUS) {
+        alert("Game startes")
         navigate("/game-board")
+        alert("Game startes1")
       }
       else {
         console.log("error")
