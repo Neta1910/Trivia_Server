@@ -3,6 +3,7 @@ const Constants = {
     FAILED_STATUS: 0,
     WORK_STATUS: 1,
     GAME_ENDED_FOR_USER: 100,
+    USER_ALREADY_UPDATED: 219,
     // Field names commonly used in the application
     FIELDS: {
       EMAIL: "email",

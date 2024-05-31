@@ -10,12 +10,16 @@ const JoinRoom = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    socket.emit("getRooms");
+    const intervalRoons = setInterval(() => {
+      socket.emit("getRooms");
+    }, 3000); // 3 seconds interval
+
     socket.on("getRoomsResponse", (response) => {
       if (response.status === Constents.WORK_STATUS) {
         setRooms(response.rooms);
         setIsLoading(false);
-      } else {
+      }
+      else if (response.status === Constents.FAILED_STATUS) {
         setError("Error while recieving ");
         setIsLoading(false);
       }

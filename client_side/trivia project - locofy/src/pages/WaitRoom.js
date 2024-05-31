@@ -13,7 +13,9 @@ const WaitRoom = () => {
   const [error, setError] = useState(false);
   const [questions, setQuestions] = useState(0);
   const [timeOut, setTimeOut] = useState(0);
+  const [isGameActive, setIsGameActive] = useState(false)
   const [isLoadingStat, setIsLoadingStat] = useState(true);
+  
   const roomId = localStorage.getItem("currentRoomId");
   const [players, setPlayers] = useState([]);
   const navigate = useNavigate();
@@ -32,8 +34,12 @@ const WaitRoom = () => {
         setTimeOut(response.answerTimeout);
         setQuestions(response.questionCount);
         setPlayers(response.players);
+        setIsGameActive(response.hasGameBegun)
+        if (response.hasGameBegun) {
+          navigate("/game-board")
+        }
         setIsLoadingStat(false);
-      } else {
+      } else if (response.status === Constants.FAILED_STATUS) {
         setError(true);
         setIsLoadingStat(false);
       }
@@ -49,7 +55,6 @@ const WaitRoom = () => {
 
     const handleStartGameResponse = (response) => {
       if (response.status === Constants.WORK_STATUS) {
-        alert("Game starts");
         navigate("/game-board");
       } else {
         console.log("error");
@@ -71,8 +76,13 @@ const WaitRoom = () => {
     socket.on('startGameResponse', handleStartGameResponse);
     socket.on('closeRoomResponse', handleCloseRoomResponse);
 
+    const intervalGame = setInterval(() => {
+      if (!isGameActive) {
+        socket.emit("getRoomState");
+      }
+    }, 3000); // 3 seconds interval
+
     socket.emit("AmIAdmin");
-    socket.emit("getRoomState");
 
     return () => {
       socket.off('amIAdminResponse', handleAmIAdminResponse);
@@ -80,8 +90,9 @@ const WaitRoom = () => {
       socket.off('getPlayersInRoomResponse', handleGetPlayersInRoomResponse);
       socket.off('startGameResponse', handleStartGameResponse);
       socket.off('closeRoomResponse', handleCloseRoomResponse);
+      clearInterval(intervalGame)
     };
-  }, [socket, navigate, isAdmin]);
+  }, [socket, navigate, isAdmin, isGameActive]);
 
   if (error) return <p>There is an error</p>;
 
