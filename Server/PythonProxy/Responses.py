@@ -1,11 +1,13 @@
 import json
 
 import constents
-
-
+from getMesseges import get_code
+from ErrorException import ErrorException
 def parseResponse(resp):
     length = int.from_bytes(resp[1:4], byteorder='little')
     json_data = json.loads(resp[5:5 + length].decode())
+    if resp[0] == constents.CODE_ERROR_RESPONSE:
+        raise ErrorException(json_data["message"])
     return json_data
 
 
