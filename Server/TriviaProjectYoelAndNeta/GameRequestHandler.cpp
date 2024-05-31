@@ -60,26 +60,22 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo reqInfo)
 
 RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
 {    
-    std::vector<PlayerResults> player_results; 
-
+    std::vector<PlayerResults> player_results;
     // If not all players are done playing, keep player in game state
     if (!m_game.areAllPlayersDonePlaying())
     {        
         return { JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse({FAILED_STATUS, player_results}), (IRequestHandler*)m_handlerFactory.createGameRequestHandler(m_user, m_game)};
     }
     
-    std::map<LoggedUser, GameData> all_players = m_game.getAllPlayers();
-    std::map<LoggedUser, GameData>::iterator players_it;
-    auto results_it = player_results.begin(); 
-
-    for (players_it = all_players.begin(); players_it != all_players.end(); ++players_it) // Assemble vector of 'PlayerResults'
+    for (auto it : m_game.getAllPlayers())
     {
-        (*results_it).averageAnswerTime = (*players_it).second.averageAnswerTime;
-        (*results_it).wrongAnswerCount = (*players_it).second.wrongAnswerCount;
-        (*results_it).correctAnswerCount = (*players_it).second.correctAnswerCount;
-        (*results_it).username = (*players_it).first.getUsername();
-        ++results_it;
+        player_results.push_back({ it.first.getUsername(), it.second.correctAnswerCount, it.second.wrongAnswerCount, it.second.averageAnswerTime });
     }
+
+    std::sort(player_results.begin(), player_results.end(), [](auto& a, auto& b) {
+        return a < b;
+        });
+
     // Direct player to menu (because the game ended)
     GetGameResultsResponse gameResults_res = { GET_GAME_RESULTS_RESP, player_results };
     return { JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse(gameResults_res), (IRequestHandler*)m_handlerFactory.createMenuRequestHandler(m_user) };
@@ -114,24 +110,5 @@ std::map<unsigned int, std::string> GameRequestHandler::shuffleAnswers(std::map<
 
     // Return the shuffled map
     return shuffledMap;
-}
-
-std::map<LoggedUser, GameData> GameRequestHandler::sortMap(std::map<LoggedUser, GameData> map)
-{
-    // Create a vector of pairs to store key-value pairs
-    std::vector<std::pair<LoggedUser, GameData>> vec(map.begin(), map.end());
-
-    // Sort the vector based on values (using the < operator defined for GameData)
-    std::sort(vec.begin(), vec.end(), [](auto& a, auto& b) {
-        return a.second < b.second;
-        });
-
-    // Construct a new map from the sorted vector
-    std::map<LoggedUser, GameData> sortedMap;
-    for (const auto& pair : vec) {
-        sortedMap.insert(pair);
-    }
-
-    return sortedMap;
 }
 

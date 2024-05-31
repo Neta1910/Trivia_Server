@@ -3,6 +3,7 @@ import styles from "./AdminArea.module.css";
 import { socket } from "../socket";
 import { useEffect } from "react";
 import Constants from "../Constants";
+import { useNavigate } from "react-router-dom";
 
 const AdminArea = ({roomId}) => {
   const startGame = () => {
@@ -11,6 +12,22 @@ const AdminArea = ({roomId}) => {
   const deleteRoom = () => {
     socket.emit("closeRoom", {[Constants.FIELDS.ROOM_ID]: roomId})
   }
+  const navigate = useNavigate();
+  useEffect(() => {
+    const handleStartGameResponse = (response) => {
+      if (response.status === Constants.WORK_STATUS) {
+        navigate("/game-board");
+      } else {
+        console.log("error");
+      }
+    };
+    socket.on('startGameResponse', handleStartGameResponse);
+    return (
+      () => {
+        socket.off("startGameResponse")
+      }
+    )
+  })
   return (
     <section className={styles.adminArea}>
       <div className={styles.actionSectionAdminWrapper}>

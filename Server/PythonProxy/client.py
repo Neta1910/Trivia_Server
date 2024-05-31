@@ -242,7 +242,7 @@ def handle_start_game(data):
 
 
 @socketio.on('getRoomRes')
-def handle_start_game(data):
+def handle_start_game():
     user_sockets[get_user_id()].sendall(requests.GetGameResRequest().getMessage())
 
     server_message = parseRequestToMessage(get_server_message(user_sockets[get_user_id()]), GET_ROOM_REQ)

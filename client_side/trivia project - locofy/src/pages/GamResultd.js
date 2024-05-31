@@ -36,7 +36,7 @@ const GamResultd = () => {
     <div className={styles.gamResultd}>
       <div className={styles.gameResult}>
         <div className={styles.itWasA}>
-          It was a fun game, this is the results
+          {loading ? "there are still players who didnt finsh the game" : "It was a fun game, this is the results" } 
         </div>
       </div>
       <section className={styles.playerResults}>
