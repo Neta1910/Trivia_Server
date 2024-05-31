@@ -4,7 +4,9 @@ import TextInput from "../components/UserNameInput";
 import { socket } from "../socket";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import SliderInput from "../components/SlliderInput";
 
+import Constants from "../Constants";
 const CreateRoom = () => {
   const [roomName, setRoomName] = useState('');
   const [timePerQuestion, setTimePerQuestion] = useState(0);
@@ -18,30 +20,29 @@ const CreateRoom = () => {
     e.preventDefault(); // Prevent the form from refreshing the page
 
     // Emit the login event to the server with username and password
-    console.log(typeof maxPlayers);
     socket.emit('createRoom', {
         [Constants.FIELDS.ROOM_NAME]: roomName,
         [Constants.FIELDS.MAX_USERS]: maxPlayers,
         [Constants.FIELDS.ANSOWER_TIMEOUT]: timePerQuestion,
         [Constants.FIELDS.QUESTION_COUNT]: questionCount
     });
-    // Listen for the login response from the server
-    socket.on('createRoomResponse', (response) => {
-        if (response.status === Constants.WORK_STATUS) {
-            localStorage.setItem("currentRoomId", response.roomId)
-            navigate("/wait-room")
-        } else {
-            alert('somthing went wrong');
-        }
-    }
-    );
-    return () => {
-        socket.off('createRoomResponse');
-    };
   }
 
   useEffect (() => {
-    socket.on("createRoomResponse", )
+        // Listen for the login response from the server
+        socket.on('createRoomResponse', (response) => {
+          console.log(response);
+            if (response.status === Constants.WORK_STATUS) {
+                localStorage.setItem("currentRoomId", response.roomId)
+                navigate("/wait-room")
+            } else {
+                alert('somthing went wrong');
+            }
+        }
+        );
+        return () => {
+            socket.off('createRoomResponse');
+        };
   })
 
   return (
@@ -65,8 +66,9 @@ const CreateRoom = () => {
               setter={setTimePerQuestion}
               type="range"
               min={2}
-              max={100}
+              max={30}
               />
+              
 
               <TextInput
               placeHolder={"Amount of players"}

@@ -133,3 +133,5 @@ class GetGameResRequest:
     def getMessage(self):
         data = {}
         return parseRequestToMessage(data, GET_GAME_RESULT_REQ)
+
+

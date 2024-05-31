@@ -10,7 +10,7 @@ class GameManager
 {
 public:
 	GameManager(IDatabase* db);
-	Game& createGame(Room& room);
+	Game& createGame(Room* room);
 	void deleteGame(int game_id);
 private:
 	IDatabase* m_database;

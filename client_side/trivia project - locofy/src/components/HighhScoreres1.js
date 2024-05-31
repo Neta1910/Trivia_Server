@@ -1,5 +1,7 @@
 import styles from "./HighhScoreres1.module.css";
 import PlayerInHigh from "./PlayerInHigh";
+import Constants from "../Constants";
+import { layouts } from "chart.js";
 
 const ListOfPlayers = ({ players }) => {
   return (
@@ -7,13 +9,14 @@ const ListOfPlayers = ({ players }) => {
       {players.length === 0 ? (
         <p>There are no players in this room yet</p>
       ) : (
-        players.map((elemnt, index) => {
+        players.map((element, index) => (
           <PlayerInHigh
-            userName={elemnt[Constents.FIELDS.USER_NAME]}
-            place={index}
+            key={index}
+            userName={element}
+            place={index + 1}
             isInHigh={false}
-          />;
-        })
+          />
+        ))
       )}
     </div>
   );

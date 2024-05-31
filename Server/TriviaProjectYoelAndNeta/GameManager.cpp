@@ -4,13 +4,13 @@ GameManager::GameManager(IDatabase* db) : m_database(db)
 {
 }
 
-Game& GameManager::createGame(Room& room)
+Game& GameManager::createGame(Room* room)
 {
-	std::vector<LoggedUser> players = room.getAllLoggedUsers();
-	std::list<Question> questions = m_database->getQuestions(room.getRoomData().numOfQuestionsInGame);
+	std::vector<LoggedUser> players = room->getAllLoggedUsers();
+	std::list<Question> questions = m_database->getQuestions(room->getRoomData().numOfQuestionsInGame);
 	std::vector<Question> questions_formatted{ std::begin(questions), std::end(questions) };
 
-	Game* new_game = new Game(questions_formatted, players, room.getRoomData().id);	
+	Game* new_game = new Game(questions_formatted, players, room->getRoomData().id);	
 
 	m_games.push_back(new_game);
 	return (*new_game);

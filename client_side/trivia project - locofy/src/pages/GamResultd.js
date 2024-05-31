@@ -17,19 +17,26 @@ const GamResultd = () => {
     })
 
     socket.emit("getRoomRes");
+    
+    const intervalId = setInterval(() => {
+      if (loading) {
+        socket.emit("getRoomRes")
+      }
+    }, 3000); // 3 seconds interval
 
     return (
       () => {
+        clearInterval(intervalId);
         socket.off("getRoomResResponse")
       }
     )
-  }, [])
+  }, [loading])
 
   return (
     <div className={styles.gamResultd}>
       <div className={styles.gameResult}>
         <div className={styles.itWasA}>
-          It was a fun game, this is the results
+          {loading ? "there are still players who didnt finsh the game" : "It was a fun game, this is the results" } 
         </div>
       </div>
       <section className={styles.playerResults}>

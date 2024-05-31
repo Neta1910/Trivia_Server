@@ -2,7 +2,8 @@ const Constants = {
     SIZE_OF_LENGTH: 4,
     FAILED_STATUS: 0,
     WORK_STATUS: 1,
-  
+    GAME_ENDED_FOR_USER: 100,
+    USER_ALREADY_UPDATED: 219,
     // Field names commonly used in the application
     FIELDS: {
       EMAIL: "email",
@@ -12,10 +13,10 @@ const Constants = {
       PHONE_NUMBER: "phoneNumber",
       BIRTH_DATE: "birthDate",
       ROOM_ID: "roomId",
-      ROOM_NAME: "room_name",
-      MAX_USERS: "max_users",
-      QUESTION_COUNT: "question_count",
-      ANSOWER_TIMEOUT: "answer_timeout",
+      ROOM_NAME: "roomName",
+      MAX_USERS: "maxUsers",
+      QUESTION_COUNT: "questionCount",
+      ANSOWER_TIMEOUT: "answerTimeout",
       HAS_GAME_BEGUN: "hasGameBegun",
       PLAYERS: "players",
       IS_ACTIVE: "is_active",

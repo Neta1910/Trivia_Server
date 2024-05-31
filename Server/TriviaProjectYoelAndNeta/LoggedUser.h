@@ -5,7 +5,7 @@
 class LoggedUser
 {
 public:
-	LoggedUser(std::string username);
+	LoggedUser(std::string username, const int& id);
 	std::string getUsername() const ;
 	int getId() const;
 	SOCKET getSocket();

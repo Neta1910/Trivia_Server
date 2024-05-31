@@ -27,7 +27,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 		{
 			res.status = FAIL_STATUS;
 		}
-		MenuRequestHandler* newHandler = this->m_handleFactory.createMenuRequestHandler(LoggedUser(req.userName));
+		MenuRequestHandler* newHandler = this->m_handleFactory.createMenuRequestHandler(LoggedUser(req.userName, this->m_handleFactory.getDatabase()->getUserId(req.userName, req.password)));
 		return { JsonResponsePacketSerialize::serializeLoginResponse(res),  newHandler};
 
 	}

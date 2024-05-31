@@ -50,6 +50,7 @@ GET_GAME_RESULT_REQ = 118
 SIZE_OF_LENGTH = 4
 FAILED_STATUS = 0
 WORK_STATUS = 1
+GAME_ENDED = 100
 
 EMAIL: str = "email"
 PASSWORD: str = "password"
@@ -59,10 +60,10 @@ PHONE_NUMBER: str = "phoneNumber"
 BIRTH_DATE: str = "birthDate"
 ROOM_ID = "roomId"
 
-ROOM_NAME = "room_name"
-MAX_USERS = "max_users"
-QUESTION_COUNT = "question_count"
-ANSOWER_TIMEOUT = "answer_timeout"
+ROOM_NAME = "roomName"
+MAX_USERS = "maxUsers"
+QUESTION_COUNT = "questionCount"
+ANSOWER_TIMEOUT = "answerTimeout"
 
 HAS_GAME_BEGUN = "hasGameBegun"
 PLAYERS = "players"

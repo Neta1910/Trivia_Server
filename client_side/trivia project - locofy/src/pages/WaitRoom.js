@@ -1,11 +1,11 @@
 import TopPart from "../components/FrameComponent1";
 import AdminArea from "../components/AdminArea";
 import styles from "./WaitRoom.module.css";
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { socket } from "../socket";
 import Constants from "../Constants";
-import ActionSectionNotAdmin from '../components/ActionSectionNotAdmin'
+import ActionSectionNotAdmin from '../components/ActionSectionNotAdmin';
 import ListOfPlayers from "../components/HighhScoreres1";
 
 const WaitRoom = () => {
@@ -13,98 +13,102 @@ const WaitRoom = () => {
   const [error, setError] = useState(false);
   const [questions, setQuestions] = useState(0);
   const [timeOut, setTimeOut] = useState(0);
+  const [isGameActive, setIsGameActive] = useState(false)
   const [isLoadingStat, setIsLoadingStat] = useState(true);
-  const searchParams = new URLSearchParams(window.location.search);
-  const roomId = localStorage.getItem("currentRoomId")
+  
+  const roomId = localStorage.getItem("currentRoomId");
   const [players, setPlayers] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    socket.on ('amIAdminResponse', (response) => {
+    const handleAmIAdminResponse = (response) => {
       if (response.status === Constants.WORK_STATUS) {
         setIsAdmin(response.state);
-      }
-      else {
+      } else {
         setError(true);
       }
-    })
+    };
 
-    socket.on('getRoomStateResponse', (response) => {
+    const handleGetRoomStateResponse = (response) => {
       if (response.status === Constants.WORK_STATUS) {
         setTimeOut(response.answerTimeout);
         setQuestions(response.questionCount);
         setPlayers(response.players);
+        setIsGameActive(response.hasGameBegun)
+        if (response.hasGameBegun) {
+          navigate("/game-board")
+        }
         setIsLoadingStat(false);
-      }
-      else {
+      } else if (response.status === Constants.FAILED_STATUS) {
         setError(true);
         setIsLoadingStat(false);
       }
-    })
+    };
 
-
-    socket.on ("getPlayersInRoomResponse", (response) => {
+    const handleGetPlayersInRoomResponse = (response) => {
       if (response.status === Constants.WORK_STATUS) {
         setPlayers(response.players);
-      }
-      else {
+      } else {
         setError(true);
       }
+    };
 
-    socket.on('startGameResponse', (response) => {
+    const handleStartGameResponse = (response) => {
       if (response.status === Constants.WORK_STATUS) {
-        navigate("/game-board")
+        navigate("/game-board");
+      } else {
+        console.log("error");
       }
-    })
+    };
 
-    socket.on('closeRoomResponse', (response) => {
+    const handleCloseRoomResponse = (response) => {
       if (response.status === Constants.WORK_STATUS) {
         if (!isAdmin) {
-          alert("The admin had closed the room");
+          alert("The admin has closed the room");
         }
-        navigate("/menu")
+        navigate("/menu");
       }
-    })
+    };
 
-    return (
-      () => {
-        socket.off('amIAdminResponse')
-        socket.off('getRoomStateResponse')
-        socket.off("getPlayersInRoomResponse")
-        socket.off("startGameResponse")
-        socket.off("closeRoomResponse")
+    socket.on('amIAdminResponse', handleAmIAdminResponse);
+    socket.on('getRoomStateResponse', handleGetRoomStateResponse);
+    socket.on('getPlayersInRoomResponse', handleGetPlayersInRoomResponse);
+    socket.on('startGameResponse', handleStartGameResponse);
+    socket.on('closeRoomResponse', handleCloseRoomResponse);
+
+    const intervalGame = setInterval(() => {
+      if (!isGameActive) {
+        socket.emit("getRoomState");
       }
-    )
-    })
+    }, 3000); // 3 seconds interval
 
     socket.emit("AmIAdmin");
-    socket.emit("getRoomState")
-
 
     return () => {
-      // Clean up the event listeners when the component unmounts
       socket.off('amIAdminResponse', handleAmIAdminResponse);
       socket.off('getRoomStateResponse', handleGetRoomStateResponse);
-      socket.off("getPlayersInRoomResponse", handleGetPlayersInRoomResponse);
+      socket.off('getPlayersInRoomResponse', handleGetPlayersInRoomResponse);
+      socket.off('startGameResponse', handleStartGameResponse);
+      socket.off('closeRoomResponse', handleCloseRoomResponse);
+      clearInterval(intervalGame)
     };
-  }, [socket])
+  }, [socket, navigate, isAdmin, isGameActive]);
 
-  // if (isLoading) return <p>Still loading data </p>
-  // if (error) return <p>There is an error</p>
+  if (error) return <p>There is an error</p>;
 
   return (
-    <div className={styles.mainContainer} >
+    <div className={styles.mainContainer}>
       <div className={styles.waitRoom}>
         <TopPart 
-          timout={timeOut}
+          timeout={timeOut}
           amountOfQuestions={questions}
         />
-      <section className={styles.adminArea}>
-        <ListOfPlayers 
-          players={players}
-        />
-        {isAdmin ? <AdminArea roomId={roomId}/> : <ActionSectionNotAdmin />}
-      </section>
+        <section className={styles.adminArea}>
+          <ListOfPlayers 
+            players={players}
+          />
+          {isAdmin ? <AdminArea roomId={roomId}/> : <ActionSectionNotAdmin />}
+        </section>
       </div>
     </div>
   );

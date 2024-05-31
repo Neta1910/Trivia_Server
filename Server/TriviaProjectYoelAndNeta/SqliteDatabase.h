@@ -68,10 +68,11 @@ public:
 	virtual bool doesUserExist(const std::string& username) override;
 	virtual bool doesPasswordMatch(const std::string& username, const std::string& password) override;
 	virtual bool addNewUser(const std::string& name, const std::string& password, const std::string& email, const std::string& address, const std::string& bitrthDate, const std::string& phoneNumber) override;
+	virtual int getUserId(const std::string& name, const std::string& password);
 
 	// questions related
 	virtual std::list<Question> getQuestions(const int& amount) override;
-	virtual void loadQuestionsIntoDB() override;
+	virtual void loadQuestionsIntoDB(int amount) override;
 	virtual void insertQuestionIntoDB(Question question);
 	virtual int getTotalAmountOfQuestions() override;
 

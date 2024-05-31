@@ -1,6 +1,6 @@
 import json
+
 import constents
-from RoomData import RoomData
 
 
 def parseResponse(resp):
@@ -73,15 +73,18 @@ class CreateRoomResponse:
         self.status = json_data["status"]
         self.roomId = json_data["roomId"]
 
+
 class CloseRoomResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
 
+
 class StartGameResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
+
 
 class GetRoomStaeResponse:
     def __init__(self, resp):
@@ -92,10 +95,12 @@ class GetRoomStaeResponse:
         self.questionCount = json_data[constents.QUESTION_COUNT]
         self.answerTimeout = json_data[constents.ANSOWER_TIMEOUT]
 
+
 class LeaveRoomResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
+
 
 class AmIAdminResponse:
     def __init__(self, resp):
@@ -106,4 +111,27 @@ class AmIAdminResponse:
 
 class GetQuestionResponse:
     def __init__(self, resp):
-        server_messege =  parseResponse(resp)
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.question = json_data["question"]
+        self.answers = json_data["answers"]
+
+    def to_dict(self):
+        return {
+            "status": self.status,
+            "question": self.question,
+            "answers": self.answers
+        }
+
+
+class SubmitAnsResp:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.correctAnswerId = json_data["correctAnswerId"]
+
+    def to_dict(self):
+        return {
+            "status": self.status,
+            "correctAnswerId": self.correctAnswerId
+        }

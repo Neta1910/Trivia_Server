@@ -10,7 +10,7 @@ class RequestHandlerFactory;
 class GameRequestHandler : public IRequestHandler
 {
 public:
-	GameRequestHandler(RequestHandlerFactory& handleFactory, GameManager& m_gameManager, std::string user, Game& game);
+	GameRequestHandler(RequestHandlerFactory& handleFactory, GameManager& m_gameManager, LoggedUser user, Game& game);
 	bool isRequestRelevant(RequestInfo& reqInfo) override;
 	RequestResult handleRequest(RequestInfo& reqInfo) override;
 private:
@@ -23,4 +23,5 @@ private:
 	RequestResult submitAnswer(RequestInfo reqInfo);
 	RequestResult getGameResults(RequestInfo reqInfo);
 	RequestResult leaveGame(RequestInfo reqInfo);
+	std::map<unsigned int, std::string> shuffleAnswers(std::map<unsigned int, std::string> prev);
 };

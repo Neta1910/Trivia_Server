@@ -39,8 +39,8 @@ public:
 	IDatabase* getDatabase();
 	RoomManager& getRoomManager();
 	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
-	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser logged_user, Room room);
-	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser logged_user, Room room);
+	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser logged_user, Room* room);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser logged_user, Room* room);
 	GameRequestHandler* createGameRequestHandler(LoggedUser logged_user, Game& game);
 
 	StatisticsManager& getStatisticsManager();
