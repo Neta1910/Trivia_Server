@@ -6,7 +6,7 @@ GameManager::GameManager(IDatabase* db) : m_database(db)
 
 Game& GameManager::createGame(Room* room)
 {
-	std::vector<LoggedUser> players = room->getAllLoggedUsers();
+	std::vector<LoggedUser*> players = room->getAllLoggedUsers();
 	std::list<Question> questions = m_database->getQuestions(room->getRoomData().numOfQuestionsInGame);
 	std::vector<Question> questions_formatted{ std::begin(questions), std::end(questions) };
 

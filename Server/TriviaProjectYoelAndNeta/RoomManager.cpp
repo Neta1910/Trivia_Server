@@ -1,6 +1,6 @@
 #include "RoomManager.h"
 
-int RoomManager::createRoom(LoggedUser logged_user, RoomData room_data)
+int RoomManager::createRoom(LoggedUser* logged_user, RoomData room_data)
 {
 	// Create new room
 
@@ -18,9 +18,8 @@ int RoomManager::createRoom(LoggedUser logged_user, RoomData room_data)
 	roomId++;
 	room_data.id = roomId;
 
-	Room* new_room = new Room(room_data, std::vector<LoggedUser>());
+	Room* new_room = new Room(room_data, std::vector<LoggedUser*>());
 	new_room->addUser(logged_user);
-	_updated = true;
 	this->m_rooms.insert({ roomId, new_room });
 	return roomId;
 }
@@ -35,7 +34,6 @@ void RoomManager::deleteRoom(int room_id)
 			return;
 		}
 	}
-	_updated = true;
 }
 
 unsigned int RoomManager::getRoomState(int room_id)
@@ -62,11 +60,6 @@ bool RoomManager::doesRoomExist(int room_id)
 	return false;
 }
 
-void RoomManager::setUpdated(bool update)
-{
-	_updated = update;
-}
-
 std::vector<RoomData> RoomManager::getRooms()
 {
 	std::vector<RoomData> rooms_data;
@@ -86,9 +79,4 @@ Room* RoomManager::getRoom(int room_id)
 			return (*it).second;
 		}
 	}	
-}
-
-bool RoomManager::getUpdated()
-{
-	return _updated;
 }

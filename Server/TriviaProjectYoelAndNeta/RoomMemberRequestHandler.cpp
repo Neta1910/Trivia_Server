@@ -1,6 +1,6 @@
 #include "RoomMemberRequestHandler.h"
 
-RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser member, RoomManager& roomManager, RoomData room_data, std::vector<LoggedUser> users) :
+RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser* member, RoomManager& roomManager, RoomData room_data, std::vector<LoggedUser*> users) :
 	m_handleFactory(handleFactory),
 	m_user(member),
 	m_roomManager(roomManager)
@@ -29,11 +29,19 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo& reqInfo)
 	}
 }
 
+void RoomMemberRequestHandler::setUpdated(const bool& val)
+{
+	for (auto it : this->m_room->getAllLoggedUsers())
+	{
+		it->setUpdateInOwnRoom(val);
+	}
+}
+
 RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo reqInfo)
 {
 	LeaveRoomResponse leaveRoom_res = { WORKING_STATUS };
 	m_roomManager.getRoom(m_room->getRoomData().id)->removeUser(m_user);
-	m_roomManager.setUpdated(true);
+	this->setUpdated(true);
 	return { JsonResponsePacketSerialize::serializeLeaveRoomResponse(leaveRoom_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
 

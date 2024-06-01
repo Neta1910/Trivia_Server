@@ -8,9 +8,11 @@
 class RoomMemberRequestHandler : public IRequestHandler
 {
 public:
-	RoomMemberRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser member, RoomManager& roomManager, RoomData room_data, std::vector<LoggedUser> users);
+	RoomMemberRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser* member, RoomManager& roomManager, RoomData room_data, std::vector<LoggedUser*> users);
 	virtual bool isRequestRelevant(RequestInfo& reqInfo) override;
 	virtual RequestResult handleRequest(RequestInfo& reqInfo) override;
+	void setUpdated(const bool& val);
+
 private:
 
 	RequestResult leaveRoom(RequestInfo reqInfo);
@@ -19,7 +21,7 @@ private:
 
 
 	Room* m_room;
-	LoggedUser m_user;
+	LoggedUser* m_user;
 	RoomManager& m_roomManager;
 	RequestHandlerFactory& m_handleFactory;
 };

@@ -12,35 +12,35 @@
 //    this->
 //}
 
-Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser> players, const  unsigned int gameId)
+Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser*> players, const  unsigned int gameId)
 {    
     for (auto& question : questions)
     {
         this->m_questions.push_back(question);
     }
 
-    for (LoggedUser logged_user : players)
+    for (auto logged_user : players)
     {
         GameData new_gameData{ m_questions[0], 0,0,0 };
-        std::pair<LoggedUser, GameData> new_pair(logged_user, new_gameData);
+        std::pair<LoggedUser*, GameData> new_pair(logged_user, new_gameData);
         this->m_players.insert(new_pair);
         this->m_question_of_user.insert({ logged_user, 0 });
     }
     this->m_gameId = gameId;
 }
 
-Question Game::getQuestionForUser(LoggedUser user)
+Question Game::getQuestionForUser(LoggedUser* user)
 {
     return this->m_questions[this->m_question_of_user.find(user)->second];
 }
 
-int Game::submitAnswer(LoggedUser user, unsigned int answer)
+int Game::submitAnswer(LoggedUser* user, unsigned int answer)
 {
     GameData* game_data = NULL;
     // Search for needed player
     for (auto it : this->m_players)
     {
-        if (it.first.getId() == user.getId())
+        if (it.first->getId() == user->getId())
         {
             game_data = &it.second;
         }
@@ -66,17 +66,16 @@ int Game::submitAnswer(LoggedUser user, unsigned int answer)
     return 1;
 }
 
-void Game::removePlayer(LoggedUser user)
+void Game::removePlayer(LoggedUser* user)
 {
     //std::map<LoggedUser, GameData>::iterator it = m_players.find(user);
     //if (it != m_players.end())
     //{
     //    m_players.erase(it);
     //}
-    std::map<LoggedUser, GameData>::iterator it;
-    for (it = m_players.begin(); it != m_players.end(); ++it)
+    for (auto it = m_players.begin(); it != m_players.end(); ++it)
     {
-        if ((*it).first.getUsername() == user.getUsername())
+        if ((*it).first->getUsername() == user->getUsername())
         {
             m_players.erase(it);
         }
@@ -96,7 +95,7 @@ bool Game::areAllPlayersDonePlaying()
     return true;
 }
 
-std::map<LoggedUser, GameData> Game::getAllPlayers()
+std::map<LoggedUser*, GameData> Game::getAllPlayers()
 {
     return m_players;
 }
@@ -112,7 +111,7 @@ void Game::submitGameStatsToDB(GameData game_data)
     {
         for (const auto& it : m_players) 
         {
-            m_database->submitGameStatistics(game_data, it.first.getId());
+            m_database->submitGameStatistics(game_data, it.first->getId());
         }        
     }
 }

@@ -19,7 +19,8 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 	{
 		LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(reqInfo.buffer);
 		LoginResponse res = { CODE_LOGIN_RESP };
-		if (this->m_handleFactory.GetLoginManager().login(req.userName, req.password)) 
+		LoggedUser* user = this->m_handleFactory.GetLoginManager().login(req.userName, req.password);
+		if (user) 
 		{
 			res.status = WORK_STATUS;
 		}
@@ -27,7 +28,8 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 		{
 			res.status = FAIL_STATUS;
 		}
-		MenuRequestHandler* newHandler = this->m_handleFactory.createMenuRequestHandler(LoggedUser(req.userName, this->m_handleFactory.getDatabase()->getUserId(req.userName, req.password)));
+		
+		MenuRequestHandler* newHandler = this->m_handleFactory.createMenuRequestHandler(user);
 		return { JsonResponsePacketSerialize::serializeLoginResponse(res),  newHandler};
 
 	}
