@@ -1,6 +1,6 @@
 #include "MenuRequestHandler.h"
 
-MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser user, RoomManager& roomManager) : 
+MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser* user, RoomManager& roomManager) : 
 	m_handleFactory(handleFactory), 
 	m_user(user), 
 	m_roomManager(roomManager)
@@ -58,22 +58,40 @@ std::vector<std::string> MenuRequestHandler::highestScoreToVector(std::vector<Hi
 	return highest_scores_in_vector;
 }
 
+void MenuRequestHandler::setUpdateOfUsers(const bool& val)
+{
+	for (auto it : this->m_handleFactory.GetLoginManager().getUsers())
+	{
+		it->setUpdateInRooms(val);
+	}
+}
+
 RequestResult MenuRequestHandler::logOut(RequestInfo& reqInfo)
 {
-	LoginManager::getInstance(this->m_handleFactory.getDatabase()).logout(m_user.getUsername());
+	LoginManager::getInstance(this->m_handleFactory.getDatabase()).logout(m_user->getUsername());
 	LogoutResponse logOut_res = { WORKING_STATUS };
 	return { JsonResponsePacketSerialize::serializeLogoutResponse(logOut_res), (IRequestHandler*)m_handleFactory.createLoginRequestHandler() };
 }
 
 RequestResult MenuRequestHandler::getRooms(RequestInfo& reqInfo)
 {
-	GetRoomsResponse getRooms_res = { WORKING_STATUS, m_roomManager.getRooms() };
-	return { JsonResponsePacketSerialize::serializeGetRoomResponse(getRooms_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
+
+	if (m_user->getUpdateInRooms())
+	{
+		GetRoomsResponse getRooms_res = { WORKING_STATUS, m_roomManager.getRooms() };
+		return { JsonResponsePacketSerialize::serializeGetRoomResponse(getRooms_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
+	}
+	else
+	{
+		GetRoomsResponse getRooms_res;
+		getRooms_res.status = NOT_SOMTHING_TO_UPDATE;
+		return { JsonResponsePacketSerialize::serializeGetRoomResponse(getRooms_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
+	}
 }
 
 RequestResult MenuRequestHandler::getPersonalStats(RequestInfo& reqInfo)
 {
-	userStats user_stats = m_handleFactory.getStatisticsManager().getUserStatistics(m_user.getId());
+	userStats user_stats = m_handleFactory.getStatisticsManager().getUserStatistics(m_user->getId());
 	GetPersonalStatsResponse getPersonalStats_res = { WORKING_STATUS, user_stats};
 	return { JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(getPersonalStats_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
@@ -112,10 +130,11 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo& reqInfo)
 {
 	CreateRoomRequest createRoom_req = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(reqInfo.buffer);
 	int numOfQuestions = (m_handleFactory.getDatabase())->getTotalAmountOfQuestions();
+	
 	// Check if the new room is valid
 	if (createRoom_req.questionCount >= MIN_NUM_OF_QUESTIONS && createRoom_req.questionCount <= numOfQuestions && createRoom_req.answerTimeout >= MIN_ANS_TIME && createRoom_req.maxUsers >= MIN_USERS)
 	{
-		RoomData newRoomData = { 0, createRoom_req.roomName, createRoom_req.maxUsers, createRoom_req.questionCount, createRoom_req.answerTimeout, ACTIVE_ROOM, m_user.getId()};
+		RoomData newRoomData = { 0, createRoom_req.roomName, createRoom_req.maxUsers, createRoom_req.questionCount, createRoom_req.answerTimeout, ACTIVE_ROOM, m_user->getId()};
 		int roomId = m_roomManager.createRoom(m_user, newRoomData);
 		newRoomData.id = roomId;
 		

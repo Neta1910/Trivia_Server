@@ -100,3 +100,4 @@ enum RequestCodes
 #define	WORKING_STATUS 1
 #define FAILED_STATUS 0
 #define USER_ENDED_GAME 100
+#define NOT_SOMTHING_TO_UPDATE 219

@@ -171,11 +171,8 @@ def handle_start_game():
         user_sockets[get_user_id()].sendall(Requests.GetRoomStateRequest().getMessage())
 
         serverMessege = Responses.GetRoomStaeResponse(get_server_message(user_sockets[get_user_id()]))
-
-        if serverMessege.status == FAILED_STATUS:
-            raise Exception
-        else:
-            emit('getRoomStateResponse',
+        
+        emit('getRoomStateResponse',
                  {'status': WORK_STATUS, "hasGameBegun": serverMessege.hasGameBegun, "players": serverMessege.players,
                   "questionCount": serverMessege.questionCount, "answerTimeout": serverMessege.answerTimeout})
     except Exception as e:

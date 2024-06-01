@@ -1,7 +1,7 @@
 #include "GameRequestHandler.h"
 #include <random>
 
-GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handleFactory, GameManager& m_gameManager, LoggedUser user, Game& game) : m_handlerFactory(handleFactory), m_gameManager(m_gameManager), m_user(user), m_game(game)
+GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handleFactory, GameManager& m_gameManager, LoggedUser* user, Game& game) : m_handlerFactory(handleFactory), m_gameManager(m_gameManager), m_user(user), m_game(game)
 {
 }
 
@@ -69,7 +69,7 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
     
     for (auto it : m_game.getAllPlayers())
     {
-        player_results.push_back({ it.first.getUsername(), it.second.correctAnswerCount, it.second.wrongAnswerCount, it.second.averageAnswerTime });
+        player_results.push_back({ it.first->getUsername(), it.second.correctAnswerCount, it.second.wrongAnswerCount, it.second.averageAnswerTime });
     }
 
     std::sort(player_results.begin(), player_results.end(), [](auto& a, auto& b) {
@@ -86,7 +86,7 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo reqInfo)
     LeaveGameResponse leaveGame_res = { LEAVE_GAME_RESP };
     m_game.removePlayer(m_user);
     m_gameManager.deleteGame(m_game.getGameId());
-    m_handlerFactory.getRoomManager().DeleteRoom(m_game.getGameId());
+    m_handlerFactory.getRoomManager().deleteRoom(m_game.getGameId());
     return { JsonResponsePacketSerialize::serializeLeaveGameResponseResponse(leaveGame_res), (IRequestHandler*)m_handlerFactory.createMenuRequestHandler(m_user) };    
 }
 

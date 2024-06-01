@@ -4,6 +4,8 @@ LoggedUser::LoggedUser(std::string username, const int& id)
 {
 	this->m_username = username;
 	this->user_id = id;
+	this->_isUpdatedInHisOwnRoom = false;
+	this->_isUpdatedInRooms = false;
 }
 
 
@@ -30,6 +32,26 @@ bool LoggedUser::operator==(const LoggedUser& other)
 bool LoggedUser::operator<(const LoggedUser& other) const 
 {
 	return this->getId() < other.getId();
+}
+
+void LoggedUser::setUpdateInOwnRoom(const bool& val)
+{
+	this->_isUpdatedInHisOwnRoom = val;
+}
+
+void LoggedUser::setUpdateInRooms(const bool& val)
+{
+	this->_isUpdatedInRooms = val;
+}
+
+bool LoggedUser::getUpdateInOwnRoom() const
+{
+	return this->_isUpdatedInHisOwnRoom;
+}
+
+bool LoggedUser::getUpdateInRooms() const
+{
+	return this->_isUpdatedInRooms;
 }
 
 

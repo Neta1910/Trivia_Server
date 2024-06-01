@@ -13,8 +13,17 @@ public:
 	bool operator<(const LoggedUser& other) const;
 	//bool operator>(const LoggedUser other);
 
+	void setUpdateInOwnRoom(const bool& val);
+	void setUpdateInRooms(const bool& val);
+
+	bool getUpdateInOwnRoom() const;
+	bool getUpdateInRooms() const;
+
+
 private:
 	std::string m_username;
 	int user_id;
 	SOCKET m_socket;
+	bool _isUpdatedInRooms;
+	bool _isUpdatedInHisOwnRoom;
 };

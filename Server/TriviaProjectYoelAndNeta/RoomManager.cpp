@@ -1,6 +1,6 @@
 #include "RoomManager.h"
 
-int RoomManager::createRoom(LoggedUser logged_user, RoomData room_data)
+int RoomManager::createRoom(LoggedUser* logged_user, RoomData room_data)
 {
 	// Create new room
 
@@ -18,14 +18,13 @@ int RoomManager::createRoom(LoggedUser logged_user, RoomData room_data)
 	roomId++;
 	room_data.id = roomId;
 
-	Room* new_room = new Room(room_data, std::vector<LoggedUser>());
+	Room* new_room = new Room(room_data, std::vector<LoggedUser*>());
 	new_room->addUser(logged_user);
-
 	this->m_rooms.insert({ roomId, new_room });
 	return roomId;
 }
 
-void RoomManager::DeleteRoom(int room_id)
+void RoomManager::deleteRoom(int room_id)
 {
 	for (auto it = m_rooms.begin(); it != m_rooms.end(); ++it)
 	{
