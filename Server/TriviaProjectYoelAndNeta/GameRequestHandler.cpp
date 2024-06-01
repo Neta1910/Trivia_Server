@@ -86,7 +86,7 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo reqInfo)
     LeaveGameResponse leaveGame_res = { LEAVE_GAME_RESP };
     m_game.removePlayer(m_user);
     m_gameManager.deleteGame(m_game.getGameId());
-    m_handlerFactory.getRoomManager().DeleteRoom(m_game.getGameId());
+    m_handlerFactory.getRoomManager().deleteRoom(m_game.getGameId());
     return { JsonResponsePacketSerialize::serializeLeaveGameResponseResponse(leaveGame_res), (IRequestHandler*)m_handlerFactory.createMenuRequestHandler(m_user) };    
 }
 

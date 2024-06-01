@@ -33,6 +33,7 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo reqInfo)
 {
 	LeaveRoomResponse leaveRoom_res = { WORKING_STATUS };
 	m_roomManager.getRoom(m_room->getRoomData().id)->removeUser(m_user);
+	m_roomManager.setUpdated(true);
 	return { JsonResponsePacketSerialize::serializeLeaveRoomResponse(leaveRoom_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
 

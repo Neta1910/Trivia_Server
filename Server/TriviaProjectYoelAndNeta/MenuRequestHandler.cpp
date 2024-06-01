@@ -67,6 +67,7 @@ RequestResult MenuRequestHandler::logOut(RequestInfo& reqInfo)
 
 RequestResult MenuRequestHandler::getRooms(RequestInfo& reqInfo)
 {
+
 	GetRoomsResponse getRooms_res = { WORKING_STATUS, m_roomManager.getRooms() };
 	return { JsonResponsePacketSerialize::serializeGetRoomResponse(getRooms_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
