@@ -81,6 +81,12 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo& reqInfo)
 		GetRoomsResponse getRooms_res = { WORKING_STATUS, m_roomManager.getRooms() };
 		return { JsonResponsePacketSerialize::serializeGetRoomResponse(getRooms_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 	}
+	else
+	{
+		GetRoomsResponse getRooms_res;
+		getRooms_res.status = NOT_SOMTHING_TO_UPDATE;
+		return { JsonResponsePacketSerialize::serializeGetRoomResponse(getRooms_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
+	}
 }
 
 RequestResult MenuRequestHandler::getPersonalStats(RequestInfo& reqInfo)

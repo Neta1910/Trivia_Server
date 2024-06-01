@@ -61,8 +61,17 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo& reqInfo)
 }
 RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo& reqInfo)
 {
-	GetRoomStateResponse getRoomState_res{ WORKING_STATUS, m_room->getRoomData().isActive, m_room->getAllUsers(), m_room->getRoomData().numOfQuestionsInGame, m_room->getRoomData().timePerQuestion };
-	return { JsonResponsePacketSerialize::serializeGetRoomStateResponse(getRoomState_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
+	if (this->m_user->getUpdateInOwnRoom())
+	{
+		GetRoomStateResponse getRoomState_res{ WORKING_STATUS, m_room->getRoomData().isActive, m_room->getAllUsers(), m_room->getRoomData().numOfQuestionsInGame, m_room->getRoomData().timePerQuestion };
+		return { JsonResponsePacketSerialize::serializeGetRoomStateResponse(getRoomState_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
+	}
+	else
+	{
+		GetRoomStateResponse getRoomState_res;
+		getRoomState_res.status = NOT_SOMTHING_TO_UPDATE;
+		return { JsonResponsePacketSerialize::serializeGetRoomStateResponse(getRoomState_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
+	}
 }
 
 RequestResult RoomAdminRequestHandler::amIAdmin(RequestInfo& requInfo)
