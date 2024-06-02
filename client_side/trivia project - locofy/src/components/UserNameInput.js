@@ -37,6 +37,7 @@ const TextInput = ({
             title={title}
             value={value}
             required
+            autoComplete="on"
           />
         ) : (
           <SliderInput setter={setter} min={min} max={max} title={placeHolder} />

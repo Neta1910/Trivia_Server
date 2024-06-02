@@ -12,6 +12,9 @@
   display: inline-block;
   flex-shrink: 0;
   max-width: calc(100% - 72px);
+  word-wrap: break-word;
+  overflow-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */
+
 }
 .answer1 {
   align-self: stretch;
@@ -35,6 +38,9 @@
   font-size: var(--font-size-13xl);
   color: var(--color-black);
   font-family: var(--font-kavoon);
+  word-wrap: break-word;
+  overflow-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */
+
 }
 
 .answer1Wrapper {
@@ -50,6 +56,9 @@
   overflow-x: hidden;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
+  word-wrap: break-word;
+  overflow-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */
+
 }
 
 .answer1Wrapper :hover {

@@ -30,7 +30,8 @@ const Constants = {
       ANSWERS: "answers",
       CORRECT_ANS_ID: "correctAnswerId",
       ANSWER_ID: "answerId",
-      RESULTS: "results"
+      RESULTS: "results",
+      avg_time: "avg_time"
     },
   };
   

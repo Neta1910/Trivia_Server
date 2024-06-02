@@ -21,8 +21,8 @@ Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser*>
 
     for (auto logged_user : players)
     {
-        GameData new_gameData{ m_questions[0], 0,0,0 };
-        std::pair<LoggedUser*, GameData> new_pair(logged_user, new_gameData);
+        GameData* new_gameData = new GameData{ m_questions[0], 0,0,0 };
+        std::pair<LoggedUser*, GameData*> new_pair(logged_user, new_gameData);
         this->m_players.insert(new_pair);
         this->m_question_of_user.insert({ logged_user, 0 });
     }
@@ -42,7 +42,7 @@ int Game::submitAnswer(LoggedUser* user, unsigned int answer)
     {
         if (it.first->getId() == user->getId())
         {
-            game_data = &it.second;
+            game_data = it.second;
         }
     }
 
@@ -95,7 +95,7 @@ bool Game::areAllPlayersDonePlaying()
     return true;
 }
 
-std::map<LoggedUser*, GameData> Game::getAllPlayers()
+std::map<LoggedUser*, GameData*> Game::getAllPlayers()
 {
     return m_players;
 }
@@ -121,7 +121,7 @@ bool Game::isCurrQuestionLast(LoggedUser user)
     // Find current question for user
     for (auto it : m_players)
     {
-        if (it.second.currentQuestion == m_questions[m_questions.max_size()])
+        if (it.second->currentQuestion == m_questions[m_questions.max_size()])
         {
             return true;
         }

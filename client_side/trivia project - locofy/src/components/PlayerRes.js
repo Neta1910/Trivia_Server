@@ -29,7 +29,7 @@ const PlayerRes = ({ Playername, correctAns, avgTime, place }) => {
         className={styles.iconParkSolidoneKey}
         loading="lazy"
         alt=""
-        src={icons[2]}
+        src={icons[place]}
       />
         : null }
     </div>

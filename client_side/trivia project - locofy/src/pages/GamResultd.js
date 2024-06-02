@@ -10,6 +10,7 @@ const GamResultd = () => {
 
   useEffect(() => {
     socket.on("getRoomResResponse", (response) => {
+      console.log('response:', response)
       if (response.status === Constants.WORK_STATUS) {
         setGameResults(response[Constants.FIELDS.RESULTS])
         setLoading(false);
@@ -46,6 +47,7 @@ const GamResultd = () => {
           correctAns={element[Constants.FIELDS.CORRECT_ANSWER_COUNT]}
           avgTime={element[Constants.FIELDS.AVERAGE_ANSWER_TIME]}
           place={index}
+          key={index}
         /> )}
       </section>
     </div>

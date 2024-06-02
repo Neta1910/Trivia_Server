@@ -171,14 +171,14 @@ def handle_start_game():
         user_sockets[get_user_id()].sendall(Requests.GetRoomStateRequest().getMessage())
 
         serverMessege = Responses.GetRoomStaeResponse(get_server_message(user_sockets[get_user_id()]))
-        
-        emit('getRoomStateResponse',
-                 {'status': WORK_STATUS, "hasGameBegun": serverMessege.hasGameBegun, "players": serverMessege.players,
-                  "questionCount": serverMessege.questionCount, "answerTimeout": serverMessege.answerTimeout})
-    except Exception as e:
-        print(e)
-        emit('getRoomStateResponse', {'status': FAILED_STATUS})
-
+        if serverMessege.status == WORK_STATUS:
+            emit('getRoomStateResponse',
+                     {'status': serverMessege.status, "hasGameBegun": serverMessege.hasGameBegun, "players": serverMessege.players,
+                      "questionCount": serverMessege.questionCount, "answerTimeout": serverMessege.answerTimeout})
+        else:
+            emit('getRoomStateResponse', {'status': serverMessege.status})
+    except ErrorException as e:
+        emit("error", {'message': e.message})
 
 @socketio.on('AmIAdmin')
 def handle_start_game():
@@ -202,19 +202,19 @@ def handle_start_game():
 
 @socketio.on('submitAnswer')
 def handle_start_game(data):
-    print(data)
     user_sockets[get_user_id()].sendall(Requests.SubmitAnswerRequest().getMessage(data[ANSWER_ID]))
-
     server_message = Responses.SubmitAnsResp(get_server_message(user_sockets[get_user_id()]))
     emit('submitAnswerResponse', server_message.to_dict())
 
 
 @socketio.on('getRoomRes')
 def handle_start_game():
-    user_sockets[get_user_id()].sendall(Requests.GetGameResRequest().getMessage())
-    server_message = parseRequestToMessage(get_server_message(user_sockets[get_user_id()]), GET_ROOM_REQ)
-    emit('getRoomResResponse', server_message)
-
+    try:
+        user_sockets[get_user_id()].sendall(Requests.GetGameResRequest().getMessage())
+        server_message = Responses.GetGameResResp(get_server_message(user_sockets[get_user_id()]))
+        emit('getRoomResResponse', server_message.to_dict())
+    except ErrorException as e:
+        emit("error", {'message': e.message})
 
 def main():
     socketio.run(app, debug=True, port=5000, allow_unsafe_werkzeug=True)

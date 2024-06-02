@@ -1,7 +1,8 @@
 import styles from "./FrameComponent1.module.css";
 import InformationCard from "./InformationCardInWait";
 
-const TopPart = ({amountOfQuestions, timout}) => {
+const TopPart = ({amountOfQuestions, timeout}) => {
+  console.log('ac', amountOfQuestions)
   return (
     <section className={styles.informationParent}>
       <InformationCard 
@@ -17,7 +18,7 @@ const TopPart = ({amountOfQuestions, timout}) => {
       />
       
       <InformationCard 
-        text={`You have ${timout} seconds to answer each question`}
+        text={`You have ${timeout} seconds to answer each question`}
         Icon={"/mingcutetimefill.svg"}
       />
     </section>

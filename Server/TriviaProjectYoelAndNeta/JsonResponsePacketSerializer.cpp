@@ -161,7 +161,7 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetQuestionResp
 
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeSubmitAnswerResponseResponse(const SubmitAnswerResponse& response)
 {
-    json j = json{ {"status", response.status} , {"correctAnswerId", response.correctAnswerId} };
+    json j = json{ {"status", response.status} , {"correctAnswerId", response.correctAnswerId}, {"avg_time", response.avg_time } };
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, SUBMIT_ANSWER_RESP);
 }
 

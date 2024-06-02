@@ -1,7 +1,7 @@
 import TopPartGameBoard from "../components/FrameComponent";
 import Answer from "../components/Answer";
 import styles from "./GameBoard.module.css";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { socket } from "../socket";
 import Constents from "../Constants";
 import he from 'he';
@@ -23,25 +23,15 @@ const GameBoard = () => {
   const [question, setQestion] = useState("");
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [answerTimes, setAnswerTime] = useState([]);
 
-  const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
+  const [avgTime, setAvgTime] = useState(0);
 
-  const [correctAns, setCorrectAns] = useState(0);
   const [myAns, setMyAns] = useState(0);
 
   const [correctAnsCount, setcorrectAnsCount] = useState(0);
   const [wrongAnsCount, setWrongAnsCount] = useState(0);
 
   const navigate = useNavigate();
-
-  const avgTime = useMemo(() => {
-    const sum = answerTimes.reduce((accumulator, currentValue) => {
-      return accumulator + currentValue;
-    }, 0);
-    return sum / answerTimes.length;
-  }, [answerTimes]);
 
   function getQuestions() {
     setLoading(true);
@@ -53,17 +43,23 @@ const GameBoard = () => {
       console.log(response);
       if (response.status === Constents.WORK_STATUS) {
         setQestion(response[Constents.FIELDS.QUESTION]);
-        setAnswers(response[Constents.FIELDS.ANSWERS]);
+        setAnswers(shuffleArray(response[Constents.FIELDS.ANSWERS]));
         setLoading(false);
-        startTimeFunc();
       }
     });
 
     socket.on("submitAnswerResponse", (response) => {
       if (response.status === Constents.WORK_STATUS) {
-        response[Constents.FIELDS.ANSWER_ID] === myAns
-          ? setcorrectAnsCount(correctAnsCount + 1)
-          : setWrongAnsCount(wrongAnsCount + 1);
+        console.log(response)
+        if (response["correctAnswerId"] === myAns)
+          {
+            setcorrectAnsCount(prevCount => prevCount + 1);
+          }
+          else
+          {
+            setWrongAnsCount(prevCount => prevCount + 1);
+          }
+        setAvgTime(response["avg_time"])
         getQuestions();
       }
       else if (response.status === Constents.GAME_ENDED_FOR_USER)
@@ -79,25 +75,12 @@ const GameBoard = () => {
       socket.off("getQuestionResponse");
       socket.off("submitAnswerResponse");
     };
-  }, []);
-
-  const startTimeFunc = () => {
-    const now = new Date().getTime();
-    setStartTime(now);
-    setEndTime(null); // Reset end time if the action is restarted
-  };
-
-  const endTimeFunc = () => {
-    const now = new Date().getTime();
-    setEndTime(now);
-  };
+  }, [myAns]);
 
   const submitAnswer = (id) => {
     setMyAns(id);
-    endTimeFunc();
-    const duration = (endTime - startTime) / 1000; // Convert milliseconds to seconds
-    answerTimes.push(duration);
-    socket.emit("submitAnswer", { [Constents.FIELDS.ANSWER_ID]: id });
+    console.log("my ans: ", id)
+    socket.emit("submitAnswer", { [Constents.FIELDS.ANSWER_ID]: id});
     getQuestions();
   };
 
@@ -108,7 +91,7 @@ const GameBoard = () => {
       <TopPartGameBoard
         correctAns={correctAnsCount}
         allQuestions={wrongAnsCount}
-        avgTime={avgTime}
+        avgTime={avgTime.toFixed(1)}
       />
 
       <main className={styles.actuoelGame}>
@@ -134,7 +117,7 @@ const GameBoard = () => {
                     answerText={answers[index][0]}
                     icon={icons[index]}
                     backgroundColor={shuffledArray[index]}
-                    onClickFunc={() => submitAnswer(index)}
+                    onClickFunc={() => submitAnswer(answers[index][0][0])}
                     id={index}
                   />
                 ))}

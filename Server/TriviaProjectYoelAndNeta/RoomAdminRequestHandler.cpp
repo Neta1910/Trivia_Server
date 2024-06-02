@@ -63,7 +63,8 @@ RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo& reqInfo)
 {
 	if (this->m_user->getUpdateInOwnRoom())
 	{
-		GetRoomStateResponse getRoomState_res{ WORKING_STATUS, m_room->getRoomData().isActive, m_room->getAllUsers(), m_room->getRoomData().numOfQuestionsInGame, m_room->getRoomData().timePerQuestion };
+		GetRoomStateResponse getRoomState_res{ WORKING_STATUS, m_room->getRoomData().isGameBegun, m_room->getAllUsers(), m_room->getRoomData().numOfQuestionsInGame, m_room->getRoomData().timePerQuestion };
+		this->m_user->setUpdateInOwnRoom(false);
 		return { JsonResponsePacketSerialize::serializeGetRoomStateResponse(getRoomState_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
 	}
 	else

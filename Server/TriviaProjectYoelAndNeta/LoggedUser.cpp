@@ -4,8 +4,8 @@ LoggedUser::LoggedUser(std::string username, const int& id)
 {
 	this->m_username = username;
 	this->user_id = id;
-	this->_isUpdatedInHisOwnRoom = false;
-	this->_isUpdatedInRooms = false;
+	this->_isUpdatedInHisOwnRoom = true;
+	this->_isUpdatedInRooms = true;
 }
 
 

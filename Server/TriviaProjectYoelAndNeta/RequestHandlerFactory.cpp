@@ -50,6 +50,11 @@ GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser* 
     return new GameRequestHandler(*this, m_gameManager, logged_user, game);
 }
 
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(GameRequestHandler& copy)
+{
+    return new GameRequestHandler(copy);
+}
+
 StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 {
     return m_statisticsManager;

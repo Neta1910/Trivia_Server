@@ -131,9 +131,24 @@ class SubmitAnsResp:
         json_data = parseResponse(resp)
         self.status = json_data["status"]
         self.correctAnswerId = json_data["correctAnswerId"]
+        self.currTime = json_data["avg_time"]
 
     def to_dict(self):
         return {
             "status": self.status,
-            "correctAnswerId": self.correctAnswerId
+            "correctAnswerId": self.correctAnswerId,
+            "avg_time": self.currTime
+        }
+
+
+class GetGameResResp:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.results = json_data["results"]
+
+    def to_dict(self):
+        return {
+            "status": self.status,
+            "results": self.results
         }

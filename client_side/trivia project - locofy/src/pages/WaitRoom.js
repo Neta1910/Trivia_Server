@@ -31,6 +31,8 @@ const WaitRoom = () => {
 
     const handleGetRoomStateResponse = (response) => {
       if (response.status === Constants.WORK_STATUS) {
+        alert('got resp')
+        console.log(response)
         setTimeOut(response.answerTimeout);
         setQuestions(response.questionCount);
         setPlayers(response.players);
@@ -93,7 +95,7 @@ const WaitRoom = () => {
       clearInterval(intervalGame)
     };
   }, [socket, navigate, isAdmin, isGameActive]);
-
+  console.log('timeout', timeOut)
   if (error) return <p>There is an error</p>;
 
   return (

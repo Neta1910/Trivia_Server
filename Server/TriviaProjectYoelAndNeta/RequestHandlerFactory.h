@@ -42,6 +42,7 @@ public:
 	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser* logged_user, Room* room);
 	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser* logged_user, Room* room);
 	GameRequestHandler* createGameRequestHandler(LoggedUser* logged_user, Game& game);
+	GameRequestHandler* createGameRequestHandler(GameRequestHandler& other);
 
 	StatisticsManager& getStatisticsManager();
 	GameManager& getGameManager();

@@ -107,6 +107,7 @@ typedef struct SubmitAnswerResponse
 {
 	unsigned int status;
 	unsigned int correctAnswerId;
+	float avg_time;
 };
 
 typedef struct PlayerResults

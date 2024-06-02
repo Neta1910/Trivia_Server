@@ -47,17 +47,17 @@ LoggedUser* LoginManager::login(std::string username, std::string password)
 
 bool LoginManager::logout(std::string username)
 {
-	int counter = 0;
 	for (auto it = m_loggedUsers.begin(); it != m_loggedUsers.end(); ++it)
 	{
 		if ((*it)->getUsername() == username)
 		{
-			m_loggedUsers.erase(it);
-			delete* it;
+			LoggedUser* temp = (*it);
+			it = m_loggedUsers.erase(it);
+			delete temp;
+			return true;
 		}
-		counter++;
 	}
-	return true;
+	return false;
 }
 
 std::vector<LoggedUser*> LoginManager::getUsers() const
