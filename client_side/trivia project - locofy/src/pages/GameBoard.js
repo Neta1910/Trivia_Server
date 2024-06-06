@@ -79,7 +79,6 @@ const GameBoard = () => {
 
   const submitAnswer = (id) => {
     setMyAns(id);
-    console.log("my ans: ", id)
     socket.emit("submitAnswer", { [Constents.FIELDS.ANSWER_ID]: id});
     getQuestions();
   };
