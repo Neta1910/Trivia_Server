@@ -5,7 +5,8 @@
 class Question
 {
 public:
-	Question(const std::string& question, const std::vector<std::string>& possibeleAnsowers, const std::string& correctAnsower);
+	// Note: need to add initilazation of 'm_id' 
+	Question(const std::string& question, const std::vector<std::string>& possibeleAnsowers, const std::string& correctAnsower); 
 	Question();
 	std::string getQuestion() const;
 	std::vector <std::string> getPossibleAnswers() const;
@@ -17,7 +18,8 @@ public:
 	void setCorrectAnswer(const std::string& val);
 	void setId(const int& val);
 	void insertOptional(const std::string& val);
-
+	//bool operator!=(const Question& question);
+	bool operator==(const Question& question);
 private:
 	std::string m_question;
 	std::vector<std::string> m_possibleAnswers;

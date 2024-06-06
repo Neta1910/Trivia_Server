@@ -18,6 +18,7 @@ struct userStats
 class StatisticsManager
 {
 public:
+	StatisticsManager(IDatabase* db);
 	std::vector<HighestScore> getHighScore();
 	userStats getUserStatistics(int user_id);
 private:

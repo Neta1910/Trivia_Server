@@ -1,11 +1,13 @@
 import json
+
 import constents
-from RoomData import RoomData
-
-
+from getMesseges import get_code
+from ErrorException import ErrorException
 def parseResponse(resp):
     length = int.from_bytes(resp[1:4], byteorder='little')
     json_data = json.loads(resp[5:5 + length].decode())
+    if resp[0] == constents.CODE_ERROR_RESPONSE:
+        raise ErrorException(json_data["message"])
     return json_data
 
 
@@ -73,15 +75,18 @@ class CreateRoomResponse:
         self.status = json_data["status"]
         self.roomId = json_data["roomId"]
 
+
 class CloseRoomResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
 
+
 class StartGameResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
+
 
 class GetRoomStaeResponse:
     def __init__(self, resp):
@@ -92,13 +97,58 @@ class GetRoomStaeResponse:
         self.questionCount = json_data[constents.QUESTION_COUNT]
         self.answerTimeout = json_data[constents.ANSOWER_TIMEOUT]
 
+
 class LeaveRoomResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
+
 
 class AmIAdminResponse:
     def __init__(self, resp):
         json_data = parseResponse(resp)
         self.status = json_data["status"]
         self.state = json_data["state"]
+
+
+class GetQuestionResponse:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.question = json_data["question"]
+        self.answers = json_data["answers"]
+
+    def to_dict(self):
+        return {
+            "status": self.status,
+            "question": self.question,
+            "answers": self.answers
+        }
+
+
+class SubmitAnsResp:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.correctAnswerId = json_data["correctAnswerId"]
+        self.currTime = json_data["avg_time"]
+
+    def to_dict(self):
+        return {
+            "status": self.status,
+            "correctAnswerId": self.correctAnswerId,
+            "avg_time": self.currTime
+        }
+
+
+class GetGameResResp:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+        self.results = json_data["results"]
+
+    def to_dict(self):
+        return {
+            "status": self.status,
+            "results": self.results
+        }

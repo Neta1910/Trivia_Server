@@ -9,7 +9,7 @@ class LoginRequest:
 
     def getMessage(self):
         data = {"username": self.user_name, "password": self.password}
-        return parseRequestToMessage(data, LOGIN)
+        return parseRequestToMessage(data, CODE_LOGIN_REQ)
 
 
 class SignUpRequest:
@@ -30,7 +30,7 @@ class SignUpRequest:
             "phone_number": self.phone_number,
             "birth_date": self.birth_date
         }
-        return parseRequestToMessage(data, SIGN_UP)
+        return parseRequestToMessage(data, CODE_SIGN_UP_REQ)
 
 
 # Similar implementation for the other classes
@@ -64,7 +64,7 @@ class CreateRoomRequest:
             constents.ROOM_NAME: self.room_name,
             constents.MAX_USERS: self.max_users,
             constents.QUESTION_COUNT: self.question_count,
-            constents.ANSOWER_TIMEOUT : self.answer_timeout
+            constents.ANSOWER_TIMEOUT: self.answer_timeout
         }
         return parseRequestToMessage(data, CREATE_ROOM_REQ)
 
@@ -98,17 +98,40 @@ class StartRoomRequest:
         data = {}
         return parseRequestToMessage(data, START_GAME_REQ)
 
+
 class GetRoomStateRequest:
     def getMessage(self):
         data = {}
         return parseRequestToMessage(data, GET_ROOM_STATE_REQ)
+
 
 class LeaveRoomRequest:
     def getMessage(self):
         data = {}
         return parseRequestToMessage(data, LEAVE_ROOM_REQ)
 
+
 class AmIAdminRequest:
     def getMessage(self):
         data = {}
         return parseRequestToMessage(data, AM_I_ADMIN_REQ)
+
+
+class GetQuestionRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, GET_QUESTION_REQ)
+
+
+class SubmitAnswerRequest:
+    def getMessage(self, submitedAnswerId):
+        data = {ANSWER_ID: submitedAnswerId}
+        return parseRequestToMessage(data, SUBMIT_ANSWER_REQ)
+
+
+class GetGameResRequest:
+    def getMessage(self):
+        data = {}
+        return parseRequestToMessage(data, GET_GAME_RESULT_REQ)
+
+

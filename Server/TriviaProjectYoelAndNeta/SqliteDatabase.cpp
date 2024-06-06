@@ -24,7 +24,7 @@ bool SQLiteDatabase::open()
 	this->_db = db;
 	// Create Tables
 	this->runCommand(CREATE_USERS_TABLE);
-	this->runCommand(CREATE_QUISTIONS_TABLE);
+	this->runCommand(CREATE_QUESTIONS_TABLE);
 	this->runCommand(CREATE_STATISTICS_TABLE);
 	this->runCommand(CREATE_HIGHEST_SCORES_TABLE);
 	return true;
@@ -58,22 +58,37 @@ bool SQLiteDatabase::addNewUser(const std::string& name, const std::string& pass
 	return true;
 }
 
+int SQLiteDatabase::getUserId(const std::string& name, const std::string& password)
+{
+	std::string query = "SELECT ID FROM Users WHERE name == \"" + name + "\" and PASSWORD == \"" + password + "\"";
+	int id = 0;
+	this->runCommand(query, integerCallBack, &id);
+	return id;
+}
+
 std::list<Question> SQLiteDatabase::getQuestions(const int& amount)
 {
+	// getting count of questions, and if its too low - updating questions
+	int amountOfQuestions = 0;
+	this->runCommand("SELECT COUNT(*) FROM t_questions", countCallback, &amountOfQuestions);
+	if (amountOfQuestions < amount)
+	{
+		this->loadQuestionsIntoDB(amount - amountOfQuestions + 1);
+	}
 	std::string query = "SELECT * FROM t_questions LIMIT " + std::to_string(amount) + " ;";
 	this->runCommand(query, loadIntoQuestions);
 	return SQLiteDatabase::questions;
 }
 
-void SQLiteDatabase::loadQuestionsIntoDB()
+void SQLiteDatabase::loadQuestionsIntoDB(int amount)
 {
 	HINTERNET hInternet = InternetOpenA("HTTPGET", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
 	if (!hInternet) {
 		std::cerr << "Failed to open internet handle" << std::endl;
 		return;
 	}
-
-	HINTERNET hConnect = InternetOpenUrlA(hInternet, "https://opentdb.com/api.php?amount=10&difficulty=medium&type=multiple", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+	std::string url = "https://opentdb.com/api.php?amount=" + std::to_string(amount) + "& category = 9 & difficulty = hard & type = multiple";
+	HINTERNET hConnect = InternetOpenUrlA(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
 	if (!hConnect) {
 		std::cerr << "Failed to open URL" << std::endl;
 		InternetCloseHandle(hInternet);
@@ -108,16 +123,42 @@ void SQLiteDatabase::loadQuestionsIntoDB()
 
 void SQLiteDatabase::insertQuestionIntoDB(Question question)
 {
-	std::string sql = "INSERT INTO t_questions (question, correct_ans, ans2, ans3, ans4) VALUES (\"";
+	int i = 0;
+	std::string sql;
+	switch (question.getPossibleAnswers().size())
+	{
+	case 1:
+		sql = "INSERT INTO t_questions (question, correct_ans, ans2) VALUES (\"";
+		break;
+	case 2:
+		sql = "INSERT INTO t_questions (question, correct_ans, ans2, ans3) VALUES (\"";
+		break;
+	case 3:
+		sql = "INSERT INTO t_questions (question, correct_ans, ans2, ans3, ans4) VALUES (\"";
+		break;
+	default:
+		break;
+	}
+
 	sql += question.getQuestion();
 	sql += "\", \"";
 	sql += question.getCorrectAnswer();
 	sql += "\", \"";
-	sql += question.getPossibleAnswers()[0];
-	sql += "\", \"";
-	sql += question.getPossibleAnswers()[1];
-	sql += "\", \"";
-	sql += question.getPossibleAnswers()[2];
+	if (question.getPossibleAnswers().size() == 1)
+	{
+		sql += question.getPossibleAnswers()[0];
+	}
+	else
+	{
+		for (i = 0; i < question.getPossibleAnswers().size() - 1; i++)
+		{
+			sql += question.getPossibleAnswers()[i];
+			sql += "\", \"";
+		}
+		if (question.getPossibleAnswers().size() > i)
+			sql += question.getPossibleAnswers()[i];
+	}
+
 	sql += "\");";
 
 	this->runCommand(sql);
@@ -135,9 +176,9 @@ int SQLiteDatabase::getTotalAmountOfQuestions()
 
 float SQLiteDatabase::getPlayersAverageAnswerTime(int user_id)
 {
-	float averageAnsTime;
+	float averageAnsTime = 0;
 	std::string query = "SELECT AVERAGE_ANS_TIME FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
-	this->runCommand(query, floatCallBack,&averageAnsTime);
+	this->runCommand(query, floatCallBack, &averageAnsTime);
 	return averageAnsTime;
 }
 
@@ -181,6 +222,18 @@ std::vector<HighestScore> SQLiteDatabase::getHighScores(int num_of_highScores)
 	return SQLiteDatabase::highestScores;
 }
 
+int SQLiteDatabase::submitGameStatistics(GameData game_data, unsigned int user_id)
+{
+	// Update statistics table   
+	std::string correctAnsCount_query = "UPDATE Statistics SET CORRECT_ANS = " + std::to_string(game_data.correctAnswerCount + getNumOfCorrectAnswers(user_id)) + " WHERE ID = " + std::to_string(user_id) + ";";
+	runCommand(correctAnsCount_query);
+	std::string wrongAnsCount_query = "UPDATE Statistics SET WRONG_ANS = " + std::to_string(getNumOfTotalAnswers(user_id) - getNumOfCorrectAnswers(user_id) ) + " WHERE ID = " + std::to_string(user_id) + ";";
+	runCommand(wrongAnsCount_query);
+	std::string avgAnsTime_query = "UPDATE Statistics SET AVERAGE_ANS_TIME = " + std::to_string(calcNewAverageAnsTime(user_id, game_data.averageAnswerTime)) + " WHERE ID = " + std::to_string(user_id) + ";";
+	runCommand(avgAnsTime_query);
+	return 0;
+}
+
 
 
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
@@ -211,6 +264,19 @@ bool SQLiteDatabase::comparePasswords(const std::string& onePassword, const std:
 		}
 	}
 	return true;
+}
+
+float SQLiteDatabase::getAverageAnsTime(unsigned int user_id)
+{
+	float averageAnsTime;
+	std::string query = "SELECT AVERAGE_ANS_TIME FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
+	this->runCommand(query, floatCallBack, &averageAnsTime);
+	return averageAnsTime;
+}
+
+float SQLiteDatabase::calcNewAverageAnsTime(unsigned int user_id, float new_average_time)
+{
+	return (getAverageAnsTime(user_id) + new_average_time) / getNumOfPlayerGames(user_id);
 }
 
 int loadIntoUsers(void* data, int argc, char** argv, char** azColName)
@@ -274,7 +340,9 @@ int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName)
 			question.setCorrectAnswer(argv[i]);
 		}
 		else if (std::string(azColName[i]) == ANS_2 || std::string(azColName[i]) == ANS_3 || std::string(azColName[i]) == ANS_4) {
-			question.insertOptional(argv[i]);
+			if (argv[i] != NULL) {
+				question.insertOptional(argv[i]);
+			}
 		}
 	}
 	SQLiteDatabase::questions.push_back(question);
@@ -286,8 +354,12 @@ int floatCallBack(void* _data, int argc, char** argv, char** azColName)
 	auto& averageAnsTime = *static_cast<float*>(_data);
 	if (argc == 1 && argv[0] != nullptr)
 	{
-		averageAnsTime == std::atoi(argv[0]);
+		averageAnsTime == std::stoi(argv[0]);
 		return 0;
+	}
+	else
+	{
+		throw std::invalid_argument("The user dosent have stats");
 	}
 	return 1;
 }
@@ -297,7 +369,7 @@ int integerCallBack(void* _data, int argc, char** argv, char** azColName)
 	auto& averageAnsTime = *static_cast<int*>(_data);
 	if (argc == 1 && argv[0] != nullptr)
 	{
-		averageAnsTime == std::atof(argv[0]);
+		averageAnsTime = std::atoi(argv[0]);
 		return 0;
 	}
 	return 1;

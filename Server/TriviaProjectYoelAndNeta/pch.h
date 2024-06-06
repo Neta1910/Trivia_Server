@@ -17,6 +17,7 @@ enum ResponseCodes
 	START_GAME_RESP,
 	GET_ROOM_STATE_RESP,
 	LEAVE_ROOM_RESP,
+	AM_I_ADMIN_RESP,
 	LEAVE_GAME_RESP,
 	GET_QUESTION_RESP, 
 	SUBMIT_ANSWER_RESP,
@@ -39,6 +40,7 @@ enum RequestCodes
 	START_GAME_REQ,
 	GET_ROOM_STATE_REQ,
 	LEAVE_ROOM_REQ,
+	AM_I_ADMIN_REQ,
 	LEAVE_GAME_REQ,
 	GET_QUESTION_REQ,
 	SUBMIT_ANSWER_REQ,
@@ -52,21 +54,27 @@ enum RequestCodes
 #define ADDRESS "address"
 #define PHONE_NUMBER "phone_number"
 #define BIRTH_DATE "birth_date"
+
 #define CORRECT_ANSWER_COUNT "correct_answer_count"
 #define WRONG_ANSWER_COUNT "wrong_answer_count"
 #define AVERAGE_ANSWER_TIME "average_answer_time"
+#define GAMES_PLAYED "games_played"
+#define TOTAL_ANS "total_ans"
 
 
 // ---- Error Messages ----
 #define INVALID_REQUEST "Invalid Request"
 
 #define ROOM_ID "roomId"
+#define NUM_OF_QUESTIONS 4
+#define CORRECT_ANS_INDEX 1
 
 #define ROOM_NAME "roomName"
 #define MAX_USERS "maxUsers"
 #define QUESTION_COUNT "questionCount"
 #define ANSOWER_TIMEOUT "answerTimeout"
 #define ANSWER_ID "answerId"
+#define IS_ACTIVE "is_active"
 
 // ---- Room Settings ----
 #define MIN_ANS_TIME 1
@@ -83,5 +91,15 @@ enum RequestCodes
 #define HAS_GAME_BEGUN "hasGameBegun"
 #define PLAYERS "players"
 
+
+// ---- GameManager Setttings ----
+#define QUESTION "question"
+#define ANSWERS "answers"
+
+#define CORRECT_ANS 0
 #define	WORKING_STATUS 1
 #define FAILED_STATUS 0
+#define USER_ENDED_GAME 100
+#define NOT_SOMTHING_TO_UPDATE 219
+
+#define CONVORT_MILI_TO_SECONDS 10000
