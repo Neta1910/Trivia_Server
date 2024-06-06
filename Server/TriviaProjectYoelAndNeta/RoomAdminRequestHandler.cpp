@@ -1,11 +1,11 @@
 #include "RoomAdminRequestHandler.h"
 
-RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser* roomAdmin, RoomManager& roomManager, RoomData room_data, std::vector<LoggedUser*> users) :
+RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser* roomAdmin, RoomManager& roomManager, Room* room) :
 	m_handlerFactory(handleFactory),
 	m_user(roomAdmin),
-	m_roomManager(roomManager)
+	m_roomManager(roomManager),
+	m_room(room)
 {
-	m_room = new Room(room_data, users);
 }
 
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo& reqInfo)
@@ -54,11 +54,13 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo& reqInfo)
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo& reqInfo)
 {
 	StartGameResponse startGame_res = { WORKING_STATUS };
-	Game& currGame = m_handlerFactory.getGameManager().createGame(m_room);
+	Game* currGame = m_handlerFactory.getGameManager().createGame(m_room);
+	m_room->getRoomData().game_id = currGame->getGameId();
+	m_room->getRoomData().isGameBegun = true;
 	this->setUpdated(true);
-	m_room->getRoomData().isActive = ACTIVE_ROOM;
 	return { JsonResponsePacketSerialize::serializeStartGameResponse(startGame_res), (IRequestHandler*)m_handlerFactory.createGameRequestHandler(m_user, currGame) };
 }
+
 RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo& reqInfo)
 {
 	if (this->m_user->getUpdateInOwnRoom())
@@ -77,7 +79,7 @@ RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo& reqInfo)
 
 RequestResult RoomAdminRequestHandler::amIAdmin(RequestInfo& requInfo)
 {
-	AmIAdminResponse amIAdmin_res{ WORKING_STATUS, m_room->getRoomData().roomAdmin == m_user->getId()};
+	AmIAdminResponse amIAdmin_res{ WORKING_STATUS, true};
 	return { JsonResponsePacketSerialize::serializeAmIAdminResponse(amIAdmin_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
 }
 

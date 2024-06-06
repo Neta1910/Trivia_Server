@@ -11,7 +11,7 @@ class RequestHandlerFactory;
 class GameRequestHandler : public IRequestHandler
 {
 public:
-	GameRequestHandler(RequestHandlerFactory& handleFactory, GameManager& m_gameManager, LoggedUser* user, Game& game);
+	GameRequestHandler(RequestHandlerFactory& handleFactory, GameManager& m_gameManager, LoggedUser* user, Game* game);
 	GameRequestHandler(GameRequestHandler& other);
 	bool isRequestRelevant(RequestInfo& reqInfo) override;
 	RequestResult handleRequest(RequestInfo& reqInfo) override;
@@ -19,7 +19,7 @@ private:
 	RequestHandlerFactory& m_handlerFactory;
 	GameManager& m_gameManager; 
 	LoggedUser* m_user;
-	Game& m_game;
+	Game* m_game;
 	std::chrono::high_resolution_clock::time_point start;
 	std::vector<float> times;
 	

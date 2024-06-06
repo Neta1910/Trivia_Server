@@ -1,7 +1,7 @@
 #include "GameRequestHandler.h"
 #include <random>
 
-GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handleFactory, GameManager& m_gameManager, LoggedUser* user, Game& game) : m_handlerFactory(handleFactory), m_gameManager(m_gameManager), m_user(user), m_game(game)
+GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handleFactory, GameManager& m_gameManager, LoggedUser* user, Game* game) : m_handlerFactory(handleFactory), m_gameManager(m_gameManager), m_user(user), m_game(game)
 {
 }
 
@@ -38,7 +38,7 @@ RequestResult GameRequestHandler::handleRequest(RequestInfo& reqInfo)
 
 RequestResult GameRequestHandler::getQuestion(RequestInfo reqInfo)
 {
-    Question curr = m_game.getQuestionForUser(m_user);
+    Question curr = m_game->getQuestionForUser(m_user);
     std::map<unsigned int, std::string> possibleAns;
     possibleAns.insert({ CORRECT_ANS_INDEX, curr.getCorrectAnswer() });
     int i = 2;
@@ -70,10 +70,10 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo reqInfo)
     sum /= this->times.size();
 
     SubmitAnswerRequest submitAns_req = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(reqInfo.buffer);
-    int code = m_game.submitAnswer(m_user, submitAns_req.answerId); 
+    int code = m_game->submitAnswer(m_user, submitAns_req.answerId); 
 
     // updating user stats:
-    for (auto it : this->m_game.getAllPlayers())
+    for (auto it : this->m_game->getAllPlayers())
     {
         if (it.first == m_user)
         {
@@ -90,12 +90,12 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
 {    
     std::vector<PlayerResults> player_results;
     // If not all players are done playing, keep player in game state
-    if (!m_game.areAllPlayersDonePlaying())
+    if (!m_game->areAllPlayersDonePlaying())
     {        
         return { JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse({FAILED_STATUS, player_results}), (IRequestHandler*)m_handlerFactory.createGameRequestHandler(m_user, m_game)};
     }
     
-    for (auto it : m_game.getAllPlayers())
+    for (auto it : m_game->getAllPlayers())
     {
         player_results.push_back({ it.first->getUsername(), it.second->correctAnswerCount, it.second->wrongAnswerCount, it.second->averageAnswerTime });
     }
@@ -112,9 +112,9 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
 RequestResult GameRequestHandler::leaveGame(RequestInfo reqInfo)
 {
     LeaveGameResponse leaveGame_res = { LEAVE_GAME_RESP };
-    m_game.removePlayer(m_user);
-    m_gameManager.deleteGame(m_game.getGameId());
-    m_handlerFactory.getRoomManager().deleteRoom(m_game.getGameId());
+    m_game->removePlayer(m_user);
+    m_gameManager.deleteGame(m_game->getGameId());
+    m_handlerFactory.getRoomManager().deleteRoom(m_game->getGameId());
     return { JsonResponsePacketSerialize::serializeLeaveGameResponseResponse(leaveGame_res), (IRequestHandler*)m_handlerFactory.createMenuRequestHandler(m_user) };    
 }
 

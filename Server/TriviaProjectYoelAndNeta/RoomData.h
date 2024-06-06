@@ -11,4 +11,5 @@ struct RoomData
 	unsigned int isActive;
 	bool isGameBegun;
 	unsigned int roomAdmin;
+	unsigned int game_id;
 } typedef RoomData;

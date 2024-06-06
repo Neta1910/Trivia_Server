@@ -93,7 +93,7 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo& reqInfo)
 
 RequestResult MenuRequestHandler::getPersonalStats(RequestInfo& reqInfo)
 {
-	userStats user_stats;
+	userStats user_stats = { 0, 0, 0, 0, 0, 0 };
 	GetPersonalStatsResponse getPersonalStats_res;
 	try
 	{
@@ -128,6 +128,11 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo& reqInfo)
 		else // Join player to room if there's enough space
 		{
 			m_roomManager.getRoom(joinRoom_req.roomId)->addUser(m_user);
+			// updating the users a new user joined
+			for (auto it : m_roomManager.getRoom(joinRoom_req.roomId)->getAllLoggedUsers())
+			{
+				it->setUpdateInOwnRoom(true);
+			}
 			JoinRoomResponse joinRoom_res = { WORKING_STATUS };
 			return { JsonResponsePacketSerialize::serializeJoinRoomResponse(joinRoom_res), (IRequestHandler*)m_handleFactory.createRoomMemberRequestHandler(this->m_user, m_roomManager.getRoom(joinRoom_req.roomId)) };
 		}

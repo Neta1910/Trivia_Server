@@ -33,6 +33,7 @@ const JoinRoom = () => {
       () => {
         socket.off("getRoomsResponse");
         socket.off("roomAdded")
+        clearInterval(intervalRoons)
       }
     )
   }, []);
