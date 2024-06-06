@@ -14,7 +14,7 @@ const Statistics = () => {
   const [rightAns, setRightAns] = useState(0);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [errorInPersonal, setErrorInPersonal] = useState(false);
 
   useEffect (() => {  
     socket.on("getPersonalStats", (response) => {
@@ -27,7 +27,7 @@ const Statistics = () => {
         setIsLoading(false);
       }
       else {
-        setError(true);
+        setErrorInPersonal(true);
         setIsLoading(false);
       }
     })
@@ -43,7 +43,7 @@ const Statistics = () => {
       <section className={styles.highhScoreresParent}>
         <HighhScoreres />
          {isLoading ? <p>Loading data</p> :
-         error ? <p>There is an error </p> :
+         errorInPersonal ? <p>The user havent played any games </p> :
          <PieChart 
             correctAns={rightAns}
             sumAns={totalAns}
@@ -51,7 +51,7 @@ const Statistics = () => {
          }
       </section>
       {isLoading ? <p>Loading data</p> :
-         error ? <p>There is an error </p> :
+         errorInPersonal ? <p>The user havent played any games </p> :
          <StatProperties
             numOfGames={gamesPlayed}
             highScore={highScore}

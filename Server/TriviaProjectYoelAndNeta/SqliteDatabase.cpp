@@ -176,9 +176,9 @@ int SQLiteDatabase::getTotalAmountOfQuestions()
 
 float SQLiteDatabase::getPlayersAverageAnswerTime(int user_id)
 {
-	float averageAnsTime;
+	float averageAnsTime = 0;
 	std::string query = "SELECT AVERAGE_ANS_TIME FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
-	this->runCommand(query, floatCallBack,&averageAnsTime);
+	this->runCommand(query, floatCallBack, &averageAnsTime);
 	return averageAnsTime;
 }
 
@@ -356,6 +356,10 @@ int floatCallBack(void* _data, int argc, char** argv, char** azColName)
 	{
 		averageAnsTime == std::stoi(argv[0]);
 		return 0;
+	}
+	else
+	{
+		throw std::invalid_argument("The user dosent have stats");
 	}
 	return 1;
 }

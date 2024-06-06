@@ -14,7 +14,8 @@ bool MenuRequestHandler::isRequestRelevant(RequestInfo& reqInfo)
 		(reqInfo.RequestId == GET_PLAYERS_REQ) ||
 		(reqInfo.RequestId == JOIN_ROOM_REQ) ||
 		(reqInfo.RequestId == CREATE_ROOM_REQ) ||
-		(reqInfo.RequestId == GET_HIGH_SCORE_REQ);
+		(reqInfo.RequestId == GET_HIGH_SCORE_REQ) ||
+		(reqInfo.RequestId == GET_PERSONAL_STATS_REQ);
 }
 
 RequestResult MenuRequestHandler::handleRequest(RequestInfo& reqInfo)
@@ -92,8 +93,17 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo& reqInfo)
 
 RequestResult MenuRequestHandler::getPersonalStats(RequestInfo& reqInfo)
 {
-	userStats user_stats = m_handleFactory.getStatisticsManager().getUserStatistics(m_user->getId());
-	GetPersonalStatsResponse getPersonalStats_res = { WORKING_STATUS, user_stats};
+	userStats user_stats;
+	GetPersonalStatsResponse getPersonalStats_res;
+	try
+	{
+		user_stats = m_handleFactory.getStatisticsManager().getUserStatistics(m_user->getId());
+		getPersonalStats_res = { WORKING_STATUS, user_stats };
+	}
+	catch (const std::invalid_argument& e)
+	{
+		getPersonalStats_res = { FAILED_STATUS, user_stats };
+	}
 	return { JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(getPersonalStats_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
 
