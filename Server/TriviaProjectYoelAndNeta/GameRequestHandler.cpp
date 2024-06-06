@@ -68,12 +68,13 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
 
     for (players_it = all_players.begin(); players_it != all_players.end(); ++players_it) // Assemble vector of 'PlayerResults'
     {
+        m_handlerFactory.getDatabase()->submitGameStatistics(players_it->second, players_it->first.getId());
         (*results_it).averageAnswerTime = (*players_it).second.averageAnswerTime;
         (*results_it).wrongAnswerCount = (*players_it).second.wrongAnswerCount;
         (*results_it).correctAnswerCount = (*players_it).second.correctAnswerCount;
         (*results_it).username = (*players_it).first.getUsername();
         ++results_it;
-    }
+    }    
     // Direct player to menu (because the game ended)
     GetGameResultsResponse gameResults_res = { GET_GAME_RESULTS_RESP, player_results };
     return { JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse(gameResults_res), (IRequestHandler*)m_handlerFactory.createMenuRequestHandler(m_user) };

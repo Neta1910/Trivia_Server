@@ -2,8 +2,10 @@
 #include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
 #include "GameManager.h"
+#include "SqliteDatabase.h"
 
 class RequestHandlerFactory;
+class SqliteDatabase;
 //class GameManager;
 
 
