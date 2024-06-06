@@ -19,7 +19,7 @@ class StatisticsManager
 {
 public:
 	StatisticsManager(IDatabase* db);
-	std::vector<HighestScore> getHighScore();
+	std::vector<PlayerResults> getHighScore();
 	userStats getUserStatistics(int user_id);
 private:
 	IDatabase* m_database;

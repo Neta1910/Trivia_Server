@@ -109,7 +109,7 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo& reqInfo)
 
 RequestResult MenuRequestHandler::getHighScore(RequestInfo& reqInfo)
 {
-	std::vector<HighestScore> highScores = m_handleFactory.getStatisticsManager().getHighScore();
+	std::vector<PlayerResults> highScores = m_handleFactory.getStatisticsManager().getHighScore();
 	GetHighScoreResponse getHighScore_res = { WORKING_STATUS, highScores};
 	return { JsonResponsePacketSerialize::serializeHighScoreResponse(getHighScore_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }

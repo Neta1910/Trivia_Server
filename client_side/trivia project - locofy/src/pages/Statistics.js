@@ -35,6 +35,7 @@ const Statistics = () => {
     socket.emit("getPersonalStats");
 
     return (
+      () =>
       socket.off("getPersonalStats")
     )
   }, [])

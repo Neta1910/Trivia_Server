@@ -109,9 +109,9 @@ void Game::submitGameStatsToDB(GameData game_data)
 {
     if (areAllPlayersDonePlaying())
     {
-        for (const auto& it : m_players) 
+        for (auto& it : m_players) 
         {
-            m_database->submitGameStatistics(game_data, it.first->getId());
+            m_database->submitGameStatistics(game_data, *(it.first));
         }        
     }
 }

@@ -87,7 +87,7 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeHighScoreRespon
     {
         json innerJson = {
             {USERNAME, it.username},
-            {HIGH_SCORE, it.newHighScore}
+            {HIGH_SCORE, it.calculateRating()}
         };
         stats.push_back(innerJson);
     }

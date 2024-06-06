@@ -176,6 +176,7 @@
     <ClInclude Include="LoginRequestHandler.h" />
     <ClInclude Include="MenuRequestHandler.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PlayerResults.h" />
     <ClInclude Include="Quistion.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
     <ClInclude Include="RequestStructs.h" />

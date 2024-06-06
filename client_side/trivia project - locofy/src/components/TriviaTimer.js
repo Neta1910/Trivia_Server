@@ -1,38 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { useTimer } from 'react-timer-hook';
+import React, { useEffect, useState, useRef } from 'react';
+import { FaClock } from 'react-icons/fa';
+import styles from './TriviaTimer.module.css';
 
-function MyTimer({ expiryTimestamp }) {
-  const {
-    totalSeconds,
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    resume,
-    restart,
-  } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
+const Stopwatch = ({ initialTime, onTimeUp }) => {
+  const [time, setTime] = useState(initialTime);
+  const timerRef = useRef(null);
 
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      setTime((prevTime) => {
+        if (prevTime <= 10) {
+          clearInterval(timerRef.current);
+          onTimeUp();
+          return 0;
+        }
+        return prevTime - 10;
+      });
+    }, 10);
+
+    return () => {
+      clearInterval(timerRef.current);
+    };
+  }, [onTimeUp]);
+
+  const formatTime = (time) => {
+    const seconds = Math.floor(time / 1000);
+    const milliseconds = time % 1000;
+    return `${seconds}.${milliseconds.toString().padStart(3, '0')}`;
+  };
 
   return (
-    <div style={{textAlign: 'center'}}>
-      <h1>react-timer-hook </h1>
-      <p>Timer Demo</p>
-      <div style={{fontSize: '100px'}}>
-        <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
-      </div>
-      <p>{isRunning ? 'Running' : 'Not running'}</p>
-      <button onClick={start}>Start</button>
-      <button onClick={pause}>Pause</button>
-      <button onClick={resume}>Resume</button>
-      <button onClick={() => {
-        // Restarts to 5 minutes timer
-        const time = new Date();
-        time.setSeconds(time.getSeconds() + 300);
-        restart(time)
-      }}>Restart</button>
+    <div className={styles.stopwatch}>
+      <FaClock className={styles.clockIcon} />
+      <span className={styles.time}>{formatTime(time)}</span>
     </div>
   );
-}
+};
+
+export default Stopwatch;

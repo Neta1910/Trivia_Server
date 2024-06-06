@@ -5,9 +5,9 @@ StatisticsManager::StatisticsManager(IDatabase* db)
 	m_database = db;
 }
 
-std::vector<HighestScore> StatisticsManager::getHighScore()
+std::vector<PlayerResults> StatisticsManager::getHighScore()
 {
-	return m_database->getHighScores(NUM_OF_SCORES);
+	return m_database->getHighScores();
 }
 
 userStats StatisticsManager::getUserStatistics(int user_id)

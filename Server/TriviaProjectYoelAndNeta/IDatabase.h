@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "GameData.h"
 #include <list>
+#include "PlayerResults.h"
 
 class Game;
 
@@ -22,12 +23,13 @@ public:
 	virtual void loadQuestionsIntoDB(int amount) = 0;
 	virtual void insertQuestionIntoDB(Question question) = 0;
 	virtual int getTotalAmountOfQuestions() = 0;
+
 	// ---- Statistics related ----
 	virtual float getPlayersAverageAnswerTime(int user_id) = 0;
 	virtual int getNumOfCorrectAnswers(int user_id) = 0;
 	virtual int getNumOfTotalAnswers(int user_id) = 0;
 	virtual int getNumOfPlayerGames(int user_id) = 0; // Return the number of games a player has played
 	virtual int getPlayerScore(int user_id) = 0;
-	virtual std::vector<HighestScore> getHighScores(int num_of_highScores) = 0; // Return 5 highest scores
-	virtual int submitGameStatistics(GameData game_data, unsigned int user_id) = 0;
+	virtual std::vector<PlayerResults> getHighScores() = 0; // Return 5 highest scores
+	virtual int submitGameStatistics(GameData game_data, LoggedUser user) = 0;
 };

@@ -1,12 +1,13 @@
 #include "SqliteDatabase.h"
 #include "json.hpp"
+#include "RequestStructs.h"
 
 using json = nlohmann::json;
 
 
 std::vector<User> SQLiteDatabase::users;
 std::list<Question>  SQLiteDatabase::questions;
-std::vector<HighestScore> SQLiteDatabase::highestScores;
+std::vector<PlayerResults> SQLiteDatabase::usersStats;
 
 SQLiteDatabase::SQLiteDatabase() :
 	IDatabase()
@@ -55,8 +56,6 @@ bool SQLiteDatabase::addNewUser(const std::string& name, const std::string& pass
 {
 	std::string query = "INSERT INTO Users (NAME, PASSWORD, EMAIL, ADDRESS, PHONE_NUMBER, BIRTH_DATE) VALUES(\"" + name + "\", \"" + password + "\", \"" + email + "\", \"" + address + "\", \"" +  phoneNumber + "\", \"" + bitrthDate + "\");";
 	this->runCommand(query);
-
-	// adding a row for the 
 	return true;
 }
 
@@ -216,23 +215,38 @@ int SQLiteDatabase::getPlayerScore(int user_id)
 	return playersScore;
 }
 
-std::vector<HighestScore> SQLiteDatabase::getHighScores(int num_of_highScores)
+std::vector<PlayerResults> SQLiteDatabase::getHighScores()
 {
 	std::vector<HighestScore> highestScores;
-	std::string query = "SELECT ID, HIGHEST_SCORE FROM HIGHEST_SCORES ORDER BY HIGHEST_SCORE DESC LIMIT " + std::to_string(num_of_highScores) + " ;";
-	this->runCommand(query, loadIntoHighestScores);
-	return SQLiteDatabase::highestScores;
+	std::string query = "SELECT * FROM Statistics";
+	this->runCommand(query, loadIntoUsersStats);
+	std::sort(SQLiteDatabase::usersStats.begin(), SQLiteDatabase::usersStats.end(), [](auto& a, auto& b) {
+		return a < b;
+		});
+	return SQLiteDatabase::usersStats;
 }
 
-int SQLiteDatabase::submitGameStatistics(GameData game_data, unsigned int user_id)
+int SQLiteDatabase::submitGameStatistics(GameData game_data, LoggedUser user)
 {
-	// Update statistics table   
-	std::string correctAnsCount_query = "UPDATE Statistics SET CORRECT_ANS = " + std::to_string(game_data.correctAnswerCount + getNumOfCorrectAnswers(user_id)) + " WHERE ID = " + std::to_string(user_id) + ";";
-	runCommand(correctAnsCount_query);
-	std::string wrongAnsCount_query = "UPDATE Statistics SET WRONG_ANS = " + std::to_string(getNumOfTotalAnswers(user_id) - getNumOfCorrectAnswers(user_id) ) + " WHERE ID = " + std::to_string(user_id) + ";";
-	runCommand(wrongAnsCount_query);
-	std::string avgAnsTime_query = "UPDATE Statistics SET AVERAGE_ANS_TIME = " + std::to_string(calcNewAverageAnsTime(user_id, game_data.averageAnswerTime)) + " WHERE ID = " + std::to_string(user_id) + ";";
-	runCommand(avgAnsTime_query);
+	// Update statistics table
+	
+	// checking if user exsists
+	int occurrences = 0;
+	this->runCommand("SELECT COUNT (*) FROM Statistics WHERE ID == " + std::to_string(user.getId()), countCallback, &occurrences);
+
+	if (occurrences == 0)
+	{
+		this->runCommand("INSERT INTO Statistics (ID, AVERAGE_ANS_TIME, correct_ans, TOTAL_ANS, GAMES_PLAYED, USER_NAME) VALUES(" + std::to_string(user.getId()) + ", " + std::to_string(game_data.averageAnswerTime) + ", " + std::to_string(game_data.correctAnswerCount) + ", " + std::to_string(game_data.wrongAnswerCount + game_data.correctAnswerCount) + ", 0 , \"" + user.getUsername() + "\")");
+	}
+	else
+	{
+		std::string correctAnsCount_query = "UPDATE Statistics SET CORRECT_ANS = " + std::to_string(game_data.correctAnswerCount + getNumOfCorrectAnswers(user.getId())) + " WHERE ID = " + std::to_string(user.getId()) + ";";
+		runCommand(correctAnsCount_query);
+		std::string wrongAnsCount_query = "UPDATE Statistics SET WRONG_ANS = " + std::to_string(getNumOfTotalAnswers(user.getId()) - getNumOfCorrectAnswers(user.getId())) + " WHERE ID = " + std::to_string(user.getId()) + ";";
+		runCommand(wrongAnsCount_query);
+		std::string avgAnsTime_query = "UPDATE Statistics SET AVERAGE_ANS_TIME = " + std::to_string(calcNewAverageAnsTime(user.getId(), game_data.averageAnswerTime)) + " WHERE ID = " + std::to_string(user.getId()) + ";";
+		runCommand(avgAnsTime_query);
+	}
 	return 0;
 }
 
@@ -377,25 +391,33 @@ int integerCallBack(void* _data, int argc, char** argv, char** azColName)
 	return 1;
 }
 
-int loadIntoHighestScores(void* _data, int argc, char** argv, char** azColName)
+int loadIntoUsersStats(void* _data, int argc, char** argv, char** azColName)
 {
-	HighestScore highScore;
+	PlayerResults playerResult;
+	int total = 0;
+	int correct_sum = 0;
 	for (int i = 0; i < argc; i++)
 	{
-		if (std::string(azColName[i]) == ID)
+		if (std::string(azColName[i]) == AVG_TIME)
 		{
-			highScore.user_id = std::stoi(argv[i]);
+			playerResult.averageAnswerTime = std::stoi(argv[i]);
 		}
-		else if (std::string(azColName[i]) == NAME)
+		else if (std::string(azColName[i]) == CORRECT_ANSWER_COUNT)
 		{
-			highScore.username = argv[i];
+			correct_sum = std::stoi(argv[i]);
+			playerResult.correctAnswerCount = correct_sum;
 		}
-		else if (std::string(azColName[i]) == HIGHEST_SCORE)
+		else if (std::string(azColName[i]) == TOTAL_ANS_COUNT)
 		{
-			highScore.newHighScore = std::stof(argv[i]);
+			total = std::stoi(argv[i]);
+		}
+		else if (std::string(azColName[i]) == USER_NAME_USER_STATS)
+		{
+			playerResult.username = argv[i];
 		}
 	}
-	SQLiteDatabase::highestScores.push_back(highScore);
+	playerResult.wrongAnswerCount = total - correct_sum;
+	SQLiteDatabase::usersStats.push_back(playerResult);
 	return 0;
 }
 

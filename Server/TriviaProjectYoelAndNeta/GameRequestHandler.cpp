@@ -97,7 +97,7 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
     
     for (auto it : m_game->getAllPlayers())
     {
-        m_handlerFactory.getDatabase()->submitGameStatistics(*(it.second), m_user->getId());
+        m_handlerFactory.getDatabase()->submitGameStatistics(*(it.second), *(m_user));
         player_results.push_back({ it.first->getUsername(), it.second->correctAnswerCount, it.second->wrongAnswerCount, it.second->averageAnswerTime });
     }
 
