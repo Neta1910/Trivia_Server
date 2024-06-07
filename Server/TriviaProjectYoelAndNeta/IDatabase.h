@@ -25,11 +25,9 @@ public:
 	virtual int getTotalAmountOfQuestions() = 0;
 
 	// ---- Statistics related ----
-	virtual float getPlayersAverageAnswerTime(int user_id) = 0;
-	virtual int getNumOfCorrectAnswers(int user_id) = 0;
-	virtual int getNumOfTotalAnswers(int user_id) = 0;
-	virtual int getNumOfPlayerGames(int user_id) = 0; // Return the number of games a player has played
+	virtual PlayerResults getPlayersStat(int user_id) = 0;
 	virtual int getPlayerScore(int user_id) = 0;
 	virtual std::vector<PlayerResults> getHighScores() = 0; // Return 5 highest scores
 	virtual int submitGameStatistics(GameData game_data, LoggedUser user) = 0;
+	virtual bool doesUserHaveStats(const int& id) = 0;
 };

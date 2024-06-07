@@ -136,7 +136,6 @@
     <ClCompile Include="GameRequestHandler.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="HighestScore.cpp" />
-    <ClCompile Include="IDatabase.cpp" />
     <ClCompile Include="JsonRequestPacketDeserializer.cpp" />
     <ClCompile Include="JsonResponsePacketSerializer.cpp" />
     <ClCompile Include="LoggedUser.cpp" />

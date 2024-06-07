@@ -175,44 +175,10 @@ int SQLiteDatabase::getTotalAmountOfQuestions()
 	return 100;
 }
 
-float SQLiteDatabase::getPlayersAverageAnswerTime(int user_id)
+PlayerResults SQLiteDatabase::getPlayersStat(int user_id)
 {
-	float averageAnsTime = 0;
-	std::string query = "SELECT AVERAGE_ANS_TIME FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
-	this->runCommand(query, floatCallBack, &averageAnsTime);
-	return averageAnsTime;
-}
-
-int SQLiteDatabase::getNumOfCorrectAnswers(int user_id)
-{
-	int numOfCorrectAns;
-	std::string query = "SELECT CORRECT_ANS FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
-	this->runCommand(query, integerCallBack, &numOfCorrectAns);
-	return numOfCorrectAns;
-}
-
-int SQLiteDatabase::getNumOfTotalAnswers(int user_id)
-{
-	int numOfTotalAns;
-	std::string query = "SELECT TOTAL_ANS FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
-	this->runCommand(query, integerCallBack, &numOfTotalAns);
-	return numOfTotalAns;
-}
-
-int SQLiteDatabase::getNumOfPlayerGames(int user_id)
-{
-	int numOfGamesPlayed;
-	std::string query = "SELECT GAMES_PLAYED FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
-	this->runCommand(query, integerCallBack, &numOfGamesPlayed);
-	return numOfGamesPlayed;
-}
-
-int SQLiteDatabase::getPlayerScore(int user_id)
-{
-	int playersScore;
-	std::string query = "SELECT HIGHEST_SCORE FROM HIGHEST_SCORES WHERE ID = " + std::to_string(user_id) + " ;";
-	this->runCommand(query, integerCallBack, &playersScore);
-	return playersScore;
+	this->runCommand("SELECT * from Statistics where id = " + std::to_string(user_id), loadIntoUsersStats);
+	return SQLiteDatabase::usersStats[0];
 }
 
 std::vector<PlayerResults> SQLiteDatabase::getHighScores()
@@ -231,23 +197,29 @@ int SQLiteDatabase::submitGameStatistics(GameData game_data, LoggedUser user)
 	// Update statistics table
 	
 	// checking if user exsists
-	int occurrences = 0;
-	this->runCommand("SELECT COUNT (*) FROM Statistics WHERE ID == " + std::to_string(user.getId()), countCallback, &occurrences);
 
-	if (occurrences == 0)
+	if (!this->doesUserHaveStats(user.getId()))
 	{
 		this->runCommand("INSERT INTO Statistics (ID, AVERAGE_ANS_TIME, correct_ans, TOTAL_ANS, GAMES_PLAYED, USER_NAME) VALUES(" + std::to_string(user.getId()) + ", " + std::to_string(game_data.averageAnswerTime) + ", " + std::to_string(game_data.correctAnswerCount) + ", " + std::to_string(game_data.wrongAnswerCount + game_data.correctAnswerCount) + ", 0 , \"" + user.getUsername() + "\")");
 	}
 	else
 	{
-		std::string correctAnsCount_query = "UPDATE Statistics SET CORRECT_ANS = " + std::to_string(game_data.correctAnswerCount + getNumOfCorrectAnswers(user.getId())) + " WHERE ID = " + std::to_string(user.getId()) + ";";
+		PlayerResults currStats = this->getPlayersStat(user.getId());
+		std::string correctAnsCount_query = "UPDATE Statistics SET CORRECT_ANS = CORRECT_ANS + " + std::to_string(game_data.correctAnswerCount) + " WHERE ID = " + std::to_string(user.getId()) + ";";
 		runCommand(correctAnsCount_query);
-		std::string wrongAnsCount_query = "UPDATE Statistics SET WRONG_ANS = " + std::to_string(getNumOfTotalAnswers(user.getId()) - getNumOfCorrectAnswers(user.getId())) + " WHERE ID = " + std::to_string(user.getId()) + ";";
+		std::string wrongAnsCount_query = "UPDATE Statistics SET WRONG_ANS = WRONG_ANS + " +  std::to_string(game_data.wrongAnswerCount) + " WHERE ID = " + std::to_string(user.getId()) + ";";
 		runCommand(wrongAnsCount_query);
-		std::string avgAnsTime_query = "UPDATE Statistics SET AVERAGE_ANS_TIME = " + std::to_string(calcNewAverageAnsTime(user.getId(), game_data.averageAnswerTime)) + " WHERE ID = " + std::to_string(user.getId()) + ";";
+		std::string avgAnsTime_query = "UPDATE Statistics SET AVERAGE_ANS_TIME = " + std::to_string((currStats.averageAnswerTime + game_data.averageAnswerTime) / (currStats ) + " WHERE ID = " + std::to_string(user.getId()) + ";";
 		runCommand(avgAnsTime_query);
 	}
 	return 0;
+}
+
+bool SQLiteDatabase::doesUserHaveStats(const int& id)
+{
+	int occurrences = 0;
+	this->runCommand("SELECT COUNT (*) FROM Statistics WHERE ID == " + std::to_string(id), countCallback, &occurrences);
+	return occurrences != 0;
 }
 
 
@@ -256,6 +228,7 @@ bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(
 {
 	SQLiteDatabase::users.clear();
 	SQLiteDatabase::questions.clear();
+	SQLiteDatabase::usersStats.clear();
 	char** errMessage = nullptr;
 	int res = sqlite3_exec(this->_db, sqlStatement.c_str(), callback, secondParam, errMessage);
 	if (res != SQLITE_OK)
@@ -367,7 +340,7 @@ int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName)
 
 int floatCallBack(void* _data, int argc, char** argv, char** azColName)
 {
-	auto& averageAnsTime = *static_cast<float*>(_data);
+	auto averageAnsTime = *static_cast<float*>(_data);
 	if (argc == 1 && argv[0] != nullptr)
 	{
 		averageAnsTime == std::stoi(argv[0]);

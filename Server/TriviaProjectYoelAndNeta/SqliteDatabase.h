@@ -83,15 +83,11 @@ public:
 	virtual void insertQuestionIntoDB(Question question);
 	virtual int getTotalAmountOfQuestions() override;
 
-	virtual float getPlayersAverageAnswerTime(int user_id) override;
-	virtual int getNumOfCorrectAnswers(int user_id) override;
-	virtual int getNumOfTotalAnswers(int user_id) override;
-	virtual int getNumOfPlayerGames(int user_id) override;
-	virtual int getPlayerScore(int user_id) override;
+	virtual PlayerResults getPlayersStat(int user_id) override;
 	virtual std::vector<PlayerResults> getHighScores() override;
 
 	virtual int submitGameStatistics(GameData game_data, LoggedUser user) override;
-
+	virtual bool doesUserHaveStats(const int& id) override;
 	static std::vector<PlayerResults> usersStats;
 
 private:

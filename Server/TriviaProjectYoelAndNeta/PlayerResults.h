@@ -8,6 +8,7 @@ public:
 	unsigned int correctAnswerCount;
 	unsigned int wrongAnswerCount;
 	unsigned int averageAnswerTime;
+	unsigned int gamesPlayed;
 
 	double calculateRating() const {
 		const double W_CAC = 1.0; // Weight for Correct Answer Count

@@ -13,6 +13,7 @@ const HighhScoreres = () => {
 
   useEffect(() => {
     socket.on("getHighScoreResponse", (response) => {
+      console.log('high resp: ', response)
       if (response.status === Constents.WORK_STATUS) {
           setHighScores(response.statistics);
           setIsLoading(false);
@@ -22,6 +23,13 @@ const HighhScoreres = () => {
         setIsLoading(false);
       }
     })
+    socket.emit('getHighScore')
+
+    return(
+      ()=>{
+        socket.off("getHighScoreResponse")
+      }
+    )
   })
 
   return (

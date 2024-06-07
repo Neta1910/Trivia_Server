@@ -17,7 +17,8 @@ const Statistics = () => {
   const [errorInPersonal, setErrorInPersonal] = useState(false);
 
   useEffect (() => {  
-    socket.on("getPersonalStats", (response) => {
+    socket.on("getPersonalStatsResponse", (response) => {
+      console.log("resp: ", response)
       if (response.status === Constants.WORK_STATUS) {
         setAvgAnsTime(response[Constants.FIELDS.AVERAGE_ANSWER_TIME])
         setGamesPlayed(response[Constants.FIELDS.GAMES_PLAYED])
@@ -36,9 +37,10 @@ const Statistics = () => {
 
     return (
       () =>
-      socket.off("getPersonalStats")
+      socket.off("getPersonalStatsResponse")
     )
   }, [])
+  
   return (
     <div className={styles.statistics}>
       <section className={styles.highhScoreresParent}>

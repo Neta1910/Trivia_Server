@@ -95,15 +95,16 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo& reqInfo)
 {
 	userStats user_stats = { 0, 0, 0, 0, 0, 0 };
 	GetPersonalStatsResponse getPersonalStats_res;
-	try
-	{
-		user_stats = m_handleFactory.getStatisticsManager().getUserStatistics(m_user->getId());
-		getPersonalStats_res = { WORKING_STATUS, user_stats };
-	}
-	catch (const std::invalid_argument& e)
+	if (!m_handleFactory.getDatabase()->doesUserHaveStats(m_user->getId()))
 	{
 		getPersonalStats_res = { FAILED_STATUS, user_stats };
+		return { JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(getPersonalStats_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 	}
+
+	user_stats = m_handleFactory.getStatisticsManager().getUserStatistics(m_user->getId());
+	getPersonalStats_res = { WORKING_STATUS, user_stats };
+
+
 	return { JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(getPersonalStats_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
 
