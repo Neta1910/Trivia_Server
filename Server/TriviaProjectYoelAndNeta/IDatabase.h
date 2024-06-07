@@ -18,6 +18,7 @@ public:
 	virtual bool doesPasswordMatch(const std::string& username, const std::string& password) = 0;
 	virtual bool addNewUser(const std::string& name, const std::string& password, const std::string& email, const std::string& address, const std::string& bitrthDate, const std::string& phoneNumber) = 0;
 	virtual int getUserId(const std::string& name, const std::string& password) = 0;
+	
 	// ---- Questions related ----
 	virtual std::list<Question> getQuestions(const int& amount) = 0;
 	virtual void loadQuestionsIntoDB(int amount) = 0;
@@ -26,7 +27,6 @@ public:
 
 	// ---- Statistics related ----
 	virtual PlayerResults getPlayersStat(int user_id) = 0;
-	virtual int getPlayerScore(int user_id) = 0;
 	virtual std::vector<PlayerResults> getHighScores() = 0; // Return 5 highest scores
 	virtual int submitGameStatistics(GameData game_data, LoggedUser user) = 0;
 	virtual bool doesUserHaveStats(const int& id) = 0;

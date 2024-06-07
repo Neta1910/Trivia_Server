@@ -23,6 +23,7 @@ const HighhScoreres = () => {
         setIsLoading(false);
       }
     })
+
     socket.emit('getHighScore')
 
     return(
@@ -30,20 +31,21 @@ const HighhScoreres = () => {
         socket.off("getHighScoreResponse")
       }
     )
-  })
+  }, [])
 
   return (
     <div className={styles.highhScoreres}>
       {isLoading ? <p> still loading </p> : 
       error ? <p>Error, try agein</p> :
       highScores.length === 0 ? <p>There is no elements in the stats, try agein</p> :
-      highScores.map ((stat, index) => {
+      highScores.map((stat, index) => (
         <PlayerInHigh 
-          place={index}
+          key={index}
+          place={index + 1}
           userName={stat[Constents.FIELDS.USER_NAME]}
           score={stat[Constents.FIELDS.HIGH_SCORE]}
         />
-      })}
+      ))}
     </div>
   );
 };

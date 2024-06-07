@@ -45,7 +45,7 @@ typedef struct GetHighScoreResponse
 typedef struct GetPersonalStatsResponse
 {
 	unsigned int status;
-	userStats statistics;
+	PlayerResults statistics;
 };
 
 typedef struct JoinRoomResponse

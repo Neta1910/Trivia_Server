@@ -18,13 +18,13 @@ const Statistics = () => {
 
   useEffect (() => {  
     socket.on("getPersonalStatsResponse", (response) => {
-      console.log("resp: ", response)
       if (response.status === Constants.WORK_STATUS) {
-        setAvgAnsTime(response[Constants.FIELDS.AVERAGE_ANSWER_TIME])
-        setGamesPlayed(response[Constants.FIELDS.GAMES_PLAYED])
-        setHighScore(response[Constants.FIELDS.HIGH_SCORE])
-        setRightAns(response[Constants.FIELDS.CORRECT_ANSWER_COUNT])
-        setTotalAns(response[Constants.FIELDS.TOTAL_ANS])
+        console.log("avg: ", response["statistics"][Constants.FIELDS.AVERAGE_ANSWER_TIME])
+        setAvgAnsTime(response["statistics"][Constants.FIELDS.AVERAGE_ANSWER_TIME])
+        setGamesPlayed(response["statistics"][Constants.FIELDS.GAMES_PLAYED])
+        setHighScore(response["statistics"][Constants.FIELDS.HIGH_SCORE])
+        setRightAns(response["statistics"][Constants.FIELDS.CORRECT_ANSWER_COUNT])
+        setTotalAns(response["statistics"][Constants.FIELDS.TOTAL_ANS])
         setIsLoading(false);
       }
       else {

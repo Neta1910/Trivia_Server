@@ -9,14 +9,11 @@ public:
 	unsigned int wrongAnswerCount;
 	unsigned int averageAnswerTime;
 	unsigned int gamesPlayed;
-
+	unsigned int user_id;
 	double calculateRating() const {
-		const double W_CAC = 1.0; // Weight for Correct Answer Count
-		const double W_WAC = 1.0; // Weight for Wrong Answer Count
-		const double W_AAT = 0.5; // Weight for Average Answer Time
 
 		// Calculate rating
-		double rating = W_CAC * correctAnswerCount - W_WAC * wrongAnswerCount + W_AAT * (1.0 / averageAnswerTime);
+		double rating = (correctAnswerCount) / (wrongAnswerCount + averageAnswerTime);
 
 		return rating;
 	}

@@ -12,7 +12,7 @@ public:
 	MenuRequestHandler(RequestHandlerFactory& handleFactory, LoggedUser* user, RoomManager& roomManager);
 	bool isRequestRelevant(RequestInfo& reqInfo) override;
 	RequestResult handleRequest(RequestInfo& reqInfo) override;
-	static std::vector<std::string> statsToVector(userStats user_stats);
+	static std::vector<std::string> statsToVector(PlayerResults user_stats);
 	static std::vector<std::string> highestScoreToVector(std::vector<HighestScore>& highest_scores);
 	void setUpdateOfUsers(const bool& val);
 
