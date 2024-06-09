@@ -38,9 +38,12 @@ def handle_connect():
 
 @socketio.on('login')
 def handle_login(data_dict):
-    user_sockets[get_user_id()].sendall(Requests.LoginRequest(data_dict[USER_NAME], data_dict[PASSWORD]).getMessage())
-    serverMessege = Responses.LoginResponse(get_server_message(user_sockets[get_user_id()]))
-    emit('LoginResponse', {'status': serverMessege.status})
+    try:
+        user_sockets[get_user_id()].sendall(Requests.LoginRequest(data_dict[USER_NAME], data_dict[PASSWORD]).getMessage())
+        serverMessege = Responses.LoginResponse(get_server_message(user_sockets[get_user_id()]))
+        emit('LoginResponse', {'status': serverMessege.status})
+    except ErrorException as e:
+        emit("error", {'message': e.message})
 
 
 @socketio.on('signup')
@@ -94,16 +97,10 @@ def handle_create_room(data):
 def handle_get_high():
     try:
         user_sockets[get_user_id()].sendall(Requests.HighScoreRequest().getMessage())
-
         serverMessege = Responses.GetHighScoreResponse(get_server_message(user_sockets[get_user_id()]))
-
-        if serverMessege.status == FAILED_STATUS:
-            raise Exception
-        else:
-            emit('getHighScoreResponse', {'status': WORK_STATUS, 'statistics': serverMessege.statistics})
-    except Exception as e:
-        print(e)
-        emit('getHighScoreResponse', {'status': FAILED_STATUS})
+        emit('getHighScoreResponse', {'status': serverMessege.status, 'statistics': serverMessege.statistics})
+    except ErrorException as e:
+        emit("error", {'message': e.message})
 
 
 @socketio.on('logout')
@@ -202,10 +199,12 @@ def handle_start_game():
 
 @socketio.on('submitAnswer')
 def handle_start_game(data):
-    user_sockets[get_user_id()].sendall(Requests.SubmitAnswerRequest().getMessage(data[ANSWER_ID]))
-    server_message = Responses.SubmitAnsResp(get_server_message(user_sockets[get_user_id()]))
-    emit('submitAnswerResponse', server_message.to_dict())
-
+    try:
+        user_sockets[get_user_id()].sendall(Requests.SubmitAnswerRequest().getMessage(data[ANSWER_ID]))
+        server_message = Responses.SubmitAnsResp(get_server_message(user_sockets[get_user_id()]))
+        emit('submitAnswerResponse', server_message.to_dict())
+    except ErrorException as e:
+        emit("error", {'message': e.message})
 
 @socketio.on('getRoomRes')
 def handle_start_game():

@@ -9,12 +9,13 @@
 #include <list>
 #include <Windows.h>
 #include <WinInet.h>
+#include "PlayerResults.h"
 
 #pragma comment(lib, "wininet.lib")
 
 #define CREATE_USERS_TABLE "CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, EMAIL TEXT, ADDRESS TEXT, PHONE_NUMBER TEXT, BIRTH_DATE TEXT);"
 #define CREATE_QUESTIONS_TABLE "CREATE TABLE IF NOT EXISTS t_questions (question_id	integer NOT NULL, question	text NOT NULL, correct_ans	text NOT NULL, ans2	text NOT NULL,  ans3	text NOT NULL, ans4	text NOT NULL, PRIMARY KEY(question_id AUTOINCREMENT) );"
-#define CREATE_STATISTICS_TABLE "CREATE TABLE IF NOT EXISTS Statistics (ID INTEGER, AVERAGE_ANS_TIME INTEGER, CORRECT_ANS INTEGER, WRONG_ANS INTEGER, TOTAL_ANS INTEGER, GAMES_PLAYED INTEGER, FOREIGN KEY(ID) REFERENCES Users(ID));"
+#define CREATE_STATISTICS_TABLE "CREATE TABLE IF NOT EXISTS Statistics (ID INTEGER, AVERAGE_ANS_TIME REAL, CORRECT_ANS INTEGER, WRONG_ANS INTEGER, TOTAL_ANS INTEGER, GAMES_PLAYED INTEGER,	USER_NAME TEXT, FOREIGN KEY(ID) REFERENCES Users(ID));"
 #define CREATE_HIGHEST_SCORES_TABLE "CREATE TABLE IF NOT EXISTS HIGHEST_SCORES (ID INTEGER, NAME TEXT, HIGHEST_SCORE INTEGER, FOREIGN KEY(ID) REFERENCES Users(ID), FOREIGN KEY(NAME) REFERENCES Users(NAME));"
 
 
@@ -23,6 +24,11 @@
 #define PASSWORD "PASSWORD"
 #define EMAIL "EMAIL"
 #define ID "ID"
+#define AVG_TIME "AVERAGE_ANS_TIME"
+#define CORRECT_ANS_COUNT "CORRECT_ANS"
+#define TOTAL_ANS_COUNT "TOTAL_ANS"
+#define GAMES_PLAYED "GAMES_PLAYED"
+#define USER_NAME_USER_STATS "USER_NAME"
 
 // t_questions
 #define QUESTION_ID "question_id"
@@ -40,8 +46,9 @@ int callbackUserPassword(void* _data, int argc, char** argv, char** azColName);
 int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName);
 int floatCallBack(void* _data, int argc, char** argv, char** azColName);
 int integerCallBack(void* _data, int argc, char** argv, char** azColName);
-int loadIntoHighestScores(void* _data, int argc, char** argv, char** azColName);
+int loadIntoUsersStats(void* _data, int argc, char** argv, char** azColName);
 //int loadIntoStatistics(void* _data, int argc, char** argv, char** azColName);
+
 
 class SQLiteDatabase : public IDatabase
 {
@@ -76,16 +83,12 @@ public:
 	virtual void insertQuestionIntoDB(Question question);
 	virtual int getTotalAmountOfQuestions() override;
 
-	virtual float getPlayersAverageAnswerTime(int user_id) override;
-	virtual int getNumOfCorrectAnswers(int user_id) override;
-	virtual int getNumOfTotalAnswers(int user_id) override;
-	virtual int getNumOfPlayerGames(int user_id) override;
-	virtual int getPlayerScore(int user_id) override;
-	virtual std::vector<HighestScore> getHighScores(int num_of_highScores) override;
+	virtual PlayerResults getPlayersStat(int user_id) override;
+	virtual std::vector<PlayerResults> getHighScores() override;
 
-	virtual int submitGameStatistics(GameData game_data, unsigned int user_id) override;
-
-	static std::vector<HighestScore> highestScores;
+	virtual int submitGameStatistics(GameData game_data, LoggedUser user) override;
+	virtual bool doesUserHaveStats(const int& id) override;
+	static std::vector<PlayerResults> usersStats;
 
 private:
 	sqlite3* _db;
@@ -94,5 +97,4 @@ private:
 	//int getNumOfGamesPlayed(unsigned int user_id);
 	float getAverageAnsTime(unsigned int user_id);	
 	//int getNumOfTotalAnswers(unsigned int user_id);
-	float calcNewAverageAnsTime(unsigned int user_id, float new_average_time);
 };

@@ -37,14 +37,14 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo& reqInfo)
 	}
 }
 
-std::vector<std::string> MenuRequestHandler::statsToVector(userStats user_stats)
+std::vector<std::string> MenuRequestHandler::statsToVector(PlayerResults user_stats)
 {
 	std::vector<std::string> stats_in_vector;
-	stats_in_vector.push_back(std::to_string(user_stats.total_ans));
-	stats_in_vector.push_back(std::to_string(user_stats.right_ans));
-	stats_in_vector.push_back(std::to_string(user_stats.highScore));
-	stats_in_vector.push_back(std::to_string(user_stats.avg_ans_time));
-	stats_in_vector.push_back(std::to_string(user_stats.games_played));
+	stats_in_vector.push_back(std::to_string(user_stats.correctAnswerCount + user_stats.wrongAnswerCount));
+	stats_in_vector.push_back(std::to_string(user_stats.correctAnswerCount));
+	stats_in_vector.push_back(std::to_string(user_stats.calculateRating()));
+	stats_in_vector.push_back(std::to_string(user_stats.averageAnswerTime));
+	stats_in_vector.push_back(std::to_string(user_stats.gamesPlayed));
 	return stats_in_vector;
 }
 
@@ -93,23 +93,23 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo& reqInfo)
 
 RequestResult MenuRequestHandler::getPersonalStats(RequestInfo& reqInfo)
 {
-	userStats user_stats = { 0, 0, 0, 0, 0, 0 };
 	GetPersonalStatsResponse getPersonalStats_res;
-	try
+	if (!m_handleFactory.getDatabase()->doesUserHaveStats(m_user->getId()))
 	{
-		user_stats = m_handleFactory.getStatisticsManager().getUserStatistics(m_user->getId());
-		getPersonalStats_res = { WORKING_STATUS, user_stats };
+		getPersonalStats_res = { FAILED_STATUS, PlayerResults() };
+		return { JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(getPersonalStats_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 	}
-	catch (const std::invalid_argument& e)
-	{
-		getPersonalStats_res = { FAILED_STATUS, user_stats };
-	}
+
+	PlayerResults user_stats = m_handleFactory.getStatisticsManager().getUserStatistics(m_user->getId());
+	getPersonalStats_res = { WORKING_STATUS, user_stats };
+
+
 	return { JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(getPersonalStats_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
 
 RequestResult MenuRequestHandler::getHighScore(RequestInfo& reqInfo)
 {
-	std::vector<HighestScore> highScores = m_handleFactory.getStatisticsManager().getHighScore();
+	std::vector<PlayerResults> highScores = m_handleFactory.getStatisticsManager().getHighScore();
 	GetHighScoreResponse getHighScore_res = { WORKING_STATUS, highScores};
 	return { JsonResponsePacketSerialize::serializeHighScoreResponse(getHighScore_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }

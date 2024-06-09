@@ -97,11 +97,12 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
     
     for (auto it : m_game->getAllPlayers())
     {
+        m_handlerFactory.getDatabase()->submitGameStatistics(*(it.second), *(m_user));
         player_results.push_back({ it.first->getUsername(), it.second->correctAnswerCount, it.second->wrongAnswerCount, it.second->averageAnswerTime });
     }
 
     std::sort(player_results.begin(), player_results.end(), [](auto& a, auto& b) {
-        return a < b;
+        return b < a;
         });
 
     // Direct player to menu (because the game ended)

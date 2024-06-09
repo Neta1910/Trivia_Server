@@ -1,8 +1,8 @@
 import styles from "./FrameComponent.module.css";
-
-const TopPartGameBoard = ({correctAns, allQuestions, avgTime}) => {
+const TopPartGameBoard = ({correctAns, allQuestions, avgTime, initialTime, onTimeFinish}) => {
   return (
     <header className={styles.gameBoardInner}>
+      
       <div className={styles.frameParent}>
         <div className={styles.xYCorrectAllQuestionsWrapper}>
           <div className={styles.xYContainer}>
@@ -10,6 +10,7 @@ const TopPartGameBoard = ({correctAns, allQuestions, avgTime}) => {
             <p className={styles.correctAll}> Correct / Wrong</p>
           </div>
         </div>
+
         <div className={styles.vectorWrapper}>
           <img
             className={styles.frameChild}
@@ -18,9 +19,12 @@ const TopPartGameBoard = ({correctAns, allQuestions, avgTime}) => {
             src="/vector-10.svg"
           />
         </div>
+        
         <div className={styles.xSecondsAvgTimeWrapper}>
           <div className={styles.xSecondsAvg}>{avgTime} seconds, avg time</div>
         </div>
+
+      {/* <Stopwatch initialTime={initialTime} onTimeUp={onTimeFinish}/> */}
       </div>
     </header>
   );

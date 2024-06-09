@@ -64,7 +64,8 @@ std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, cons
 
 void Communicator::handleNewClient(const SOCKET& userSocket)
 {
-	while (true)
+	bool user_connected = true;
+	while (user_connected)
 	{
 		try
 		{
@@ -78,27 +79,30 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 				}
 				closesocket(userSocket);
 				m_clients.erase(userSocket);
+				user_connected = false;
 			}
-
-			RequestInfo reqInfo = { static_cast<RequestCodes>(clientMessage[0]), getCurrentTime(), clientMessage };
-			if (m_clients.find(userSocket)->second != nullptr && m_clients.find(userSocket)->second->isRequestRelevant(reqInfo))
+			if (user_connected)
 			{
-				RequestResult resResult = m_clients.find(userSocket)->second->handleRequest(reqInfo);
-				if (resResult.newHandler != nullptr) // Update handler if valid
+				RequestInfo reqInfo = { static_cast<RequestCodes>(clientMessage[0]), getCurrentTime(), clientMessage };
+				if (m_clients.find(userSocket)->second != nullptr && m_clients.find(userSocket)->second->isRequestRelevant(reqInfo))
 				{
-					m_clients.find(userSocket)->second = resResult.newHandler;
+					RequestResult resResult = m_clients.find(userSocket)->second->handleRequest(reqInfo);
+					if (resResult.newHandler != nullptr) // Update handler if valid
+					{
+						m_clients.find(userSocket)->second = resResult.newHandler;
+					}
+					if (std::string(resResult.response.begin(), resResult.response.end()) != "")
+					{
+						sendData(userSocket, resResult.response);
+					}
 				}
-				if (std::string(resResult.response.begin(), resResult.response.end()) != "")
+				else // Assemble error response
 				{
-					sendData(userSocket, resResult.response);
+					ErrorResponse err;
+					err.message = INVALID_REQUEST;
+					std::vector<unsigned char> errorMessage = JsonResponsePacketSerialize::serializeErrorResponse(err);
+					this->sendData(userSocket, errorMessage);
 				}
-			}
-			else // Assemble error response
-			{
-				ErrorResponse err;
-				err.message = INVALID_REQUEST;
-				std::vector<unsigned char> errorMessage = JsonResponsePacketSerialize::serializeErrorResponse(err);
-				this->sendData(userSocket, errorMessage);
 			}
 		}
 		catch (const std::exception& e)

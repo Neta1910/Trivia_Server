@@ -1,0 +1,18 @@
+/* Stopwatch.css */
+.stopwatch {
+    display: flex;
+    align-items: center;
+    font-family: 'Kavoon';
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .clock-icon {
+    margin-right: 10px;
+  }
+  
+  .time {
+    display: inline-block;
+    min-width: 100px;
+  }
+  
