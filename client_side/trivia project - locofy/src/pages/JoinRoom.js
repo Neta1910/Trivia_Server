@@ -51,6 +51,13 @@ const JoinRoom = () => {
               <div className={styles.chooseARoom}>choose a room</div>
             </div>
             <div className={styles.roomCardParent}>
+              <RoomCard
+                RoomName={"Rosh berosh"}
+                AmountOfPlayers={2}
+                timeout={30}
+                questions={15}
+                roomId={0}
+              />
               {rooms.map((room) => (
                 <RoomCard 
                   RoomName={room[Constents.FIELDS.ROOM_NAME]} 
