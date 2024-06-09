@@ -6,7 +6,7 @@ import { socket } from "../socket";
 import Constents from "../Constants";
 import he from 'he';
 import { useNavigate } from "react-router-dom";
-import Stopwatch from '../components/TriviaTimer'
+import { useLocation } from 'react-router-dom';
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -17,6 +17,10 @@ function shuffleArray(array) {
 }
 
 const GameBoard = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const timeOut = queryParams.get("answerTimeout");
+  
   const colors = ["#ea9e8d", "#06bee1", "#006c67", "#ecc8af"];
   const icons = ["./iconparksolidonekey@2x.png", "/iconparksolidtwokey@2x.png", "/iconparksolidthreekey@2x.png", "/iconparksolidthreekey-1@2x.png"]
   const [shuffledArray, setShuffedledArray] = useState([]);
@@ -76,7 +80,7 @@ const GameBoard = () => {
       socket.off("getQuestionResponse");
       socket.off("submitAnswerResponse");
     };
-  }, [myAns]);
+  }, []);
 
   const submitAnswer = (id) => {
     setMyAns(id);
@@ -92,6 +96,8 @@ const GameBoard = () => {
         correctAns={correctAnsCount}
         allQuestions={wrongAnsCount}
         avgTime={avgTime.toFixed(1)}
+        initialTime={timeOut}
+        onTimeFinish={submitAnswer}
       />
 
       <main className={styles.actuoelGame}>

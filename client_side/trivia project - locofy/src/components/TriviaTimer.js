@@ -3,7 +3,7 @@ import { FaClock } from 'react-icons/fa';
 import styles from './TriviaTimer.module.css';
 
 const Stopwatch = ({ initialTime, onTimeUp }) => {
-  const [time, setTime] = useState(initialTime);
+  const [time, setTime] = useState(initialTime * 1000);
   const timerRef = useRef(null);
 
   useEffect(() => {
@@ -11,12 +11,12 @@ const Stopwatch = ({ initialTime, onTimeUp }) => {
       setTime((prevTime) => {
         if (prevTime <= 10) {
           clearInterval(timerRef.current);
-          onTimeUp();
+          onTimeUp(0);
           return 0;
         }
         return prevTime - 10;
       });
-    }, 10);
+    }, time);
 
     return () => {
       clearInterval(timerRef.current);

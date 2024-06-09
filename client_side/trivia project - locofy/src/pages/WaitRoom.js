@@ -57,7 +57,7 @@ const WaitRoom = () => {
 
     const handleStartGameResponse = (response) => {
       if (response.status === Constants.WORK_STATUS) {
-        navigate("/game-board");
+        navigate(`/game-board$answerTimeout=${timeOut}`);
       } else {
         console.log("error");
       }

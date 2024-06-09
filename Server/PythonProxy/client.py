@@ -199,10 +199,12 @@ def handle_start_game():
 
 @socketio.on('submitAnswer')
 def handle_start_game(data):
-    user_sockets[get_user_id()].sendall(Requests.SubmitAnswerRequest().getMessage(data[ANSWER_ID]))
-    server_message = Responses.SubmitAnsResp(get_server_message(user_sockets[get_user_id()]))
-    emit('submitAnswerResponse', server_message.to_dict())
-
+    try:
+        user_sockets[get_user_id()].sendall(Requests.SubmitAnswerRequest().getMessage(data[ANSWER_ID]))
+        server_message = Responses.SubmitAnsResp(get_server_message(user_sockets[get_user_id()]))
+        emit('submitAnswerResponse', server_message.to_dict())
+    except ErrorException as e:
+        emit("error", {'message': e.message})
 
 @socketio.on('getRoomRes')
 def handle_start_game():

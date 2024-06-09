@@ -102,7 +102,7 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
     }
 
     std::sort(player_results.begin(), player_results.end(), [](auto& a, auto& b) {
-        return a > b;
+        return b < a;
         });
 
     // Direct player to menu (because the game ended)
