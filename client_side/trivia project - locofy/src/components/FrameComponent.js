@@ -1,5 +1,5 @@
 import styles from "./FrameComponent.module.css";
-const TopPartGameBoard = ({correctAns, allQuestions, avgTime, initialTime, onTimeFinish}) => {
+const TopPartGameBoard = ({correctAns, allQuestions, avgTime}) => {
   return (
     <header className={styles.gameBoardInner}>
       

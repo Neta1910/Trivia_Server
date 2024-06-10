@@ -12,7 +12,7 @@ const StatProperties = ({numOfGames, highScore, avgTime}) => {
         <UserStats
           icon="/fluentgames24filled-1.svg"
           background="linear-gradient(91.65deg, #ffee88, #06bee1)"
-          nameStat={`your high score is ${highScore}`}
+          nameStat={`your rating is ${highScore}`}
         />
         
         <UserStats

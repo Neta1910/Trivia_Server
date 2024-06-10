@@ -7,6 +7,7 @@ import { socket } from "../socket";
 import Constants from "../Constants";
 import ActionSectionNotAdmin from '../components/ActionSectionNotAdmin';
 import ListOfPlayers from "../components/HighhScoreres1";
+import Loader from "../components/Loader";
 
 const WaitRoom = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -31,7 +32,6 @@ const WaitRoom = () => {
 
     const handleGetRoomStateResponse = (response) => {
       if (response.status === Constants.WORK_STATUS) {
-        alert('got resp')
         console.log(response)
         setTimeOut(response.answerTimeout);
         setQuestions(response.questionCount);
@@ -57,7 +57,7 @@ const WaitRoom = () => {
 
     const handleStartGameResponse = (response) => {
       if (response.status === Constants.WORK_STATUS) {
-        navigate(`/game-board$answerTimeout=${timeOut}`);
+        navigate(`/game-board`);
       } else {
         console.log("error");
       }
@@ -96,8 +96,10 @@ const WaitRoom = () => {
     };
   }, [socket, navigate, isAdmin, isGameActive]);
   console.log('timeout', timeOut)
+  
   if (error) return <p>There is an error</p>;
-
+  if (isLoadingStat) return <Loader />
+  
   return (
     <div className={styles.mainContainer}>
       <div className={styles.waitRoom}>

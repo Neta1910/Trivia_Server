@@ -187,7 +187,7 @@ std::vector<PlayerResults> SQLiteDatabase::getHighScores()
 	std::string query = "SELECT * FROM Statistics";
 	this->runCommand(query, loadIntoUsersStats);
 	std::sort(SQLiteDatabase::usersStats.begin(), SQLiteDatabase::usersStats.end(), [](auto& a, auto& b) {
-		return a < b;
+		return b < a;
 		});
 	return SQLiteDatabase::usersStats;
 }
@@ -379,9 +379,9 @@ int loadIntoUsersStats(void* _data, int argc, char** argv, char** azColName)
 			correct_sum = std::stoi(argv[i]);
 			playerResult.correctAnswerCount = correct_sum;
 		}
-		else if (std::string(azColName[i]) == TOTAL_ANS_COUNT)
+		else if (std::string(azColName[i]) == WRONG_ANS)
 		{
-			total = std::stoi(argv[i]);
+			playerResult.wrongAnswerCount = std::stoi(argv[i]);
 		}
 		else if (std::string(azColName[i]) == USER_NAME_USER_STATS)
 		{
@@ -396,7 +396,6 @@ int loadIntoUsersStats(void* _data, int argc, char** argv, char** azColName)
 			playerResult.user_id = std::stoi(argv[i]);
 		}
 	}
-	playerResult.wrongAnswerCount = total - correct_sum;
 	SQLiteDatabase::usersStats.push_back(playerResult);
 	return 0;
 }

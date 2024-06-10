@@ -45,7 +45,6 @@ const GameBoard = () => {
 
   useEffect(() => {
     socket.on("getQuestionResponse", (response) => {
-      console.log(response);
       if (response.status === Constents.WORK_STATUS) {
         setQestion(response[Constents.FIELDS.QUESTION]);
         setAnswers(shuffleArray(response[Constents.FIELDS.ANSWERS]));
@@ -55,8 +54,7 @@ const GameBoard = () => {
 
     socket.on("submitAnswerResponse", (response) => {
       if (response.status === Constents.WORK_STATUS) {
-        console.log(response)
-        if (response["correctAnswerId"] === myAns)
+          if (response["correctAnswerId"] === myAns)
           {
             setcorrectAnsCount(prevCount => prevCount + 1);
           }
@@ -80,7 +78,7 @@ const GameBoard = () => {
       socket.off("getQuestionResponse");
       socket.off("submitAnswerResponse");
     };
-  }, []);
+  }, [myAns]);
 
   const submitAnswer = (id) => {
     setMyAns(id);
@@ -88,16 +86,14 @@ const GameBoard = () => {
     getQuestions();
   };
 
-  // if (loading) return <p>Loaidng answers</p>
 
   return (
     <div className={styles.gameBoard}>
       <TopPartGameBoard
         correctAns={correctAnsCount}
         allQuestions={wrongAnsCount}
-        avgTime={avgTime.toFixed(1)}
+        avgTime={avgTime.toFixed(3)}
         initialTime={timeOut}
-        onTimeFinish={submitAnswer}
       />
 
       <main className={styles.actuoelGame}>

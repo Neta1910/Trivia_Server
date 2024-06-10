@@ -94,7 +94,6 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
     {        
         return { JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse({FAILED_STATUS, player_results}), (IRequestHandler*)m_handlerFactory.createGameRequestHandler(m_user, m_game)};
     }
-    
     for (auto it : m_game->getAllPlayers())
     {
         m_handlerFactory.getDatabase()->submitGameStatistics(*(it.second), *(m_user));

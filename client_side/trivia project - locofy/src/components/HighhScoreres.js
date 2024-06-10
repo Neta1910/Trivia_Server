@@ -4,7 +4,7 @@ import {socket} from '../socket'
 import { useState } from "react";
 import { useEffect } from "react";
 import Constents from '../Constants'
-
+import Loader from "./Loader";
 const HighhScoreres = () => {
   
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +35,7 @@ const HighhScoreres = () => {
 
   return (
     <div className={styles.highhScoreres}>
-      {isLoading ? <p> still loading </p> : 
+      {isLoading ? <Loader /> : 
       error ? <p>Error, try agein</p> :
       highScores.length === 0 ? <p>There is no elements in the stats, try agein</p> :
       highScores.map((stat, index) => (

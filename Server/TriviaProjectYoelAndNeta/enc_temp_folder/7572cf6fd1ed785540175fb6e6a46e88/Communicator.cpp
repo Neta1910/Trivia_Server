@@ -64,11 +64,23 @@ std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, cons
 
 void Communicator::handleNewClient(const SOCKET& userSocket)
 {
-	while (true)
+	bool user_connected = true;
+	while (user_connected)
 	{
 		try
 		{
 			std::vector<unsigned char> clientMessage = this->getDataFromSocket(userSocket, MESSEGE_LENGTH);
+			if (clientMessage[0] == LOGOUT_REQ) // Check if user wants to log out
+			{
+				if (std::string(clientMessage.begin(), clientMessage.end()) == "logout")
+				{
+					RequestInfo logout_req = { static_cast<RequestCodes>(LOGOUT_REQ), getCurrentTime(), clientMessage };
+					RequestResult res = m_clients.find(userSocket)->second->handleRequest(logout_req);
+				}
+				closesocket(userSocket);
+				m_clients.erase(userSocket);
+				user_connected = false;
+			}
 			if (user_connected)
 			{
 				RequestInfo reqInfo = { static_cast<RequestCodes>(clientMessage[0]), getCurrentTime(), clientMessage };
