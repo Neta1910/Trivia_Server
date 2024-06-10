@@ -18,6 +18,7 @@ private:
 	RequestResult getRoomState(RequestInfo& reqInfo);
 	RequestResult amIAdmin(RequestInfo& requInfo);
 	RequestResult getPlayersInRoom(RequestInfo& reqInfo);
+	
 	void setUpdated(const bool& val);
 
 	Room* m_room;

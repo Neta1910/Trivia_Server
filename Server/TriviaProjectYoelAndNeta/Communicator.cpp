@@ -69,28 +69,26 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 		try
 		{
 			std::vector<unsigned char> clientMessage = this->getDataFromSocket(userSocket, MESSEGE_LENGTH);
-			if (user_connected)
+
+			RequestInfo reqInfo = { static_cast<RequestCodes>(clientMessage[0]), getCurrentTime(), clientMessage };
+			if (m_clients.find(userSocket)->second != nullptr && m_clients.find(userSocket)->second->isRequestRelevant(reqInfo))
 			{
-				RequestInfo reqInfo = { static_cast<RequestCodes>(clientMessage[0]), getCurrentTime(), clientMessage };
-				if (m_clients.find(userSocket)->second != nullptr && m_clients.find(userSocket)->second->isRequestRelevant(reqInfo))
+				RequestResult resResult = m_clients.find(userSocket)->second->handleRequest(reqInfo);
+				if (resResult.newHandler != nullptr) // Update handler if valid
 				{
-					RequestResult resResult = m_clients.find(userSocket)->second->handleRequest(reqInfo);
-					if (resResult.newHandler != nullptr) // Update handler if valid
-					{
-						m_clients.find(userSocket)->second = resResult.newHandler;
-					}
-					if (std::string(resResult.response.begin(), resResult.response.end()) != "")
-					{
-						sendData(userSocket, resResult.response);
-					}
+					m_clients.find(userSocket)->second = resResult.newHandler;
 				}
-				else // Assemble error response
+				if (std::string(resResult.response.begin(), resResult.response.end()) != "")
 				{
-					ErrorResponse err;
-					err.message = INVALID_REQUEST;
-					std::vector<unsigned char> errorMessage = JsonResponsePacketSerialize::serializeErrorResponse(err);
-					this->sendData(userSocket, errorMessage);
+					sendData(userSocket, resResult.response);
 				}
+			}
+			else // Assemble error response
+			{
+				ErrorResponse err;
+				err.message = INVALID_REQUEST;
+				std::vector<unsigned char> errorMessage = JsonResponsePacketSerialize::serializeErrorResponse(err);
+				this->sendData(userSocket, errorMessage);
 			}
 		}
 		catch (const std::exception& e)
