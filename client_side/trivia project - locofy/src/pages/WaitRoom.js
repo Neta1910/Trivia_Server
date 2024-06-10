@@ -57,7 +57,7 @@ const WaitRoom = () => {
 
     const handleStartGameResponse = (response) => {
       if (response.status === Constants.WORK_STATUS) {
-        navigate(`/game-board`);
+        navigate(`/game-board?answerTimeout=${timeOut}`);
       } else {
         console.log("error");
       }
@@ -99,7 +99,7 @@ const WaitRoom = () => {
   
   if (error) return <p>There is an error</p>;
   if (isLoadingStat) return <Loader />
-  
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.waitRoom}>
@@ -111,7 +111,7 @@ const WaitRoom = () => {
           <ListOfPlayers 
             players={players}
           />
-          {isAdmin ? <AdminArea roomId={roomId}/> : <ActionSectionNotAdmin />}
+          {isAdmin ? <AdminArea roomId={roomId} timeOut={timeOut}/> : <ActionSectionNotAdmin />}
         </section>
       </div>
     </div>

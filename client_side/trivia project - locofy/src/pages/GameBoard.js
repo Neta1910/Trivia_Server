@@ -7,7 +7,6 @@ import Constents from "../Constants";
 import he from 'he';
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
-
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -36,6 +35,7 @@ const GameBoard = () => {
   const [correctAnsCount, setcorrectAnsCount] = useState(0);
   const [wrongAnsCount, setWrongAnsCount] = useState(0);
 
+  const [reset, setReset] = useState(false);
   const navigate = useNavigate();
 
   function getQuestions() {
@@ -82,6 +82,7 @@ const GameBoard = () => {
 
   const submitAnswer = (id) => {
     setMyAns(id);
+    setReset(true);
     socket.emit("submitAnswer", { [Constents.FIELDS.ANSWER_ID]: id});
     getQuestions();
   };
@@ -93,7 +94,9 @@ const GameBoard = () => {
         correctAns={correctAnsCount}
         allQuestions={wrongAnsCount}
         avgTime={avgTime.toFixed(3)}
-        initialTime={timeOut}
+        timeOu={timeOut}
+        submitAns={submitAnswer}
+        reset={reset}
       />
 
       <main className={styles.actuoelGame}>

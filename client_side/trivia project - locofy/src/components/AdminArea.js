@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import Constants from "../Constants";
 import { useNavigate } from "react-router-dom";
 
-const AdminArea = ({roomId}) => {
+const AdminArea = ({roomId, timeOut}) => {
   const startGame = () => {
     socket.emit("startGame", {[Constants.FIELDS.ROOM_ID]: roomId})
   }
@@ -16,7 +16,7 @@ const AdminArea = ({roomId}) => {
   useEffect(() => {
     const handleStartGameResponse = (response) => {
       if (response.status === Constants.WORK_STATUS) {
-        navigate("/game-board");
+        navigate(`/game-board?answerTimeout=${timeOut}`);
       } else {
         console.log("error");
       }
