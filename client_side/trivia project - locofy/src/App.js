@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import CreateRoom from "./pages/CreateRoom";
 import Logout from "./components/logout";
 import GamResultd from "./pages/GamResultd";
+import AddAQuestion from "./pages/AddQuestion";
 
 function App() {
   const action = useNavigationType();
@@ -100,6 +101,7 @@ function App() {
       <Route path="/create-room" element={<CreateRoom />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/game-results" element={<GamResultd />} />
+      <Route path="/add-question" element={<AddAQuestion />} />
     </Routes>
   );
 }
