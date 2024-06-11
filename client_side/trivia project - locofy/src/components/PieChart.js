@@ -5,13 +5,13 @@ import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 // Register Chart.js components
 Chart.register(ArcElement, Tooltip, Legend);
 
-const PieChart = ({ correctAns, sumAns }) => {
+const PieChart = ({ correctAns, wrongAns }) => {
   const data = {
     labels: ["Correct", "Wrong"],
     datasets: [
       {
         label: "Your answers",
-        data: [correctAns, sumAns - correctAns],
+        data: [correctAns, wrongAns],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",

@@ -10,7 +10,7 @@ RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory& handleFa
 
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo& reqInfo)
 {
-	return (reqInfo.RequestId == CLOSE_ROOM_REQ || reqInfo.RequestId == START_GAME_REQ || reqInfo.RequestId == GET_ROOM_STATE_REQ || reqInfo.RequestId == LEAVE_ROOM_REQ || reqInfo.RequestId == AM_I_ADMIN_REQ || reqInfo.RequestId == GET_PLAYERS_REQ);
+	return (reqInfo.RequestId == CLOSE_ROOM_REQ || reqInfo.RequestId == START_GAME_REQ || reqInfo.RequestId == GET_ROOM_STATE_REQ || reqInfo.RequestId == LEAVE_ROOM_REQ || reqInfo.RequestId == AM_I_ADMIN_REQ || reqInfo.RequestId == GET_PLAYERS_REQ  || reqInfo.RequestId == LOGOUT_REQ);
 }
 
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo& reqInfo)
@@ -31,6 +31,9 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo& reqInfo)
 		break;
 	case GET_PLAYERS_REQ:
 		return this->getPlayersInRoom(reqInfo);
+		break;
+	case LOGOUT_REQ:
+		return this->logOut(reqInfo);
 		break;
 	}
 }
@@ -93,6 +96,13 @@ RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo& reqInfo)
 	}
 	GetPlayersInRoomResponse getPlayersRoom_res = { WORKING_STATUS, m_roomManager.getRoom(getPlayersInRoom_req.roomId)->getAllUsers() };
 	return { JsonResponsePacketSerialize::serializeGetPlayersInRoomResponse(getPlayersRoom_res), (IRequestHandler*)m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room) };
+}
+
+RequestResult RoomAdminRequestHandler::logOut(RequestInfo& reqInfo)
+{
+	LoginManager::getInstance(this->m_handlerFactory.getDatabase()).logout(m_user->getUsername());
+	LogoutResponse logOut_res = { WORKING_STATUS };
+	return { JsonResponsePacketSerialize::serializeLogoutResponse(logOut_res), (IRequestHandler*)m_handlerFactory.createLoginRequestHandler() };
 }
 
 void RoomAdminRequestHandler::setUpdated(const bool& val)

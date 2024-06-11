@@ -14,7 +14,8 @@ bool GameRequestHandler::isRequestRelevant(RequestInfo& reqInfo)
     return (reqInfo.RequestId == GET_QUESTION_REQ ||
         reqInfo.RequestId == SUBMIT_ANSWER_REQ ||
         reqInfo.RequestId == GET_GAME_RESULT_REQ ||
-        reqInfo.RequestId == LEAVE_GAME_REQ);
+        reqInfo.RequestId == LEAVE_GAME_REQ ||
+        reqInfo.RequestId == LOGOUT_REQ);
 }
 
 RequestResult GameRequestHandler::handleRequest(RequestInfo& reqInfo)
@@ -32,6 +33,9 @@ RequestResult GameRequestHandler::handleRequest(RequestInfo& reqInfo)
         break;
     case LEAVE_GAME_REQ:
         return leaveGame(reqInfo);
+        break;
+    case LOGOUT_REQ:
+        return logout(reqInfo);
         break;
     }
 }
@@ -94,7 +98,6 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
     {        
         return { JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse({FAILED_STATUS, player_results}), (IRequestHandler*)m_handlerFactory.createGameRequestHandler(m_user, m_game)};
     }
-    
     for (auto it : m_game->getAllPlayers())
     {
         m_handlerFactory.getDatabase()->submitGameStatistics(*(it.second), *(m_user));
@@ -117,6 +120,13 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo reqInfo)
     m_gameManager.deleteGame(m_game->getGameId());
     m_handlerFactory.getRoomManager().deleteRoom(m_game->getGameId());
     return { JsonResponsePacketSerialize::serializeLeaveGameResponseResponse(leaveGame_res), (IRequestHandler*)m_handlerFactory.createMenuRequestHandler(m_user) };    
+}
+
+RequestResult GameRequestHandler::logout(RequestInfo reqInfo)
+{
+    LoginManager::getInstance(this->m_handlerFactory.getDatabase()).logout(m_user->getUsername());
+    LogoutResponse logOut_res = { WORKING_STATUS };
+    return { JsonResponsePacketSerialize::serializeLogoutResponse(logOut_res), (IRequestHandler*)m_handlerFactory.createLoginRequestHandler() };
 }
 
 

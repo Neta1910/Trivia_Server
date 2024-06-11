@@ -1,5 +1,6 @@
 import styles from "./FrameComponent.module.css";
-const TopPartGameBoard = ({correctAns, allQuestions, avgTime, initialTime, onTimeFinish}) => {
+import Timer from "./TriviaTimer";
+const TopPartGameBoard = ({correctAns, allQuestions, avgTime, timeOut, submitAns, reset}) => {
   return (
     <header className={styles.gameBoardInner}>
       
@@ -24,7 +25,7 @@ const TopPartGameBoard = ({correctAns, allQuestions, avgTime, initialTime, onTim
           <div className={styles.xSecondsAvg}>{avgTime} seconds, avg time</div>
         </div>
 
-      {/* <Stopwatch initialTime={initialTime} onTimeUp={onTimeFinish}/> */}
+      {/* <Timer timeOut={timeOut} onExpire={submitAns} reset={reset} /> */}
       </div>
     </header>
   );

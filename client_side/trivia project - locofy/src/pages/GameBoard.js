@@ -7,7 +7,6 @@ import Constents from "../Constants";
 import he from 'he';
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
-
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -20,7 +19,7 @@ const GameBoard = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const timeOut = queryParams.get("answerTimeout");
-  
+  console.log('timeout:', timeOut)
   const colors = ["#ea9e8d", "#06bee1", "#006c67", "#ecc8af"];
   const icons = ["./iconparksolidonekey@2x.png", "/iconparksolidtwokey@2x.png", "/iconparksolidthreekey@2x.png", "/iconparksolidthreekey-1@2x.png"]
   const [shuffledArray, setShuffedledArray] = useState([]);
@@ -36,6 +35,7 @@ const GameBoard = () => {
   const [correctAnsCount, setcorrectAnsCount] = useState(0);
   const [wrongAnsCount, setWrongAnsCount] = useState(0);
 
+  const [reset, setReset] = useState(false);
   const navigate = useNavigate();
 
   function getQuestions() {
@@ -45,7 +45,6 @@ const GameBoard = () => {
 
   useEffect(() => {
     socket.on("getQuestionResponse", (response) => {
-      console.log(response);
       if (response.status === Constents.WORK_STATUS) {
         setQestion(response[Constents.FIELDS.QUESTION]);
         setAnswers(shuffleArray(response[Constents.FIELDS.ANSWERS]));
@@ -55,8 +54,7 @@ const GameBoard = () => {
 
     socket.on("submitAnswerResponse", (response) => {
       if (response.status === Constents.WORK_STATUS) {
-        console.log(response)
-        if (response["correctAnswerId"] === myAns)
+          if (response["correctAnswerId"] === myAns)
           {
             setcorrectAnsCount(prevCount => prevCount + 1);
           }
@@ -80,24 +78,25 @@ const GameBoard = () => {
       socket.off("getQuestionResponse");
       socket.off("submitAnswerResponse");
     };
-  }, []);
+  }, [myAns]);
 
   const submitAnswer = (id) => {
     setMyAns(id);
+    setReset(true);
     socket.emit("submitAnswer", { [Constents.FIELDS.ANSWER_ID]: id});
     getQuestions();
   };
 
-  // if (loading) return <p>Loaidng answers</p>
 
   return (
     <div className={styles.gameBoard}>
       <TopPartGameBoard
         correctAns={correctAnsCount}
         allQuestions={wrongAnsCount}
-        avgTime={avgTime.toFixed(1)}
-        initialTime={timeOut}
-        onTimeFinish={submitAnswer}
+        avgTime={avgTime.toFixed(3)}
+        timeOut={timeOut}
+        submitAns={submitAnswer}
+        reset={reset}
       />
 
       <main className={styles.actuoelGame}>

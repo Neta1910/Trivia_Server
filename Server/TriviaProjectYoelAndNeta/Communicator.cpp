@@ -64,45 +64,31 @@ std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, cons
 
 void Communicator::handleNewClient(const SOCKET& userSocket)
 {
-	bool user_connected = true;
-	while (user_connected)
+	while (true)
 	{
 		try
 		{
 			std::vector<unsigned char> clientMessage = this->getDataFromSocket(userSocket, MESSEGE_LENGTH);
-			if (clientMessage[0] == LOGOUT_REQ) // Check if user wants to log out
+
+			RequestInfo reqInfo = { static_cast<RequestCodes>(clientMessage[0]), getCurrentTime(), clientMessage };
+			if (m_clients.find(userSocket)->second != nullptr && m_clients.find(userSocket)->second->isRequestRelevant(reqInfo))
 			{
-				if (std::string(clientMessage.begin(), clientMessage.end()) == "logout")
+				RequestResult resResult = m_clients.find(userSocket)->second->handleRequest(reqInfo);
+				if (resResult.newHandler != nullptr) // Update handler if valid
 				{
-					RequestInfo logout_req = { static_cast<RequestCodes>(LOGOUT_REQ), getCurrentTime(), clientMessage };
-					RequestResult res = m_clients.find(userSocket)->second->handleRequest(logout_req);
+					m_clients.find(userSocket)->second = resResult.newHandler;
 				}
-				closesocket(userSocket);
-				m_clients.erase(userSocket);
-				user_connected = false;
+				if (std::string(resResult.response.begin(), resResult.response.end()) != "")
+				{
+					sendData(userSocket, resResult.response);
+				}
 			}
-			if (user_connected)
+			else // Assemble error response
 			{
-				RequestInfo reqInfo = { static_cast<RequestCodes>(clientMessage[0]), getCurrentTime(), clientMessage };
-				if (m_clients.find(userSocket)->second != nullptr && m_clients.find(userSocket)->second->isRequestRelevant(reqInfo))
-				{
-					RequestResult resResult = m_clients.find(userSocket)->second->handleRequest(reqInfo);
-					if (resResult.newHandler != nullptr) // Update handler if valid
-					{
-						m_clients.find(userSocket)->second = resResult.newHandler;
-					}
-					if (std::string(resResult.response.begin(), resResult.response.end()) != "")
-					{
-						sendData(userSocket, resResult.response);
-					}
-				}
-				else // Assemble error response
-				{
-					ErrorResponse err;
-					err.message = INVALID_REQUEST;
-					std::vector<unsigned char> errorMessage = JsonResponsePacketSerialize::serializeErrorResponse(err);
-					this->sendData(userSocket, errorMessage);
-				}
+				ErrorResponse err;
+				err.message = INVALID_REQUEST;
+				std::vector<unsigned char> errorMessage = JsonResponsePacketSerialize::serializeErrorResponse(err);
+				this->sendData(userSocket, errorMessage);
 			}
 		}
 		catch (const std::exception& e)

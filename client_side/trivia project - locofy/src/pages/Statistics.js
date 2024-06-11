@@ -5,9 +5,10 @@ import PieChart from "../components/PieChart";
 import { useEffect, useState } from "react";
 import { socket } from "../socket";
 import Constants from "../Constants";
+import Loader from "../components/Loader";
 
 const Statistics = () => {
-  const [totalAns, setTotalAns] = useState(0);
+  const [wrongAns, setWrongAns] = useState(0);
   const [avgAnsTime, setAvgAnsTime] = useState(0);
   const [gamesPlayed, setGamesPlayed] = useState(0);
   const [highScore, setHighScore] = useState(0);
@@ -24,7 +25,7 @@ const Statistics = () => {
         setGamesPlayed(response["statistics"][Constants.FIELDS.GAMES_PLAYED])
         setHighScore(response["statistics"][Constants.FIELDS.HIGH_SCORE])
         setRightAns(response["statistics"][Constants.FIELDS.CORRECT_ANSWER_COUNT])
-        setTotalAns(response["statistics"][Constants.FIELDS.TOTAL_ANS])
+        setWrongAns(response["statistics"][Constants.FIELDS.WRONG_ANSWER_COUNT])
         setIsLoading(false);
       }
       else {
@@ -45,15 +46,15 @@ const Statistics = () => {
     <div className={styles.statistics}>
       <section className={styles.highhScoreresParent}>
         <HighhScoreres />
-         {isLoading ? <p>Loading data</p> :
+         {isLoading ? <Loader /> :
          errorInPersonal ? <p>The user havent played any games </p> :
          <PieChart 
             correctAns={rightAns}
-            sumAns={totalAns}
+            wrongAns={wrongAns}
          />
          }
       </section>
-      {isLoading ? <p>Loading data</p> :
+      {isLoading ? <Loader /> :
          errorInPersonal ? <p>The user havent played any games </p> :
          <StatProperties
             numOfGames={gamesPlayed}

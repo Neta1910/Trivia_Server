@@ -1,40 +1,30 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { FaClock } from 'react-icons/fa';
-import styles from './TriviaTimer.module.css';
+import { useEffect } from 'react';
+import { useTimer } from 'react-timer-hook';
 
-const Stopwatch = ({ initialTime, onTimeUp }) => {
-  const [time, setTime] = useState(initialTime * 1000);
-  const timerRef = useRef(null);
+function Timer({ timeOut, onExpire, reset }) {
+  const expiryTimestamp = new Date(timeOut * 1000);
+  const {
+    totalSeconds,
+    start,
+    pause,
+    resume,
+    restart,
+  } = useTimer({ expiryTimestamp, onExpire: () => onExpire(3)});
 
   useEffect(() => {
-    timerRef.current = setInterval(() => {
-      setTime((prevTime) => {
-        if (prevTime <= 10) {
-          clearInterval(timerRef.current);
-          onTimeUp(0);
-          return 0;
-        }
-        return prevTime - 10;
-      });
-    }, time);
-
-    return () => {
-      clearInterval(timerRef.current);
-    };
-  }, [onTimeUp]);
-
-  const formatTime = (time) => {
-    const seconds = Math.floor(time / 1000);
-    const milliseconds = time % 1000;
-    return `${seconds}.${milliseconds.toString().padStart(3, '0')}`;
-  };
+    if (reset) {
+      restart(expiryTimestamp);
+    }
+  }, [reset, timeOut, restart, expiryTimestamp]);
 
   return (
-    <div className={styles.stopwatch}>
-      <FaClock className={styles.clockIcon} />
-      <span className={styles.time}>{formatTime(time)}</span>
+    <div style={{ textAlign: 'center' }}>
+      <p>Time Left</p>
+      <div style={{ fontSize: '100px' }}>
+        <span>{totalSeconds}</span>
+      </div>
     </div>
   );
-};
+}
 
-export default Stopwatch;
+export default Timer;

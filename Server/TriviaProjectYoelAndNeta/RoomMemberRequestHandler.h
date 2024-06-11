@@ -18,7 +18,7 @@ private:
 	RequestResult leaveRoom(RequestInfo reqInfo);
 	RequestResult getRoomState(RequestInfo& reqInfo);
 	RequestResult getPlayersInRoom(RequestInfo& reqInfo);
-
+	RequestResult logOut(RequestInfo& reqInfo);
 
 	Room* m_room;
 	LoggedUser* m_user;
