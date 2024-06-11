@@ -37,15 +37,18 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 	{
 		SignUpRequest req = JsonRequestPacketDeserializer::deserializeSignUpRequest(reqInfo.buffer);
 		SignupResponse res = { CODE_SIGN_UP_RESP };
-		if (this->m_handleFactory.GetLoginManager().signUp(req.userName, req.password, req.email, req.address, req.birthDate, req.phoneNumber))
+		LoggedUser* user = this->m_handleFactory.GetLoginManager().signUp(req.userName, req.password, req.email, req.address, req.birthDate, req.phoneNumber);
+		if (user)
 		{
+			MenuRequestHandler* newHandler = this->m_handleFactory.createMenuRequestHandler(user);
 			res.status = WORK_STATUS;
+			return { JsonResponsePacketSerialize::serializeSignUpResponse(res), newHandler };
 		}
 		else
 		{
+			LoginRequestHandler* newHandler = this->m_handleFactory.createLoginRequestHandler();
 			res.status = FAIL_STATUS;
+			return { JsonResponsePacketSerialize::serializeSignUpResponse(res), newHandler };
 		}
-		LoginRequestHandler* newHandler = this->m_handleFactory.createLoginRequestHandler();
-		return { JsonResponsePacketSerialize::serializeSignUpResponse(res), newHandler};
 	}
 }

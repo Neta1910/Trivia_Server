@@ -88,7 +88,7 @@ void SQLiteDatabase::loadQuestionsIntoDB(int amount)
 		std::cerr << "Failed to open internet handle" << std::endl;
 		return;
 	}
-	std::string url = "https://opentdb.com/api.php?amount=" + std::to_string(amount) + "& category = 9 & difficulty = hard & type = multiple";
+	std::string url = "https://opentdb.com/api.php?amount=" + std::to_string(amount) + "& category = 23 & difficulty = medium & type = multiple";
 	HINTERNET hConnect = InternetOpenUrlA(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
 	if (!hConnect) {
 		std::cerr << "Failed to open URL" << std::endl;
@@ -214,7 +214,7 @@ int SQLiteDatabase::submitGameStatistics(GameData game_data, LoggedUser user)
 
 		// updating the games played 
 		std::string gamesPlayed_query = "UPDATE Statistics SET GAMES_PLAYED = GAMES_PLAYED + 1 WHERE ID = " + std::to_string(user.getId()) + ";";
-		runCommand(avgAnsTime_query);
+		runCommand(gamesPlayed_query);
 	}
 	return 0;
 }
