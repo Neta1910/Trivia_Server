@@ -181,6 +181,13 @@ std::vector<HighestScore> SQLiteDatabase::getHighScores(int num_of_highScores)
 	return SQLiteDatabase::highestScores;
 }
 
+std::map<int, std::string> SQLiteDatabase::getSecurityKey()
+{
+	std::string query = "SELECT * FROM OTP_key;";
+	this->runCommand(query, loadIntoMap);
+	return SQLiteDatabase::OTP_key;
+}
+
 
 
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
@@ -325,3 +332,19 @@ int loadIntoHighestScores(void* _data, int argc, char** argv, char** azColName)
 	return 0;
 }
 
+int loadIntoMap(void* _data, int argc, char** argv, char** azColName)
+{
+	std::pair<int, std::string> new_pair;
+	for (int i = 0; i < argc; i++)
+	{
+		if (std::string(azColName[i]) == KEY)
+		{
+			new_pair.first = std::stoi(argv[i]);
+		}
+		else if (std::string(azColName[i]) == VAL)
+		{
+			new_pair.second = argv[i];
+		}
+	}
+	SQLiteDatabase::OTP_key.insert(new_pair);
+}

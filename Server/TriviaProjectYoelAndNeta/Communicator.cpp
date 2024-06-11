@@ -1,5 +1,5 @@
 #include "Communicator.h"
-#define MESSEGE_LENGTH 1024
+#define MESSAGE_LENGTH 1024
 Communicator::Communicator(const SOCKET& socket, RequestHandlerFactory& handleFactory) : m_serverSocket(socket), m_handlerFactory(handleFactory)
 {
 }
@@ -73,7 +73,7 @@ void Communicator::handleNewClient(const SOCKET& userSocket)
 	{
 		try
 		{
-			std::vector<unsigned char> clientMessage = this->getDataFromSocket(userSocket, MESSEGE_LENGTH);
+			std::vector<unsigned char> clientMessage = this->getDataFromSocket(userSocket, MESSAGE_LENGTH);
 			if (clientMessage[0] == MT_CLIENT_EXIT) // Check if user wants to log out
 			{
 				if (std::string(clientMessage.begin(), clientMessage.end()) == "logout")

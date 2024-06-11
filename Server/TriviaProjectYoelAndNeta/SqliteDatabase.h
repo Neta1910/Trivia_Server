@@ -9,6 +9,7 @@
 #include <list>
 #include <Windows.h>
 #include <WinInet.h>
+#include <utility>      // std::pair
 
 #pragma comment(lib, "wininet.lib")
 
@@ -23,6 +24,9 @@
 #define PASSWORD "PASSWORD"
 #define EMAIL "EMAIL"
 #define ID "ID"
+
+#define KEY "Key" 
+#define VAL "Val"
 
 // t_questions
 #define QUESTION_ID "question_id"
@@ -41,6 +45,7 @@ int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName);
 int floatCallBack(void* _data, int argc, char** argv, char** azColName);
 int integerCallBack(void* _data, int argc, char** argv, char** azColName);
 int loadIntoHighestScores(void* _data, int argc, char** argv, char** azColName);
+int loadIntoMap(void* _data, int argc, char** argv, char** azColName);
 //int loadIntoStatistics(void* _data, int argc, char** argv, char** azColName);
 
 class SQLiteDatabase : public IDatabase
@@ -83,6 +88,8 @@ public:
 	virtual std::vector<HighestScore> getHighScores(int num_of_highScores) override;
 
 	static std::vector<HighestScore> highestScores;
+	static std::map<int,  std::string> OTP_key;
+	virtual std::map<int, std::string> getSecurityKey() override;
 
 private:
 	sqlite3* _db;
