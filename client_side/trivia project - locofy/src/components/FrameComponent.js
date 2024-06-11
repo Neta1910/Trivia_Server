@@ -25,7 +25,7 @@ const TopPartGameBoard = ({correctAns, allQuestions, avgTime, timeOut, submitAns
           <div className={styles.xSecondsAvg}>{avgTime} seconds, avg time</div>
         </div>
 
-      <Timer timeOut={timeOut} onExpire={submitAns(0)} reset={reset} />
+      {/* <Timer timeOut={timeOut} onExpire={submitAns} reset={reset} /> */}
       </div>
     </header>
   );
