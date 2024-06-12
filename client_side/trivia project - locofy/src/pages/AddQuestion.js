@@ -1,11 +1,15 @@
 import Ans from "../components/Ans";
 import styles from "./AddQuestion.module.css";
 import HeaderAddAQuestion from "../components/HeaderAddAQuestion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { socket } from "../socket";
+import Constants from "../Constants";
+import { useNavigate } from "react-router-dom";
 
 const AddAQuestion = () => {
   const [questionText, setQuestionText] = useState("");
   const [otherAnswers, setOtherAnswers] = useState([]);
+  const navigate = useNavigate();
 
   const handleAnswerChange = (index, event) => {
     const newAnswers = [...otherAnswers];
@@ -13,15 +17,27 @@ const AddAQuestion = () => {
     setOtherAnswers(newAnswers);
   };
 
+
   const handleFormSubmit = () => {
-    
+    socket.emit("addQuestion", {[Constants.FIELDS.QUESTION_TEXT]: questionText, [Constants.FIELDS.ANSWERS]: otherAnswers})
   };
+
+  useEffect (() => {
+    socket.on("addQuestionResponse", (response) => {
+      if (response.status === Constants.WORK_STATUS) {
+        navigate('/menu')
+      }
+      else {
+        console.log("Failed");
+      }
+    })
+  })
 
   return (
     <div className={styles.addAQuestion}>
       <h3 className={styles.addAQuestion1}>Add a question</h3>
       <main className={styles.frameParent}>
-        <HeaderAddAQuestion />
+        <HeaderAddAQuestion onChange={setQuestionText}/>
         <section className={styles.ansParent}>
           <Ans
             correctAns="Correct ans"

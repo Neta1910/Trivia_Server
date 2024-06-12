@@ -134,4 +134,8 @@ class GetGameResRequest:
         data = {}
         return parseRequestToMessage(data, GET_GAME_RESULT_REQ)
 
+class AddQuestionRequest:
+    def getMessage(self, data):
+        return parseRequestToMessage(data, ADD_QUESTION_REQ)
+
 

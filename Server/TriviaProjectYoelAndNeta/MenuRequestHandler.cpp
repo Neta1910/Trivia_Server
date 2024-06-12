@@ -171,7 +171,8 @@ RequestResult MenuRequestHandler::addQuestion(RequestInfo& reqInfo)
 	add_question_res.possible_ans.erase(add_question_res.possible_ans.begin());
 	Question question(add_question_res.questionText, add_question_res.possible_ans, correct_ans);
 	m_handleFactory.getDatabase()->insertQuestionIntoDB(question);
-	
+	addQuestionResponse addQuestion_res = { WORKING_STATUS };
+	return { JsonResponsePacketSerialize::serializeAddQuestionResponse(addQuestion_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
 
 
