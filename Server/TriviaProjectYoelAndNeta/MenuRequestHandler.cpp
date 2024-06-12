@@ -175,4 +175,9 @@ RequestResult MenuRequestHandler::addQuestion(RequestInfo& reqInfo)
 	return { JsonResponsePacketSerialize::serializeAddQuestionResponse(addQuestion_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
 
+RequestResult MenuRequestHandler::JoinOneOnOne(RequestInfo& reqInfo)
+{
+	return RequestResult();
+}
+
 

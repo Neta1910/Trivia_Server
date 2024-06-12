@@ -1,6 +1,7 @@
 #pragma once
 #include "LoggedUser.h"
-class OneOnOne {
+#include "Room.h"
+class OneOnOne : public Room {
 public:
 	OneOnOne(int room_id);
 	bool isRoomFull() const;

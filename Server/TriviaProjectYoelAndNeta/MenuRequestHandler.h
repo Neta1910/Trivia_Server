@@ -29,4 +29,5 @@ private:
 	RequestResult joinRoom(RequestInfo& reqInfo);
 	RequestResult createRoom(RequestInfo& reqInfo);
 	RequestResult addQuestion(RequestInfo& reqInfo);
+	RequestResult JoinOneOnOne(RequestInfo& reqInfo);
 };
