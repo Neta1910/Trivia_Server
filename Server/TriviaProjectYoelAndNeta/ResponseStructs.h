@@ -117,3 +117,8 @@ typedef struct GetGameResultsResponse
 	std::vector<PlayerResults> results;
 };
 
+
+typedef struct addQuestionResponse
+{
+	unsigned int status;
+};
