@@ -177,7 +177,13 @@ RequestResult MenuRequestHandler::addQuestion(RequestInfo& reqInfo)
 
 RequestResult MenuRequestHandler::JoinOneOnOne(RequestInfo& reqInfo)
 {
-	return RequestResult();
+	if (m_roomManager.getCurr()->isRoomFull())
+	{
+		m_roomManager.createNewCurr();
+	}
+	m_roomManager.getCurr()->addUser(m_user);
+	JoinOneOnOneResponse res = { WORKING_STATUS };
+	return { JsonResponsePacketSerialize::serializeJoinOneOnOne(res), (IRequestHandler*)m_handleFactory.createRoomMemberRequestHandler( m_user, m_roomManager.getCurr() )};
 }
 
 

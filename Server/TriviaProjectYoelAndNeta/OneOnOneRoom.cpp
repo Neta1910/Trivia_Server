@@ -1,23 +1,19 @@
 #include "OneOnOneRoom.h"
-
-OneOnOne::OneOnOne(int room_id) : first(nullptr), second(nullptr), roon_id(room_id)
+#include "pch.h"
+OneOnOne::OneOnOne(int room_id) : Room()
 
 {
 }
 
 bool OneOnOne::isRoomFull() const
 {
-	return second != nullptr ? true : false;
+	return  m_users.size() > PLAYERS_IN_ONE_ON_ONE;
 }
 
-void OneOnOne::addUserToRoom(LoggedUser* user)
+void OneOnOne::addUser(LoggedUser* logged_user)
 {
-	if (first == nullptr)
+	if (!isRoomFull())
 	{
-		first = user;
-	}
-	else
-	{
-		second = user;
+		m_users.push_back(logged_user);
 	}
 }

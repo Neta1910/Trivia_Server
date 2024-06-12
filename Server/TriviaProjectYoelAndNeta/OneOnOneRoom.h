@@ -5,9 +5,5 @@ class OneOnOne : public Room {
 public:
 	OneOnOne(int room_id);
 	bool isRoomFull() const;
-	void addUserToRoom(LoggedUser* user);
-private:
-	LoggedUser* first;
-	LoggedUser* second;
-	unsigned int roon_id;
+	void addUser(LoggedUser* logged_user);
 };

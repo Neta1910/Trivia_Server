@@ -7,7 +7,6 @@ class RoomManager
 public:
 	RoomManager() { 
 		currRoom = new OneOnOne(0);
-		m_oneOnOne_rooms.insert({ 0, currRoom });
 	};
 
 	int createRoom(LoggedUser* logged_user, RoomData room_data);
@@ -18,9 +17,9 @@ public:
 	// ---- Getters ----
 	std::vector<RoomData> getRooms();
 	Room* getRoom(int room_id);
-
+	OneOnOne* getCurr();
+	void createNewCurr();
 private:
 	std::map<int, Room*> m_rooms; // Map for the room and its' id
-	std::map<int, OneOnOne*> m_oneOnOne_rooms;
 	OneOnOne* currRoom;
 };

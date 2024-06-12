@@ -122,3 +122,8 @@ typedef struct addQuestionResponse
 {
 	unsigned int status;
 };
+
+typedef struct JoinOneOnOneResponse
+{
+	unsigned int status;
+};

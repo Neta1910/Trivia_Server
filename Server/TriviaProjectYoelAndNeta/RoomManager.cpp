@@ -83,3 +83,13 @@ Room* RoomManager::getRoom(int room_id)
 		}
 	}	
 }
+
+OneOnOne* RoomManager::getCurr()
+{
+	return currRoom;
+}
+
+void RoomManager::createNewCurr()
+{
+	currRoom = new OneOnOne(0);
+}
