@@ -6,7 +6,7 @@ const HeaderAddAQuestion = ({ className = "" }) => {
     <section className={[styles.frameWrapper, className].join(" ")}>
       <div className={styles.nestedContentParent}>
         <div className={styles.nestedContent}>
-          <h3 className={styles.questionText}>Question text</h3>
+          <textarea className={styles.questionText} placeholder="Question text"/>
         </div>
         <div className={styles.vectorWrapper}>
           <img
