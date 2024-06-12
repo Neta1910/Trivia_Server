@@ -15,7 +15,8 @@ bool MenuRequestHandler::isRequestRelevant(RequestInfo& reqInfo)
 		(reqInfo.RequestId == JOIN_ROOM_REQ) ||
 		(reqInfo.RequestId == CREATE_ROOM_REQ) ||
 		(reqInfo.RequestId == GET_HIGH_SCORE_REQ) ||
-		(reqInfo.RequestId == GET_PERSONAL_STATS_REQ);
+		(reqInfo.RequestId == GET_PERSONAL_STATS_REQ) ||
+		(reqInfo.RequestId == ADD_QUESTION_REQ);
 }
 
 RequestResult MenuRequestHandler::handleRequest(RequestInfo& reqInfo)
@@ -34,6 +35,8 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo& reqInfo)
 		return this->getHighScore(reqInfo);
 	case GET_PERSONAL_STATS_REQ:
 		return this->getPersonalStats(reqInfo);
+	case ADD_QUESTION_REQ:
+		return this->addQuestion(reqInfo);
 	}
 }
 
@@ -159,6 +162,17 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo& reqInfo)
 	}
 	ErrorResponse error_res = { "Invalid room settings!" };	
 	return { JsonResponsePacketSerialize::serializeErrorResponse(error_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
+}
+
+RequestResult MenuRequestHandler::addQuestion(RequestInfo& reqInfo)
+{
+	AddQwestionRequest add_question_res = JsonRequestPacketDeserializer::deserializeAddQuestionReqest(reqInfo.buffer);
+	std::string correct_ans = add_question_res.possible_ans[0];
+	add_question_res.possible_ans.erase(add_question_res.possible_ans.begin());
+	Question question(add_question_res.questionText, add_question_res.possible_ans, correct_ans);
+	m_handleFactory.getDatabase()->insertQuestionIntoDB(question);
+	addQuestionResponse addQuestion_res = { WORKING_STATUS };
+	return { JsonResponsePacketSerialize::serializeAddQuestionResponse(addQuestion_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 }
 
 

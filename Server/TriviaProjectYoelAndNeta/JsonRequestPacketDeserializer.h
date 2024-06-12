@@ -31,6 +31,7 @@ public:
 
 	// V4 
 	static SubmitAnswerRequest deserializeSubmitAnswerRequest(const std::vector<unsigned char> buffer);
+	static AddQwestionRequest deserializeAddQuestionReqest(const std::vector<unsigned char> buffer);
 
 	// general
 	static int convertUnsignedToInt(const std::vector<unsigned char>& buffer);

@@ -1,0 +1,41 @@
+.ans,
+.correctAns {
+  flex-shrink: 0;
+  max-width: 100%;
+}
+.correctAns {
+  margin-left: -14px;
+  width: 464px;
+  position: relative;
+  display: inline-block;
+  font-size: 34px;
+  margin-left: 3px;
+  margin-top: 3px;
+}
+.ans {
+  width: 592px;
+  border-radius: 20px;
+  background-color: #fe8;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 34px 0;
+  box-sizing: border-box;
+  min-height: 158px;
+  text-align: center;
+  font-size: 64px;
+  color: #000;
+  font-family: Kavoon;
+}
+@media screen and (max-width: 800px) {
+  .correctAns {
+    font-size: 51px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .correctAns {
+    font-size: 38px;
+  }
+}

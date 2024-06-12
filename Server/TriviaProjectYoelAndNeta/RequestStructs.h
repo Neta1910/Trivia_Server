@@ -57,3 +57,10 @@ typedef struct SubmitAnswerRequest
 {
 	unsigned int answerId;
 };
+
+
+typedef struct AddQwestionRequest
+{
+	std::string questionText;
+	std::vector<std::string> possible_ans;
+};

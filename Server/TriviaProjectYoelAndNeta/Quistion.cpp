@@ -1,6 +1,6 @@
 #include "Quistion.h"
 
-Question::Question(const std::string& question, const std::vector<std::string>& possibleAnsowers, const std::string& correctAnsower) :
+Question::Question(const std::string& question, const std::vector<std::string>& possibleAnsowers,  const std::string& correctAnsower) :
     m_correctAnswer(correctAnsower), m_possibleAnswers(possibleAnsowers), m_question(question)
 {
 }

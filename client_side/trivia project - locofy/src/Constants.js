@@ -31,7 +31,8 @@ const Constants = {
       CORRECT_ANS_ID: "correctAnswerId",
       ANSWER_ID: "answerId",
       RESULTS: "results",
-      avg_time: "avg_time"
+      avg_time: "avg_time",
+      QUESTION_TEXT: "question_text",
     },
   };
   

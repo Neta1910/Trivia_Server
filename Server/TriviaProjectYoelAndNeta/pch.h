@@ -21,7 +21,8 @@ enum ResponseCodes
 	LEAVE_GAME_RESP,
 	GET_QUESTION_RESP, 
 	SUBMIT_ANSWER_RESP,
-	GET_GAME_RESULTS_RESP
+	GET_GAME_RESULTS_RESP,
+	ADD_QUESTION_RESP
 };
 
 enum RequestCodes
@@ -44,7 +45,8 @@ enum RequestCodes
 	LEAVE_GAME_REQ,
 	GET_QUESTION_REQ,
 	SUBMIT_ANSWER_REQ,
-	GET_GAME_RESULT_REQ
+	GET_GAME_RESULT_REQ,
+	ADD_QUESTION_REQ
 };
 
 // ---- Message constants ----
@@ -103,3 +105,6 @@ enum RequestCodes
 #define NOT_SOMTHING_TO_UPDATE 219
 
 #define CONVORT_MILI_TO_SECONDS 10000
+
+#define QUESTION_TEXT "question_text"
+#define ANSWERS "answers"

@@ -46,6 +46,7 @@ public:
 	static std::vector<unsigned char> serializeGetQuestionResponseResponse(const GetQuestionResponse& response);
 	static std::vector<unsigned char> serializeSubmitAnswerResponseResponse(const SubmitAnswerResponse& response);
 	static std::vector<unsigned char> serializeGetGameResultsResponseResponse(const GetGameResultsResponse& response);
+	static std::vector<unsigned char> serializeAddQuestionResponse(const addQuestionResponse& response);
 
 	// general functions
 	static std::vector<unsigned char> parseDataIntoMessage(json j, const int& respCode );

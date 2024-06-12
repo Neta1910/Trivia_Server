@@ -1,0 +1,70 @@
+.questionText {
+    margin: 0;
+    width: 886px;
+    position: relative;
+    font-size: inherit;
+    font-weight: 400;
+    font-family: inherit;
+    display: inline-block;
+    flex-shrink: 0;
+    max-width: 100%;
+  }
+  .nestedContent {
+    align-self: stretch;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0 26px 20px;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+  .frameChild {
+    width: 462px;
+    position: relative;
+    max-height: 100%;
+    max-width: 100%;
+  }
+  .vectorWrapper {
+    width: 928px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+  .nestedContentParent {
+    width: 961px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 20px;
+    max-width: 100%;
+  }
+  .frameWrapper {
+    width: 1279px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 100%;
+    text-align: center;
+    font-size: 96px;
+    color: #000;
+    font-family: Kavoon;
+  }
+  @media screen and (max-width: 800px) {
+    .questionText {
+      font-size: 48px;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    .questionText {
+      font-size: 29px;
+    }
+  }
+  

@@ -152,3 +152,13 @@ class GetGameResResp:
             "status": self.status,
             "results": self.results
         }
+
+class AddQuestionResp:
+    def __init__(self, resp):
+        json_data = parseResponse(resp)
+        self.status = json_data["status"]
+
+    def to_dict(self):
+        return {
+            "status": self.status,
+        }
