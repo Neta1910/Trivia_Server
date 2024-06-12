@@ -6,7 +6,7 @@ class Question
 {
 public:
 	// Note: need to add initilazation of 'm_id' 
-	Question(const std::string& question, const std::vector<std::string>& possibeleAnsowers, const std::string& correctAnsower); 
+	Question(std::string& question, std::vector<std::string>& possibeleAnsowers, std::string& correctAnsower); 
 	Question();
 	std::string getQuestion() const;
 	std::vector <std::string> getPossibleAnswers() const;

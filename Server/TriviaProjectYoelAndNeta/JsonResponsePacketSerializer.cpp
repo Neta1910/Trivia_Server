@@ -182,6 +182,12 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetGameResultsR
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_GAME_RESULTS_RESP);
 }
 
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeAddQuestionResponse(const addQuestionResponse& response)
+{
+    json j = json{ {"status", response.status} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, ADD_QUESTION_RESP);
+}
+
 
 
 // Function to parse data into a message
