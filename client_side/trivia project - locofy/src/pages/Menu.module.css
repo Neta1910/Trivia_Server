@@ -197,7 +197,7 @@
   letter-spacing: normal;
   gap: var(--gap-xl);
   text-align: left;
-  font-size: var(--font-size-77xl);
+  font-size: 90px;
   color: var(--color-black);
   font-family: var(--font-kavoon);
 }

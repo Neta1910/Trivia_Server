@@ -7,6 +7,7 @@ const Menu = () => {
   return (
     <div className={styles.menu}>
       <div className={styles.frameParent}>
+        
         <div className={styles.frameGroup}>
           
           <div className={styles.createRoomWrapper}>
@@ -20,14 +21,7 @@ const Menu = () => {
         </div>
 
         <div className={styles.frameContainer}>
-          <div className={styles.vectorWrapper}>
-            <img
-              className={styles.frameChild}
-              loading="lazy"
-              alt=""
-              src="/vector-3.svg"
-            />
-          </div>
+
           <div className={styles.frameDiv}>
 
             <div className={styles.statisticsWrapper}>
@@ -40,15 +34,14 @@ const Menu = () => {
 
           </div>
         </div>
+
+        <div className={styles.frameGroup}>
+          <div className={styles.createRoomWrapper}>
+            <div className={styles.createRoom} onClick={() => navigate("/add-question")}>Add question</div>
+          </div>
+        </div>
       </div>
-      <div className={styles.menuInner}>
-        <img
-          className={styles.frameItem}
-          loading="lazy"
-          alt=""
-          src="/vector-4.svg"
-        />
-      </div>
+
 
       <MenuBarIcon menuBar="/menu-bar.svg" />
 
