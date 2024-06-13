@@ -3,11 +3,12 @@ import PlayerRes from '../components/PlayerRes'
 import styles from "./GamResultd.module.css";
 import { socket } from '../socket';
 import Constants from '../Constants';
+import { useNavigate } from 'react-router-dom';
 
 const GamResultd = () => {
   const [gameResults, setGameResults] = useState([])
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   useEffect(() => {
     socket.on("getRoomResResponse", (response) => {
       console.log('response:', response)
@@ -49,6 +50,10 @@ const GamResultd = () => {
           place={index}
           key={index}
         /> )}
+         
+      </section>
+      <section className={styles.backToMenuDiv} >
+          <button className={styles.backToMenuButton} onClick={() => navigate("/Menu")}> Back to menu </button>
       </section>
     </div>
   );

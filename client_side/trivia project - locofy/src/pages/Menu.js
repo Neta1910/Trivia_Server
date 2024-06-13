@@ -44,7 +44,6 @@ const Menu = () => {
 
 
       <MenuBarIcon menuBar="/menu-bar.svg" />
-
     </div>
   );
 };

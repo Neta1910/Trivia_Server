@@ -59,11 +59,13 @@ const Login = () => {
             </div>
             <div className={styles.frameWrapper}>
               <div className={styles.frameParent}>
+                
                 <div className={styles.submitButtonWrapper}>
                   <button className={styles.submitButton}>
                     <div className={styles.submit} onClick={handleFormSubmit}>Submit</div>
                   </button>
                 </div>
+
                 <div className={styles.alreadyAUserContainer}>
                   <span className={styles.notAUser}>{`Not a user?  `}</span>
                   <span className={styles.register1} onClick={navigateToRegister} >Register</span>
