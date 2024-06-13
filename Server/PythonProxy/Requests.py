@@ -48,6 +48,9 @@ class JoinRoomRequest:
         self.room_id = room_id
 
     def getMessage(self):
+        data = {}
+        if self.room_id == 0:
+            return parseRequestToMessage(data, JOIN_ONE_ON_ONE_REQ)
         data = {"roomId": self.room_id}
         return parseRequestToMessage(data, JOIN_ROOM_REQ)
 

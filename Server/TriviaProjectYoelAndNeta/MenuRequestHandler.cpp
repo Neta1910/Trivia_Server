@@ -16,7 +16,8 @@ bool MenuRequestHandler::isRequestRelevant(RequestInfo& reqInfo)
 		(reqInfo.RequestId == CREATE_ROOM_REQ) ||
 		(reqInfo.RequestId == GET_HIGH_SCORE_REQ) ||
 		(reqInfo.RequestId == GET_PERSONAL_STATS_REQ) ||
-		(reqInfo.RequestId == ADD_QUESTION_REQ);
+		(reqInfo.RequestId == ADD_QUESTION_REQ) ||
+		(reqInfo.RequestId == JOIN_ONE_ON_ONE_REQ);
 }
 
 RequestResult MenuRequestHandler::handleRequest(RequestInfo& reqInfo)
@@ -37,6 +38,8 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo& reqInfo)
 		return this->getPersonalStats(reqInfo);
 	case ADD_QUESTION_REQ:
 		return this->addQuestion(reqInfo);
+	case JOIN_ONE_ON_ONE_REQ:
+		return this->JoinOneOnOne(reqInfo);
 	}
 }
 
@@ -177,19 +180,24 @@ RequestResult MenuRequestHandler::addQuestion(RequestInfo& reqInfo)
 
 RequestResult MenuRequestHandler::JoinOneOnOne(RequestInfo& reqInfo)
 {
+	OneOnOne* room = m_roomManager.getCurr();
+	JoinOneOnOneResponse res;
 	if (m_roomManager.getCurr()->getAllLoggedUsers().size() == 1)
 	{
-		m_roomManager.getCurr()->getRoomData().isGameBegun = true;
-		m_roomManager.getCurr()->getAllLoggedUsers()[0]->setUpdateInOwnRoom(true);
-		m_roomManager.getCurr()->addUser(m_user);
+		res.status = GAME_STARTED;
+		room->getRoomData().isGameBegun = true;
+		room->getAllLoggedUsers()[0]->setUpdateInOwnRoom(true);
+		room->addUser(m_user);
+		Game* new_game = m_handleFactory.getGameManager().createGame(room);
+		room->getRoomData().game_id = new_game->getGameId();
 		m_roomManager.createNewCurr();
+		return { JsonResponsePacketSerialize::serializeJoinOneOnOne(res), (IRequestHandler*)m_handleFactory.createGameRequestHandler(m_user, new_game)};
 	}
 	else
 	{
-		m_roomManager.getCurr()->addUser(m_user);
+		room->addUser(m_user);
 	}
-	JoinOneOnOneResponse res = { WORKING_STATUS };
-	return { JsonResponsePacketSerialize::serializeJoinOneOnOne(res), (IRequestHandler*)m_handleFactory.createRoomMemberRequestHandler( m_user, m_roomManager.getCurr() )};
+	return { JsonResponsePacketSerialize::serializeJoinOneOnOne(res), (IRequestHandler*)m_handleFactory.createRoomMemberRequestHandler( m_user, room)};
 }
 
 

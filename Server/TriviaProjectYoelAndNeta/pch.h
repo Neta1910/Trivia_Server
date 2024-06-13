@@ -114,3 +114,5 @@ enum RequestCodes
 #define PLAYERS_IN_ONE_ON_ONE 2
 #define QUESTIONS_IN_ONE_ON_ONE 15
 #define TIMEOUT_IN_ONE_ON_ONE 30
+
+#define GAME_STARTED 190
