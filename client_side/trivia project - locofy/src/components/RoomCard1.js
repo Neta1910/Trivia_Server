@@ -14,7 +14,7 @@ const RoomCard = ({RoomName, AmountOfPlayers, timeout, questions, roomId}) => {
     }).toString();
     socket.on("joinRoomResponse", (response) => {
       if (response.status === Constants.GAME_STARTED) {
-        setIsGameStarted(true)
+        navigate('/game-board')
       }
       else {
         localStorage.setItem('currentRoomId', roomId)  
@@ -29,7 +29,6 @@ const RoomCard = ({RoomName, AmountOfPlayers, timeout, questions, roomId}) => {
     })
   }
 
-  // if (isGameStarted) return <CountdownOverlay action={() => { navigate('/game-board');  }} />
 
   return (
     <div className={styles.roomCard} onClick={onClickOnCard}>
