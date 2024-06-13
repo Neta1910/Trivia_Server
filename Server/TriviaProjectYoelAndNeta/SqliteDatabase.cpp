@@ -200,7 +200,7 @@ int SQLiteDatabase::submitGameStatistics(GameData game_data, LoggedUser user)
 
 	if (!this->doesUserHaveStats(user.getId()))
 	{
-		this->runCommand("INSERT INTO Statistics (ID, AVERAGE_ANS_TIME, correct_ans, TOTAL_ANS, GAMES_PLAYED, USER_NAME) VALUES(" + std::to_string(user.getId()) + ", " + std::to_string(game_data.averageAnswerTime) + ", " + std::to_string(game_data.correctAnswerCount) + ", " + std::to_string(game_data.wrongAnswerCount + game_data.correctAnswerCount) + ", 1 , \"" + user.getUsername() + "\")");
+		this->runCommand("INSERT INTO Statistics (ID, AVERAGE_ANS_TIME, correct_ans,  WRONG_ANS, GAMES_PLAYED, USER_NAME) VALUES(" + std::to_string(user.getId()) + ", " + std::to_string(game_data.averageAnswerTime) + ", " + std::to_string(game_data.correctAnswerCount) + ", " + std::to_string(game_data.wrongAnswerCount) + ", 1 , \"" + user.getUsername() + "\")");
 	}
 	else
 	{
