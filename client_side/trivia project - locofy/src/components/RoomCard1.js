@@ -1,20 +1,20 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./RoomCard1.module.css";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../socket";
 import Constants from "../Constants";
-
+import CountdownOverlay from "./OverlayTimer";
 const RoomCard = ({RoomName, AmountOfPlayers, timeout, questions, roomId}) => {
   
   const navigate = useNavigate();
-  
+  const [isGameStarted, setIsGameStarted] = useState(false)
   useEffect(() => {
     const queryParams = new URLSearchParams({
       roomId: roomId
     }).toString();
     socket.on("joinRoomResponse", (response) => {
       if (response.status === Constants.GAME_STARTED) {
-        navigate('/game-board')
+        setIsGameStarted(true)
       }
       else {
         localStorage.setItem('currentRoomId', roomId)  
@@ -28,6 +28,8 @@ const RoomCard = ({RoomName, AmountOfPlayers, timeout, questions, roomId}) => {
       [Constants.FIELDS.ROOM_ID]: roomId
     })
   }
+
+  // if (isGameStarted) return <CountdownOverlay action={() => { navigate('/game-board');  }} />
 
   return (
     <div className={styles.roomCard} onClick={onClickOnCard}>
