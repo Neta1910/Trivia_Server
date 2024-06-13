@@ -6,12 +6,16 @@
 #include "StatisticsManager.h"
 #include "RoomAdminRequestHandler.h"
 #include "RoomMemberRequestHandler.h"
+#include "GameRequestHandler.h"
+#include "GameManager.h"
 
 class RoomAdminRequestHandler;
 class LoginManager;
 class LoginRequestHandler;
 class MenuRequestHandler;
 class RoomMemberRequestHandler;
+class GameRequestHandler;
+class GameManager;
 
 class RequestHandlerFactory
 {
@@ -34,12 +38,14 @@ public:
 
 	IDatabase* getDatabase();
 	RoomManager& getRoomManager();
-	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
-	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser logged_user, Room room);
-	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser logged_user, Room room);
-
+	MenuRequestHandler* createMenuRequestHandler(LoggedUser* user);
+	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser* logged_user, Room* room);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser* logged_user, Room* room);
+	GameRequestHandler* createGameRequestHandler(LoggedUser* logged_user, Game* game);
+	GameRequestHandler* createGameRequestHandler(GameRequestHandler& other);
 
 	StatisticsManager& getStatisticsManager();
+	GameManager& getGameManager();
 private: 
 	RequestHandlerFactory();
 
@@ -47,4 +53,5 @@ private:
 	IDatabase* m_database;
 	RoomManager m_roomManager;
 	StatisticsManager m_statisticsManager;
+	GameManager m_gameManager;
 };

@@ -1,6 +1,6 @@
 #include "Quistion.h"
 
-Question::Question(const std::string& question, const std::vector<std::string>& possibleAnsowers, const std::string& correctAnsower) :
+Question::Question(const std::string& question, const std::vector<std::string>& possibleAnsowers,  const std::string& correctAnsower) :
     m_correctAnswer(correctAnsower), m_possibleAnswers(possibleAnsowers), m_question(question)
 {
 }
@@ -51,5 +51,17 @@ void Question::setId(const int& val)
 
 void Question::insertOptional(const std::string& val)
 {
-    this->insertOptional(val);
+    this->m_possibleAnswers.push_back(val);
 }
+
+//
+//bool Question::operator!=(const Question& question)
+//{
+//    return question.getId() == this->getId();
+//}
+
+bool Question::operator==(const Question& question)
+{
+    return this->getId() == question.getId();
+}
+        

@@ -1,6 +1,6 @@
 #include "RequestHandlerFactory.h"
 
-RequestHandlerFactory::RequestHandlerFactory(IDatabase* db) : m_database(db) , m_loginManager(db), m_statisticsManager(), m_roomManager()
+RequestHandlerFactory::RequestHandlerFactory(IDatabase* db) : m_database(db) , m_loginManager(db), m_statisticsManager(db), m_roomManager(), m_gameManager(db)
 {
 }
 
@@ -30,22 +30,37 @@ RoomManager& RequestHandlerFactory::getRoomManager()
     return m_roomManager;
 }
 
-MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser user)
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser* user)
 {
-    return new MenuRequestHandler(*this, user.getUsername(), this->m_roomManager);
+    return new MenuRequestHandler(*this, user, this->m_roomManager);
 }
 
-RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser logged_user, Room room)
+RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser* logged_user, Room* room)
 {
-    return new RoomAdminRequestHandler(*this, logged_user.getUsername(), m_roomManager, room.getRoomData());
+    return new RoomAdminRequestHandler(*this, logged_user, m_roomManager, room);
 }
 
-RoomMemberRequestHandler* RequestHandlerFactory::RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser logged_user, Room room)
+RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser* logged_user, Room* room)
 {
-    return new RoomMemberRequestHandler(*this, logged_user.getUsername(), m_roomManager, room.getRoomData());   
+    return new RoomMemberRequestHandler(*this, logged_user, m_roomManager, room);   
+}
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser* logged_user, Game* game)
+{
+    return new GameRequestHandler(*this, m_gameManager, logged_user, game);
+}
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(GameRequestHandler& copy)
+{
+    return new GameRequestHandler(copy);
 }
 
 StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 {
     return m_statisticsManager;
+}
+
+GameManager& RequestHandlerFactory::getGameManager()
+{
+    return m_gameManager;
 }

@@ -1,0 +1,491 @@
+.frameChild {
+  width: 675px;
+  height: 903px;
+  position: relative;
+  background: linear-gradient(117.85deg, #006c67, #00d2c8);
+  box-shadow: -11px 12px 5px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(7.3px);
+  display: none;
+  max-width: 100%;
+}
+.createRoom1 {
+  margin: 0;
+  width: 601px;
+  position: relative;
+  font-size: inherit;
+  font-weight: 400;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow:
+    8px 0 0 #000,
+    0 8px 0 #000,
+    -8px 0 0 #000,
+    0 -8px 0 #000;
+  max-width: 100%;
+  z-index: 1;
+}
+.roomName {
+  width: 225px;
+  position: relative;
+  font-size: var(--font-size-17xl);
+  letter-spacing: 0.01em;
+  font-family: var(--font-kavoon);
+  color: var(--color-black);
+  text-align: center;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.frameItem {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 2px;
+  height: 40px;
+}
+.wpfnameIcon {
+  position: absolute;
+  top: 6.5px;
+  left: 15px;
+  width: 35px;
+  height: 31px;
+  overflow: hidden;
+}
+.vectorParent {
+  align-self: stretch;
+  height: 40px;
+  position: relative;
+}
+.frameWrapper {
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-11xs-5) 0px 0px;
+  box-sizing: border-box;
+}
+.roomNameParent {
+  cursor: pointer;
+  border: 5px solid var(--color-black);
+  padding: var(--padding-7xs) var(--padding-16xl) var(--padding-4xs)
+    var(--padding-4xs);
+  background-color: transparent;
+  align-self: stretch;
+  box-shadow: -4px 7px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--gap-xl);
+  z-index: 1;
+}
+.questionTimeout {
+  width: 345px;
+  position: relative;
+  font-size: var(--font-size-17xl);
+  letter-spacing: 0.01em;
+  font-family: var(--font-kavoon);
+  color: var(--color-black);
+  text-align: center;
+  display: inline-block;
+  flex-shrink: 0;
+  max-width: 100%;
+}
+.mingcutetimeFillIcon {
+  position: absolute;
+  top: 1.5px;
+  left: 17px;
+  width: 41px;
+  height: 41px;
+  overflow: hidden;
+}
+.mingcutetimeFillParent {
+  align-self: stretch;
+  height: 42.5px;
+  position: relative;
+}
+.questionTimeOutQuestionInner {
+  width: 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-11xs-5) 0px 0px;
+  box-sizing: border-box;
+}
+.questionTimeOutQuestion {
+  cursor: pointer;
+  border: 5px solid var(--color-black);
+  padding: var(--padding-7xs) var(--padding-mid) var(--padding-4xs) 0px;
+  background-color: transparent;
+  align-self: stretch;
+  box-shadow: -4px 7px 4px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-32xl);
+  max-width: 100%;
+  z-index: 1;
+}
+.vectorIcon {
+  width: 2px;
+  height: 40px;
+  position: relative;
+}
+.vectorWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-11xs-5) 0px 0px;
+}
+.gameIconstabletopPlayers {
+  height: 44px;
+  width: 44px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  min-height: 44px;
+}
+.frameParent {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 17px;
+}
+.questionTimeOutQuestion1 {
+  cursor: pointer;
+  border: 5px solid var(--color-black);
+  padding: var(--padding-7xs) var(--padding-5xs) var(--padding-4xs);
+  background-color: transparent;
+  align-self: stretch;
+  box-shadow: -4px 7px 4px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-24xl);
+  max-width: 100%;
+  z-index: 1;
+}
+.questionTimeOutQuestionParent {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 62px;
+  max-width: 100%;
+}
+.questionCount {
+  width: 290px;
+  position: relative;
+  font-size: var(--font-size-17xl);
+  letter-spacing: 0.01em;
+  font-family: var(--font-kavoon);
+  color: var(--color-black);
+  text-align: center;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.pajamasquestionIcon {
+  position: absolute;
+  top: 3.5px;
+  left: 17px;
+  width: 37px;
+  height: 37px;
+  overflow: hidden;
+}
+.vectorGroup {
+  align-self: stretch;
+  height: 40.5px;
+  position: relative;
+}
+.menuBarInner {
+  width: 54px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-11xs-5) 0px 0px;
+  box-sizing: border-box;
+}
+.menuBar {
+  cursor: pointer;
+  border: 5px solid var(--color-black);
+  padding: var(--padding-7xs) var(--padding-12xl) var(--padding-4xs)
+    var(--padding-5xs);
+  background-color: transparent;
+  flex: 1;
+  box-shadow: -4px 7px 4px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 100%;
+  gap: var(--gap-xl);
+  z-index: 1;
+}
+.menuBarWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px 0px var(--padding-7xs);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.submit {
+  height: 87px;
+  flex: 1;
+  position: relative;
+  font-size: var(--font-size-45xl);
+  font-family: var(--font-kavoon);
+  color: var(--color-gray-200);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow:
+    8px 0 0 #fff,
+    0 8px 0 #fff,
+    -8px 0 0 #fff,
+    0 -8px 0 #fff;
+}
+.submitWrapper {
+  cursor: pointer;
+  border: none;
+  padding: 10px;
+  background-color: var(--color-khaki-100);
+  flex: 1;
+  border-radius: var(--br-mini);
+  box-shadow: -6px 5px 4px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  max-width: 100%;
+  z-index: 1;
+}
+.submitWrapper:hover {
+  background-color: var(--color-khaki-200);
+}
+.fRAMEInner {
+  width: 466px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px var(--padding-51xl);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.fRAME {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 56px;
+  max-width: 100%;
+}
+.fRAMEWrapper {
+  width: 601px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px var(--padding-41xl);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.rectangleParent {
+  align-self: stretch;
+  background: linear-gradient(117.85deg, #006c67, #00d2c8);
+  box-shadow: -11px 12px 5px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(7.3px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-9xl) var(--padding-12xl) 94px;
+  box-sizing: border-box;
+  gap: 69px;
+  max-width: 100%;
+}
+.createRoomInner {
+  width: 675px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-base) 0px 0px;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.frameChild2 {
+  width: 3px;
+  flex: 1;
+  position: relative;
+  max-height: 100%;
+}
+.createRoomChild {
+  height: 578.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 278.5px var(--padding-base) 0px 0px;
+  box-sizing: border-box;
+}
+.createRoom {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-white);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--padding-21xl) var(--padding-52xl) var(--padding-21xl) 88px;
+  box-sizing: border-box;
+  line-height: normal;
+  letter-spacing: normal;
+  gap: var(--gap-xl);
+  text-align: center;
+  font-size: var(--font-size-45xl);
+  color: var(--color-white);
+  font-family: var(--font-kavoon);
+}
+
+@media screen and (max-width: 900px) {
+  .createRoom1 {
+    font-size: var(--font-size-32xl);
+  }
+
+  .roomName {
+    font-size: var(--font-size-10xl);
+  }
+
+  .questionTimeout {
+    font-size: var(--font-size-10xl);
+  }
+
+  .questionCount {
+    font-size: var(--font-size-10xl);
+  }
+
+  .submit {
+    font-size: var(--font-size-32xl);
+  }
+
+  .rectangleParent {
+    padding-top: var(--padding-xl);
+    padding-bottom: 61px;
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 700px) {
+  .roomNameParent {
+    flex-wrap: wrap;
+  }
+
+  .questionTimeOutQuestion {
+    flex-wrap: wrap;
+    gap: 51px 25px;
+    justify-content: center;
+    padding-left: var(--padding-mid);
+    box-sizing: border-box;
+  }
+
+  .questionTimeOutQuestion1 {
+    flex-wrap: wrap;
+    gap: 43px 21px;
+    justify-content: center;
+  }
+
+  .questionTimeOutQuestionParent {
+    gap: 31px 62px;
+  }
+
+  .menuBar {
+    flex-wrap: wrap;
+  }
+
+  .fRAMEInner {
+    padding-left: var(--padding-16xl);
+    padding-right: var(--padding-16xl);
+    box-sizing: border-box;
+  }
+
+  .fRAME {
+    gap: 28px 56px;
+  }
+
+  .fRAMEWrapper {
+    padding-left: var(--padding-11xl);
+    padding-right: var(--padding-11xl);
+    box-sizing: border-box;
+  }
+
+  .rectangleParent {
+    gap: 34px 69px;
+  }
+
+  .createRoomChild {
+    padding-top: 181px;
+    box-sizing: border-box;
+  }
+
+  .createRoom {
+    padding-left: var(--padding-25xl);
+    padding-right: var(--padding-16xl);
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 450px) {
+  .createRoom1 {
+    font-size: var(--font-size-19xl);
+  }
+
+  .roomName {
+    font-size: var(--font-size-3xl);
+  }
+
+  .questionTimeout {
+    font-size: var(--font-size-3xl);
+  }
+
+  .questionCount {
+    font-size: var(--font-size-3xl);
+  }
+
+  .submit {
+    font-size: var(--font-size-19xl);
+  }
+
+  .rectangleParent {
+    gap: 17px 69px;
+    padding-bottom: var(--padding-21xl);
+    box-sizing: border-box;
+  }
+
+  .createRoom {
+    padding-left: var(--padding-xl);
+    box-sizing: border-box;
+  }
+}
