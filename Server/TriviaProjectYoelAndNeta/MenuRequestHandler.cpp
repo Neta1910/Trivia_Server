@@ -156,7 +156,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo& reqInfo)
 		RoomData newRoomData = { 0, createRoom_req.roomName, createRoom_req.maxUsers, createRoom_req.questionCount, createRoom_req.answerTimeout, ACTIVE_ROOM, false, m_user->getId()};
 		int roomId = m_roomManager.createRoom(m_user, newRoomData);
 		newRoomData.id = roomId;
-		
+		this->setUpdateOfUsers(true);
 		CreateRoomResponse createRoom_res = { WORKING_STATUS, roomId };
 		return {JsonResponsePacketSerialize::serializeCreateRoomResponse(createRoom_res),  (IRequestHandler*)m_handleFactory.createRoomAdminRequestHandler(this->m_user, this->m_roomManager.getRoom(roomId))};
 	}
@@ -177,11 +177,17 @@ RequestResult MenuRequestHandler::addQuestion(RequestInfo& reqInfo)
 
 RequestResult MenuRequestHandler::JoinOneOnOne(RequestInfo& reqInfo)
 {
-	if (m_roomManager.getCurr()->isRoomFull())
+	if (m_roomManager.getCurr()->getAllLoggedUsers().size() == 1)
 	{
+		m_roomManager.getCurr()->getRoomData().isGameBegun = true;
+		m_roomManager.getCurr()->getAllLoggedUsers()[0]->setUpdateInOwnRoom(true);
+		m_roomManager.getCurr()->addUser(m_user);
 		m_roomManager.createNewCurr();
 	}
-	m_roomManager.getCurr()->addUser(m_user);
+	else
+	{
+		m_roomManager.getCurr()->addUser(m_user);
+	}
 	JoinOneOnOneResponse res = { WORKING_STATUS };
 	return { JsonResponsePacketSerialize::serializeJoinOneOnOne(res), (IRequestHandler*)m_handleFactory.createRoomMemberRequestHandler( m_user, m_roomManager.getCurr() )};
 }
