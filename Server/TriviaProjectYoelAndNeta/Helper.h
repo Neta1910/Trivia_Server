@@ -10,7 +10,7 @@
 #include <string>
 
 
-enum MessageType : byte
+enum MessageType
 {
 	MT_CLIENT_LOG_IN = 200,
 	MT_CLIENT_UPDATE = 204,

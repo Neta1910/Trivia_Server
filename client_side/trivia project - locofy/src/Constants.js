@@ -1,0 +1,41 @@
+const Constants = {
+    SIZE_OF_LENGTH: 4,
+    FAILED_STATUS: 0,
+    WORK_STATUS: 1,
+    GAME_ENDED_FOR_USER: 100,
+    USER_ALREADY_UPDATED: 219,
+    GAME_STARTED: 190,
+    // Field names commonly used in the application
+    FIELDS: {
+      EMAIL: "email",
+      PASSWORD: "password",
+      USER_NAME: "username",
+      ADDRESS: "address",
+      PHONE_NUMBER: "phoneNumber",
+      BIRTH_DATE: "birthDate",
+      ROOM_ID: "roomId",
+      ROOM_NAME: "roomName",
+      MAX_USERS: "maxUsers",
+      QUESTION_COUNT: "questionCount",
+      ANSOWER_TIMEOUT: "answerTimeout",
+      HAS_GAME_BEGUN: "hasGameBegun",
+      PLAYERS: "players",
+      IS_ACTIVE: "is_active",
+      HIGH_SCORE: "highestScore",
+      CORRECT_ANSWER_COUNT : "correct_answer_count",
+      WRONG_ANSWER_COUNT : "wrong_answer_count",
+      AVERAGE_ANSWER_TIME : "average_answer_time",
+      GAMES_PLAYED : "games_played",
+      TOTAL_ANS : "total_ans",
+      QUESTION: "question",
+      ANSWERS: "answers",
+      CORRECT_ANS_ID: "correctAnswerId",
+      ANSWER_ID: "answerId",
+      RESULTS: "results",
+      avg_time: "avg_time",
+      QUESTION_TEXT: "question_text",
+    },
+  };
+  
+  export default Constants;
+  

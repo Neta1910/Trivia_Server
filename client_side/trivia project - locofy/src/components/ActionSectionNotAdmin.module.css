@@ -1,0 +1,43 @@
+.askTheAdmin {
+  width: 402px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  max-width: 100%;
+}
+.actionSectionNotAdmin {
+  width: 520px;
+  border-radius: var(--br-mini);
+  background-color: var(--color-khaki-100);
+  box-shadow: -7px 7px 4px rgba(0, 0, 0, 0.25);
+  border: 5px solid var(--color-black);
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-34xl) 43px 360px;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  font-size: var(--font-size-5xl);
+  color: var(--color-black);
+  font-family: var(--font-kavoon);
+}
+
+@media screen and (max-width: 700px) {
+  .actionSectionNotAdmin {
+    padding-left: var(--padding-2xl);
+    padding-right: var(--padding-2xl);
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 450px) {
+  .askTheAdmin {
+    font-size: var(--font-size-lgi);
+  }
+}

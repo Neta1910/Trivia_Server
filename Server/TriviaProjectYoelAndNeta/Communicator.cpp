@@ -64,26 +64,11 @@ std::vector<unsigned char> Communicator::getDataFromSocket(const SOCKET sc, cons
 
 void Communicator::handleNewClient(const SOCKET& userSocket)
 {
-	//Inserting user into the map
-   /*LoginRequestHandler* newHandler = new LoginRequestHandler(m_handlerFactory);
-   this->m_usersMu.lock();
-   this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(userSocket, newHandler));
-   this->m_usersMu.unlock();*/
 	while (true)
 	{
 		try
 		{
 			std::vector<unsigned char> clientMessage = this->getDataFromSocket(userSocket, MESSEGE_LENGTH);
-			if (clientMessage[0] == MT_CLIENT_EXIT) // Check if user wants to log out
-			{
-				if (std::string(clientMessage.begin(), clientMessage.end()) == "logout")
-				{
-					RequestInfo logout_req = { static_cast<RequestCodes>(LOGOUT_REQ), getCurrentTime(), clientMessage };
-					RequestResult res = m_clients.find(userSocket)->second->handleRequest(logout_req);
-				}
-				closesocket(userSocket);
-				m_clients.erase(userSocket);
-			}
 
 			RequestInfo reqInfo = { static_cast<RequestCodes>(clientMessage[0]), getCurrentTime(), clientMessage };
 			if (m_clients.find(userSocket)->second != nullptr && m_clients.find(userSocket)->second->isRequestRelevant(reqInfo))

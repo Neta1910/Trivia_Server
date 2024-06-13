@@ -35,17 +35,25 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeLogoutResponse(
 
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetRoomResponse(const GetRoomsResponse& response)
 {
-    std::string roomsString = "[ ";
-    for (auto it = response.rooms.begin(); it != response.rooms.begin(); ++it)
+
+    // Create a JSON array to hold room data
+    nlohmann::json jsonRooms = nlohmann::json::array();
+
+    for (const auto& room : response.rooms)
     {
-        roomsString += "id: " + std::to_string(it->id) + ", ";
-        roomsString += "name: " + it->name + ", ";
-        roomsString += "maxPlayers: " + std::to_string(it->maxPlayers) + ", ";
-        roomsString += "numOfQuestionsInGame: " + std::to_string(it->numOfQuestionsInGame);
-        roomsString += "timePerQuestion: " + std::to_string(it->timePerQuestion) + ", ";
-        roomsString += "isActive: " + std::to_string(it->isActive) + "]";
+        // Directly use a JSON object for each room
+        nlohmann::json jsonRoom;
+        jsonRoom[ROOM_ID] = room.id;
+        jsonRoom[ROOM_NAME] = room.name;
+        jsonRoom[MAX_USERS] = room.maxPlayers;
+        jsonRoom[QUESTION_COUNT] = room.numOfQuestionsInGame;
+        jsonRoom[ANSOWER_TIMEOUT] = room.timePerQuestion;
+        jsonRoom[IS_ACTIVE] = room.isActive;
+
+        // Append the room JSON object to the rooms array
+        jsonRooms.push_back(jsonRoom);
     }
-    json j = json{ {"rooms", roomsString}, {"status", response.status}}; // Creating a JSON object j with the message field from the response
+    json j = json{ {"rooms", jsonRooms}, {"status", response.status}}; // Creating a JSON object j with the message field from the response
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_ROOM_RESP); // Parsing the data into a message with the specified response code
 }
 
@@ -79,7 +87,7 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeHighScoreRespon
     {
         json innerJson = {
             {USERNAME, it.username},
-            {HIGH_SCORE, it.newHighScore}
+            {HIGH_SCORE, it.calculateRating()}
         };
         stats.push_back(innerJson);
     }
@@ -89,7 +97,7 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeHighScoreRespon
 
 std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetPersonalStatsResponse(const GetPersonalStatsResponse& response)
 {
-    json statsJson = { {"user_id", response.statistics.user_id}, {"total_ans", response.statistics.total_ans}, {"avg_ans_time", response.statistics.avg_ans_time }, {"games_played", response.statistics.games_played}, {"highScore", response.statistics.highScore}, {"right_ans", response.statistics.right_ans} };
+    json statsJson = { {"user_id", response.statistics.user_id}, {WRONG_ANSWER_COUNT, response.statistics.wrongAnswerCount}, {AVERAGE_ANSWER_TIME, response.statistics.averageAnswerTime}, {GAMES_PLAYED, response.statistics.gamesPlayed}, {HIGH_SCORE, response.statistics.calculateRating()}, {CORRECT_ANSWER_COUNT, response.statistics.correctAnswerCount}};
     json j = json{ {"statistics", statsJson}, {"status", response.status}}; // Creating a JSON object j with the message field from the response
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_PERSONAL_STATS_RESP); // Parsing the data into a message with the specified response code
 }
@@ -129,6 +137,61 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeAmIAdminRespons
 {
     json j = json{ {"status", response.status}, {"state", response.state} };
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, AM_I_ADMIN_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeLeaveGameResponseResponse(const LeaveGameResponse& response)
+{
+    json j = json{ {"status", response.status} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, LEAVE_GAME_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetQuestionResponseResponse(const GetQuestionResponse& response)
+{
+    json answers = {};
+    for (const auto& it : response.answers) // Create a dictionary of the question and its' number
+    {
+        json innerJson = {
+            {it.first, it.second}  
+        };
+        answers.push_back(innerJson); 
+    }
+    json j = json{ {"status", response.status}, {"question", response.question}, {"answers", answers} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_QUESTION_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeSubmitAnswerResponseResponse(const SubmitAnswerResponse& response)
+{
+    json j = json{ {"status", response.status} , {"correctAnswerId", response.correctAnswerId}, {"avg_time", response.avg_time } };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, SUBMIT_ANSWER_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse(const GetGameResultsResponse& response)
+{
+    json results = {};
+    for (const auto& it : response.results)
+    {
+        json innerJson = {
+            {USERNAME, it.username},
+            {CORRECT_ANSWER_COUNT, it.correctAnswerCount },
+            {WRONG_ANSWER_COUNT, it.wrongAnswerCount},
+            {AVERAGE_ANSWER_TIME, it.averageAnswerTime}
+        };
+        results.push_back(innerJson);
+    }
+    json j = json{ {"status", response.status}, {"results", results} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, GET_GAME_RESULTS_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeAddQuestionResponse(const addQuestionResponse& response)
+{
+    json j = json{ {"status", response.status} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, ADD_QUESTION_RESP);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeJoinOneOnOne(const JoinOneOnOneResponse& response)
+{
+    json j = json{ {"status", response.status} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, JOIN_ONE_ON_ONE_RESP);
 }
 
 
