@@ -40,7 +40,6 @@ const JoinRoom = () => {
 
   if (isLoading) return <p>Loading elemnts </p>;
   if (error.length > 0) return <p> An error accured while loading </p>
-  if (rooms.length === 0) return <p>There are no rooms</p>
   
   return (
     <div className={styles.joinRoom}>
@@ -58,6 +57,7 @@ const JoinRoom = () => {
                 questions={15}
                 roomId={0}
               />
+              
               {rooms.map((room) => (
                 <RoomCard 
                   RoomName={room[Constents.FIELDS.ROOM_NAME]} 

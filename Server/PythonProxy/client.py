@@ -224,6 +224,16 @@ def handle_start_game(data):
     except ErrorException as e:
         emit("error", {'message': e.message})
 
+@socketio.on('addQuestion')
+def handle_start_game(data):
+    try:
+        user_sockets[get_user_id()].sendall(Requests.AddQuestionRequest().getMessage(data))
+        server_message = Responses.AddQuestionResp(get_server_message(user_sockets[get_user_id()]))
+        emit('addQuestionResponse', server_message.to_dict())
+    except ErrorException as e:
+        emit("error", {'message': e.message})
+
+
 def main():
     socketio.run(app, debug=True, port=5000, allow_unsafe_werkzeug=True)
 

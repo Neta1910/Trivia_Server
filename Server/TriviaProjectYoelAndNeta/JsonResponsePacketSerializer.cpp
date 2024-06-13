@@ -188,6 +188,12 @@ std::vector<unsigned char> JsonResponsePacketSerialize::serializeAddQuestionResp
     return JsonResponsePacketSerialize::parseDataIntoMessage(j, ADD_QUESTION_RESP);
 }
 
+std::vector<unsigned char> JsonResponsePacketSerialize::serializeJoinOneOnOne(const JoinOneOnOneResponse& response)
+{
+    json j = json{ {"status", response.status} };
+    return JsonResponsePacketSerialize::parseDataIntoMessage(j, JOIN_ONE_ON_ONE_RESP);
+}
+
 
 
 // Function to parse data into a message

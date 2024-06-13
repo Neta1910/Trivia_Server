@@ -22,7 +22,8 @@ enum ResponseCodes
 	GET_QUESTION_RESP, 
 	SUBMIT_ANSWER_RESP,
 	GET_GAME_RESULTS_RESP,
-	ADD_QUESTION_RESP
+	ADD_QUESTION_RESP,
+	JOIN_ONE_ON_ONE_RESP
 };
 
 enum RequestCodes
@@ -46,7 +47,8 @@ enum RequestCodes
 	GET_QUESTION_REQ,
 	SUBMIT_ANSWER_REQ,
 	GET_GAME_RESULT_REQ,
-	ADD_QUESTION_REQ
+	ADD_QUESTION_REQ,
+	JOIN_ONE_ON_ONE_REQ
 };
 
 // ---- Message constants ----
@@ -108,3 +110,9 @@ enum RequestCodes
 
 #define QUESTION_TEXT "question_text"
 #define ANSWERS "answers"
+
+#define PLAYERS_IN_ONE_ON_ONE 2
+#define QUESTIONS_IN_ONE_ON_ONE 15
+#define TIMEOUT_IN_ONE_ON_ONE 30
+
+#define GAME_STARTED 190

@@ -1,8 +1,13 @@
 #include "Room.h"
-
+#include "pch.h"
 Room::Room(RoomData metadata, std::vector<LoggedUser*> users) :
 	m_metadata(metadata), m_users(users)
 {
+}
+
+Room::Room()
+{
+	m_metadata = { 0, "One on One", PLAYERS_IN_ONE_ON_ONE, QUESTIONS_IN_ONE_ON_ONE, TIMEOUT_IN_ONE_ON_ONE, true, false, 0, 0 };
 }
 
 void Room::addUser(LoggedUser* logged_user)

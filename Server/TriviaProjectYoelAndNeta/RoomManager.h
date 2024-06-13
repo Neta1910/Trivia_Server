@@ -1,11 +1,13 @@
 #pragma once
 #include <map>
 #include "Room.h"
-
+#include "OneOnOneRoom.h"
 class RoomManager
 {
 public:
-	RoomManager() {};
+	RoomManager() { 
+		currRoom = new OneOnOne(0);
+	};
 
 	int createRoom(LoggedUser* logged_user, RoomData room_data);
 	void deleteRoom(int room_id);
@@ -15,7 +17,9 @@ public:
 	// ---- Getters ----
 	std::vector<RoomData> getRooms();
 	Room* getRoom(int room_id);
-
+	OneOnOne* getCurr();
+	void createNewCurr();
 private:
 	std::map<int, Room*> m_rooms; // Map for the room and its' id
+	OneOnOne* currRoom;
 };

@@ -110,6 +110,7 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
 
     // Direct player to menu (because the game ended)
     GetGameResultsResponse gameResults_res = {WORKING_STATUS, player_results };
+    this->m_user->setUpdateInRooms(true);
     return { JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse(gameResults_res), (IRequestHandler*)m_handlerFactory.createMenuRequestHandler(m_user) };
 }
 

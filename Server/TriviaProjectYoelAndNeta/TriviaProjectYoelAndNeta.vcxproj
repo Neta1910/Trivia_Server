@@ -143,6 +143,7 @@
     <ClCompile Include="LoginRequestHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuRequestHandler.cpp" />
+    <ClCompile Include="OneOnOneRoom.cpp" />
     <ClCompile Include="Quistion.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="Room.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="LoginManager.h" />
     <ClInclude Include="LoginRequestHandler.h" />
     <ClInclude Include="MenuRequestHandler.h" />
+    <ClInclude Include="OneOnOneRoom.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerResults.h" />
     <ClInclude Include="Quistion.h" />
