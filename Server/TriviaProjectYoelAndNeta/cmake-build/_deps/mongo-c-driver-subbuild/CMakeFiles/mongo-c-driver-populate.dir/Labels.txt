@@ -1,0 +1,14 @@
+# Target labels
+ mongo-c-driver-populate
+# Source files and their labels
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/mongo-c-driver-populate
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/1cbb2b9eba4025c7c52d13387ea08e21/mongo-c-driver-populate.rule
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/2c9792a17a0a6e78aaf64b1388ce73a6/mongo-c-driver-populate-complete.rule
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-build.rule
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-configure.rule
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-download.rule
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-install.rule
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-mkdir.rule
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-patch.rule
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-test.rule
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-update.rule

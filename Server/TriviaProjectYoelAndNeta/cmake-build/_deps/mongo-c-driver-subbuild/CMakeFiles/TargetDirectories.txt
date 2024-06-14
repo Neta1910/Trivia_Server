@@ -1,0 +1,3 @@
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/mongo-c-driver-populate.dir
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/ALL_BUILD.dir
+C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/ZERO_CHECK.dir

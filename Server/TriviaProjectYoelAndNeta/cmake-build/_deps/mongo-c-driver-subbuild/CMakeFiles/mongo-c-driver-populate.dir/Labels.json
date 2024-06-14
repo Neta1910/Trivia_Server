@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/mongo-c-driver-populate"
+		},
+		{
+			"file" : "C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/1cbb2b9eba4025c7c52d13387ea08e21/mongo-c-driver-populate.rule"
+		},
+		{
+			"file" : "C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/2c9792a17a0a6e78aaf64b1388ce73a6/mongo-c-driver-populate-complete.rule"
+		},
+		{
+			"file" : "C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-build.rule"
+		},
+		{
+			"file" : "C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-configure.rule"
+		},
+		{
+			"file" : "C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-download.rule"
+		},
+		{
+			"file" : "C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-install.rule"
+		},
+		{
+			"file" : "C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-patch.rule"
+		},
+		{
+			"file" : "C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-test.rule"
+		},
+		{
+			"file" : "C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/CMakeFiles/3fdda798fd63287bae54fd8ec6b5c2e1/mongo-c-driver-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"mongo-c-driver-populate"
+		],
+		"name" : "mongo-c-driver-populate"
+	}
+}

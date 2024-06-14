@@ -1,0 +1,7 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The patch step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+command (connected)=C:/bin/cmake.exe;-Dcan_fetch=YES;-P;C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/mongo-c-driver-populate-prefix/tmp/mongo-c-driver-populate-gitupdate.cmake
+command (disconnected)=C:/bin/cmake.exe;-Dcan_fetch=NO;-P;C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-subbuild/mongo-c-driver-populate-prefix/tmp/mongo-c-driver-populate-gitupdate.cmake
+work_dir=C:/year2/ekronot/Semester2/trivia4/trivia_neta_orevi_yoel_weisberg_2024/Server/TriviaProjectYoelAndNeta/cmake-build/_deps/mongo-c-driver-src
