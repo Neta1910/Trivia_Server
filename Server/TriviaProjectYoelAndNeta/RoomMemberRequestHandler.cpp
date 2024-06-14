@@ -68,6 +68,7 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo& reqInfo)
 		if (!m_room->getRoomData().isActive)
 		{
 			getRoomState_res.status = INACTIVE_ROOM_STATUS;
+			m_user->setUpdateInRooms(true);
 			return { JsonResponsePacketSerialize::serializeGetRoomStateResponse(getRoomState_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
 		}
 		return { JsonResponsePacketSerialize::serializeGetRoomStateResponse(getRoomState_res), (IRequestHandler*)m_handleFactory.createRoomMemberRequestHandler(m_user, m_room) };

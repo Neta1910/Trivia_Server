@@ -66,7 +66,7 @@ std::vector<RoomData> RoomManager::getRooms()
 	std::vector<RoomData> rooms_data;
 	for (auto it = m_rooms.begin(); it != m_rooms.end(); ++it)
 	{	
-		if (!(*it).second->getRoomData().isGameBegun)
+		if ((!(*it).second->getRoomData().isGameBegun) && (*it).second->getRoomData().isActive)
 		{
 			rooms_data.push_back((*it).second->getRoomData());
 		}

@@ -43,6 +43,7 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo& reqInfo)
 	CloseRoomResponse closeRoom_res = { WORKING_STATUS };
 	m_room->getRoomData().isActive = INACTIVE_ROOM;
 	this->setUpdated(true);
+	m_user->setUpdateInRooms(true);
 	return { JsonResponsePacketSerialize::serializeCloseRoomResponse(closeRoom_res), (IRequestHandler*)m_handlerFactory.createMenuRequestHandler(m_user) };
 }
 
