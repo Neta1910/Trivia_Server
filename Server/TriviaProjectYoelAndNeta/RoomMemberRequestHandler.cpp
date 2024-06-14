@@ -65,6 +65,11 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo& reqInfo)
 		{
 			return { JsonResponsePacketSerialize::serializeGetRoomStateResponse(getRoomState_res), (IRequestHandler*)m_handleFactory.createGameRequestHandler(m_user, m_handleFactory.getGameManager().getGame(m_room->getRoomData().game_id))};
 		}
+		if (!m_room->getRoomData().isActive)
+		{
+			getRoomState_res.status = INACTIVE_ROOM_STATUS;
+			return { JsonResponsePacketSerialize::serializeGetRoomStateResponse(getRoomState_res), (IRequestHandler*)m_handleFactory.createMenuRequestHandler(m_user) };
+		}
 		return { JsonResponsePacketSerialize::serializeGetRoomStateResponse(getRoomState_res), (IRequestHandler*)m_handleFactory.createRoomMemberRequestHandler(m_user, m_room) };
 	}
 	else

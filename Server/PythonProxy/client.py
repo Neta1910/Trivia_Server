@@ -142,9 +142,9 @@ def handle_get_personal_stats():
 
 
 @socketio.on('closeRoom')
-def handle_close_room(data):
+def handle_close_room():
     try:
-        user_sockets[get_user_id()].sendall()
+        user_sockets[get_user_id()].sendall(Requests.CloseRoomRequest().getMessage())
         serverMessege = Responses.CloseRoomResponse(get_server_message(user_sockets[get_user_id()]))
         emit('closeRoomResponse', {'status': serverMessege.status})
     except ErrorException as e:
@@ -152,7 +152,7 @@ def handle_close_room(data):
 
 
 @socketio.on('startGame')
-def handle_start_game(data):
+def handle_start_game():
     try:
         user_sockets[get_user_id()].sendall(Requests.StartRoomRequest().getMessage())
         serverMessege = Responses.StartGameResponse(get_server_message(user_sockets[get_user_id()]))

@@ -117,3 +117,4 @@ enum RequestCodes
 
 #define GAME_STARTED 190
 
+#define INACTIVE_ROOM_STATUS 145

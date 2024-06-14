@@ -31,7 +31,8 @@ void RoomManager::deleteRoom(int room_id)
 	{
 		if ((*it).first == room_id) // Find matching room id
 		{
-			it->second->getRoomData().isActive = 
+			m_rooms.erase(it);
+			return;
 		}
 	}
 }

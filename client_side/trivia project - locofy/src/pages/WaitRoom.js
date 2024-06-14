@@ -45,6 +45,10 @@ const WaitRoom = () => {
         setError(true);
         setIsLoadingStat(false);
       }
+      else if (response.status === Constants.INATIVE_ROOM) {
+        alert("Admin closed room ")
+        navigate("/Menu")
+      }
     };
 
     const handleGetPlayersInRoomResponse = (response) => {
