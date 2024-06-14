@@ -40,16 +40,8 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo& reqInfo)
 
 RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo& reqInfo)
 {
-	CloseRoomResponse closeRoom_res = { CLOSE_ROOM_RESP };
-	// Send LeaveRoomResponse to all room members
-	for (auto roomMembers : m_room->getAllLoggedUsers())
-	{
-		LeaveRoomResponse leaveRoom_res = { WORKING_STATUS };
-		m_roomManager.getRoom(m_room->getRoomData().id)->removeUser(roomMembers);
-		std::vector<unsigned char> serialized_res = JsonResponsePacketSerialize::serializeLeaveRoomResponse(leaveRoom_res);
-		Communicator::sendData(roomMembers->getSocket(), serialized_res);
-	}
-	m_roomManager.deleteRoom(m_room->getRoomData().id);
+	CloseRoomResponse closeRoom_res = { WORKING_STATUS };
+	m_room->getRoomData().isActive = INACTIVE_ROOM;
 	this->setUpdated(true);
 	return { JsonResponsePacketSerialize::serializeCloseRoomResponse(closeRoom_res), (IRequestHandler*)m_handlerFactory.createMenuRequestHandler(m_user) };
 }
