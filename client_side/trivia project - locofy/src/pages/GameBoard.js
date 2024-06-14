@@ -80,13 +80,22 @@ const GameBoard = () => {
     };
   }, [myAns]);
 
+  useEffect (() => {
+    if (timeOut) {let timer = setTimeout(skipQuestion, timeOut * 1000); }
+  }, [timeOut])
+
   const submitAnswer = (id) => {
     setMyAns(id);
     setReset(true);
     socket.emit("submitAnswer", { [Constents.FIELDS.ANSWER_ID]: id});
     getQuestions();
+    let timer = setTimeout(skipQuestion, timeOut * 1000);
   };
 
+  function skipQuestion () {
+    alert("Time ended ")
+    submitAnswer(0)
+  }
 
   return (
     <div className={styles.gameBoard}>
