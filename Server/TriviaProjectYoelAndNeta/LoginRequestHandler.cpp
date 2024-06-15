@@ -19,15 +19,19 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 	{
 		LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(reqInfo.buffer);
 		LoginResponse res = { CODE_LOGIN_RESP };
-		if (this->m_handleFactory.GetLoginManager().login(req.userName, req.password)) 
+		LoggedUser* user = this->m_handleFactory.GetLoginManager().login(req.userName, req.password);
+		IRequestHandler* newHandler = nullptr;
+		if (user) 
 		{
+			newHandler = this->m_handleFactory.createMenuRequestHandler(user);
 			res.status = WORK_STATUS;
 		}
 		else
 		{
+			newHandler = this->m_handleFactory.createLoginRequestHandler();
 			res.status = FAIL_STATUS;
 		}
-		MenuRequestHandler* newHandler = this->m_handleFactory.createMenuRequestHandler(LoggedUser(req.userName));
+		
 		return { JsonResponsePacketSerialize::serializeLoginResponse(res),  newHandler};
 
 	}
@@ -35,15 +39,18 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& reqInfo)
 	{
 		SignUpRequest req = JsonRequestPacketDeserializer::deserializeSignUpRequest(reqInfo.buffer);
 		SignupResponse res = { CODE_SIGN_UP_RESP };
-		if (this->m_handleFactory.GetLoginManager().signUp(req.userName, req.password, req.email, req.address, req.birthDate, req.phoneNumber))
+		LoggedUser* user = this->m_handleFactory.GetLoginManager().signUp(req.userName, req.password, req.email, req.address, req.birthDate, req.phoneNumber);
+		if (user)
 		{
+			MenuRequestHandler* newHandler = this->m_handleFactory.createMenuRequestHandler(user);
 			res.status = WORK_STATUS;
+			return { JsonResponsePacketSerialize::serializeSignUpResponse(res), newHandler };
 		}
 		else
 		{
+			LoginRequestHandler* newHandler = this->m_handleFactory.createLoginRequestHandler();
 			res.status = FAIL_STATUS;
+			return { JsonResponsePacketSerialize::serializeSignUpResponse(res), newHandler };
 		}
-		LoginRequestHandler* newHandler = this->m_handleFactory.createLoginRequestHandler();
-		return { JsonResponsePacketSerialize::serializeSignUpResponse(res), newHandler};
 	}
 }

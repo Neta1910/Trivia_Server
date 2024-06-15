@@ -29,6 +29,10 @@ public:
 	static JoinRoomRequest deserializeJoinRoomRequest(const std::vector<unsigned char> buffer);
 	static CreateRoomRequest deserializeCreateRoomRequest(const std::vector<unsigned char> buffer);
 
+	// V4 
+	static SubmitAnswerRequest deserializeSubmitAnswerRequest(const std::vector<unsigned char> buffer);
+	static AddQwestionRequest deserializeAddQuestionReqest(const std::vector<unsigned char> buffer);
+
 	// general
 	static int convertUnsignedToInt(const std::vector<unsigned char>& buffer);
 	static json convertBuferToRequestParser(const std::vector<unsigned char>& buffer);

@@ -8,6 +8,8 @@
 
 #define ERROR_RETURN_CODE -1
 
+class RequestHandlerFactory;
+
 class LoginManager
 {
 public:
@@ -23,10 +25,12 @@ public:
 	void operator=(LoginManager const&) = delete;
 
 	LoginManager(IDatabase* db);
-	bool signUp(const std::string& name, const std::string& password, const std::string& email, const std::string& address, const std::string& bitrthDate, const std::string& phoneNumber);
-	bool login(std::string username, std::string password);
+	LoggedUser* signUp(const std::string& name, const std::string& password, const std::string& email, const std::string& address, const std::string& bitrthDate, const std::string& phoneNumber);
+	LoggedUser* login(std::string username, std::string password);
 	bool logout(std::string username);
+
+	std::vector<LoggedUser*> getUsers() const;
 private:
 	IDatabase* m_database;
-	std::vector<LoggedUser> m_loggedUsers;
+	std::vector<LoggedUser*> m_loggedUsers;
 };

@@ -1,6 +1,8 @@
-from constents import *
-import requests
 import json
+
+from constents import *
+
+
 def get_server_message(sock):
     server_msg = sock.recv(NUM_OF_BYTES)
     return server_msg

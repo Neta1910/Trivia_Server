@@ -17,7 +17,13 @@ enum ResponseCodes
 	START_GAME_RESP,
 	GET_ROOM_STATE_RESP,
 	LEAVE_ROOM_RESP,
-	AM_I_ADMIN_RESP
+	AM_I_ADMIN_RESP,
+	LEAVE_GAME_RESP,
+	GET_QUESTION_RESP, 
+	SUBMIT_ANSWER_RESP,
+	GET_GAME_RESULTS_RESP,
+	ADD_QUESTION_RESP,
+	JOIN_ONE_ON_ONE_RESP
 };
 
 enum RequestCodes
@@ -36,7 +42,13 @@ enum RequestCodes
 	START_GAME_REQ,
 	GET_ROOM_STATE_REQ,
 	LEAVE_ROOM_REQ,
-	AM_I_ADMIN_REQ
+	AM_I_ADMIN_REQ,
+	LEAVE_GAME_REQ,
+	GET_QUESTION_REQ,
+	SUBMIT_ANSWER_REQ,
+	GET_GAME_RESULT_REQ,
+	ADD_QUESTION_REQ,
+	JOIN_ONE_ON_ONE_REQ
 };
 
 // ---- Message constants ----
@@ -47,16 +59,26 @@ enum RequestCodes
 #define PHONE_NUMBER "phone_number"
 #define BIRTH_DATE "birth_date"
 
+#define CORRECT_ANSWER_COUNT "correct_answer_count"
+#define WRONG_ANSWER_COUNT "wrong_answer_count"
+#define AVERAGE_ANSWER_TIME "average_answer_time"
+#define GAMES_PLAYED "games_played"
+#define TOTAL_ANS "total_ans"
+
 
 // ---- Error Messages ----
 #define INVALID_REQUEST "Invalid Request"
 
 #define ROOM_ID "roomId"
+#define NUM_OF_QUESTIONS 4
+#define CORRECT_ANS_INDEX 1
 
-#define ROOM_NAME "room_name"
-#define MAX_USERS "max_users"
-#define QUESTION_COUNT "question_count"
-#define ANSOWER_TIMEOUT "answer_timeout"
+#define ROOM_NAME "roomName"
+#define MAX_USERS "maxUsers"
+#define QUESTION_COUNT "questionCount"
+#define ANSOWER_TIMEOUT "answerTimeout"
+#define ANSWER_ID "answerId"
+#define IS_ACTIVE "is_active"
 
 // ---- Room Settings ----
 #define MIN_ANS_TIME 1
@@ -73,5 +95,26 @@ enum RequestCodes
 #define HAS_GAME_BEGUN "hasGameBegun"
 #define PLAYERS "players"
 
+
+// ---- GameManager Setttings ----
+#define QUESTION "question"
+#define ANSWERS "answers"
+
+#define CORRECT_ANS 0
 #define	WORKING_STATUS 1
 #define FAILED_STATUS 0
+#define USER_ENDED_GAME 100
+#define NOT_SOMTHING_TO_UPDATE 219
+
+#define CONVORT_MILI_TO_SECONDS 10000
+
+#define QUESTION_TEXT "question_text"
+#define ANSWERS "answers"
+
+#define PLAYERS_IN_ONE_ON_ONE 2
+#define QUESTIONS_IN_ONE_ON_ONE 15
+#define TIMEOUT_IN_ONE_ON_ONE 30
+
+#define GAME_STARTED 190
+
+#define INACTIVE_ROOM_STATUS 145

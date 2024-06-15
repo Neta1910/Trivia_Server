@@ -1,12 +1,13 @@
 #include "SqliteDatabase.h"
 #include "json.hpp"
+#include "RequestStructs.h"
 
 using json = nlohmann::json;
 
 
 std::vector<User> SQLiteDatabase::users;
 std::list<Question>  SQLiteDatabase::questions;
-std::vector<HighestScore> SQLiteDatabase::highestScores;
+std::vector<PlayerResults> SQLiteDatabase::usersStats;
 
 SQLiteDatabase::SQLiteDatabase() :
 	IDatabase()
@@ -24,7 +25,7 @@ bool SQLiteDatabase::open()
 	this->_db = db;
 	// Create Tables
 	this->runCommand(CREATE_USERS_TABLE);
-	this->runCommand(CREATE_QUISTIONS_TABLE);
+	this->runCommand(CREATE_QUESTIONS_TABLE);
 	this->runCommand(CREATE_STATISTICS_TABLE);
 	this->runCommand(CREATE_HIGHEST_SCORES_TABLE);
 	return true;
@@ -58,22 +59,37 @@ bool SQLiteDatabase::addNewUser(const std::string& name, const std::string& pass
 	return true;
 }
 
+int SQLiteDatabase::getUserId(const std::string& name, const std::string& password)
+{
+	std::string query = "SELECT ID FROM Users WHERE name == \"" + name + "\" and PASSWORD == \"" + password + "\"";
+	int id = 0;
+	this->runCommand(query, integerCallBack, &id);
+	return id;
+}
+
 std::list<Question> SQLiteDatabase::getQuestions(const int& amount)
 {
+	// getting count of questions, and if its too low - updating questions
+	int amountOfQuestions = 0;
+	this->runCommand("SELECT COUNT(*) FROM t_questions", countCallback, &amountOfQuestions);
+	if (amountOfQuestions < amount)
+	{
+		this->loadQuestionsIntoDB(amount - amountOfQuestions + 1);
+	}
 	std::string query = "SELECT * FROM t_questions LIMIT " + std::to_string(amount) + " ;";
 	this->runCommand(query, loadIntoQuestions);
 	return SQLiteDatabase::questions;
 }
 
-void SQLiteDatabase::loadQuestionsIntoDB()
+void SQLiteDatabase::loadQuestionsIntoDB(int amount)
 {
 	HINTERNET hInternet = InternetOpenA("HTTPGET", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
 	if (!hInternet) {
 		std::cerr << "Failed to open internet handle" << std::endl;
 		return;
 	}
-
-	HINTERNET hConnect = InternetOpenUrlA(hInternet, "https://opentdb.com/api.php?amount=10&difficulty=medium&type=multiple", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+	std::string url = "https://opentdb.com/api.php?amount=" + std::to_string(amount) + "& category = 23 & difficulty = medium & type = multiple";
+	HINTERNET hConnect = InternetOpenUrlA(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
 	if (!hConnect) {
 		std::cerr << "Failed to open URL" << std::endl;
 		InternetCloseHandle(hInternet);
@@ -108,16 +124,42 @@ void SQLiteDatabase::loadQuestionsIntoDB()
 
 void SQLiteDatabase::insertQuestionIntoDB(Question question)
 {
-	std::string sql = "INSERT INTO t_questions (question, correct_ans, ans2, ans3, ans4) VALUES (\"";
+	int i = 0;
+	std::string sql;
+	switch (question.getPossibleAnswers().size())
+	{
+	case 1:
+		sql = "INSERT INTO t_questions (question, correct_ans, ans2) VALUES (\"";
+		break;
+	case 2:
+		sql = "INSERT INTO t_questions (question, correct_ans, ans2, ans3) VALUES (\"";
+		break;
+	case 3:
+		sql = "INSERT INTO t_questions (question, correct_ans, ans2, ans3, ans4) VALUES (\"";
+		break;
+	default:
+		break;
+	}
+
 	sql += question.getQuestion();
 	sql += "\", \"";
 	sql += question.getCorrectAnswer();
 	sql += "\", \"";
-	sql += question.getPossibleAnswers()[0];
-	sql += "\", \"";
-	sql += question.getPossibleAnswers()[1];
-	sql += "\", \"";
-	sql += question.getPossibleAnswers()[2];
+	if (question.getPossibleAnswers().size() == 1)
+	{
+		sql += question.getPossibleAnswers()[0];
+	}
+	else
+	{
+		for (i = 0; i < question.getPossibleAnswers().size() - 1; i++)
+		{
+			sql += question.getPossibleAnswers()[i];
+			sql += "\", \"";
+		}
+		if (question.getPossibleAnswers().size() > i)
+			sql += question.getPossibleAnswers()[i];
+	}
+
 	sql += "\");";
 
 	this->runCommand(sql);
@@ -133,52 +175,55 @@ int SQLiteDatabase::getTotalAmountOfQuestions()
 	return 100;
 }
 
-float SQLiteDatabase::getPlayersAverageAnswerTime(int user_id)
+PlayerResults SQLiteDatabase::getPlayersStat(int user_id)
 {
-	float averageAnsTime;
-	std::string query = "SELECT AVERAGE_ANS_TIME FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
-	this->runCommand(query, floatCallBack,&averageAnsTime);
-	return averageAnsTime;
+	this->runCommand("SELECT * from Statistics where id = " + std::to_string(user_id), loadIntoUsersStats);
+	return SQLiteDatabase::usersStats[0];
 }
 
-int SQLiteDatabase::getNumOfCorrectAnswers(int user_id)
-{
-	int numOfCorrectAns;
-	std::string query = "SELECT CORRECT_ANS FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
-	this->runCommand(query, integerCallBack, &numOfCorrectAns);
-	return numOfCorrectAns;
-}
-
-int SQLiteDatabase::getNumOfTotalAnswers(int user_id)
-{
-	int numOfTotalAns;
-	std::string query = "SELECT TOTAL_ANS FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
-	this->runCommand(query, integerCallBack, &numOfTotalAns);
-	return numOfTotalAns;
-}
-
-int SQLiteDatabase::getNumOfPlayerGames(int user_id)
-{
-	int numOfGamesPlayed;
-	std::string query = "SELECT GAMES_PLAYED FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
-	this->runCommand(query, integerCallBack, &numOfGamesPlayed);
-	return numOfGamesPlayed;
-}
-
-int SQLiteDatabase::getPlayerScore(int user_id)
-{
-	int playersScore;
-	std::string query = "SELECT HIGHEST_SCORE FROM HIGHEST_SCORES WHERE ID = " + std::to_string(user_id) + " ;";
-	this->runCommand(query, integerCallBack, &playersScore);
-	return playersScore;
-}
-
-std::vector<HighestScore> SQLiteDatabase::getHighScores(int num_of_highScores)
+std::vector<PlayerResults> SQLiteDatabase::getHighScores()
 {
 	std::vector<HighestScore> highestScores;
-	std::string query = "SELECT ID, HIGHEST_SCORE FROM HIGHEST_SCORES ORDER BY HIGHEST_SCORE DESC LIMIT " + std::to_string(num_of_highScores) + " ;";
-	this->runCommand(query, loadIntoHighestScores);
-	return SQLiteDatabase::highestScores;
+	std::string query = "SELECT * FROM Statistics";
+	this->runCommand(query, loadIntoUsersStats);
+	std::sort(SQLiteDatabase::usersStats.begin(), SQLiteDatabase::usersStats.end(), [](auto& a, auto& b) {
+		return b < a;
+		});
+	return SQLiteDatabase::usersStats;
+}
+
+int SQLiteDatabase::submitGameStatistics(GameData game_data, LoggedUser user)
+{
+	// Update statistics table
+	
+	// checking if user exsists
+
+	if (!this->doesUserHaveStats(user.getId()))
+	{
+		this->runCommand("INSERT INTO Statistics (ID, AVERAGE_ANS_TIME, correct_ans,  WRONG_ANS, GAMES_PLAYED, USER_NAME) VALUES(" + std::to_string(user.getId()) + ", " + std::to_string(game_data.averageAnswerTime) + ", " + std::to_string(game_data.correctAnswerCount) + ", " + std::to_string(game_data.wrongAnswerCount) + ", 1 , \"" + user.getUsername() + "\")");
+	}
+	else
+	{
+		PlayerResults currStats = this->getPlayersStat(user.getId());
+		std::string correctAnsCount_query = "UPDATE Statistics SET CORRECT_ANS = CORRECT_ANS + " + std::to_string(game_data.correctAnswerCount) + " WHERE ID = " + std::to_string(user.getId()) + ";";
+		runCommand(correctAnsCount_query);
+		std::string wrongAnsCount_query = "UPDATE Statistics SET WRONG_ANS = WRONG_ANS + " +  std::to_string(game_data.wrongAnswerCount) + " WHERE ID = " + std::to_string(user.getId()) + ";";
+		runCommand(wrongAnsCount_query);
+		std::string avgAnsTime_query = "UPDATE Statistics SET AVERAGE_ANS_TIME = " + std::to_string((currStats.averageAnswerTime + game_data.averageAnswerTime) / (currStats.gamesPlayed + 1 )) + " WHERE ID = " + std::to_string(user.getId()) + ";";
+		runCommand(avgAnsTime_query);
+
+		// updating the games played 
+		std::string gamesPlayed_query = "UPDATE Statistics SET GAMES_PLAYED = GAMES_PLAYED + 1 WHERE ID = " + std::to_string(user.getId()) + ";";
+		runCommand(gamesPlayed_query);
+	}
+	return 0;
+}
+
+bool SQLiteDatabase::doesUserHaveStats(const int& id)
+{
+	int occurrences = 0;
+	this->runCommand("SELECT COUNT (*) FROM Statistics WHERE ID == " + std::to_string(id), countCallback, &occurrences);
+	return occurrences != 0;
 }
 
 
@@ -187,6 +232,7 @@ bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(
 {
 	SQLiteDatabase::users.clear();
 	SQLiteDatabase::questions.clear();
+	SQLiteDatabase::usersStats.clear();
 	char** errMessage = nullptr;
 	int res = sqlite3_exec(this->_db, sqlStatement.c_str(), callback, secondParam, errMessage);
 	if (res != SQLITE_OK)
@@ -211,6 +257,14 @@ bool SQLiteDatabase::comparePasswords(const std::string& onePassword, const std:
 		}
 	}
 	return true;
+}
+
+float SQLiteDatabase::getAverageAnsTime(unsigned int user_id)
+{
+	float averageAnsTime;
+	std::string query = "SELECT AVERAGE_ANS_TIME FROM Statistics WHERE ID = " + std::to_string(user_id) + " ;";
+	this->runCommand(query, floatCallBack, &averageAnsTime);
+	return averageAnsTime;
 }
 
 int loadIntoUsers(void* data, int argc, char** argv, char** azColName)
@@ -274,7 +328,9 @@ int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName)
 			question.setCorrectAnswer(argv[i]);
 		}
 		else if (std::string(azColName[i]) == ANS_2 || std::string(azColName[i]) == ANS_3 || std::string(azColName[i]) == ANS_4) {
-			question.insertOptional(argv[i]);
+			if (argv[i] != NULL) {
+				question.insertOptional(argv[i]);
+			}
 		}
 	}
 	SQLiteDatabase::questions.push_back(question);
@@ -283,11 +339,15 @@ int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName)
 
 int floatCallBack(void* _data, int argc, char** argv, char** azColName)
 {
-	auto& averageAnsTime = *static_cast<float*>(_data);
+	auto averageAnsTime = *static_cast<float*>(_data);
 	if (argc == 1 && argv[0] != nullptr)
 	{
-		averageAnsTime == std::atoi(argv[0]);
+		averageAnsTime == std::stoi(argv[0]);
 		return 0;
+	}
+	else
+	{
+		throw std::invalid_argument("The user dosent have stats");
 	}
 	return 1;
 }
@@ -297,31 +357,46 @@ int integerCallBack(void* _data, int argc, char** argv, char** azColName)
 	auto& averageAnsTime = *static_cast<int*>(_data);
 	if (argc == 1 && argv[0] != nullptr)
 	{
-		averageAnsTime == std::atof(argv[0]);
+		averageAnsTime = std::atoi(argv[0]);
 		return 0;
 	}
 	return 1;
 }
 
-int loadIntoHighestScores(void* _data, int argc, char** argv, char** azColName)
+int loadIntoUsersStats(void* _data, int argc, char** argv, char** azColName)
 {
-	HighestScore highScore;
+	PlayerResults playerResult;
+	int total = 0;
+	int correct_sum = 0;
 	for (int i = 0; i < argc; i++)
 	{
-		if (std::string(azColName[i]) == ID)
+		if (std::string(azColName[i]) == AVG_TIME)
 		{
-			highScore.user_id = std::stoi(argv[i]);
+			playerResult.averageAnswerTime = std::stoi(argv[i]);
 		}
-		else if (std::string(azColName[i]) == NAME)
+		else if (std::string(azColName[i]) == CORRECT_ANS_COUNT)
 		{
-			highScore.username = argv[i];
+			correct_sum = std::stoi(argv[i]);
+			playerResult.correctAnswerCount = correct_sum;
 		}
-		else if (std::string(azColName[i]) == HIGHEST_SCORE)
+		else if (std::string(azColName[i]) == WRONG_ANS)
 		{
-			highScore.newHighScore = std::stof(argv[i]);
+			playerResult.wrongAnswerCount = std::stoi(argv[i]);
+		}
+		else if (std::string(azColName[i]) == USER_NAME_USER_STATS)
+		{
+			playerResult.username = argv[i];
+		}
+		else if (std::string(azColName[i]) == GAMES_PLAYED)
+		{
+			playerResult.gamesPlayed = std::stoi(argv[i]);
+		}
+		else if (std::string(azColName[i]) == ID)
+		{
+			playerResult.user_id = std::stoi(argv[i]);
 		}
 	}
-	SQLiteDatabase::highestScores.push_back(highScore);
+	SQLiteDatabase::usersStats.push_back(playerResult);
 	return 0;
 }
 

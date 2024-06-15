@@ -3,6 +3,7 @@
 #include <vector>
 #include "StatisticsManager.h"
 #include "HighestScore.h"
+#include "PlayerResults.h"
 typedef struct LoginResponse
 {
 	unsigned int status;
@@ -37,14 +38,14 @@ typedef struct GetPlayersInRoomResponse
 typedef struct GetHighScoreResponse
 {
 	unsigned int status;
-	std::vector<HighestScore> statistics;
+	std::vector<PlayerResults> statistics;
 };
 
 
 typedef struct GetPersonalStatsResponse
 {
 	unsigned int status;
-	userStats statistics;
+	PlayerResults statistics;
 };
 
 typedef struct JoinRoomResponse
@@ -83,8 +84,46 @@ typedef struct LeaveRoomResponse
 	unsigned int status;
 };
 
+// ---------------- V4 ---------------------------
+
 typedef struct AmIAdminResponse
 {
 	unsigned int status;
 	bool state;
+};
+
+typedef struct LeaveGameResponse
+{
+	unsigned int status;
+};
+
+typedef struct GetQuestionResponse
+{
+	unsigned int status;
+	std::string question;
+	std::map<unsigned int, std::string> answers;
+};
+
+typedef struct SubmitAnswerResponse
+{
+	unsigned int status;
+	unsigned int correctAnswerId;
+	float avg_time;
+};
+
+typedef struct GetGameResultsResponse
+{
+	unsigned int status;
+	std::vector<PlayerResults> results;
+};
+
+
+typedef struct addQuestionResponse
+{
+	unsigned int status;
+};
+
+typedef struct JoinOneOnOneResponse
+{
+	unsigned int status;
 };
