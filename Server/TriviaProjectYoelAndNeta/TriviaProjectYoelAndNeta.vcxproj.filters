@@ -179,5 +179,28 @@
     <ClInclude Include="RoomMemberRequestHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterSize.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MongodbHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+    <Text Include="packages\NuGet.CommandLine.6.10.0\NOTICES.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="packages\NuGet.CommandLine.6.10.0\.signature.p7s" />
+    <None Include="packages\NuGet.CommandLine.6.10.0\NuGet.CommandLine.6.10.0.nupkg" />
+    <None Include="packages\NuGet.CommandLine.6.10.0\README.md" />
+    <None Include="packages\NuGet.CommandLine.6.10.0\tools\NuGet.exe" />
+    <None Include="packages\NuGet.CommandLine.6.10.0\tools\NuGet.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="packages\NuGet.CommandLine.6.10.0\icon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

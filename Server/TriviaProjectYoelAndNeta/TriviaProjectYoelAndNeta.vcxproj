@@ -106,11 +106,12 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;C:\year2\ekronot\Semester2\trivia4\trivia_neta_orevi_yoel_weisberg_2024\Server\TriviaProjectYoelAndNeta\cmake-build\mongo-cxx-driver\src\mongocxx\include\mongocxx\v_noabi\mongocxx;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,6 +157,7 @@
     <ClCompile Include="WSAInitializer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CharacterSize.h" />
     <ClInclude Include="Communicator.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="HighestScore.h" />
@@ -168,6 +170,7 @@
     <ClInclude Include="LoginManager.h" />
     <ClInclude Include="LoginRequestHandler.h" />
     <ClInclude Include="MenuRequestHandler.h" />
+    <ClInclude Include="MongodbHandler.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Quistion.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
@@ -185,6 +188,21 @@
     <ClInclude Include="User.h" />
     <ClInclude Include="userCheckers.h" />
     <ClInclude Include="WSAInitializer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+    <Text Include="packages\NuGet.CommandLine.6.10.0\NOTICES.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="packages\NuGet.CommandLine.6.10.0\.signature.p7s" />
+    <None Include="packages\NuGet.CommandLine.6.10.0\NuGet.CommandLine.6.10.0.nupkg" />
+    <None Include="packages\NuGet.CommandLine.6.10.0\README.md" />
+    <None Include="packages\NuGet.CommandLine.6.10.0\tools\NuGet.exe" />
+    <None Include="packages\NuGet.CommandLine.6.10.0\tools\NuGet.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="packages\NuGet.CommandLine.6.10.0\icon.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
