@@ -38,7 +38,7 @@ const WaitRoom = () => {
         setPlayers(response.players);
         setIsGameActive(response.hasGameBegun)
         if (response.hasGameBegun) {
-          navigate("/game-board")
+          navigate(`/game-board?answerTimeout=${response.answerTimeout}`)
         }
         setIsLoadingStat(false);
       } else if (response.status === Constants.FAILED_STATUS) {

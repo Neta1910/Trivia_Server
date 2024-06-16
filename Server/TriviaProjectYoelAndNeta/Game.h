@@ -26,7 +26,6 @@ private:
 	mutable std::map<LoggedUser*, GameData*> m_players;
 	unsigned int m_gameId;
 	IDatabase* m_database;
-	mutable std::mutex m_players_mutex;
 
 	void submitGameStatsToDB(GameData game_data); // Used when the game has ended,    (Not done implementing)
 	bool isCurrQuestionLast(LoggedUser user); // Not done implementing

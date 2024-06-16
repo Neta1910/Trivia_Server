@@ -22,7 +22,6 @@ private:
 	Game* m_game;
 	std::chrono::high_resolution_clock::time_point answer_receival_time; // Time that the player got the question
 	std::vector<float> answering_durations; // Times taken to answer a question 
-	mutable std::mutex m_game_mutex;
 	
 
 	RequestResult getQuestion(RequestInfo reqInfo);

@@ -99,7 +99,6 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
         return { JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse({FAILED_STATUS, player_results}), (IRequestHandler*)m_handlerFactory.createGameRequestHandler(m_user, m_game)};
     }
 
-    m_game_mutex.lock();
 
     for (auto it : m_game->getAllPlayers())
     {
@@ -107,7 +106,6 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
         player_results.push_back({ it.first->getUsername(), it.second->correctAnswerCount, it.second->wrongAnswerCount, it.second->averageAnswerTime });
     }
 
-    m_game_mutex.unlock();
 
     std::sort(player_results.begin(), player_results.end(), [](auto& a, auto& b) {
         return b < a;
