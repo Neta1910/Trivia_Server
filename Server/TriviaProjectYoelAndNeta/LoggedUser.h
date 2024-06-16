@@ -11,7 +11,6 @@ public:
 	SOCKET getSocket();
 	bool operator==(const LoggedUser& other);
 	bool operator<(const LoggedUser& other) const;
-	//bool operator>(const LoggedUser other);
 
 	void setUpdateInOwnRoom(const bool& val);
 	void setUpdateInRooms(const bool& val);

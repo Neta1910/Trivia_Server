@@ -135,7 +135,6 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameRequestHandler.cpp" />
     <ClCompile Include="Helper.cpp" />
-    <ClCompile Include="HighestScore.cpp" />
     <ClCompile Include="JsonRequestPacketDeserializer.cpp" />
     <ClCompile Include="JsonResponsePacketSerializer.cpp" />
     <ClCompile Include="LoggedUser.cpp" />
@@ -144,7 +143,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuRequestHandler.cpp" />
     <ClCompile Include="OneOnOneRoom.cpp" />
-    <ClCompile Include="Quistion.cpp" />
+    <ClCompile Include="Question.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomAdminRequestHandler.cpp" />
@@ -178,7 +177,7 @@
     <ClInclude Include="OneOnOneRoom.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerResults.h" />
-    <ClInclude Include="Quistion.h" />
+    <ClInclude Include="Question.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
     <ClInclude Include="RequestStructs.h" />
     <ClInclude Include="ResponseStructs.h" />

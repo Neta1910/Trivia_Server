@@ -5,7 +5,7 @@ GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handleFactory, Gam
 {
 }
 
-GameRequestHandler::GameRequestHandler(GameRequestHandler& other) : m_handlerFactory(other.m_handlerFactory), m_gameManager(other.m_gameManager), m_user(other.m_user), m_game(other.m_game), start(other.start), times(other.times)
+GameRequestHandler::GameRequestHandler(GameRequestHandler& other) : m_handlerFactory(other.m_handlerFactory), m_gameManager(other.m_gameManager), m_user(other.m_user), m_game(other.m_game), answer_receival_time(other.answer_receival_time), answering_durations(other.answering_durations)
 {
 }
 
@@ -55,23 +55,23 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo reqInfo)
     possibleAns = shuffleAnswers(possibleAns);
 
     GetQuestionResponse getQuestion_res = {WORKING_STATUS, curr.getQuestion() , possibleAns };
-    start = std::chrono::high_resolution_clock::now();
+    answer_receival_time = std::chrono::high_resolution_clock::now();
     return { JsonResponsePacketSerialize::serializeGetQuestionResponseResponse(getQuestion_res), (IRequestHandler*)m_handlerFactory.createGameRequestHandler(*this)};
 }
 
 RequestResult GameRequestHandler::submitAnswer(RequestInfo reqInfo)
 {
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-    this->times.push_back(duration.count());
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - answer_receival_time);
+    this->answering_durations.push_back(duration.count());
 
     float sum = 0;
     // calculating avg time
-    for (auto time : this->times)
+    for (auto time : this->answering_durations)
     {
         sum += time;
     }
-    sum /= this->times.size();
+    sum /= this->answering_durations.size();
 
     SubmitAnswerRequest submitAns_req = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(reqInfo.buffer);
     int code = m_game->submitAnswer(m_user, submitAns_req.answerId); 
@@ -98,11 +98,16 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo reqInfo)
     {        
         return { JsonResponsePacketSerialize::serializeGetGameResultsResponseResponse({FAILED_STATUS, player_results}), (IRequestHandler*)m_handlerFactory.createGameRequestHandler(m_user, m_game)};
     }
+
+    m_game_mutex.lock();
+
     for (auto it : m_game->getAllPlayers())
     {
         m_handlerFactory.getDatabase()->submitGameStatistics(*(it.second), *(m_user));
         player_results.push_back({ it.first->getUsername(), it.second->correctAnswerCount, it.second->wrongAnswerCount, it.second->averageAnswerTime });
     }
+
+    m_game_mutex.unlock();
 
     std::sort(player_results.begin(), player_results.end(), [](auto& a, auto& b) {
         return b < a;

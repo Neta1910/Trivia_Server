@@ -1,23 +1,14 @@
 #include "Game.h"
 
-//Game::Game(Game& game)
-//{
-//    this->m_questions = game.m_questions;
-//    this->m_players = game.m_players;
-//    this->gameId = game.gameId;
-//}
-//
-//Game::Game(GameData& game_data)
-//{
-//    this->
-//}
 
-Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser*> players, const  unsigned int gameId)
+Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser*> players, const  unsigned int gameId, IDatabase* db) : m_database(db)
 {    
     for (auto& question : questions)
     {
         this->m_questions.push_back(question);
     }
+
+    m_players_mutex.lock();
 
     for (auto logged_user : players)
     {
@@ -26,17 +17,25 @@ Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser*>
         this->m_players.insert(new_pair);
         this->m_question_of_user.insert({ logged_user, 0 });
     }
+
+    m_players_mutex.unlock();
+
     this->m_gameId = gameId;
 }
 
 Question Game::getQuestionForUser(LoggedUser* user)
 {
+    m_players_mutex.lock();
     return this->m_questions[this->m_question_of_user.find(user)->second];
+    m_players_mutex.unlock();
 }
 
 int Game::submitAnswer(LoggedUser* user, unsigned int answer)
 {
     GameData* game_data = NULL;
+
+    m_players_mutex.lock();
+
     // Search for needed player
     for (auto it : this->m_players)
     {
@@ -63,35 +62,45 @@ int Game::submitAnswer(LoggedUser* user, unsigned int answer)
         }
         this->m_question_of_user[user]++;
     }
+
+    m_players_mutex.unlock();
+
     return 1;
 }
 
 void Game::removePlayer(LoggedUser* user)
 {
-    //std::map<LoggedUser, GameData>::iterator it = m_players.find(user);
-    //if (it != m_players.end())
-    //{
-    //    m_players.erase(it);
-    //}
-    for (auto it = m_players.begin(); it != m_players.end(); ++it)
+    m_players_mutex.lock();
+    std::map<LoggedUser*, GameData*>::iterator it;
+    for (it = m_players.begin(); it != m_players.end(); ++it)
     {
         if ((*it).first->getUsername() == user->getUsername())
         {
             m_players.erase(it);
         }
     }
+    if (it == m_players.end()) // Return error if user isn't a player
+    {
+        m_players_mutex.unlock();
+        throw std::exception(USER_NOT_A_PLAYER + user->getId());
+    }
 
+    m_players_mutex.unlock();
 }
 
 bool Game::areAllPlayersDonePlaying()
 {
+    m_players_mutex.lock();
+
     for (auto it : m_question_of_user)
     {
         if (it.second < m_questions.size() - 1)
         {
+            m_players_mutex.unlock();
             return false;
         }
     }
+    m_players_mutex.unlock();
     return true;
 }
 
@@ -111,20 +120,25 @@ void Game::submitGameStatsToDB(GameData game_data)
     {
         for (auto& it : m_players) 
         {
+            m_players_mutex.lock();
             m_database->submitGameStatistics(game_data, *(it.first));
+            m_players_mutex.unlock();
         }        
     }
 }
 
 bool Game::isCurrQuestionLast(LoggedUser user)
 {
+    m_players_mutex.lock();
     // Find current question for user
     for (auto it : m_players)
     {
         if (it.second->currentQuestion == m_questions[m_questions.max_size()])
         {
+            m_players_mutex.unlock();
             return true;
         }
     }
+    m_players_mutex.unlock();
     return false;
 }
