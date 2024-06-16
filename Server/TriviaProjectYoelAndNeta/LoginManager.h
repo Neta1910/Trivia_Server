@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <iterator>
+#include <mutex>
+
 #include "IDatabase.h"
 #include "LoggedUser.h"
 #include <vector>
@@ -33,4 +35,5 @@ public:
 private:
 	IDatabase* m_database;
 	std::vector<LoggedUser*> m_loggedUsers;
+	mutable std::mutex m_users_mutex;
 };

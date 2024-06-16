@@ -20,7 +20,6 @@ int main()
 		SQLiteDatabase* db = &SQLiteDatabase::getInstance();
 		Server& myServer  = Server::getInstance(db);
 		std::thread connecterThread(&Server::run, &myServer);
-		//std::thread connecterThread(Server::getInstance(db).run, &myServer);
 
 		connecterThread.join();
 		delete db;

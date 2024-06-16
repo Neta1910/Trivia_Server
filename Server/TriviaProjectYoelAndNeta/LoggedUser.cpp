@@ -53,9 +53,3 @@ bool LoggedUser::getUpdateInRooms() const
 {
 	return this->_isUpdatedInRooms;
 }
-
-
-//bool LoggedUser::operator>(const LoggedUser other)
-//{
-//	return false;
-//}

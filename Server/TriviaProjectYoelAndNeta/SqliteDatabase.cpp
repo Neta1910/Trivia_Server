@@ -230,6 +230,7 @@ bool SQLiteDatabase::doesUserHaveStats(const int& id)
 
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
 {
+	db_mutex.lock();
 	SQLiteDatabase::users.clear();
 	SQLiteDatabase::questions.clear();
 	SQLiteDatabase::usersStats.clear();
@@ -238,8 +239,10 @@ bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(
 	if (res != SQLITE_OK)
 	{
 		std::cout << "error code: " << res;
+		db_mutex.unlock();
 		return false;
 	}
+	db_mutex.unlock();
 	return true;
 }
 

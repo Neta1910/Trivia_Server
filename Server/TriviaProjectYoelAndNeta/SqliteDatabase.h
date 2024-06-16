@@ -1,17 +1,21 @@
 #pragma once
 #include "IDatabase.h"
 #include "sqlite3.h"
-#define DB "Trivia.db"
 #include "HighestScore.h"
+#include "PlayerResults.h"
+
 #include "User.h"
 #include <vector>
 #include <iostream>
 #include <list>
 #include <Windows.h>
 #include <WinInet.h>
-#include "PlayerResults.h"
+#include <mutex>
+
 
 #pragma comment(lib, "wininet.lib")
+
+#define DB "Trivia.db"
 
 #define CREATE_USERS_TABLE "CREATE TABLE IF NOT EXISTS Users (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, EMAIL TEXT, ADDRESS TEXT, PHONE_NUMBER TEXT, BIRTH_DATE TEXT);"
 #define CREATE_QUESTIONS_TABLE "CREATE TABLE IF NOT EXISTS t_questions (question_id	integer NOT NULL, question	text NOT NULL, correct_ans	text NOT NULL, ans2	text NOT NULL,  ans3	text NOT NULL, ans4	text NOT NULL, PRIMARY KEY(question_id AUTOINCREMENT) );"
@@ -48,7 +52,7 @@ int loadIntoQuestions(void* _data, int argc, char** argv, char** azColName);
 int floatCallBack(void* _data, int argc, char** argv, char** azColName);
 int integerCallBack(void* _data, int argc, char** argv, char** azColName);
 int loadIntoUsersStats(void* _data, int argc, char** argv, char** azColName);
-//int loadIntoStatistics(void* _data, int argc, char** argv, char** azColName);
+
 
 
 class SQLiteDatabase : public IDatabase
@@ -93,9 +97,10 @@ public:
 
 private:
 	sqlite3* _db;
+	mutable std::mutex db_mutex;
+
 	bool runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**) = nullptr, void* secondParam = nullptr);
 	bool comparePasswords(const std::string& onePassword, const std::string& secondPassword);
-	//int getNumOfGamesPlayed(unsigned int user_id);
 	float getAverageAnsTime(unsigned int user_id);	
-	//int getNumOfTotalAnswers(unsigned int user_id);
+	
 };
