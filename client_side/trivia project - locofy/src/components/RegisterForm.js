@@ -35,7 +35,6 @@ const RegisterForm = () => {
     // Event listener for 'SignUpResponse'
     socket.on('SignUpResponse', (response) => {
       if (response.status === Constants.WORK_STATUS) {
-        alert('worked');
         navigate("/menu")
       } else {
         alert("somthing went wrong")

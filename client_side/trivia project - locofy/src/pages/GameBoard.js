@@ -46,13 +46,14 @@ const GameBoard = () => {
   }
 
   useEffect(() => {
+    var timer = setTimeout(skipQuestion, timeOut * 1000);
     const handleGetQuestionResponse = (response) => {
       if (response.status === Constents.WORK_STATUS) {
         setQuestion(response[Constents.FIELDS.QUESTION]);
         setAnswers(shuffleArray(response[Constents.FIELDS.ANSWERS]));
         setLoading(false);
         if (timeOut && !isGameEnd) {
-          const timer = setTimeout(skipQuestion, timeOut * 1000);
+          timer = setTimeout(skipQuestion, timeOut * 1000);
           return () => clearTimeout(timer);
         }
       }
@@ -81,6 +82,7 @@ const GameBoard = () => {
     return () => {
       socket.off("getQuestionResponse", handleGetQuestionResponse);
       socket.off("submitAnswerResponse", handleSubmitAnswerResponse);
+      clearTimeout(timer);
     };
   }, [myAns, timeOut, isGameEnd, navigate]);
 
@@ -103,8 +105,6 @@ const GameBoard = () => {
         allQuestions={wrongAnsCount}
         avgTime={avgTime.toFixed(3)}
         timeOut={timeOut}
-        submitAns={submitAnswer}
-        reset={reset}
       />
 
       <main className={styles.actuoelGame}>

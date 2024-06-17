@@ -10,15 +10,15 @@ const PieChart = ({ correctAns, wrongAns }) => {
     labels: ["Correct", "Wrong"],
     datasets: [
       {
-        label: "Your answers",
+        label: "Amount: ",
         data: [correctAns, wrongAns],
         backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 0, 0, 0.7)"
         ],
         borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
+          "rgba(60, 179, 113, 1)",
+          "rgba(255, 99, 132, 1)"
         ],
         borderWidth: 1,
       },
