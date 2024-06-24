@@ -2,6 +2,8 @@
 #include <map>
 #include "Room.h"
 #include "OneOnOneRoom.h"
+#include "pch.h"
+
 class RoomManager
 {
 public:
@@ -22,4 +24,5 @@ public:
 private:
 	std::map<int, Room*> m_rooms; // Map for the room and its' id
 	OneOnOne* currRoom;
+	mutable std::mutex m_rooms_mutex;
 };

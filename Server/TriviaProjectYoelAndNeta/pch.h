@@ -116,3 +116,16 @@ enum RequestCodes
 #define TIMEOUT_IN_ONE_ON_ONE 30
 
 #define GAME_STARTED 190
+
+#define INACTIVE_ROOM_STATUS 145
+
+// ---- Room Errors ----
+#define ROOM_FULL " ROOM ERR: Room is full, room_id: "
+#define USER_NOT_PART_OF_ROOM "ROOM ERR: user not part of room, user_id: "
+#define USER_ALREADY_IN_ROOM " ROOM ERR: Player already in the room, room_id: "
+
+// ---- Game Errors ---- 
+#define USER_NOT_A_PLAYER " GAME ERR: user not part of room players, user_id: " 
+
+// ---- RoomManager Errors ----
+#define ROOM_ID_NOT_VALID " ROOM_M ERR: room_id isn't valid, room_id: "

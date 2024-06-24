@@ -7,10 +7,10 @@ import { useNavigate } from "react-router-dom";
 
 const AdminArea = ({roomId, timeOut}) => {
   const startGame = () => {
-    socket.emit("startGame", {[Constants.FIELDS.ROOM_ID]: roomId})
+    socket.emit("startGame")
   }
   const deleteRoom = () => {
-    socket.emit("closeRoom", {[Constants.FIELDS.ROOM_ID]: roomId})
+    socket.emit("closeRoom")
   }
   const navigate = useNavigate();
   useEffect(() => {

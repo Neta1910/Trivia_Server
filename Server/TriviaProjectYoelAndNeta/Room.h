@@ -4,6 +4,7 @@
 #include "LoggedUser.h"
 #include <vector>
 #include <iterator>
+#include <mutex>
 
 class Room
 {
@@ -17,5 +18,6 @@ public:
 	std::vector<LoggedUser*> getAllLoggedUsers();
 protected:
 	RoomData m_metadata;
-	std::vector<LoggedUser*>	m_users;
+	std::vector<LoggedUser*> m_users;
+	mutable std::mutex m_users_mutex;
 };

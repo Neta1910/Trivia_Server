@@ -200,7 +200,7 @@ int SQLiteDatabase::submitGameStatistics(GameData game_data, LoggedUser user)
 
 	if (!this->doesUserHaveStats(user.getId()))
 	{
-		this->runCommand("INSERT INTO Statistics (ID, AVERAGE_ANS_TIME, correct_ans, TOTAL_ANS, GAMES_PLAYED, USER_NAME) VALUES(" + std::to_string(user.getId()) + ", " + std::to_string(game_data.averageAnswerTime) + ", " + std::to_string(game_data.correctAnswerCount) + ", " + std::to_string(game_data.wrongAnswerCount + game_data.correctAnswerCount) + ", 1 , \"" + user.getUsername() + "\")");
+		this->runCommand("INSERT INTO Statistics (ID, AVERAGE_ANS_TIME, correct_ans,  WRONG_ANS, GAMES_PLAYED, USER_NAME) VALUES(" + std::to_string(user.getId()) + ", " + std::to_string(game_data.averageAnswerTime) + ", " + std::to_string(game_data.correctAnswerCount) + ", " + std::to_string(game_data.wrongAnswerCount) + ", 1 , \"" + user.getUsername() + "\")");
 	}
 	else
 	{
@@ -230,6 +230,7 @@ bool SQLiteDatabase::doesUserHaveStats(const int& id)
 
 bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(void*, int, char**, char**), void* secondParam)
 {
+	db_mutex.lock();
 	SQLiteDatabase::users.clear();
 	SQLiteDatabase::questions.clear();
 	SQLiteDatabase::usersStats.clear();
@@ -238,8 +239,10 @@ bool SQLiteDatabase::runCommand(const std::string& sqlStatement, int(*callback)(
 	if (res != SQLITE_OK)
 	{
 		std::cout << "error code: " << res;
+		db_mutex.unlock();
 		return false;
 	}
+	db_mutex.unlock();
 	return true;
 }
 

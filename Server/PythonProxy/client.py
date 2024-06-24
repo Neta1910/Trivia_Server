@@ -72,11 +72,13 @@ def handle_get_players(data):
 
 @socketio.on('joinRoom')
 def handle_join_room(data_dict):
-    user_sockets[get_user_id()].sendall(
-        Requests.JoinRoomRequest(data_dict[ROOM_ID]).getMessage())
-
-    serverMessege = Responses.JoinRoomResponse(get_server_message(user_sockets[get_user_id()]))
-    emit('joinRoomResponse', {'status': serverMessege.status})
+    try:
+        user_sockets[get_user_id()].sendall(
+            Requests.JoinRoomRequest(data_dict[ROOM_ID]).getMessage())
+        serverMessege = Responses.JoinRoomResponse(get_server_message(user_sockets[get_user_id()]))
+        emit('joinRoomResponse', {'status': serverMessege.status})
+    except ErrorException as e:
+        emit("error", {'message': e.message})
 
 
 @socketio.on('createRoom')
@@ -113,9 +115,6 @@ def handle_logout():
         if serverMessege.status == FAILED_STATUS:
             raise Exception
         else:
-            # closing the socket
-            user_sockets[get_user_id()].close()
-            user_sockets.pop(get_user_id())
             emit('logoutResponse', {'status': WORK_STATUS})
     except Exception as e:
         print(e)
@@ -143,9 +142,9 @@ def handle_get_personal_stats():
 
 
 @socketio.on('closeRoom')
-def handle_close_room(data):
+def handle_close_room():
     try:
-        user_sockets[get_user_id()].sendall()
+        user_sockets[get_user_id()].sendall(Requests.CloseRoomRequest().getMessage())
         serverMessege = Responses.CloseRoomResponse(get_server_message(user_sockets[get_user_id()]))
         emit('closeRoomResponse', {'status': serverMessege.status})
     except ErrorException as e:
@@ -153,7 +152,7 @@ def handle_close_room(data):
 
 
 @socketio.on('startGame')
-def handle_start_game(data):
+def handle_start_game():
     try:
         user_sockets[get_user_id()].sendall(Requests.StartRoomRequest().getMessage())
         serverMessege = Responses.StartGameResponse(get_server_message(user_sockets[get_user_id()]))

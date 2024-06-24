@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Quistion.h"
+#include "Question.h"
 #include "HighestScore.h"
 #include "Game.h"
 #include "GameData.h"

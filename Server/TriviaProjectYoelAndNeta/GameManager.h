@@ -16,6 +16,7 @@ public:
 private:
 	IDatabase* m_database;
 	std::vector<Game*> m_games;
+	mutable std::mutex m_games_mutex;
 
 	Game* getGameForId(int game_id);
 };

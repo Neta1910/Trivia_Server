@@ -14,11 +14,15 @@ LoggedUser* LoginManager::signUp(const std::string& name, const std::string& pas
 		return nullptr;
 	}
 
-	// no need to chck for regex in server - already checking in fronend
+	m_users_mutex.lock();
+	
+	// no need to check for regex in server - already checking in frontend
 	m_database->addNewUser(name, password, email, address, birthDate, phoneNumber);
 	int userId = m_database->getUserId(name, password);
 	LoggedUser* loggedUser = new LoggedUser(name, userId);
 	m_loggedUsers.push_back(loggedUser);
+
+	m_users_mutex.unlock();
 	return loggedUser;
 
 }
@@ -47,6 +51,7 @@ LoggedUser* LoginManager::login(std::string username, std::string password)
 
 bool LoginManager::logout(std::string username)
 {
+	m_users_mutex.lock();
 	for (auto it = m_loggedUsers.begin(); it != m_loggedUsers.end(); ++it)
 	{
 		if ((*it)->getUsername() == username)
@@ -54,9 +59,11 @@ bool LoginManager::logout(std::string username)
 			LoggedUser* temp = (*it);
 			it = m_loggedUsers.erase(it);
 			delete temp;
+			m_users_mutex.unlock();
 			return true;
 		}
 	}
+	m_users_mutex.unlock();
 	return false;
 }
 

@@ -1,23 +1,13 @@
 #include "Game.h"
 
-//Game::Game(Game& game)
-//{
-//    this->m_questions = game.m_questions;
-//    this->m_players = game.m_players;
-//    this->gameId = game.gameId;
-//}
-//
-//Game::Game(GameData& game_data)
-//{
-//    this->
-//}
 
-Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser*> players, const  unsigned int gameId)
+Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser*> players, const  unsigned int gameId, IDatabase* db) : m_database(db)
 {    
     for (auto& question : questions)
     {
         this->m_questions.push_back(question);
     }
+
 
     for (auto logged_user : players)
     {
@@ -26,6 +16,8 @@ Game::Game(const std::vector<Question> questions, const std::vector<LoggedUser*>
         this->m_players.insert(new_pair);
         this->m_question_of_user.insert({ logged_user, 0 });
     }
+
+
     this->m_gameId = gameId;
 }
 
@@ -37,6 +29,8 @@ Question Game::getQuestionForUser(LoggedUser* user)
 int Game::submitAnswer(LoggedUser* user, unsigned int answer)
 {
     GameData* game_data = NULL;
+
+
     // Search for needed player
     for (auto it : this->m_players)
     {
@@ -63,22 +57,24 @@ int Game::submitAnswer(LoggedUser* user, unsigned int answer)
         }
         this->m_question_of_user[user]++;
     }
+
+
     return 1;
 }
 
 void Game::removePlayer(LoggedUser* user)
 {
-    //std::map<LoggedUser, GameData>::iterator it = m_players.find(user);
-    //if (it != m_players.end())
-    //{
-    //    m_players.erase(it);
-    //}
-    for (auto it = m_players.begin(); it != m_players.end(); ++it)
+    std::map<LoggedUser*, GameData*>::iterator it;
+    for (it = m_players.begin(); it != m_players.end(); ++it)
     {
         if ((*it).first->getUsername() == user->getUsername())
         {
             m_players.erase(it);
         }
+    }
+    if (it == m_players.end()) // Return error if user isn't a player
+    {
+        throw std::exception(USER_NOT_A_PLAYER + user->getId());
     }
 
 }

@@ -1,6 +1,7 @@
 #pragma once
-#include "Quistion.h"
+#include "Question.h"
 #include <map>
+#include <mutex>
 #include "LoggedUser.h"
 #include "pch.h"
 #include "IDatabase.h"
@@ -12,8 +13,7 @@ class IDatabase;
 class Game
 {
 public:
-	//Game(GameData& game_data); // C'tor ned to get 'GameData' 
-	Game(const std::vector<Question> questions, const std::vector<LoggedUser*> players, const  unsigned int gameId);
+	Game(const std::vector<Question> questions, const std::vector<LoggedUser*> players, const  unsigned int gameId, IDatabase* db);
 	Question getQuestionForUser(LoggedUser* user);
 	int submitAnswer(LoggedUser* user, unsigned int answer); 
 	void removePlayer(LoggedUser* user);

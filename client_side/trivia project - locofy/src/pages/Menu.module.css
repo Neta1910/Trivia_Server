@@ -189,7 +189,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   padding: var(--padding-16xl) 50px var(--padding-17xl) 115px;
   box-sizing: border-box;
@@ -197,7 +197,7 @@
   letter-spacing: normal;
   gap: var(--gap-xl);
   text-align: left;
-  font-size: var(--font-size-77xl);
+  font-size: 90px;
   color: var(--color-black);
   font-family: var(--font-kavoon);
 }

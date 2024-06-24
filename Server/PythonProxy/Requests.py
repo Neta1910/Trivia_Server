@@ -108,10 +108,10 @@ class GetRoomStateRequest:
         return parseRequestToMessage(data, GET_ROOM_STATE_REQ)
 
 
-class LeaveRoomRequest:
+class CloseRoomRequest:
     def getMessage(self):
         data = {}
-        return parseRequestToMessage(data, LEAVE_ROOM_REQ)
+        return parseRequestToMessage(data, CLOSE_ROOM_REQ)
 
 
 class AmIAdminRequest:

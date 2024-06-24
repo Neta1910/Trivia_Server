@@ -15,6 +15,7 @@
     "@types/react-dom": "^18.0.11",
     "chart.js": "^4.4.2",
     "he": "^1.2.0",
+    "mkcert": "^3.2.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
@@ -28,7 +29,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set HTTPS=true && set SSL_CRT_FILE=./certs/cert.crt && set SSL_KEY_FILE=./certs/cert.key && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
